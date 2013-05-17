@@ -955,9 +955,23 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return direction;
 	}
 
+	/**
+	 * 
+	 * @return imagesLists Une liste de listes d'information sur des images.
+	 */
 	public ArrayList<ObjetImageList> getImagesLists() {
 		if(imagesLists == null)
 			imagesLists = new ArrayList<ObjetImageList>();
+		if(imagesLists.size() == 0){
+			//Création d'une liste par défaut si aucune liste n'est existante.
+			ObjetImageList defaultList = new ObjetImageList("default");
+			
+			defaultList.getList().addAll(image);
+			
+			this.imagesLists.add(defaultList);
+			
+			this.currentImageList = "default";
+		}
 		return imagesLists;
 	}
 
