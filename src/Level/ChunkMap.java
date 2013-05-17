@@ -323,15 +323,23 @@ public class ChunkMap implements Serializable, Cloneable{
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public Entity searchEntity() {
+	/**
+	 * 
+	 * @return la première entité trouvée dans la map
+	 */
+	public Entity getFirstEntity() {
+		//L'entité à retourner.
+		Entity entity = null;
+		
+		//Recherche Chunk par Chunk d'une entité.
 		for(int i = 0; i < mapSizeX; i++){
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
-					return getChunk(i,j,k).searchEntity();
+					if(entity == null)
+						entity = getChunk(i,j,k).searchEntity();
 				}
-			}
-			
+			}	
 		}
-		return null;
+		return entity;
 	}
 }

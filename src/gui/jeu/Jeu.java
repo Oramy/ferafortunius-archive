@@ -257,7 +257,7 @@ public class Jeu extends Container implements Cloneable {
 		//Initialisation de la carte
 		setDialogList(new ArrayList<Text>());
 		carte = c;
-		setPlayer(carte.searchEntity());
+		setPlayer(carte.getFirstEntity());
 		if (player == null) {
 			player = new Perso(0, 0, 0, 0, 0, 0);
 		}
