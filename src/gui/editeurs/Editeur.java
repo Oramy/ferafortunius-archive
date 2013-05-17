@@ -1,0 +1,269 @@
+package gui.editeurs;
+
+import gui.Container;
+import gui.GameMain;
+import gui.Onglet;
+import gui.OngletManager;
+import gui.PImage;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
+import ObjetMap.Banc;
+import ObjetMap.ObjetMap;
+import ObjetMap.Terre;
+
+
+public class Editeur extends Container{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Color transitionColor;
+	
+	private EditeurMap editeurMap;
+	
+	private GameMain gm;
+	
+	private OngletManager onglets;
+	
+	//Objetmap Editor
+	private ObjetMap			workedObj;
+	private OngletManager		ongletsObj;
+	private EditeurObjetMap 	editeurObjetMapGeneral;
+	private EditeurCollObjMap 	editeurObjetMapColli;
+	private Onglet 				editeurObjetOnglet;
+	
+	private EditeurItem 	editeurItem;
+	private EditeurEntity 	editeurEntity;
+	
+	private Onglet editeurAnimationOnglet;
+	private EditeurAnimation editeurAnimation;
+	public Editeur(GameMain gameMain, GameContainer gc) {
+		super(0,0, gc.getWidth(), gc.getHeight(), null);
+		this.setGm(gameMain);
+	}
+	public void paintComponent(GameContainer container, Graphics g) {
+		this.drawBegin(g);
+		this.draw(g);
+		g.setColor(transitionColor);
+		g.fillRect(0, 0, getSizeX(), getSizeY());
+		this.drawEnd(g);
+		//System.out.println("Temps d'affichage :" + paintTime + "ms");
+	}
+	public void update(GameContainer gc, int arg1) {
+		super.update(gc, this.getX(), this.getY());
+	}
+	public void initOnglets(GameContainer gc){
+		onglets = new OngletManager(0,0,getSizeX(), getSizeY(), this);
+		PImage p  = new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png"); //$NON-NLS-1$
+		onglets.setBackground(p);
+
+		this.addComponent(onglets);
+		Onglet ongletEditeurMap = new Onglet(Messages.getString("Editeur.1"), onglets); //$NON-NLS-1$
+
+
+		setEditeurMap(new EditeurMap(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets, getGm(), gc));
+		editeurMap.init(gc);
+		ongletEditeurMap.setContainer(editeurMap);
+		
+		onglets.addComponent(ongletEditeurMap);
+		
+		Onglet editeurMapC = new Onglet(Messages.getString("Editeur.2"), onglets); //$NON-NLS-1$
+		Container mapC = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
+		editeurMapC.setContainer(mapC);
+		onglets.addComponent(editeurMapC);
+		
+		setEditeurObjetOnglet(new Onglet(Messages.getString("Editeur.3"), onglets)); //$NON-NLS-1$
+		
+		ongletsObj = new OngletManager(0, 50,  gc.getWidth(), gc.getHeight() - 50, onglets);
+		
+			editeurObjetMapGeneral = new EditeurObjetMap(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 100, ongletsObj);
+			Onglet general = new Onglet(Messages.getString("Editeur.0"), ongletsObj); //$NON-NLS-1$
+			general.setContainer(editeurObjetMapGeneral);
+			ongletsObj.addComponent(general);
+			
+			editeurObjetMapColli = new EditeurCollObjMap(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 100, ongletsObj);
+			Onglet collision = new Onglet(Messages.getString("Editeur.9"), ongletsObj); //$NON-NLS-1$
+			collision.setContainer(editeurObjetMapColli);
+			ongletsObj.addComponent(collision);
+		getEditeurObjetOnglet().setContainer(ongletsObj);
+		
+		onglets.addComponent(getEditeurObjetOnglet());
+		
+		Onglet editeurEntityOnglet = new Onglet(Messages.getString("Editeur.8"), onglets); //$NON-NLS-1$
+		editeurEntity = new EditeurEntity(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
+		editeurEntityOnglet.setContainer(editeurEntity);
+		onglets.addComponent(editeurEntityOnglet);
+		
+		setEditeurAnimationOnglet(new Onglet(Messages.getString("Editeur.4"), onglets)); //$NON-NLS-1$
+		setEditeurAnimation(new EditeurAnimation(new Terre(0,0,0,0,0,0), 0,50, gc.getWidth(), gc.getHeight() - 50, onglets));
+		getEditeurAnimationOnglet().setContainer(editeurAnimation);
+		onglets.addComponent(getEditeurAnimationOnglet());
+
+		Onglet editeurItemOnglet = new Onglet(Messages.getString("Editeur.5"), onglets); //$NON-NLS-1$
+		editeurItem = new EditeurItem(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
+		editeurItemOnglet.setContainer(editeurItem);
+		onglets.addComponent(editeurItemOnglet);
+
+		Onglet editeurQuest = new Onglet(Messages.getString("Editeur.6"), onglets); //$NON-NLS-1$
+		Container quetes = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
+		editeurQuest.setContainer(quetes);
+		onglets.addComponent(editeurQuest);
+
+		Onglet editeurComp = new Onglet(Messages.getString("Editeur.7"), onglets); //$NON-NLS-1$
+		Container comp = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
+		editeurComp.setContainer(comp);
+		onglets.addComponent(editeurComp);
+
+
+		ongletEditeurMap.clickPressed();
+		ongletEditeurMap.clickReleased();
+	}
+	public void init(GameContainer gc){
+		setWorkedObj(new Banc(0,0,0,0,0, 0));
+		initOnglets(gc);
+
+		this.background = new PImage("alpha.png"); //$NON-NLS-1$
+		Thread t = new Thread(new Runnable(){
+			public void run(){
+
+				for(int i = 0; i < 255; i++){
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
+					}
+					transitionColor = new Color(0,0,0, 255-i);
+
+				}
+
+			}
+		});	
+		t.start();
+	}
+	/**
+	 * @return the editeurMap
+	 */
+	public EditeurMap getEditeurMap() {
+		return editeurMap;
+	}
+	/**
+	 * @param editeurMap the editeurMap to set
+	 */
+	public void setEditeurMap(EditeurMap editeurMap) {
+		this.editeurMap = editeurMap;
+	}
+	/**
+	 * @return the onglets
+	 */
+	public OngletManager getOnglets() {
+		return onglets;
+	}
+	/**
+	 * @param onglets the onglets to set
+	 */
+	public void setOnglets(OngletManager onglets) {
+		this.onglets = onglets;
+	}
+	/**
+	 * @return the editeurObjet
+	 */
+	public EditeurObjetMap getEditeurObjet() {
+		return editeurObjetMapGeneral;
+	}
+	/**
+	 * @param editeurObjet the editeurObjet to set
+	 */
+	public void setEditeurObjet(EditeurObjetMap editeurObjet) {
+		this.editeurObjetMapGeneral = editeurObjet;
+	}
+	/**
+	 * @return the editeurObjetOnglet
+	 */
+	public Onglet getEditeurObjetOnglet() {
+		return editeurObjetOnglet;
+	}
+	/**
+	 * @param editeurObjetOnglet the editeurObjetOnglet to set
+	 */
+	public void setEditeurObjetOnglet(Onglet editeurObjetOnglet) {
+		this.editeurObjetOnglet = editeurObjetOnglet;
+	}
+	/**
+	 * @return the gm
+	 */
+	public GameMain getGm() {
+		return gm;
+	}
+	/**
+	 * @param gm the gm to set
+	 */
+	public void setGm(GameMain gm) {
+		this.gm = gm;
+	}
+	/**
+	 * @return the editeurItem
+	 */
+	public EditeurItem getEditeurItem() {
+		return editeurItem;
+	}
+	/**
+	 * @param editeurItem the editeurItem to set
+	 */
+	public void setEditeurItem(EditeurItem editeurItem) {
+		this.editeurItem = editeurItem;
+	}
+	/**
+	 * @return the editeurAnimation
+	 */
+	public EditeurAnimation getEditeurAnimation() {
+		return editeurAnimation;
+	}
+	/**
+	 * @param editeurAnimation the editeurAnimation to set
+	 */
+	public void setEditeurAnimation(EditeurAnimation editeurAnimation) {
+		this.editeurAnimation = editeurAnimation;
+	}
+	/**
+	 * @return the editeurAnimationOnglet
+	 */
+	public Onglet getEditeurAnimationOnglet() {
+		return editeurAnimationOnglet;
+	}
+	/**
+	 * @param editeurAnimationOnglet the editeurAnimationOnglet to set
+	 */
+	public void setEditeurAnimationOnglet(Onglet editeurAnimationOnglet) {
+		this.editeurAnimationOnglet = editeurAnimationOnglet;
+	}
+	/**
+	 * @return the editeurEntity
+	 */
+	public EditeurEntity getEditeurEntity() {
+		return editeurEntity;
+	}
+	/**
+	 * @param editeurEntity the editeurEntity to set
+	 */
+	public void setEditeurEntity(EditeurEntity editeurEntity) {
+		this.editeurEntity = editeurEntity;
+	}
+	/**
+	 * @return the workedObj
+	 */
+	public ObjetMap getWorkedObj() {
+		return workedObj;
+	}
+	/**
+	 * @param workedObj the workedObj to set
+	 */
+	public void setWorkedObj(ObjetMap workedObj) {
+		if(editeurObjetMapColli != null)
+		editeurObjetMapColli.setObj(workedObj);
+		this.workedObj = workedObj;
+	}
+}
