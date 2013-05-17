@@ -31,6 +31,7 @@ public class PanneauApercuAnimation extends PanneauApercu{
 		super(obj, x, y, sizeX, sizeY, parent);
 		moveImage = false;
 		follow = true;
+		translate = true;
 		editChoice.setPosition(0,0,0, 1000, 1000, 100);
 		if(follow)
 			this.actualCam.moveToObject(2300, 2300,100, 100000000);

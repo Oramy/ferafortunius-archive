@@ -35,6 +35,8 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 	protected boolean moveImage;
 	
 	protected int fps;
+	
+	protected boolean translate = false;
  	public PanneauApercu(ObjetMap obj, int x, int y, int sizeX, int sizeY,
 			Container parent) {
 		super(new ChunkMap(10000000,1,1,1), x, y, sizeX, sizeY, parent);
@@ -50,122 +52,124 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 			g.translate(this.getWidth()/2, this.getHeight()/2);
 				g.translate(-actualCam.getX() * actualCam.getZoom(), -actualCam.getY() * actualCam.getZoom());
 				ObjetMap o = editChoice;
-				this.translateToObject(g, o);
-					if(o != null){
-						//Initialisation d'un iterateur
-						if(o.getImageList(o.getCurrentImageList()) != null){
-							Iterator it2 = o.getImagesIterator();
-							ObjetImage objetImg = null;
-							//Affichage des images
-							do{
-								objetImg = (ObjetImage) it2.getNextElement();
-								if(objetImg != null){
-									PImage imgToDraw = null;
-									boolean loadImage = false;
-									if(o.getDrawImage() != null){
-										
-										for(int z = 0; z < o.getDrawImage().size(); z++){
-											PImage imageIt = img.get(o.getDrawImage().get(z));
-											if(imageIt.getNom().equals(objetImg.getImage())){
-												loadImage = true;
-												imgToDraw = imageIt;
-											}
+				if(translate)
+					this.translateToObject(g, o);
+				if(o != null){
+					//Initialisation d'un iterateur
+					if(o.getImageList(o.getCurrentImageList()) != null){
+						Iterator it2 = o.getImagesIterator();
+						ObjetImage objetImg = null;
+						//Affichage des images
+						do{
+							objetImg = (ObjetImage) it2.getNextElement();
+							if(objetImg != null){
+								PImage imgToDraw = null;
+								boolean loadImage = false;
+								if(o.getDrawImage() != null){
+									
+									for(int z = 0; z < o.getDrawImage().size(); z++){
+										PImage imageIt = img.get(o.getDrawImage().get(z));
+										if(imageIt.getNom().equals(objetImg.getImage())){
+											loadImage = true;
+											imgToDraw = imageIt;
 										}
 									}
-									else{
-										o.setDrawImage(new ArrayList<Integer>());
-									}
-									if(!loadImage){
-										
-										boolean inList = false;
-										for (int l = 0, l2 = img.size(); l < l2; l++) {
-											if (img.get(l).getNom().equals(objetImg.getImage())) {
-												if(!o.getDrawImage().contains(l)){
-													o.getDrawImage().add(l);
-													imgToDraw = img.get(l);
-												}
-												inList = true;
-												l = l2;
-											}
-										}
-										if(!inList){
-											PImage toload = new PImage(objetImg.getImage());
-											img.add(toload);
-											o.getDrawImage().add(img.size() - 1);
-											imgToDraw = toload;
-										}
-									}
-	
-									Image wildImg = imgToDraw.getImg();
-									Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
-									wildImg = formatImage;
-									SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
-									Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
-									image.setAlpha(o.getOpacity());
-									if(objetImg.isMirror()){
-										image = image.getFlippedCopy(true, false);
-									}
-									translateToObjectImage(g, o, objetImg);
-										
-										int posX = this.getWidth()/2;
-										posX += -actualCam.getX() * actualCam.getZoom();
-										posX +=  + (float)(o.getDecalageX());
-										int posY = this.getHeight()/2;
-										posY += -actualCam.getY() * actualCam.getZoom();
-										posY += + (float)(o.getDecalageY());
-											
-										int mx = (int) (Mouse.getX() - this.getXOnScreen());
-										int my = (int) (getRacine().getHeight() - Mouse.getY() - this.getYOnScreen());
-										int posImgX = (int) ((float)(+objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX() / 2))); 
-										int posImgY = (int) ((float)(+objetImg.getDecalageY() - (float)(objetImg.getImageSizeInGameY()))); 
-										ObjetImage parentImg = o.getImage(objetImg.getParentAlias());
-										while(parentImg != null){
-											posImgX += parentImg.getDecalageX();
-											posImgY += parentImg.getDecalageY();
-											parentImg = o.getImage(parentImg.getParentAlias());
-										}
-										posImgX *= actualCam.getZoom();
-										posImgY *= actualCam.getZoom();
-										if(mx > posX + posImgX && mx < posX + posImgX + (float)(objetImg.getImageSizeInGameX()) * actualCam.getZoom()
-												&&  my > posY + posImgY && my < posY + + posImgY+ objetImg.getImageSizeInGameY() * actualCam.getZoom()){
-											// Prend l'image du vrai objet, pour la déplacer.
-											ImgEditor ie = ((EditeurObjetMap)parent.getParent().getParent()).getImgEditor();
-											
-											for(ObjetImage img : ie.getObj().getImageList(ie.getObj().getCurrentImageList()).getList()){
-												if(objetImg.getAlias() != null){
-													if(objetImg.getAlias().equals(img.getAlias())){
-														draggedObjImg = img;
-													}
-												}
-											}
-										}
-										if(isMoveImage()){
-											g.setColor(new Color(255,0,0,25));
-											
-											g.translate(objetImg.getRotationCenterX() * actualCam.getZoom(), objetImg.getRotationCenterY() * actualCam.getZoom());
-												g.rotate(1, 1, objetImg.getRotation());
-											g.translate(-objetImg.getRotationCenterX() * actualCam.getZoom(), -objetImg.getRotationCenterY() * actualCam.getZoom());
-										
-											g.fillRoundRect(0,0, objetImg.getImageSizeInGameX() * actualCam.getZoom(), objetImg.getImageSizeInGameY() * actualCam.getZoom(), 10);
-											
-											g.translate(objetImg.getRotationCenterX() * actualCam.getZoom(), objetImg.getRotationCenterY() * actualCam.getZoom());
-												g.rotate(1, 1, -objetImg.getRotation());
-											g.translate(-objetImg.getRotationCenterX() * actualCam.getZoom(), -objetImg.getRotationCenterY() * actualCam.getZoom());
-											
-										}
-										o.paintComponent(this, g, image, posX, posY, objetImg, actualCam);
-										if(isMoveImage()){
-											g.setColor(new Color(0,100,100, 255));
-											g.fillRoundRect(objetImg.getRotationCenterX()  * actualCam.getZoom() - 5, objetImg.getRotationCenterY() * actualCam.getZoom() - 5, 10,10,10);
-										}
-									untranslateToObjectImage(g, o, objetImg);
-	
 								}
-	
+								else{
+									o.setDrawImage(new ArrayList<Integer>());
+								}
+								if(!loadImage){
+									
+									boolean inList = false;
+									for (int l = 0, l2 = img.size(); l < l2; l++) {
+										if (img.get(l).getNom().equals(objetImg.getImage())) {
+											if(!o.getDrawImage().contains(l)){
+												o.getDrawImage().add(l);
+												imgToDraw = img.get(l);
+											}
+											inList = true;
+											l = l2;
+										}
+									}
+									if(!inList){
+										PImage toload = new PImage(objetImg.getImage());
+										img.add(toload);
+										o.getDrawImage().add(img.size() - 1);
+										imgToDraw = toload;
+									}
+								}
+
+								Image wildImg = imgToDraw.getImg();
+								Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
+								wildImg = formatImage;
+								SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
+								Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
+								image.setAlpha(o.getOpacity());
+								if(objetImg.isMirror()){
+									image = image.getFlippedCopy(true, false);
+								}
+								translateToObjectImage(g, o, objetImg);
+									
+									int posX = this.getWidth()/2;
+									posX += -actualCam.getX() * actualCam.getZoom();
+									posX +=  + (float)(o.getDecalageX());
+									int posY = this.getHeight()/2;
+									posY += -actualCam.getY() * actualCam.getZoom();
+									posY += + (float)(o.getDecalageY());
+										
+									int mx = (int) (Mouse.getX() - this.getXOnScreen());
+									int my = (int) (getRacine().getHeight() - Mouse.getY() - this.getYOnScreen());
+									int posImgX = (int) ((float)(+objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX() / 2))); 
+									int posImgY = (int) ((float)(+objetImg.getDecalageY() - (float)(objetImg.getImageSizeInGameY()))); 
+									ObjetImage parentImg = o.getImage(objetImg.getParentAlias());
+									while(parentImg != null){
+										posImgX += parentImg.getDecalageX();
+										posImgY += parentImg.getDecalageY();
+										parentImg = o.getImage(parentImg.getParentAlias());
+									}
+									posImgX *= actualCam.getZoom();
+									posImgY *= actualCam.getZoom();
+									if(mx > posX + posImgX && mx < posX + posImgX + (float)(objetImg.getImageSizeInGameX()) * actualCam.getZoom()
+											&&  my > posY + posImgY && my < posY + + posImgY+ objetImg.getImageSizeInGameY() * actualCam.getZoom()){
+										// Prend l'image du vrai objet, pour la déplacer.
+										ImgEditor ie = ((EditeurObjetMap)parent.getParent().getParent()).getImgEditor();
+										
+										for(ObjetImage img : ie.getObj().getImageList(ie.getObj().getCurrentImageList()).getList()){
+											if(objetImg.getAlias() != null){
+												if(objetImg.getAlias().equals(img.getAlias())){
+													draggedObjImg = img;
+												}
+											}
+										}
+									}
+									if(isMoveImage()){
+										g.setColor(new Color(255,0,0,25));
+										
+										g.translate(objetImg.getRotationCenterX() * actualCam.getZoom(), objetImg.getRotationCenterY() * actualCam.getZoom());
+											g.rotate(1, 1, objetImg.getRotation());
+										g.translate(-objetImg.getRotationCenterX() * actualCam.getZoom(), -objetImg.getRotationCenterY() * actualCam.getZoom());
+									
+										g.fillRoundRect(0,0, objetImg.getImageSizeInGameX() * actualCam.getZoom(), objetImg.getImageSizeInGameY() * actualCam.getZoom(), 10);
+										
+										g.translate(objetImg.getRotationCenterX() * actualCam.getZoom(), objetImg.getRotationCenterY() * actualCam.getZoom());
+											g.rotate(1, 1, -objetImg.getRotation());
+										g.translate(-objetImg.getRotationCenterX() * actualCam.getZoom(), -objetImg.getRotationCenterY() * actualCam.getZoom());
+										
+									}
+									o.paintComponent(this, g, image, posX, posY, objetImg, actualCam);
+									if(isMoveImage()){
+										g.setColor(new Color(0,100,100, 255));
+										g.fillRoundRect(objetImg.getRotationCenterX()  * actualCam.getZoom() - 5, objetImg.getRotationCenterY() * actualCam.getZoom() - 5, 10,10,10);
+									}
+								untranslateToObjectImage(g, o, objetImg);
+
+								}
+
 							}while(objetImg != null);
 						}
 					}
-					this.untranslateToObject(g, o);
+					if(translate)
+						this.untranslateToObject(g, o);
 					g.setColor(Color.black);
 					Polygon p = new Polygon();
 					p.addPoint((float) (-(Math.sqrt(Math.pow(getEditChoice().getSizeY(), 2)))* actualCam.getZoom()),
