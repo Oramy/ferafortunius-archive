@@ -19,7 +19,7 @@ public abstract class Equipment  implements Serializable, Cloneable{/**
 	}
 	public Equipment clone(){
 		Equipment o = null;
-		try {
+		try { 
 			// On récupère l'instance à renvoyer par l'appel de la 
 			// méthode super.clone()
 			o = (Equipment) super.clone();
