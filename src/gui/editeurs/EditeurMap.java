@@ -243,7 +243,7 @@ public class EditeurMap extends Container{
 				public void actionPerformed(FComponent c){
 					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 					ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160);
-					o.setMirror(!o.isMirror());
+					o.setMirror(((CheckBox)c).isCheck());
 				}
 			});
 			checkbox.addComponent(miroir);

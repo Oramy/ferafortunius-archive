@@ -35,6 +35,7 @@ public class CheckBox extends Button{
 	@Override
 	public void clickReleased(){
 		setCheck(!check);
+		super.clickReleased();
 	}
 	public void draw(Graphics g) {
 

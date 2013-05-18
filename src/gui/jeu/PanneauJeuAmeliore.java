@@ -152,9 +152,17 @@ public class PanneauJeuAmeliore extends Container {
 				
 				if(objetImg.isMirror()){
 					image = image.getFlippedCopy(true, false);
+					g.translate(image.getHeight(), 0);
+					this.untranslateToObjectImage(g, o, objetImg);
 				}
 				
 				drawObjectImage(g, o, objetImg, image, checkScreen);
+				
+				if(objetImg.isMirror()){
+					this.translateToObjectImage(g, o, objetImg);
+					g.translate(-image.getHeight(), 0);
+					
+				}
 			}
 			if(lines){
 				drawLines(g, o);
@@ -373,7 +381,7 @@ public class PanneauJeuAmeliore extends Container {
 		int posY  = affichY + (int)((objetImg.getDecalageY()- (float)(objetImg.getImageSizeInGameY())) * actualCam.getZoom());
 		if(!(affichX < 0 || posX  >= this.getWidth() || affichY < 0 || posY >= this.getHeight()) || !checkScreen){
 			translateToObjectImage(g, o, objetImg);
-				//Position X de l'objet;
+			//Position X de l'objet;
 				
 				/*Ancien code
 				int posX = this.getWidth()/2;
