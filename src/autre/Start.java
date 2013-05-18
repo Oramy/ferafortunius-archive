@@ -16,7 +16,7 @@ public class Start {
 				System.out.println(i);
 			}*/
 		
-		/*
+		/* 
             try {
             	if(FFConnection.getInstance() != null)
             	{
@@ -84,7 +84,7 @@ public class Start {
 	      Terre objet = new Terre(0,0,0,0,0,0);
 	      //Ajout de la variable entree dans le script
 	      bindings.put("objet", objet);
-	      //Execution du script entr�e
+	      //Execution du script entr���e
 	      moteur.eval(sc.nextLine(), bindings);
 	      objet = (Terre)bindings.get("vari"); 
 	    } catch (ScriptException e) { 
