@@ -55,6 +55,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected boolean invisible = false;
 	protected boolean update;
 	protected boolean surligned;
+	protected boolean applyZShadow = false;
 	
 	
 	protected Color maskColor;
@@ -563,8 +564,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 		}
 		ombre = posZ;
-		if (getOmbre() > 255)
-			setOmbre(255);
+		if (getOmbre() > 150)
+			setOmbre(150);
 		if (getOmbre() < 0) {
 			setOmbre(0);
 		}
@@ -577,9 +578,13 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				c.getImageSizeInGameY() * actualCam.getZoom());
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
-		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(0, 0,
-						0, getOmbre()));
+		
+		//Si on veut appliquer l'ombre Z
+		if(this.applyZShadow){
+			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
+					c.getImageSizeInGameY() * actualCam.getZoom(), new Color(0, 0,
+							0, getOmbre()));
+		}
 	}
 
 	public void removeChrono(String name) {
@@ -987,6 +992,14 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 	public void setCurrentImageList(String currentImageList) {
 		this.currentImageList = currentImageList;
+	}
+
+	public boolean isApplyZShadow() {
+		return applyZShadow;
+	}
+
+	public void setApplyZShadow(boolean applyZShadowe) {
+		this.applyZShadow = applyZShadowe;
 	}
 
 	

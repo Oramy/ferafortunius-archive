@@ -50,6 +50,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 	private CheckBox invisible;
 	private CheckBox fly;
 	private CheckBox updatable;
+	private CheckBox applyZShadow;
 	private Container apercuCont;
 	private PanneauApercu apercu;
 
@@ -67,6 +68,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		getObj().setInvisible(invisible.isCheck());
 		getObj().setFly(invisible.isCheck());
 		getObj().setUpdate(updatable.isCheck());
+		getObj().setApplyZShadow(applyZShadow.isCheck());
 		getObj().setNom(name.getInput().getContenu());
 		getObj().getMaskColor().r = (float) colorMaskR.getValue() / 255.0f;
 		getObj().getMaskColor().g = (float) colorMaskG.getValue() / 255.0f;
@@ -99,7 +101,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		// Checkable
 		checkCont = new ContainerWithBords(sizeX / 3 * 2, 0, sizeX / 3,
 				sizeY / 3, this);
-		checkCont.setActualLayout(new GridLayout(1, 3));
+		checkCont.setActualLayout(new GridLayout(1, 4));
 		((GridLayout) checkCont.getActualLayout()).setHgap(10);
 
 		invisible = new CheckBox(
@@ -122,6 +124,12 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		updatable.setY(2);
 		updatable.setCheck(this.getObj().isUpdate());
 		checkCont.addComponent(updatable);
+		
+		applyZShadow = new CheckBox(Messages.getString("BasicObjetMapEditor.text.18"), checkCont); //$NON-NLS-1$
+		applyZShadow.setX(10);
+		applyZShadow.setY(2);
+		applyZShadow.setCheck(this.getObj().isUpdate());
+		checkCont.addComponent(applyZShadow);
 
 		this.addComponent(checkCont);
 		// Save container
