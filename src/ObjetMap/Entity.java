@@ -111,23 +111,54 @@ public abstract class Entity extends ObjetMap {
 	public void paintComponent(PanneauJeuAmeliore pan, Graphics g, Image img, int posX, int posY, ObjetImage c, Camera actualCam){
 		super.paintComponent(pan, g, img, posX, posY, c, actualCam);
 		
+		
+		//Liste des équipements
+		for(EquipmentItem equip : this.equipment.getContents()){
+			//Liste des listes d'équipements
+			for(ObjetImageList list : equip.getImages()){
+				//Si c'est la même liste
+				if(list.getAlias().equals(this.getCurrentImageList())){
+					//On parcourt la liste
+					for(ObjetImage objetImg : list.getList()){
+						//On parcourt notre liste
+						ObjetImage normal = c;
+							//Si c'est le même alias
+							if(objetImg.getAlias().equals(normal.getAlias())){
+								super.paintComponent(pan, g, PanneauJeuAmeliore.loadImage(objetImg, (ObjetMap)this).getImg(), posX, posY, c, actualCam);
+							}
+						
+					}
+				}
+			}
+		}
 	}
 	public void paintBonus(PanneauJeuAmeliore pan, Graphics g, Camera actualCam){
 		for(int i = 0; i < bonus.size(); i++){
 			bonus.get(i).paintComponent(g, actualCam);
 		}
 		//Affichage de l'équipement. 
+		
+		/*//Liste des équipements
 		for(EquipmentItem equip : this.equipment.getContents()){
+			//Liste des listes d'équipements
 			for(ObjetImageList list : equip.getImages()){
+				//Si c'est la même liste
+				System.out.println(this.getCurrentImageList());
 				if(list.getAlias().equals(this.getCurrentImageList())){
+					//On parcourt la liste
 					for(ObjetImage objetImg : list.getList()){
+						//On parcourt notre liste
 						for(ObjetImage normal : this.getImage()){
-							pan.drawObjectImage(g, (ObjetMap)this, objetImg, PanneauJeuAmeliore.loadImage(objetImg, (ObjetMap)this).getImg(), false);
+							//Si c'est le même alias
+							if(objetImg.getAlias().equals(normal.getAlias())){
+								//On dessine l'objet
+								pan.drawObjectImage(g, (ObjetMap)this, normal, PanneauJeuAmeliore.loadImage(objetImg, (ObjetMap)this).getImg(), false);
+							}
 						}
 					}
 				}
 			}
-		}
+		}*/
 	}
 	public void update(Jeu jeu){
 		super.update(jeu);

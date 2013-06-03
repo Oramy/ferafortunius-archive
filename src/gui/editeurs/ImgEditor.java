@@ -328,6 +328,9 @@ public class ImgEditor extends ContainerWithBords{
 			public void actionPerformed(FComponent c){
 				if(getObj().getImageList(directionChoice.getSelectedChoice()) != null)
 					getObj().getImageList(directionChoice.getSelectedChoice()).getList().add(getImgToAdd());
+				else{
+					System.out.println("Liste inexistante");
+				}
 			}
 		});
 		this.addComponent(addImage);

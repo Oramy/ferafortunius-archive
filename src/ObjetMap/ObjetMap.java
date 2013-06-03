@@ -570,12 +570,17 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			setOmbre(0);
 		}
 		img.setAlpha(opacity);
+		
 		Color maskColor = o.getMaskColor();
+		
 		img.setCenterOfRotation(c.getRotationCenterX() * actualCam.getZoom(),
 				c.getRotationCenterY() * actualCam.getZoom());
+		
+		img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
+				(int)(c.getImageSizeInGameY() * actualCam.getZoom()));
 		img.rotate(c.getRotation());
-		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom());
+		
+		img.draw();
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
 		
@@ -675,6 +680,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public void setImageList(String alias){
 		image = new ArrayList<ObjetImage>();
 		ObjetImageList imageList = getImageList(alias);
+		this.setCurrentImageList(alias);
 		if(imageList != null){
 			for (ObjetImage i : imageList.getList())
 				image.add(i.clone());
