@@ -104,7 +104,7 @@ public class EditeurItemGeneral extends EditeurItemBasic{
 					});
 					save.getAction().add(new Action(){
 						public void actionPerformed(FComponent e){
-							ObjetMapLoader.saveObject(new ItemOnMap(0,0,0,0,0,0, editItem), "editeur/data/ObjetMap/item"+path.getInput().getContenu()+".obj"); //$NON-NLS-1$ //$NON-NLS-2$
+							ObjetMapLoader.saveObject(new ItemOnMap(0,0,0,0,0,0, editItem), "data/ObjetMap/item"+path.getInput().getContenu()+".obj"); //$NON-NLS-1$ //$NON-NLS-2$
 						}
 					});
 					labelsASave.addComponent(save);
