@@ -1,11 +1,8 @@
 package Items;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import ObjetMap.Entity;
-import ObjetMap.ObjetImage;
 import ObjetMap.ObjetImageList;
 
 public class EquipmentItem extends Item {
