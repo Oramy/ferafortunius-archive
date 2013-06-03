@@ -18,6 +18,8 @@ public class OptionsJeu implements Serializable{
 	private Locale language;
 	private boolean vsync;
 	private boolean alwaysRend;
+	
+	private boolean gameSpeedPrint;
 	//Keys
 	private int up;
 	private int down;
@@ -190,5 +192,11 @@ public class OptionsJeu implements Serializable{
 	}
 	public void setAlwaysRend(boolean alwaysRend) {
 		this.alwaysRend = alwaysRend;
+	}
+	public boolean isGameSpeedPrint() {
+		return gameSpeedPrint;
+	}
+	public void setGameSpeedPrint(boolean gameSpeedPrint) {
+		this.gameSpeedPrint = gameSpeedPrint;
 	}
 }

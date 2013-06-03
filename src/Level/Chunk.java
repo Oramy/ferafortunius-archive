@@ -1,5 +1,6 @@
 package Level;
 
+import gui.GameMain;
 import gui.Text;
 import gui.jeu.Jeu;
 
@@ -529,6 +530,9 @@ public class Chunk implements Serializable, Cloneable {
 			trierXYZ();
 			drawing = false;
 			hasXYtoSort = false;
+			
+			//Si on veut afficher les informations de vitesse
+			if(GameMain.options.isGameSpeedPrint())
 			System.out.println("Temps de tri :" + (System.currentTimeMillis() -
 					tempsPrec) + "ms");
 		}
