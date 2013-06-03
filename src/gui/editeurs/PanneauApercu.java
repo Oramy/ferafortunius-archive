@@ -132,9 +132,7 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 									if(mx > posX + posImgX && mx < posX + posImgX + (float)(objetImg.getImageSizeInGameX()) * actualCam.getZoom()
 											&&  my > posY + posImgY && my < posY + + posImgY+ objetImg.getImageSizeInGameY() * actualCam.getZoom()){
 										// Prend l'image du vrai objet, pour la déplacer.
-										ImgEditor ie = ((EditeurObjetMap)parent.getParent().getParent()).getImgEditor();
-										
-										for(ObjetImage img : ie.getObj().getImageList(ie.getObj().getCurrentImageList()).getList()){
+										for(ObjetImage img : editChoice.getImageList(editChoice.getCurrentImageList()).getList()){
 											if(objetImg.getAlias() != null){
 												if(objetImg.getAlias().equals(img.getAlias())){
 													draggedObjImg = img;

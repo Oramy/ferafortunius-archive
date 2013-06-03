@@ -379,6 +379,7 @@ public class PanneauJeuAmeliore extends Container {
 		
 		int posX = affichX +(int)((objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX())) * actualCam.getZoom());
 		int posY  = affichY + (int)((objetImg.getDecalageY()- (float)(objetImg.getImageSizeInGameY())) * actualCam.getZoom());
+		
 		if(!(affichX < 0 || posX  >= this.getWidth() || affichY < 0 || posY >= this.getHeight()) || !checkScreen){
 			translateToObjectImage(g, o, objetImg);
 			//Position X de l'objet;
