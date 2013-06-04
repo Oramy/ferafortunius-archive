@@ -49,7 +49,7 @@ public class HumanEquipment extends Equipment{
 				
 			}
 		}
-		if(equip instanceof Casque){
+		else if(equip instanceof Casque){
 			if(casque == null){
 				casque = (Casque) equip;
 				addEquipment(casque);
@@ -58,6 +58,9 @@ public class HumanEquipment extends Equipment{
 				unequip(casque);
 				equip(equip);
 			}
+		}
+		else{
+			System.err.println("Not an Human Equipment");
 		}
 	}
 

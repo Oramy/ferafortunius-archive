@@ -27,6 +27,8 @@ public class EditeurEquipment extends EditeurItemBasic {
 	
 	protected OngletManager ongletManager;
 
+	protected PanneauApercu panneauAperc;
+	
 	private ImgEditor imgEditor;
 	public EditeurEquipment(Item editItem, int x, int y, int sizeX, int sizeY,
 			Container parent) {
@@ -56,8 +58,20 @@ public class EditeurEquipment extends EditeurItemBasic {
 				), ongletManager);
 		images.setContainer(imgEditor);
 		
+		
 		//Ajout de l'onglet
 		ongletManager.addComponent(images);
+		
+		//Onglet des images
+		Onglet apercu = new Onglet("Apercu", ongletManager);
+		
+		//Chargement de l'éditeur
+		panneauAperc = new PanneauApercu(imgEditor.getObj(), 0, 50, sizeX, sizeY - 50, this);
+		apercu.setContainer(panneauAperc);
+		
+		
+		//Ajout de l'onglet
+		ongletManager.addComponent(apercu);
 		
 		//Set de l'onglet actuel
 		ongletManager.setOngletActuel(images);
@@ -83,6 +97,9 @@ public class EditeurEquipment extends EditeurItemBasic {
 				wildImg.draw(0, 0, objImg.getImageSizeInGameX(),
 						objImg.getImageSizeInGameY());
 			}
+		}
+		else{
+			System.err.print("Objet Image == null !");
 		}
 	}
 	public void update(GameContainer gc, int x, int y){

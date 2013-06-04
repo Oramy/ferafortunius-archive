@@ -5,6 +5,7 @@ import gui.GridLayout;
 
 import org.newdawn.slick.GameContainer;
 
+import Items.Arme;
 import Items.BasicItem;
 import Items.EquipmentItem;
 import Items.Item;
@@ -60,7 +61,7 @@ public class EditeurItem extends Container {
 			
 			//Changement du type de l'item : Equipment
 			
-			editItem = new EquipmentItem(null);
+			editItem = new Arme(null);
 			general.setEditItem(editItem);
 			special = new EditeurEquipment((EquipmentItem)editItem, 0,0,sizeX / 2,sizeY, this);
 		}

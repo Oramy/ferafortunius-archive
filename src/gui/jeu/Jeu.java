@@ -273,7 +273,7 @@ public class Jeu extends Container implements Cloneable {
 		
 		player.getInventaire().setMaxWeight(3000);
 		this.addItem("epee.item");
-		player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
+		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
 		player.addBonus(new MaxLife(player));
 		player.addBonus(new BuffRegenLife(player));
