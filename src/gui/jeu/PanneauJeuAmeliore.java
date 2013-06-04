@@ -1,6 +1,7 @@
 package gui.jeu;
 
 import gui.Container;
+import gui.GameMain;
 import gui.PImage;
 
 import java.io.File;
@@ -379,6 +380,7 @@ public class PanneauJeuAmeliore extends Container {
 		
 		int posX = affichX +(int)((objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX())) * actualCam.getZoom());
 		int posY  = affichY + (int)((objetImg.getDecalageY()- (float)(objetImg.getImageSizeInGameY())) * actualCam.getZoom());
+		
 		if(!(affichX < 0 || posX  >= this.getWidth() || affichY < 0 || posY >= this.getHeight()) || !checkScreen){
 			translateToObjectImage(g, o, objetImg);
 			//Position X de l'objet;
@@ -485,7 +487,10 @@ public class PanneauJeuAmeliore extends Container {
 		//Affichage de la GUI
 		for(int i1 = 0; i1 < this.getComponents().size(); i1++)
 			this.getComponents().get(i1).draw(g);
-		System.out.println("Affichage Map : " + (System.currentTimeMillis() - temps) + "ms");
+		
+		//Si on veut afficher les informations de vitesse
+		if(GameMain.options.isGameSpeedPrint())
+			System.out.println("Affichage Map : " + (System.currentTimeMillis() - temps) + "ms");
 		//System.out.println("Temps d'affichage : " + (System.currentTimeMillis() - tempsPrec) + "ms");
 	}
 	public float getZoom(){

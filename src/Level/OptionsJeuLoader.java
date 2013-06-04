@@ -27,20 +27,28 @@ public class OptionsJeuLoader {
 		o.setExit(Integer.valueOf("0"+RESOURCE_BUNDLE.getString("exit")));
 		o.setAction(Integer.valueOf("0"+RESOURCE_BUNDLE.getString("action")));
 	}
+	public static boolean loadBoolean(String key){
+		String value = RESOURCE_BUNDLE.getString(key);
+		if(value.equals("1"))
+			return true;
+		return false;
+	}
+	
+	
 	public static final OptionsJeu loadOptions(){
+		//Création d'un nouvel objet option
 		OptionsJeu o = null;
 		o = new OptionsJeu();
-		String vSync = RESOURCE_BUNDLE.getString("vsync");
-		if(vSync.equals("1"))
-			o.setVsync(true);
-		else
-			o.setVsync(false);
-		String fullscreen = RESOURCE_BUNDLE.getString("fullscreen");
-		if(fullscreen.equals("0"))
-			o.setWindowed(true);
-		else
-			o.setWindowed(false);
+		
+		//Données pour la vSync
+		o.setVsync(loadBoolean("vsync"));
+		
+		//Plein écran
+		o.setWindowed(!loadBoolean("fullscreen"));
+		
+		//Text Speed
 		String textspeed = RESOURCE_BUNDLE.getString("textspeed");
+		
 		if(textspeed.equals("0"))
 			o.setTextDisplayMode(TextDisplayMode.Slowly);
 		else if(textspeed.equals("1"))
@@ -49,17 +57,25 @@ public class OptionsJeuLoader {
 			o.setTextDisplayMode(TextDisplayMode.Fast);
 		else if(textspeed.equals("3"))
 			o.setTextDisplayMode(TextDisplayMode.Instantly);
+		
+		//Width
 		String width = RESOURCE_BUNDLE.getString("width");
 			o.setScreenWidth(Integer.parseInt(width));
+			
+		//Height
 		String height = RESOURCE_BUNDLE.getString("height");
 			o.setScreenHeight(Integer.parseInt(height));
+			
+		//Language
 		o.setLanguage(Locale.FRENCH);
+		
 		o.setLanguage(new Locale(RESOURCE_BUNDLE.getString("language")));
-		String alwaysRend = RESOURCE_BUNDLE.getString("alwaysrend");
-		if(alwaysRend.equals("1"))
-			o.setAlwaysRend(true);
-		else
-			o.setAlwaysRend(false);
+		
+		//Always rend
+		o.setAlwaysRend(loadBoolean("alwaysrend"));
+		
+		o.setGameSpeedPrint(loadBoolean("gamespeedprint"));
+		
 		updateKeys(o);
 		return o;
 	}

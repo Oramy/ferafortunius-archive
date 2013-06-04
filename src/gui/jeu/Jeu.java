@@ -23,8 +23,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import thread.RunJump;
+import Items.EquipmentItem;
 import Items.Item;
-import Items.Potion;
 import Level.Camera;
 import Level.ChunkMap;
 import Level.ItemLoader;
@@ -269,9 +269,11 @@ public class Jeu extends Container implements Cloneable {
 		cameraPerso.teleportToObject(player);
 		cameraPerso.setFollowHim(player);
 		
-		//Initialisation du joueur
+		//Initialisation du joueur -- ZONE DE TEST
+		
 		player.getInventaire().setMaxWeight(3000);
-		player.getInventaire().addContent(new Potion(player));
+		this.addItem("epee.item");
+		player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
 		player.addBonus(new MaxLife(player));
 		player.addBonus(new BuffRegenLife(player));
@@ -396,7 +398,9 @@ public class Jeu extends Container implements Cloneable {
 		
 		this.drawEnd(g);
 		
-		System.out.println("Affichage : "
+		//Si on veut afficher les informations de vitesse
+		if(GameMain.options.isGameSpeedPrint())
+			System.out.println("Affichage : "
 				+ (System.currentTimeMillis() - temps) + "ms");
 	}
 
@@ -527,8 +531,8 @@ public class Jeu extends Container implements Cloneable {
 		// Gravité
 		if (player != null) {
 			if (!player.isFly()) {
-				getCarte().deplacement(player, 0, 0, -player.getSizeZ() / 10,
-						this);
+				//getCarte().deplacement(player, 0, 0, -player.getSizeZ() / 100,
+				//		this);
 			}
 		}
 		
@@ -558,8 +562,9 @@ public class Jeu extends Container implements Cloneable {
 			updateKeys(gc);
 		}*/
 		
-		
-		System.out.println("Update : " + (System.currentTimeMillis() - temps)
+		//Si on veut afficher les informations de vitesse
+		if(GameMain.options.isGameSpeedPrint())
+			System.out.println("Update : " + (System.currentTimeMillis() - temps)
 				+ "ms");
 		lastUpdate = System.currentTimeMillis();
 	}
