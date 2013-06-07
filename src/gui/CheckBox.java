@@ -73,6 +73,7 @@ public class CheckBox extends Button{
 	 */
 	public void setCheck(boolean check) {
 		this.check = check;
+		super.clickReleased();
 		if(!check)
 			boutonAct = normal;
 		if(check)

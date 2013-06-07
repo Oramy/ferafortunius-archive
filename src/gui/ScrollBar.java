@@ -49,9 +49,9 @@ public class ScrollBar extends Container{
 			if(container.getY() != - value)
 				container.setY((int) -value);
 			if(container != null)
-				{
-					getContainer().draw(g);
-				}
+			{
+				getContainer().draw(g);
+			}
 			hscroll.drawBegin(g);
 			hscroll.draw(g);
 			hscroll.drawEnd(g);

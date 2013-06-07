@@ -16,19 +16,13 @@ import gui.Slider;
 import gui.Text;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import ObjetMap.Direction;
 import ObjetMap.ObjetImage;
@@ -36,7 +30,7 @@ import ObjetMap.ObjetImageList;
 import ObjetMap.ObjetMap;
 
 
-public class ImgEditor extends ContainerWithBords{
+public class ImgEditor extends ContainerWithBords implements Observer{
 	/**
 	 * 
 	 */
@@ -89,19 +83,74 @@ public class ImgEditor extends ContainerWithBords{
 
 	private Label imageListName;
 	
-	public void update(GameContainer gc, int x, int y){
-		super.update(gc, x, y);
+	
+	
+	public void updateImageData(){
+		//Actualisation des données de l'image
+		getImgToAdd().setImageSizeInGameX(sizeInGameX.getValue());
+		getImgToAdd().setImageSizeInGameY(sizeInGameY.getValue());
+		
+		if(spriteSizeX.getValue() > 0)
+			getImgToAdd().setSizeSpriteX(spriteSizeX.getValue());
+		else
+			getImgToAdd().setSizeSpriteX(1);
+		
+		
+		if(spriteSizeY.getValue() > 0)
+			getImgToAdd().setSizeSpriteY(spriteSizeY.getValue());
+		else
+			getImgToAdd().setSizeSpriteY(1);
+		
+		
+		getImgToAdd().setPosX(spriteX.getValue());
+		getImgToAdd().setPosY(spriteY.getValue());
+		
+		getImgToAdd().setRotationCenterX(rotationCenterX.getValue());
+		getImgToAdd().setRotationCenterY(rotationCenterY.getValue());
+		
+		getImgToAdd().setPosSpriteSheetX(spriteSheetX.getValue());
+		getImgToAdd().setPosSpriteSheetY(spriteSheetY.getValue());
+		
+		getImgToAdd().setRotation(rotation.getValue());
+		getImgToAdd().setAlias(alias.getInput().getContenu());
+		
+		getImgToAdd().setParentAlias(parentalias.getInput().getContenu());
+		getImgToAdd().setMirror(mirror.isCheck());
+	}
+	/**
+	 * Permet d'actualiser la liste des boutons pour la liste d'images actuelle.
+	 * @param gc l'environnement
+	 * @param x position de la souris
+	 * @param y position de la souris
+	 */
+	public void updateButtons(GameContainer gc, int x, int y)
+	{
+		//Si la liste n'est pas vide
 		if(getObj().getImageList(directionChoice.getSelectedChoice()) != null){
+			//Si ça n'est pas deja actualisé
 			if(getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() > imgExplorer.getComponents().size()){
 				
+				// On change la taille de notre barre de scroll
 				imgExplorerscroll.setValueMax(60 + getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() * 45);
+				
+				//On change la taille de notre container
 				imgExplorer.setSizeY(60 + getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() * 45);
+				
+				//On rajoute un bouton pour chaque image
 				for(int i = imgExplorer.getComponents().size(); i < this.getObj().getImageList(directionChoice.getSelectedChoice()).getList().size(); i++){
+					
+					//Création du bouton
 					Button modImg = null;
+					
+					//Si l'alias du bouton est inexistant, on donne le nom de l'image au bouton.
 					if(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias() == null || getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias() =="" ) //$NON-NLS-1$
 						modImg = new Button(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().substring(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().lastIndexOf("/")), imgExplorer); //$NON-NLS-1$
+					
+					//Sinon, on prend l'alias
 					else
 						modImg = new Button(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias(), imgExplorer);
+					
+					//Ajout de l'action de séléction au bouton
 					modImg.getAction().add(new Action(){
 						public void actionPerformed(FComponent c){
 							setObj(obj);
@@ -110,97 +159,45 @@ public class ImgEditor extends ContainerWithBords{
 							setImgToAdd(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get((c.getY() - 5) / 45));
 						}
 					});
+					
+					//Positionnement
 					modImg.setX(5);
 					modImg.setY(5 + 45 * (i));
+					
+					//Ajout au container
 					imgExplorer.addComponent(modImg);
 				}
 			}
+			//Sinon, si une image a été enlevée
 			else if(getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() < imgExplorer.getComponents().size() && imgExplorer.getComponents().size() > 0){
+				
+				//On enlève le bouton correspondant.
 				imgExplorer.getComponents().remove(imgExplorer.getComponents().size() - 1);
 				imgExplorer.setSizeY(60 + getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() * 45);
 				
 			}
 		}
+	}
+	public void update(GameContainer gc, int x, int y){
+		super.update(gc, x, y);
+		
+		//Actualisation des données de l'image actuelle
+		updateImageData();
+		
+		//Actualisation des boutons
+		updateButtons(gc, x, y);
+		
+		//Actualisation de la direction.
 		updateDirection();
 	}
 	public void updateDirection(){
 		String selectedChoice = directionChoice.getSelectedChoice();
+		
+		//Actualise la liste d'image et le pointeur.
 		obj.setCurrentImageList(selectedChoice);
 		obj.setImageList(selectedChoice);
 	}
-	public void draw(Graphics g){
-		super.draw(g);
-		getImgToAdd().setImageSizeInGameX(sizeInGameX.getValue());
-		getImgToAdd().setImageSizeInGameY(sizeInGameY.getValue());
-		if(spriteSizeX.getValue() > 0)
-			getImgToAdd().setSizeSpriteX(spriteSizeX.getValue());
-		else
-			getImgToAdd().setSizeSpriteX(1);
-		if(spriteSizeY.getValue() > 0)
-			getImgToAdd().setSizeSpriteY(spriteSizeY.getValue());
-		else
-			getImgToAdd().setSizeSpriteY(1);
-		getImgToAdd().setPosX(spriteX.getValue());
-		getImgToAdd().setPosY(spriteY.getValue());
-		
-		getImgToAdd().setRotationCenterX(rotationCenterX.getValue());
-		getImgToAdd().setRotationCenterY(rotationCenterY.getValue());
-		getImgToAdd().setPosSpriteSheetX(spriteSheetX.getValue());
-		getImgToAdd().setPosSpriteSheetY(spriteSheetY.getValue());
-		getImgToAdd().setRotation(rotation.getValue());
-		getImgToAdd().setAlias(alias.getInput().getContenu());
-		getImgToAdd().setParentAlias(parentalias.getInput().getContenu());
-		getImgToAdd().setMirror(mirror.isCheck());
-	}
-	public void loadSprites(){
-		try {
-			String path = "Images/" + getImgPath().getInput().getContenu().substring(0, getImgPath().getInput().getContenu().lastIndexOf(".")) + ".xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			File fXmlFile = new File(path);
-			if(!fXmlFile.exists())
-			{
-				fXmlFile = new File("Images/" + getImgPath().getInput().getContenu().substring(0, getImgPath().getInput().getContenu().lastIndexOf(".") - 2) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				if(!fXmlFile.exists())
-				{
-					fXmlFile = new File("Images/" + getImgPath().getInput().getContenu().substring(0, getImgPath().getInput().getContenu().lastIndexOf(".") - 1) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				}
-			}
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder;
-			
-				dBuilder = dbFactory.newDocumentBuilder();
-			
-			Document doc = dBuilder.parse(fXmlFile);
-			
-			doc.getDocumentElement().normalize();
-			Node textureAtlas = doc.getFirstChild();
-			NodeList sprites = textureAtlas.getChildNodes();
-			for(int i = 0, c1 = sprites.getLength(); i < c1; i++){
-				if(sprites.item(i).getNodeName().equals("SubTexture")){ //$NON-NLS-1$
-					String nom = sprites.item(i).getAttributes().getNamedItem("name").getTextContent(); //$NON-NLS-1$
-					int x = Integer.parseInt(sprites.item(i).getAttributes().getNamedItem("x").getTextContent()); //$NON-NLS-1$
-					int y = Integer.parseInt(sprites.item(i).getAttributes().getNamedItem("y").getTextContent()); //$NON-NLS-1$
-					int width = Integer.parseInt(sprites.item(i).getAttributes().getNamedItem("width").getTextContent()); //$NON-NLS-1$
-					int height = Integer.parseInt(sprites.item(i).getAttributes().getNamedItem("height").getTextContent()); //$NON-NLS-1$
-					ObjetImage o = new ObjetImage(getImgPath().getInput().getContenu(), width , height , width, height, 0, 0);
-					if(!nom.equals("")) //$NON-NLS-1$
-						o.setAlias(nom);
-					o.setPosSpriteSheetX(x);
-					o.setPosSpriteSheetY(y);
-					getObj().getImageList(directionChoice.getSelectedChoice()).getList().add(o);
-				}
-			}
-			
-		} catch (ParserConfigurationException e1) {
-			
-			e1.printStackTrace();
-		} catch (SAXException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	}
+	
 	public ImgEditor(int x, int y, int sizeX, int sizeY, ObjetMap objet, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
 		this.setObj(objet);
@@ -212,8 +209,18 @@ public class ImgEditor extends ContainerWithBords{
 		selecPath = new Button(Messages.getString("ImgEditor.5"), pathContainer.getSizeX() + pathContainer.getX(), 10, sizeX / 2 - (pathContainer.getSizeX() + pathContainer.getX()) - 20, 30, this); //$NON-NLS-1$
 		selecPath.getAction().add(new Action(){
 			public void actionPerformed(FComponent c){
+				//Chargement du fichier
 				File f = new File("Images/" + "ObjetMap/"); //$NON-NLS-1$ //$NON-NLS-2$
+				
+				//Chargement du chooser
 				JFileChooser fc = new JFileChooser(f.getAbsolutePath());
+				
+				
+				fc.setDialogTitle("Choisissez une image à charger");
+				
+				//Filtreur de fichier
+				FileFilter fileFilter = new FileNameExtensionFilter("PNG Files", "png");
+				fc.setFileFilter(fileFilter);
 				int returnVal = fc.showOpenDialog(fc);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 		            File file = fc.getSelectedFile();
@@ -337,7 +344,7 @@ public class ImgEditor extends ContainerWithBords{
 		addSprites = new Button(Messages.getString("ImgEditor.45"), 20, sizeY - 110, sizeX / 2 - 40,30,this); //$NON-NLS-1$
 		addSprites.getAction().add(new Action(){
 			public void actionPerformed(FComponent c){
-				loadSprites();
+				openSpritesManager();
 			}
 		});
 		this.addComponent(addSprites);
@@ -382,6 +389,30 @@ public class ImgEditor extends ContainerWithBords{
 		
 		
 	}
+	/**
+	 * Ouvre le sprite manager
+	 */
+	protected void openSpritesManager() {
+		
+		
+		//Création de la fenêtre
+		InternalFrame frameSpritesManager = new InternalFrame(this.getRacine().getSizeX()/2 - 250, 
+				this.getRacine().getSizeY()/2 - 300,
+				500,
+				600,
+				"Gestion des sprites", (Container) this.getRacine());
+		
+		//Création du container principal
+		SpritesManager spritesManager = new SpritesManager(0, 20, 500, 580, frameSpritesManager, this.getImgPath().getInput().getContenu());
+		frameSpritesManager.getComponents().remove(frameSpritesManager.getContainer());
+		frameSpritesManager.setContainer(spritesManager);
+		frameSpritesManager.addComponent(spritesManager);
+		
+		//Ajout de this comme obsevateur.
+		spritesManager.addObserver(this);
+		//Ajout de la fenêtre.
+		((Container) this.getRacine()).addComponent(frameSpritesManager);
+	}
 	protected void reorganizeButton() {
 		imgExplorer.getComponents().clear();
 	}
@@ -420,19 +451,29 @@ public class ImgEditor extends ContainerWithBords{
 	 */
 	public void setImgToAdd(ObjetImage imgToAdd) {
 		this.imgToAdd = imgToAdd;
+		
+		//Actualisation des données de l'éditeur.
 		sizeInGameX.getInput().setContenu(imgToAdd.getImageSizeInGameX() + ""); //$NON-NLS-1$
 		sizeInGameY.getInput().setContenu(imgToAdd.getImageSizeInGameY() + ""); //$NON-NLS-1$
+		
 		spriteSizeX.getInput().setContenu(imgToAdd.getSizeSpriteX() + ""); //$NON-NLS-1$
 		spriteSizeY.getInput().setContenu(imgToAdd.getSizeSpriteY() + ""); //$NON-NLS-1$
+		
 		spriteX.getInput().setContenu(imgToAdd.getPosX() + ""); //$NON-NLS-1$
 		spriteY.getInput().setContenu(imgToAdd.getPosY() + ""); //$NON-NLS-1$
+		
 		rotationCenterX.getInput().setContenu(imgToAdd.getRotationCenterX() + ""); //$NON-NLS-1$
 		rotationCenterY.getInput().setContenu(imgToAdd.getRotationCenterY() + ""); //$NON-NLS-1$
+		
 		spriteSheetX.getInput().setContenu(imgToAdd.getPosSpriteSheetX() + ""); //$NON-NLS-1$
 		spriteSheetY.getInput().setContenu(imgToAdd.getPosSpriteSheetY() + ""); //$NON-NLS-1$
+		
 		rotation.setValue((int) (imgToAdd.getRotation()));
+		
 		alias.getInput().setContenu(imgToAdd.getAlias());
+		
 		parentalias.getInput().setContenu(imgToAdd.getParentAlias());
+		
 		mirror.setCheck(imgToAdd.isMirror());
 	}
 	/**
@@ -460,6 +501,14 @@ public class ImgEditor extends ContainerWithBords{
 		if(this.direction != direction)
 			imgExplorer.getComponents().clear();
 		this.direction = direction;
+	}
+	@Override
+	public void update(Observable obs, Object imageList) {
+		//Si l'élémenet reçu est bien le bon :
+		if(imageList instanceof ArrayList)
+		{
+			this.obj.getImageList(this.obj.getCurrentImageList()).getList().addAll((ArrayList<ObjetImage>) imageList);
+		}
 	}
 
 }
