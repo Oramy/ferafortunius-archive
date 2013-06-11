@@ -76,15 +76,15 @@ public class EditeurAnimation extends Container{
 	public EditeurAnimation(ObjetMap o, int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
 		cible = o;
-		apercuCont = new ContainerWithBords( 0,0, sizeX / 4, sizeY / 4, this);
-			apercu = new PanneauApercuAnimation(new ChunkMap(1,1,1,1), cible, 10,10, sizeX / 4 - 20, sizeY / 4 - 20, apercuCont);
+		apercuCont = new ContainerWithBords( 0,0, sizeX / 2, sizeY / 2, this);
+			apercu = new PanneauApercuAnimation(new ChunkMap(1,1,1,1), cible, 10,10, apercuCont.getSizeX() - 20, apercuCont.getSizeY() - 20, apercuCont);
 			apercu.setActualCam(new Camera(0,0, 1f));
 			if(cible.getImage().size() != 0){
 				apercu.setActualCam(new Camera(0, -cible.getImage().get(0).getImageSizeInGameY() / 2, 1f));
 			}
 			apercuCont.addComponent(apercu);
 		this.addComponent(apercuCont);
-		animExplorerscroll = new ScrollBar(sizeX / 4 + 10 , 0, sizeX / 4 - 10, sizeY / 4, 1, 0,this);
+		animExplorerscroll = new ScrollBar(0, sizeY / 2, sizeX / 2, sizeY / 2, 1, 0,this);
 		animExplorer = new Container(0,0, sizeX / 4 - 10, sizeY / 4, animExplorerscroll);
 		animExplorerscroll.setContainer(animExplorer);
 		animExplorer.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
@@ -93,7 +93,7 @@ public class EditeurAnimation extends Container{
 		basicAnimationEditor = new BasicAnimationEditor(o, sizeX / 2, 0, sizeX / 2, sizeY, this);
 		this.addComponent(basicAnimationEditor);
 		
-		applyAnimation = new Button(Messages.getString("EditeurAnimation.1"), 0,sizeY / 4, sizeX / 4, sizeY / 16, this); //$NON-NLS-1$
+		applyAnimation = new Button(Messages.getString("EditeurAnimation.1"), 0,sizeY / 2 - sizeY / 16, sizeX / 2, sizeY / 16, this); //$NON-NLS-1$
 		applyAnimation.getAction().add(new Action(){
 			public void actionPerformed(FComponent e){
 				((Editeur)e.getRacine()).getEditeurObjet().getObjetCible().setAnimations(cible.getAnimations());
