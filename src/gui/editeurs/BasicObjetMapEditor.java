@@ -128,7 +128,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		applyZShadow = new CheckBox(Messages.getString("BasicObjetMapEditor.text.18"), checkCont); //$NON-NLS-1$
 		applyZShadow.setX(10);
 		applyZShadow.setY(2);
-		applyZShadow.setCheck(this.getObj().isUpdate());
+		applyZShadow.setCheck(this.getObj().isApplyZShadow());
 		checkCont.addComponent(applyZShadow);
 
 		this.addComponent(checkCont);
