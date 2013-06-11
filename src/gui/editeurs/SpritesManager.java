@@ -124,7 +124,7 @@ public class SpritesManager extends Container implements Observable{
 		buttons.addComponent(selectAll);
 		
 		//Deselect ALL 
-				Button deselectAll = new Button("Deelect ALL", buttons);
+				Button deselectAll = new Button("Deselect ALL", buttons);
 				deselectAll.setBounds(125, 110, 125, 50);
 				deselectAll.getAction().add(new Action(){
 					public void actionPerformed(FComponent c){
