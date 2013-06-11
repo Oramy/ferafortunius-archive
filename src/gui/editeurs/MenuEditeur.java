@@ -20,11 +20,12 @@ public class MenuEditeur extends Container{
 		editeur = null;
 		if(((Editeur)(getRacine())) instanceof Editeur)
 			editeur = ((Editeur)(getRacine())).getEditeurMap();
-		setBarre(new MenuEditeurBar(0,0, sizeX, sizeY / 8, this));
+		setBarre(new MenuEditeurBar(0,0, sizeX, sizeY / 2, this));
 		this.addComponent(getBarre());
 		newmap = new Button(Messages.getString("MenuEditeur.0"), this); //$NON-NLS-1$
-		newmap.setY(sizeY / 8);
+		newmap.setY(sizeY / 2);
 		newmap.setSizeX(sizeX / 8);
+		newmap.setSizeY(sizeY/2);
 		newmap.getAction().add(new Action(){
 			public void actionPerformed(FComponent e){
 				InternalFrame i = new InternalFrame(0, 0, 400, 200, Messages.getString("MenuEditeur.1"), editeur); //$NON-NLS-1$
@@ -34,8 +35,9 @@ public class MenuEditeur extends Container{
 		});
 		this.addComponent(newmap);
 		supprimer = new Button(Messages.getString("MenuEditeur.3"), this); //$NON-NLS-1$
-		supprimer.setY(sizeY / 8);
+		supprimer.setY(sizeY / 2);
 		supprimer.setX(sizeX/8);
+		supprimer.setSizeY(sizeY/2);
 		supprimer.setSizeX(sizeX / 8);
 		supprimer.getAction().add(new Action(){
 			public void actionPerformed(FComponent e){

@@ -31,8 +31,6 @@ public class MenuEditeurBar extends Container{
 			this.addComponent(labelNameSaveLoad);
 			labelNameSaveLoad.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
 			labelNameSaveLoad.setActualLayout(new GridLayout(2,1));
-			((GridLayout) labelNameSaveLoad.getActualLayout()).setHgap(30);
-			
 			nomMap = new Label(Messages.getString("MenuEditeurBar.2"), Messages.getString("MenuEditeurBar.3"), labelNameSaveLoad); //$NON-NLS-1$ //$NON-NLS-2$
 				
 				nomMap.getInput().setContenu(editeur.getCarte().getNom());
@@ -43,7 +41,7 @@ public class MenuEditeurBar extends Container{
 				labelNameSaveLoad.addComponent(saveLoad);
 				saveLoad.setActualLayout(new GridLayout(3,1));
 				saveLoad.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
-				((GridLayout) saveLoad.getActualLayout()).setHgap(10);
+				((GridLayout) saveLoad.getActualLayout()).setHgap(2);
 				
 				Button save = new Button(Messages.getString("MenuEditeurBar.5"), saveLoad); //$NON-NLS-1$
 				

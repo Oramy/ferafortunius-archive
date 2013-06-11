@@ -98,7 +98,7 @@ public class EditeurMap extends Container{
 	public void initChoixEnsemble(){
 		if(this.components.contains(choixEnsembles))
 			this.components.remove(choixEnsembles);
-		choixEnsembles = new Container(sizeX / 10 * 6, 0, sizeX / 10 * 2, sizeY / 10 * 8, this);
+		choixEnsembles = new Container(sizeX / 10 * 6, 0, sizeX / 10 * 2, sizeY / 20 * 18, this);
 		this.addComponent(choixEnsembles);
 		scrollbar = new ScrollBar(0,0, choixEnsembles.getSizeX(), choixEnsembles.getSizeY() - 30, 0, 0, choixEnsembles);
 		
@@ -163,7 +163,7 @@ public class EditeurMap extends Container{
 	public void initChoixObj(){
 		if(this.components.contains(choixObjets))
 			this.components.remove(choixObjets);
-		choixObjets = new Container(sizeX / 10 * 8, 0, sizeX / 10 * 2, sizeY / 10 * 8, this);
+		choixObjets = new Container(sizeX / 10 * 8, 0, sizeX / 10 * 2, sizeY / 20 * 18, this);
 		this.addComponent(choixObjets);
 		scrollbar = new ScrollBar(0,0, choixObjets.getSizeX(), choixObjets.getSizeY() - 30, 0, 0, choixObjets);
 		
@@ -393,7 +393,7 @@ public class EditeurMap extends Container{
 		setEditeurMode(EditeurMode.Placer);
 	}
 	public void initPanneauEdit(){
-		setPanneau(new PanneauEditeur(this, getCarte(), editChoice, 0,0, sizeX / 10 * 6, sizeY / 10 * 8, this));
+		setPanneau(new PanneauEditeur(this, getCarte(), editChoice, 0,0, sizeX / 10 * 6, sizeY / 20 * 18, this));
 		setCam(new Camera(0, 0, 1f));
 		getPanneau().setActualCam(getCam());
 		this.addComponent(getPanneau());
@@ -402,7 +402,7 @@ public class EditeurMap extends Container{
 		objetMapEditorFrame = new InternalFrame(50, 50, 500, 500, Messages.getString("EditeurMap.19"), this); //$NON-NLS-1$
 		objetMapEditorFrame.getContainer().addComponent(new BasicObjetMapEditor(new Terre(0,0,0,0,0,0), 0,0, 500,500, objetMapEditorFrame.getContainer()));
 		
-		menu = new MenuEditeur(0, sizeY / 10 * 8, sizeX, sizeY / 10 * 2, this);
+		menu = new MenuEditeur(0, sizeY / 20 * 18, sizeX, sizeY / 20 * 2, this);
 		this.addComponent(menu);	
 	}
 	public void init(GameContainer gc){
