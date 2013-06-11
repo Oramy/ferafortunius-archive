@@ -31,10 +31,6 @@ public class PanneauApercuAnimation extends PanneauApercu{
 		moveImage = false;
 		follow = true;
 		translate = true;
-		editChoice.setPosition(0,0,0, 1000, 1000, 100);
-		if(follow)
-			this.actualCam.moveToObject(2300, 2300,100, 100000000);
-
 		this.carte.getChunk(0, 0, 0).setModeActuel(Chunk.GOD_MOD);
 
 	}
@@ -83,6 +79,12 @@ public class PanneauApercuAnimation extends PanneauApercu{
 		if(follow)
 			g.drawString("Follow", 0,0);
 	}
-
+	@Override
+	public void setEditChoice(ObjetMap editChoice){
+		super.setEditChoice(editChoice);
+		editChoice.setPosition(0,0,0, 1000, 1000, 100);
+		if(follow)
+			this.actualCam.moveToObject(2300, 2300,100, 100000000);
+	}
 
 }
