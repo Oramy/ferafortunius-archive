@@ -146,8 +146,8 @@ public class Button extends FComponent{
 		
 		if(defineSize){
 			//Vérification de la taille par rapport au texte
-			if(this.getBounds().width - 20 < g.getFont().getWidth(getName())){
-				this.setBounds(this.getBounds().x, this.getBounds().y, (int) g.getFont().getWidth(getName()) + 20, this.getBounds().height);
+			if(this.getBounds().width - 40 < g.getFont().getWidth(getName())){
+				this.setBounds(this.getBounds().x, this.getBounds().y, (int) g.getFont().getWidth(getName()) + 40, this.getBounds().height);
 			}
 			if(this.getBounds().height < g.getFont().getLineHeight()){
 				this.setBounds(this.getBounds().x, this.getBounds().y, this.getBounds().width, (g.getFont().getLineHeight()));
