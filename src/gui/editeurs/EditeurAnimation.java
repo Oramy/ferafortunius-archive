@@ -12,6 +12,7 @@ import org.newdawn.slick.GameContainer;
 
 import Level.Camera;
 import Level.ChunkMap;
+import ObjetMap.Animation;
 import ObjetMap.ObjetMap;
 
 
@@ -32,6 +33,19 @@ public class EditeurAnimation extends Container{
 	private Button applyAnimation;
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
+		updateButtons();
+		updateButtonsName();
+	}
+	public void updateButtonsName(){
+		for(Animation anim : cible.getAnimations()){
+			Button button = ((Button)animExplorer.getComponents().get(cible.getAnimations().indexOf(anim)));
+			if(!button.getName().equals(anim.getNom())){
+				button.setName(anim.getNom());
+				button.setSizeX(anim.getNom().length() * 9 + 40);
+			}
+		}
+	}
+	public void updateButtons(){
 		if(cible.getAnimations() != null){
 			if(cible.getAnimations().size() > animExplorer.getComponents().size()){
 				

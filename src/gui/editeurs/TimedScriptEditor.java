@@ -27,6 +27,9 @@ public class TimedScriptEditor extends ContainerWithBords{
 	private Label name;
 	private ProgrammTextArea script;
 	private Button add, remove;
+	private Button monter;
+	private Button descendre;
+	private Button newScript;
 	public TimedScriptEditor(Animation anim, int x, int y, int sizeX, int sizeY,
 			Container parent) {
 		super(x, y, sizeX, sizeY, parent);
@@ -67,6 +70,44 @@ public class TimedScriptEditor extends ContainerWithBords{
 			}
 		});
 		this.addComponent(remove);
+		
+		newScript = new Button(Messages.getString("TimedScriptEditor.9"), this); //$NON-NLS-1$
+		newScript.setBounds(getSizeX()/2, 80, getSizeX() / 4, 40);
+		newScript.getAction().add(new Action(){
+			public void actionPerformed(FComponent e){
+				tsCible = new TimedScript(0, 0, "","");
+				setTsCible(anim, tsCible);
+			}
+		});
+		this.addComponent(newScript);
+		
+		//Monter
+		monter = new Button(Messages.getString("BasicAnimationEditor.11"),  this); //$NON-NLS-1$
+		monter.setBounds(getSizeX() / 4*3, 120, getSizeX() / 4, 40);
+		monter.getAction().add(new Action(){
+			public void actionPerformed(FComponent e){
+				int index = anim.getScripts().indexOf(tsCible);
+				if(index > 0){
+					anim.getScripts().remove(tsCible);
+					anim.getScripts().add(index - 1, tsCible);
+				}
+			}
+		});
+		this.addComponent(monter);
+		
+		//Descendre
+		descendre = new Button(Messages.getString("BasicAnimationEditor.12"),  this); //$NON-NLS-1$
+		descendre.setBounds(getSizeX() / 2, 120, getSizeX() / 4, 40);
+		descendre.getAction().add(new Action(){
+			public void actionPerformed(FComponent e){
+				int index = anim.getScripts().indexOf(tsCible);
+				if(index < anim.getScripts().size()){
+					anim.getScripts().remove(tsCible);
+					anim.getScripts().add(index + 1, tsCible);
+				}
+			}
+		});
+		this.addComponent(descendre);
 		
 		
 	}
