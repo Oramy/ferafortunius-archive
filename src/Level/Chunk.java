@@ -672,6 +672,7 @@ public class Chunk implements Serializable, Cloneable {
 			}
 			megaCompressScript += compressScript;
 			megaCompressScript += "\n";
+			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
 		}
 		// Execution du script entr�e
 		try {

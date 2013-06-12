@@ -571,16 +571,29 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		}
 		img.setAlpha(opacity);
 		
-		Color maskColor = o.getMaskColor();
+		//Chargement du masque
+		Color maskColor = o.getMaskColor().scaleCopy(1f);
+		//Application de l'opacité de l'objet
+		if(maskColor.a > opacity)
+			maskColor.a = opacity;
 		
-		img.setCenterOfRotation(c.getRotationCenterX() * actualCam.getZoom(),
-				c.getRotationCenterY() * actualCam.getZoom());
 		
+		//Changement de la taille
 		img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
 				(int)(c.getImageSizeInGameY() * actualCam.getZoom()));
+		
+		//Changement du centre de rotation
+		img.setCenterOfRotation(c.getRotationCenterX() * actualCam.getZoom(),
+				c.getRotationCenterY() * actualCam.getZoom());
+				
+		//Rotation
 		img.rotate(c.getRotation());
 		
-		img.draw();
+		//Dessin
+		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
+				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(255,255,255, opacity));
+		
+		//avec le maskColor
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
 		
@@ -922,12 +935,18 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				else{
 					bindings.put("jeu", null);
 				}
-				
+				//Suppression des caractères louches.
+				finalScript = finalScript.replaceAll(Character.toString((char) 22), "");
 				// Execution du script entrï¿½e
 				Jeu.moteurScript.eval(finalScript, bindings);
 				
 			} catch (ScriptException e) {
 				e.printStackTrace();
+				for(int i = 0; i < finalScript.length(); i++){
+					if(!(Character.isDigit(finalScript.charAt(i)) || Character.isLetter(finalScript.charAt(i))))
+					System.out.print((int)finalScript.charAt(i)+"("+Character.valueOf(finalScript.charAt(i))+")");
+					
+				}
 			}
 		}
 
