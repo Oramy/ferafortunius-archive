@@ -451,8 +451,10 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 	 */
 	public void setImgToAdd(ObjetImage imgToAdd) {
 		this.imgToAdd = imgToAdd;
-		
 		//Actualisation des données de l'éditeur.
+		getImgPath().getInput().setContenu(imgToAdd.getImage());
+		
+		
 		sizeInGameX.getInput().setContenu(imgToAdd.getImageSizeInGameX() + ""); //$NON-NLS-1$
 		sizeInGameY.getInput().setContenu(imgToAdd.getImageSizeInGameY() + ""); //$NON-NLS-1$
 		
