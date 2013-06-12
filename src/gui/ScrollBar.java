@@ -131,20 +131,19 @@ public class ScrollBar extends Container{
 		{
 			this.up();
 		}
-		
-		if(gc.getInput().getMouseX() >= this.getXOnScreen()  + sizeX - beginSizeX
+		else if(gc.getInput().getMouseX() >= this.getXOnScreen()  + sizeX - beginSizeX
 				&& gc.getInput().getMouseX() <= this.getXOnScreen() + sizeX
 				&& gc.getInput().getMouseY() >= this.getYOnScreen() + beginSizeY
 				&& gc.getInput().getMouseY() <= this.getYOnScreen() + sizeY - beginSizeY && gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
 		{
-			if(gc.getInput().getMouseY() - y > lastCursorPos + lastCursorSize / 2){
-				this.down((gc.getInput().getMouseY() - y) - (lastCursorPos + lastCursorSize / 2));
+			if(gc.getInput().getMouseY() - this.getYOnScreen() > lastCursorPos + lastCursorSize / 2){
+				this.down((int) ((gc.getInput().getMouseY() - this.getYOnScreen()) - (lastCursorPos + lastCursorSize / 2)));
 			}
-			if(gc.getInput().getMouseY() - y < lastCursorPos  + lastCursorSize / 2 ){
-				this.up(((lastCursorPos + lastCursorSize / 2) - (gc.getInput().getMouseY() - y)));
+			if(gc.getInput().getMouseY() - this.getYOnScreen() < lastCursorPos  + lastCursorSize / 2 ){
+				this.up((int) ((lastCursorPos + lastCursorSize / 2) - (gc.getInput().getMouseY() - this.getYOnScreen())));
 			}
 		}
-		if(gc.getInput().getMouseX() >= this.getXOnScreen()  - beginSizeX
+		else if(gc.getInput().getMouseX() >= this.getXOnScreen()  - beginSizeX
 				&& gc.getInput().getMouseX() <= this.getXOnScreen() + sizeX
 				&& gc.getInput().getMouseY() >= this.getYOnScreen() + (sizeY - beginSizeY * 2) 
 				&& gc.getInput().getMouseY() <=this.getYOnScreen()  + (sizeY - beginSizeY) && gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
