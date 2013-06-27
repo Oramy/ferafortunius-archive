@@ -531,8 +531,8 @@ public class Jeu extends Container implements Cloneable {
 		// Gravité
 		if (player != null) {
 			if (!player.isFly()) {
-				//getCarte().deplacement(player, 0, 0, -player.getSizeZ() / 100,
-				//		this);
+				getCarte().deplacement(player, 0, 0, -player.getSizeZ() / 100,
+						this);
 			}
 		}
 		
@@ -686,6 +686,14 @@ public class Jeu extends Container implements Cloneable {
 					|| gc.getInput().isControllerDown(0)) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.S);
 				player.walk(this);
+			} 
+			if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
+				player.setDirection(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+				player.launchAnimation("attack"+player.getDirection().name());
+			}
+			if (gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
+				player.walkAnim(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+				player.walk(this);
 			}
 			if(player.getAllAnimationLaunchedCount() == 0)
 			{
@@ -695,6 +703,26 @@ public class Jeu extends Container implements Cloneable {
 		updateShortcuts(gc);
 	}
 
+	private Direction getMouseDirection(int xBase, int yBase){
+		double xMiddle = xBase - this.getWidth() / 2;
+		double yMiddle = yBase - this.getHeight() / 2;
+		
+		double distancePoint = Math.sqrt(Math.pow(xMiddle, 2) + Math.pow(yMiddle, 2));
+		
+		
+		double angle = Math.acos(xMiddle / distancePoint) * 180 / Math.PI;
+		
+		if(yMiddle > 0)
+			angle = 360 - angle;
+		
+		System.out.println(angle + " " + xMiddle);
+		
+		int dir = ((int) ((angle + 22.5f) / 45) + 2) % 8;
+		if(dir != 0  && dir != 4){
+			dir = (8 - dir) % 8;
+		}
+		return Direction.values()[dir];
+	}
 	private void updateShortcuts(GameContainer gc) {
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_I) && !keyI) {
