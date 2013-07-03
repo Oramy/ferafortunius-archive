@@ -7,6 +7,7 @@ import gui.PImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -18,8 +19,10 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 
 import Level.Camera;
+import Level.Chunk;
 import Level.ChunkMap;
 import Level.Iterator;
+import Level.LayeredChunkMap;
 import ObjetMap.CollisionBlock;
 import ObjetMap.Entity;
 import ObjetMap.LosangeBlock;
@@ -175,7 +178,7 @@ public class PanneauJeuAmeliore extends Container {
 		
 	}
 	public void drawCollisionBlock(Graphics g, CollisionBlock b){
-		g.setColor(Color.green);
+		g.setColor(new Color(0, 255, 0, 130));
 		//Formule utilisée :  pointX = -sqrt((y+sy)^2)+sqrt((x+sx)^2)
 		float point1X = (float) (-(Math.sqrt(Math.pow(b.getPosY() + b.getSizeY(), 2)))* actualCam.getZoom() 
 				+ (b.getPosX()) * actualCam.getZoom());
@@ -210,19 +213,18 @@ public class PanneauJeuAmeliore extends Container {
 		p3.addPoint(point3X, point3Y);
 		p3.addPoint(point4X, point4Y);
 		g.draw(p3);
-		g.setColor(Color.blue);
+		g.setColor(new Color(0, 0, 255, 130));
 		g.translate(0, -b.getSizeZ() * actualCam.getZoom());
 		g.draw(p3);
 		g.translate(0, b.getSizeZ() * actualCam.getZoom());
 		
-		g.setColor(Color.red);
+		g.setColor(new Color(255, 0, 0, 130));
 		g.drawLine(point1X, point1Y, point1X, point1Y -b.getSizeZ() * actualCam.getZoom());
 		g.drawLine(point2X, point2Y, point2X, point2Y -b.getSizeZ() * actualCam.getZoom());
 		g.drawLine(point3X, point3Y, point3X, point3Y -b.getSizeZ() * actualCam.getZoom());
 	}
 	public void drawLosangeBlock(Graphics g,LosangeBlock b){
-		g.setColor(Color.green);
-		g.setColor(Color.green);
+		g.setColor(new Color(0, 255, 0, 130));
 		//Formule utilisée :  pointX = -sqrt((y+sy)^2)+sqrt((x+sx)^2)
 		float point1X = (float) (-(Math.sqrt(Math.pow(b.getPosY() + b.getSizeY(), 2)))* actualCam.getZoom() 
 				+ (b.getPosX()) * actualCam.getZoom());
@@ -271,12 +273,12 @@ public class PanneauJeuAmeliore extends Container {
 		p3.addPoint(losangePoint3X, losangePoint3Y);
 		p3.addPoint(losangePoint4X, losangePoint4Y);
 		g.draw(p3);
-		g.setColor(Color.blue);
+		g.setColor(new Color(0, 0, 255, 130));
 		g.translate(0, -b.getSizeZ() * actualCam.getZoom());
 		g.draw(p3);
 		g.translate(0, b.getSizeZ() * actualCam.getZoom());
 		
-		g.setColor(Color.red);
+		g.setColor(new Color(255, 0, 0, 130));
 		g.drawLine(losangePoint1X, losangePoint1Y, losangePoint1X, losangePoint1Y -b.getSizeZ() * actualCam.getZoom());
 		g.drawLine(losangePoint2X, losangePoint2Y, losangePoint2X, losangePoint2Y -b.getSizeZ() * actualCam.getZoom());
 		g.drawLine(losangePoint3X, losangePoint3Y, losangePoint3X, losangePoint3Y -b.getSizeZ() * actualCam.getZoom());
@@ -288,6 +290,79 @@ public class PanneauJeuAmeliore extends Container {
 				drawLosangeBlock(g,(LosangeBlock) b);
 			else
 				drawCollisionBlock(g,b);
+		}
+	}
+	public void drawMapLines(Graphics g){
+		g.setColor(new Color(255,255,255, 90));
+		Chunk chunk = carte.getChunk(0, 0, 0);
+		
+		if(!(chunk instanceof LayeredChunkMap)){
+			for(int i = 0; i < carte.getChunksSize() / chunk.getXSortSize(); i++){
+				for(int j = 0; j < carte.getChunksSize() / chunk.getYSortSize(); j++){
+					for(int k = 0; k < carte.getChunksSize() / chunk.getZSortSize(); k++){
+						float point1X = (float) (-(j * chunk.getYSortSize() + chunk.getYSortSize())* actualCam.getZoom() 
+								+ (i * chunk.getXSortSize()) * actualCam.getZoom());
+						
+						float point1Y = (float) (-(Math.sqrt(Math.pow(j * chunk.getYSortSize() + chunk.getYSortSize(), 2))) * actualCam.getZoom() / 2 
+								- (i * chunk.getXSortSize()) * actualCam.getZoom() / 2)
+								-(float)k * chunk.getZSortSize() * actualCam.getZoom();
+						
+						float point2X = (float) (+(i*chunk.getXSortSize()) * actualCam.getZoom()
+								- (j*chunk.getYSortSize())* actualCam.getZoom());
+						
+						float point2Y = (float) (-(i*chunk.getXSortSize()) * actualCam.getZoom() / 2 
+								- (j*chunk.getYSortSize()) * actualCam.getZoom() / 2)
+								-(float)k*chunk.getZSortSize() * actualCam.getZoom(); 
+						float point3X = (float) (+(Math.sqrt(Math.pow(i*chunk.getXSortSize() + chunk.getXSortSize(), 2))) * actualCam.getZoom() 
+								- (j*chunk.getYSortSize())* actualCam.getZoom());
+						
+						float point3Y = (float) (-(Math.sqrt(Math.pow(i*chunk.getXSortSize() +  chunk.getXSortSize(), 2))) * actualCam.getZoom() / 2 
+								- (j*chunk.getYSortSize())* actualCam.getZoom() / 2)
+								-(float)k*chunk.getZSortSize() * actualCam.getZoom();
+						
+						float point4X = (float) (+(Math.sqrt(Math.pow(i*chunk.getXSortSize() +chunk.getXSortSize(), 2))) * actualCam.getZoom()
+								- (Math.sqrt(Math.pow(j*chunk.getYSortSize() +chunk.getYSortSize(), 2)))* actualCam.getZoom());
+						
+						float point4Y = (float) (-(Math.sqrt(Math.pow(i*chunk.getXSortSize() +chunk.getXSortSize(), 2))) * actualCam.getZoom() / 2
+								- (Math.sqrt(Math.pow(j*chunk.getYSortSize() +chunk.getYSortSize(), 2))) * actualCam.getZoom() / 2)
+								-(float)k*chunk.getZSortSize() * actualCam.getZoom();
+						
+						Polygon p3 = new Polygon();
+						p3.addPoint(point1X, point1Y);
+						p3.addPoint(point2X, point2Y);
+						p3.addPoint(point3X, point3Y);
+						p3.addPoint(point4X, point4Y);
+						g.draw(p3);
+						g.drawLine(point1X, point1Y, point1X, point1Y  -chunk.getZSortSize() * actualCam.getZoom());
+						g.drawLine(point2X, point2Y, point2X, point2Y  -chunk.getZSortSize() * actualCam.getZoom());
+						g.drawLine(point3X, point3Y, point3X, point3Y  -chunk.getZSortSize() * actualCam.getZoom());
+						}
+				}
+			}
+		}else{
+			LayeredChunkMap layeredChunk = (LayeredChunkMap)chunk;
+			//Dessinons les layers.
+			Random r = new Random();
+			g.setColor(new Color(0f, 0f, 1f));
+			g.drawLine(0, 0, 0, -layeredChunk.getLayer(0) * actualCam.getZoom());
+			
+			for(int i = 0;  i < layeredChunk.getLayersCount() - 1; i++){
+				if(i % 3 == 0)
+					g.setColor(new Color(1f, 0f, 0f));
+				else if(i % 3== 1)
+					g.setColor(new Color(0f, 1f, 0f));
+				else if(i % 3== 2)
+					g.setColor(new Color(0f, 0f, 1f));
+				g.drawLine(0, -layeredChunk.getLayer(i) * actualCam.getZoom(), 0, -layeredChunk.getLayer(i+1) * actualCam.getZoom());
+			}
+			if((layeredChunk.getLayersCount()-1) % 3 == 0)
+				g.setColor(new Color(1f, 0f, 0f));
+			else if((layeredChunk.getLayersCount() - 1)% 3== 1)
+				g.setColor(new Color(0f, 1f, 0f));
+			else if((layeredChunk.getLayersCount() - 1) % 3== 2)
+				g.setColor(new Color(0f, 0f, 1f));
+			
+			g.drawLine(0, -layeredChunk.getLayer(layeredChunk.getLayersCount()-1) * actualCam.getZoom(),0, -layeredChunk.getSizeZ() * actualCam.getZoom());
 		}
 	}
 	public void translateToObject(Graphics g, ObjetMap o){
@@ -481,6 +556,7 @@ public class PanneauJeuAmeliore extends Container {
 			((Jeu)(this.parent)).getPlayer().setOpacity(1f);
 			
 		}*/
+		//this.drawMapLines(g);
 		g.translate(xcam, ycam);
 		g.translate(-this.getWidth()/2, -this.getHeight()/2);
 		g.translate(-getX(),-getY());
@@ -491,6 +567,7 @@ public class PanneauJeuAmeliore extends Container {
 		//Si on veut afficher les informations de vitesse
 		if(GameMain.options.isGameSpeedPrint())
 			System.out.println("Affichage Map : " + (System.currentTimeMillis() - temps) + "ms");
+		
 		//System.out.println("Temps d'affichage : " + (System.currentTimeMillis() - tempsPrec) + "ms");
 	}
 	public float getZoom(){

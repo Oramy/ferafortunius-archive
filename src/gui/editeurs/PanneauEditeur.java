@@ -41,6 +41,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 		if(getEditChoice() != null){
 			g.translate(this.getWidth()/2, this.getHeight()/2);
 				g.translate(-actualCam.getX() * actualCam.getZoom(), -actualCam.getY() * actualCam.getZoom());
+					this.drawMapLines(g);
 					g.translate((float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize())) + (float)(getEditChoice().getDecalageX())
 							+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
 			
@@ -170,9 +171,6 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			}
 			if(gc.getInput().isKeyPressed(Input.KEY_F)){
 				carte.deplacement(getEditChoice(), 0, 0, -1, null);
-			}
-			if(gc.getInput().isKeyPressed(Input.KEY_F2)){
-				editeur.generateSmoothTerrain(10);
 			}
 			if(gc.getInput().isKeyPressed(Input.KEY_F3)){
 				//for(int i = 0; i < editeur.getCarte().getChunk(0,0,0).getContenu().size(); i++)
