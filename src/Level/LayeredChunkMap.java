@@ -36,7 +36,6 @@ public class LayeredChunkMap extends Chunk {
 		addLayer(23);
 		addLayer(400);
 		addLayer(1020);
-		System.out.println(layers.get(0));
 	}
 
 	/**
@@ -108,6 +107,8 @@ public class LayeredChunkMap extends Chunk {
 			sortDelay = 10000;
 			if(lastUpdateCount != this.getContenu().size())
 				this.updateLayersObjectCount();
+			for(int i = 0; i < contenu.size(); i++)
+				sortByLayers(contenu.get(i));
 			drawing = false;
 			hasXYtoSort = false;
 			

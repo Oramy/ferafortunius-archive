@@ -102,8 +102,10 @@ public class MenuEditeurBar extends Container{
 		editeur.getCarte().getChunks()[editeur.getEditChoice().getChunkX()][editeur.getEditChoice().getChunkY()][editeur.getEditChoice().getChunkZ()].addContenu(editeur.getEditChoice());
 	}
 	protected void saveAsEnsemble() {
+		
 		editeur.getCarte().getChunks()[editeur.getEditChoice().getChunkX()][editeur.getEditChoice().getChunkY()][editeur.getEditChoice().getChunkZ()].remove(editeur.getEditChoice());
 		editeur.getCarte().setNom(nomMap.getInput().getContenu());
+		
 		EnsembleLoader.saveEnsemble(Ensemble.convertMap(editeur.getCarte()), "data/Ensembles/" + getPathMap().getInput().getContenu() + ".esb"); //$NON-NLS-1$ //$NON-NLS-2$
 		editeur.getCarte().getChunks()[editeur.getEditChoice().getChunkX()][editeur.getEditChoice().getChunkY()][editeur.getEditChoice().getChunkZ()].addContenu(editeur.getEditChoice());
 	}
