@@ -1,5 +1,7 @@
 package gui.editeurs;
 
+import org.newdawn.slick.GameContainer;
+
 import gui.Action;
 import gui.Button;
 import gui.Container;
@@ -60,6 +62,20 @@ public class MenuEditeur extends Container{
 		});
 		this.addComponent(supprimer);
 		
+	}
+	@Override
+	public void update(GameContainer gc, int x, int y){
+		if(editeur.getEditeurMode() == EditeurMode.Placer){
+			supprimer.setName(Messages.getString("MenuEditeur.3")); //$NON-NLS-1$
+		}
+		else if(editeur.getEditeurMode() == EditeurMode.Ensemble)
+		{
+			supprimer.setName(Messages.getString("MenuEditeur.5")); //$NON-NLS-1$
+		}
+		else if(editeur.getEditeurMode() == EditeurMode.Supprimer)
+		{
+			supprimer.setName(Messages.getString("MenuEditeur.4")); //$NON-NLS-1$
+		}
 	}
 	/**
 	 * @return the barre
