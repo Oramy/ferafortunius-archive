@@ -297,48 +297,7 @@ public class PanneauJeuAmeliore extends Container {
 		Chunk chunk = carte.getChunk(0, 0, 0);
 		
 		if(!(chunk instanceof LayeredChunkMap)){
-			for(int i = 0; i < carte.getChunksSize() / chunk.getXSortSize(); i++){
-				for(int j = 0; j < carte.getChunksSize() / chunk.getYSortSize(); j++){
-					for(int k = 0; k < carte.getChunksSize() / chunk.getZSortSize(); k++){
-						float point1X = (float) (-(j * chunk.getYSortSize() + chunk.getYSortSize())* actualCam.getZoom() 
-								+ (i * chunk.getXSortSize()) * actualCam.getZoom());
-						
-						float point1Y = (float) (-(Math.sqrt(Math.pow(j * chunk.getYSortSize() + chunk.getYSortSize(), 2))) * actualCam.getZoom() / 2 
-								- (i * chunk.getXSortSize()) * actualCam.getZoom() / 2)
-								-(float)k * chunk.getZSortSize() * actualCam.getZoom();
-						
-						float point2X = (float) (+(i*chunk.getXSortSize()) * actualCam.getZoom()
-								- (j*chunk.getYSortSize())* actualCam.getZoom());
-						
-						float point2Y = (float) (-(i*chunk.getXSortSize()) * actualCam.getZoom() / 2 
-								- (j*chunk.getYSortSize()) * actualCam.getZoom() / 2)
-								-(float)k*chunk.getZSortSize() * actualCam.getZoom(); 
-						float point3X = (float) (+(Math.sqrt(Math.pow(i*chunk.getXSortSize() + chunk.getXSortSize(), 2))) * actualCam.getZoom() 
-								- (j*chunk.getYSortSize())* actualCam.getZoom());
-						
-						float point3Y = (float) (-(Math.sqrt(Math.pow(i*chunk.getXSortSize() +  chunk.getXSortSize(), 2))) * actualCam.getZoom() / 2 
-								- (j*chunk.getYSortSize())* actualCam.getZoom() / 2)
-								-(float)k*chunk.getZSortSize() * actualCam.getZoom();
-						
-						float point4X = (float) (+(Math.sqrt(Math.pow(i*chunk.getXSortSize() +chunk.getXSortSize(), 2))) * actualCam.getZoom()
-								- (Math.sqrt(Math.pow(j*chunk.getYSortSize() +chunk.getYSortSize(), 2)))* actualCam.getZoom());
-						
-						float point4Y = (float) (-(Math.sqrt(Math.pow(i*chunk.getXSortSize() +chunk.getXSortSize(), 2))) * actualCam.getZoom() / 2
-								- (Math.sqrt(Math.pow(j*chunk.getYSortSize() +chunk.getYSortSize(), 2))) * actualCam.getZoom() / 2)
-								-(float)k*chunk.getZSortSize() * actualCam.getZoom();
-						
-						Polygon p3 = new Polygon();
-						p3.addPoint(point1X, point1Y);
-						p3.addPoint(point2X, point2Y);
-						p3.addPoint(point3X, point3Y);
-						p3.addPoint(point4X, point4Y);
-						g.draw(p3);
-						g.drawLine(point1X, point1Y, point1X, point1Y  -chunk.getZSortSize() * actualCam.getZoom());
-						g.drawLine(point2X, point2Y, point2X, point2Y  -chunk.getZSortSize() * actualCam.getZoom());
-						g.drawLine(point3X, point3Y, point3X, point3Y  -chunk.getZSortSize() * actualCam.getZoom());
-						}
-				}
-			}
+			//TODO Draw Map Lines for normal chunks
 		}else{
 			LayeredChunkMap layeredChunk = (LayeredChunkMap)chunk;
 			//Dessinons les layers.

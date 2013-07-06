@@ -29,18 +29,20 @@ public class Chunk implements Serializable, Cloneable {
 	public static final int VERIFY_MOD = 1;
 	public static final int ERASE_MOD = 2;
 	private int modeActuel = VERIFY_MOD;
+	
 	private int sizeX;
 	private int sizeY;
 	private int sizeZ;
-	private boolean hasXYtoSort = true;
+	
+	protected boolean hasXYtoSort = true;
 	private boolean hasZtoSort = true;
-	private boolean drawing = true;
+	protected boolean drawing = true;
+	
 	private ArrayList<ObjetMap> updatable;
-	private ArrayList<ObjetMap> contenu;
+	protected ArrayList<ObjetMap> contenu;
 	// Variables de performances
-	private transient long lastSort = 0;
-	private transient long sortDelay = 10000;
-
+	protected transient long lastSort = 0;
+	protected transient long sortDelay = 10000;
 
 	public Chunk() {
 		sizeX = 1;
@@ -479,7 +481,50 @@ public class Chunk implements Serializable, Cloneable {
 		contenu.remove(cle);
 		contenu.add(id + 1, cle);
 	}
-
+	
+	public synchronized void sortByOriginDistance(ObjetMap cle){
+		int id = -1;
+		for (int i = 0, c = contenu.size() - 1; i < c; i++) {
+			ObjetMap other = contenu.get(i);
+			if (!other.equals(cle)) {
+				// int devant = 0;
+				int distanceA = (int) (Math.pow(cle.getPosZ() + cle.getSizeZ(), 2) + Math.pow(cle.getPosY() + cle.getSizeY(), 2) + Math.pow(cle.getPosX() + cle.getSizeX(), 2));
+				int distanceB = (int) (Math.pow(other.getPosZ() + other.getSizeZ(), 2) + Math.pow(other.getPosY() + other.getSizeY(), 2) + Math.pow(other.getPosX() + other.getSizeX(), 2));
+				/*
+				 * int xA = cle.getPosX(), exA = xA + cle.getSizeX(); int xB =
+				 * other.getPosX(), exB = xB + other.getSizeX();
+				 * 
+				 * int yA = cle.getPosY(), eyA = yA + cle.getSizeY(); int yB =
+				 * other.getPosY(), eyB = yB + other.getSizeY();
+				 */
+				if (distanceA <= distanceB)
+					id = i;
+			}
+		}
+		contenu.remove(cle);
+		contenu.add(id + 1, cle);
+	}
+	public synchronized void sortByCaseOriginDistance(int x, int y, int z, ObjetMap cle){
+		int id = -1;
+		for (int i = 0, c = contenu.size() - 1; i < c; i++) {
+			ObjetMap other = contenu.get(i);
+			if (!other.equals(cle)) {
+				// int devant = 0;
+				double zA = cle.getPosZ() / z;
+				double zB = other.getPosZ() / z;
+				
+				int distanceA = (int) ( + Math.pow(cle.getPosY()  + cle.getSizeY(), 2) + Math.pow(cle.getPosX()  + cle.getSizeX(), 2));
+				int distanceB = (int) ( + Math.pow(other.getPosY()  + other.getSizeY(), 2) + Math.pow(other.getPosX()  + other.getSizeX(), 2));
+				
+				if (zA > zB)
+					id = i;
+				else if (distanceA <= distanceB && zA == zB)
+					id = i;
+			}
+		}
+		contenu.remove(cle);
+		contenu.add(id + 1, cle);
+	}
 	public synchronized void sort(ObjetMap cle, int depart) {
 		int id = -1;
 		for (int i = depart, c = contenu.size() - 1; i < c; i++) {
@@ -522,12 +567,13 @@ public class Chunk implements Serializable, Cloneable {
 			long tempsPrec  = System.currentTimeMillis();
 			lastSort = System.currentTimeMillis();
 			sortDelay = 10000;
-			for(int i = 0; i < contenu.size(); i++){
-				if(contenu.get(i).isDrawing()){
-					sort(contenu.get(i));
-				}
-			}
-			trierXYZ();
+			/*for(int i = 0; i < contenu.size(); i++){
+				sortByOriginDistance(contenu.get(i));
+			}*/
+			//trierXYZ();
+			trierZ();
+			trierX();
+			trierY();
 			drawing = false;
 			hasXYtoSort = false;
 			

@@ -3,6 +3,7 @@ package Level;
 import gui.jeu.Jeu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
@@ -30,6 +31,24 @@ public class ChunkMap implements Serializable, Cloneable{
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
 					chunks[i][j][k] = new Chunk(chunksSize, chunksSize, chunksSize, null);
+				}
+			}
+		}
+	}
+	public ChunkMap(int chunksSize, int mapSizeX, int mapSizeY, int mapSizeZ, boolean layered) {
+		chunks = new Chunk[mapSizeX][mapSizeY][mapSizeZ];
+		this.setChunksSize(chunksSize);
+		this.mapSizeX = mapSizeX;
+		this.mapSizeY = mapSizeY;
+		this.mapSizeZ = mapSizeZ;
+		for(int i = 0; i < mapSizeX; i++){
+			for(int j = 0; j < mapSizeY; j++){
+				for(int k = 0; k < mapSizeZ; k++){
+					if(layered)
+						chunks[i][j][k] = new LayeredChunkMap(chunksSize, chunksSize, chunksSize, new ArrayList<ObjetMap>());
+					else{
+						chunks[i][j][k] = new Chunk(chunksSize, chunksSize, chunksSize, new ArrayList<ObjetMap>());
+					}
 				}
 			}
 		}
