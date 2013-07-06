@@ -567,13 +567,10 @@ public class Chunk implements Serializable, Cloneable {
 			long tempsPrec  = System.currentTimeMillis();
 			lastSort = System.currentTimeMillis();
 			sortDelay = 10000;
-			/*for(int i = 0; i < contenu.size(); i++){
+			for(int i = 0; i < contenu.size(); i++){
 				sortByOriginDistance(contenu.get(i));
-			}*/
-			//trierXYZ();
-			trierZ();
-			trierX();
-			trierY();
+			}
+			trierXYZ();
 			drawing = false;
 			hasXYtoSort = false;
 			
