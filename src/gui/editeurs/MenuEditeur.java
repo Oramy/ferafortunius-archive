@@ -65,6 +65,7 @@ public class MenuEditeur extends Container{
 	}
 	@Override
 	public void update(GameContainer gc, int x, int y){
+		super.update(gc, x, y);
 		if(editeur.getEditeurMode() == EditeurMode.Placer){
 			supprimer.setName(Messages.getString("MenuEditeur.3")); //$NON-NLS-1$
 		}
