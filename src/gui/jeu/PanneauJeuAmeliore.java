@@ -43,7 +43,7 @@ public class PanneauJeuAmeliore extends Container {
 	private boolean surlign;
 	protected ObjetMap surlignObject;
 	protected Animation a;
-	protected boolean debugMode;
+	protected int debugMode;
 	public static void loadFolder(String path){
 		File[] files = null;
 		File directory = new File(path);
@@ -66,13 +66,13 @@ public class PanneauJeuAmeliore extends Container {
 		actualCam = new Camera(0,0, 2f);
 		this.setBounds(x,y, sizeX, sizeY);
 		a = new Animation();
-		debugMode = false;
+		debugMode = 0;
 	}
 	public void update(GameContainer gc, int x, int y ){
 		super.update(gc, x, y);
 		actualCam.update();
 		if(gc.getInput().isKeyPressed(Input.KEY_F1))
-			debugMode = !debugMode;
+			debugMode = (debugMode + 1)%3;
 	}
 	public static PImage loadImage(ObjetImage objetImg, ObjetMap o){
 		PImage imgToDraw = null;
@@ -496,7 +496,24 @@ public class PanneauJeuAmeliore extends Container {
 							//Affichage du contenu
 							do{
 								o = (ObjetMap) it.getNextElement();
-								drawObject(g,o, debugMode, true);
+								switch(debugMode){
+									case 0:
+										drawObject(g,o,false, true);
+									break;
+									case 1:
+										drawObject(g,o, true, true);
+									break;
+									case 2:
+										if(o != null){
+											translateToObject(g, o);
+											
+											drawLines(g, o);
+											
+											untranslateToObject(g, o);
+											
+										}
+									break;
+								}
 								// Si ce n'est pas fini 
 								
 							}while(o != null);

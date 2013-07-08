@@ -62,7 +62,11 @@ public class PanneauApercuAnimation extends PanneauApercu{
 			this.translateToObject(g, editChoice);
 			
 			//Affichages
-			this.drawObject(g, editChoice, debugMode, false);
+			if(debugMode != 0)
+				this.drawObject(g, editChoice, true, false);
+			else
+				this.drawObject(g, editChoice, true, false);
+			
 			
 			//Untranstlations
 			this.untranslateToObject(g, editChoice);
