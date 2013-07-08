@@ -175,7 +175,6 @@ public class WCollisionList extends Widget{
 		}
 		if(losange.isCheck()){
 			selectedCollision = new LosangeBlock(0,0,0,0,0,0);
-			((LosangeBlock)selectedCollision).setRapport(rapport.getValue());
 		}
 		else if(!losange.isCheck()){
 			selectedCollision = new CollisionBlock(0,0,0,0,0,0);
