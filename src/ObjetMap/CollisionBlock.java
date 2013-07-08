@@ -1,6 +1,9 @@
 package ObjetMap;
 
 import java.io.Serializable;
+
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 //This is the Rectangle collision block
 public class CollisionBlock  implements Serializable, Cloneable{
 	/**
@@ -19,9 +22,24 @@ public class CollisionBlock  implements Serializable, Cloneable{
 		this.sizeZ = sizeZ;
 		setMirror(false);
 	}
+	public Shape getShape(ObjetMap parent){
+		Polygon p =  new Polygon();
+		p.addPoint(parent.getX() + this.getPosX(), 
+				parent.getY() + this.getPosY());
+		p.addPoint(parent.getX() + this.getPosX()+ this.getSizeX(),
+				parent.getY() + this.getPosY());
+		
+		p.addPoint(parent.getX() + this.getPosX(),
+				parent.getY() + this.getPosY() + this.getSizeY());
+		
+		p.addPoint(parent.getX() + this.getPosX() + this.getSizeX(),
+					parent.getY() + this.getPosY() + this.getSizeY());
+		return p;
+		
+	}
 	public boolean accept(ObjetMap parent, ObjetMap collideObj, CollisionBlock isoBlock) {
 		boolean accept = true;
-		if(!acceptableX(parent, collideObj, isoBlock) && !acceptableY(parent, collideObj, isoBlock) && !acceptableZ(parent, collideObj, isoBlock)){
+		if(getShape(parent).intersects(isoBlock.getShape(collideObj)) && !acceptableZ(parent, collideObj, isoBlock)){
 				accept = false;
 		}
 		return accept;
