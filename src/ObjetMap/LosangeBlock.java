@@ -18,15 +18,15 @@ public class LosangeBlock extends CollisionBlock{
 	
 	public Shape getShape(ObjetMap parent){
 		Polygon p2 = new Polygon();
-		p2.addPoint(parent.getX() + this.getPosX() + this.getSizeX() / 2,
+		p2.addPoint(parent.getX() + this.getPosX() + (this.getSizeX()-1) / 2,
 				parent.getY() + this.getPosY());
 		
-		p2.addPoint(parent.getX() + this.getPosX() + this.getSizeX(),
-				parent.getY() + this.getPosY() + this.getSizeY() / 2);
-		p2.addPoint(parent.getX() + this.getPosX() + this.getSizeX() / 2,
-				parent.getY() + this.getPosY() + this.getSizeY());
+		p2.addPoint(parent.getX() + this.getPosX() + (this.getSizeX()-1),
+				parent.getY() + this.getPosY() + (this.getSizeY()-1) / 2);
+		p2.addPoint(parent.getX() + this.getPosX() + (this.getSizeX()-1) / 2,
+				parent.getY() + this.getPosY() + (this.getSizeY()-1));
 		p2.addPoint(parent.getX() + this.getPosX(),
-				parent.getY() + this.getPosY() + this.getSizeY() / 2);
+				parent.getY() + this.getPosY() + (this.getSizeY()-1) / 2);
 		return p2;
 	}
 }

@@ -3,6 +3,7 @@ package ObjetMap;
 import java.io.Serializable;
 
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 //This is the Rectangle collision block
 public class CollisionBlock  implements Serializable, Cloneable{
@@ -23,17 +24,7 @@ public class CollisionBlock  implements Serializable, Cloneable{
 		setMirror(false);
 	}
 	public Shape getShape(ObjetMap parent){
-		Polygon p =  new Polygon();
-		p.addPoint(parent.getX() + this.getPosX(), 
-				parent.getY() + this.getPosY());
-		p.addPoint(parent.getX() + this.getPosX()+ this.getSizeX(),
-				parent.getY() + this.getPosY());
-		
-		p.addPoint(parent.getX() + this.getPosX(),
-				parent.getY() + this.getPosY() + this.getSizeY());
-		
-		p.addPoint(parent.getX() + this.getPosX() + this.getSizeX(),
-					parent.getY() + this.getPosY() + this.getSizeY());
+		Shape p =  new Rectangle(parent.getX() + this.getPosX(), parent.getY() + this.getPosY(), this.getSizeX() - 1, this.getSizeY() - 1);
 		return p;
 		
 	}

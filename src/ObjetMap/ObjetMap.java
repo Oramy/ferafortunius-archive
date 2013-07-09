@@ -38,6 +38,9 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	
 	protected ArrayList<CollisionBlock> collision;
 	
+	//Blocks qui sont touchés par un objets actuellement
+	protected transient ArrayList<CollisionBlock> actualTouchedBlocks;
+	
 	protected ArrayList<Animation> animations;
 	
 	protected int posX, posY, posZ, chunkX, chunkY, chunkZ;
@@ -224,7 +227,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	}
 
 	public boolean collide(ObjetMap o, Jeu jeu) {
-		boolean collide = false;
+		boolean collide = false;	
 		if (!isInvisible() && !o.isInvisible()) {
 			if (!acceptableX(o) && !acceptableY(o) && !acceptableZ(o)) {
 				for (int i = 0, l = this.getCollision().size(); i < l; i++) {
@@ -232,6 +235,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 						CollisionBlock c = this.getCollision().get(i);
 						CollisionBlock co = o.getCollision().get(j);
 						if (!c.accept(this, o, co)) {
+							this.getActualTouchedBlocks().add(c);
+							o.getActualTouchedBlocks().add(co);
 							collide = true;
 							i = l;
 							j = l2;
@@ -248,6 +253,11 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return collide;
 	}
 
+	public ArrayList<CollisionBlock> getActualTouchedBlocks(){
+		if(actualTouchedBlocks == null)
+			actualTouchedBlocks = new ArrayList<CollisionBlock>();
+		return actualTouchedBlocks;
+	}
 	public Animation getAnimation(int i) {
 		return animations.get(i);
 	}
@@ -464,6 +474,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				// Ajout de la variable entree dans le script
 				bindings.put("himself", this);
 				bindings.put("cible", objetMap);
+				bindings.put("touchedBlocks", this.getActualTouchedBlocks());
 				bindings.put("emptytext", new Text("", jeu.getDialogBar()));
 				bindings.put("newcam", new Camera(0, 0, 1f));
 				bindings.put("actualcam", jeu.getPanneauDuJeu().getActualCam());
@@ -477,6 +488,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				e.printStackTrace();
 			}
 		}
+		this.actualTouchedBlocks.clear();
 	}
 
 	public boolean isAnExistingChrono(String name) {
