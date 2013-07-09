@@ -714,9 +714,7 @@ public class Jeu extends Container implements Cloneable {
 		
 		if(yMiddle > 0)
 			angle = 360 - angle;
-		
-		System.out.println(angle + " " + xMiddle);
-		
+			
 		int dir = ((int) ((angle + 22.5f) / 45) + 2) % 8;
 		if(dir != 0  && dir != 4){
 			dir = (8 - dir) % 8;
