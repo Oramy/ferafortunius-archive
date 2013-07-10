@@ -707,6 +707,18 @@ public class Jeu extends Container implements Cloneable {
 		double xMiddle = xBase - this.getWidth() / 2;
 		double yMiddle = yBase - this.getHeight() / 2;
 		
+		//Ajout d'une déformation de la sensibilité selon le format de l'écran
+		
+		//Format Paysage
+		if(this.getWidth() > this.getHeight()){
+			yMiddle = yMiddle / (double)this.getHeight() * this.getWidth();
+		}
+		
+		//Format Portrait
+		else if(this.getHeight() > this.getWidth()){
+			xMiddle = xMiddle / (double)this.getWidth() * this.getHeight();
+		}
+		
 		double distancePoint = Math.sqrt(Math.pow(xMiddle, 2) + Math.pow(yMiddle, 2));
 		
 		
