@@ -18,6 +18,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 
+import Level.ArrayIterator;
 import Level.Camera;
 import Level.Chunk;
 import Level.ChunkMap;
@@ -129,19 +130,22 @@ public class PanneauJeuAmeliore extends Container {
 						PImage imgToDraw = loadImage(objetImg, o);
 						
 						Image wildImg = imgToDraw.getImg();
-						Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
-						wildImg = formatImage;
-						SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
 						
-						Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
-						image.setAlpha(o.getOpacity());
+						if(wildImg != null){
+							Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
+							wildImg = formatImage;
+							SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
+							
+							Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
+							image.setAlpha(o.getOpacity());
+							
+							if(objetImg.isMirror()){
+								image = image.getFlippedCopy(true, false);
+							}
+							
+							drawObjectImage(g, o, objetImg, image, checkScreen);
 						
-						if(objetImg.isMirror()){
-							image = image.getFlippedCopy(true, false);
 						}
-						
-						drawObjectImage(g, o, objetImg, image, checkScreen);
-					
 				}
 				
 				
@@ -297,7 +301,22 @@ public class PanneauJeuAmeliore extends Container {
 		Chunk chunk = carte.getChunk(0, 0, 0);
 		
 		if(!(chunk instanceof LayeredChunkMap)){
-			//TODO Draw Map Lines for normal chunks
+			for(int i = 0; i < carte.getMapSizeX(); i++){
+				for(int j = 0; j < carte.getMapSizeX(); j++){
+					for(int k = 0; k < carte.getMapSizeX(); k++){
+						Polygon p = new Polygon();
+						p.addPoint((+ ( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize()))) * actualCam.getZoom(),
+								((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
+						p.addPoint(( + ( + (i + 1) * carte.getChunksSize() - (int)(j * carte.getChunksSize()))) * actualCam.getZoom(),
+								((int)-(j * carte.getChunksSize() * 0.5)-(int)((i + 1) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
+						p.addPoint(( + ( + (i + 1) * carte.getChunksSize() - (int)((j  + 1)* carte.getChunksSize()))) * actualCam.getZoom(),
+								((int)(-(j + 1)* carte.getChunksSize() * 0.5) - (int)((i + 1) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
+						p.addPoint(( + ( + (i) * carte.getChunksSize() + (int)(-(j  + 1)* carte.getChunksSize()))) * actualCam.getZoom(),
+								((int)(-(j + 1)* carte.getChunksSize() * 0.5) - (int)((i) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
+						g.draw(p);
+					}
+				}
+			}
 		}else{
 			LayeredChunkMap layeredChunk = (LayeredChunkMap)chunk;
 			//Dessinons les layers.
@@ -476,9 +495,60 @@ public class PanneauJeuAmeliore extends Container {
 								|| ((-(j + 1) * carte.getChunksSize() * 0.5) - (int)((i + 1) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom() + this.getHeight()/2 -actualCam.getY() * actualCam.getZoom()>= this.getHeight()
 								||((-(j) * carte.getChunksSize() * 0.5) - (int)((i) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom() + this.getHeight()/2 -actualCam.getY() * actualCam.getZoom()<= 0)) // && (i < xView || xView == 0) && (j < yView || yView == 0))
 						{	
-							carte.getChunks()[i][j][k].trier();
+							//carte.getChunks()[i][j][k].trier();
 							carte.getChunks()[i][j][k].setDrawing(true);
 							g.setColor(chunkcolor); 
+							
+							Iterator it =  carte.getChunks()[i][j][k].getContenuIterator();
+							ObjetMap o = null;
+							
+							
+							ArrayList<ObjetMap> toShow = new ArrayList<ObjetMap>();
+							//Affichage du contenu
+							do{
+								o = (ObjetMap) it.getNextElement();
+								if(this.hasToBeDrawed(o, true)){
+									toShow.add(o);
+								}
+								// Si ce n'est pas fini 
+								
+							}while(o != null);
+							int id = -1;
+							
+							// Tri.
+							for (int j1 = 1; j1 < toShow.size(); j1++) {
+								ObjetMap cle = toShow.get(j1);
+								int i1 = j1 - 1;
+								ObjetMap other = toShow.get(i1);
+								int distanceA = (int) (Math.pow(cle.getPosZ() + cle.getSizeZ(), 2) + Math.pow(cle.getPosY() + cle.getSizeY(), 2) + Math.pow(cle.getPosX() + cle.getSizeX(), 2));
+								int distanceB = (int) (Math.pow(other.getPosZ() + other.getSizeZ(), 2) + Math.pow(other.getPosY() + other.getSizeY(), 2) + Math.pow(other.getPosX() + other.getSizeX(), 2));
+								while (i1 > -1
+										&& (distanceA > distanceB)) {
+									i1--;
+									if(i1 > - 1){
+									other = toShow.get(i1);
+									distanceB = (int) (Math.pow(other.getPosZ() + other.getSizeZ(), 2) + Math.pow(other.getPosY() + other.getSizeY(), 2) + Math.pow(other.getPosX() + other.getSizeX(), 2));
+									}
+								}
+								toShow.remove(cle);
+								toShow.add(i1 + 1, cle);
+							}
+							for (int j1 = 1; j1 < toShow.size(); j1++) {
+								ObjetMap cle = toShow.get(j1);
+								int i1 = j1 - 1;
+								int endPosZ = cle.getPosZ() + cle.getSizeZ();
+								int posY = cle.getPosY();
+								int posX = cle.getPosX();
+								while (i1 > -1
+										&& (endPosZ <= toShow.get(i1).getPosZ()
+										|| (posY >= toShow.get(i1).getPosY()
+										+ toShow.get(i1).getSizeY()) || (posX >= toShow
+										.get(i1).getPosX() + toShow.get(i1).getSizeX()))) {
+									i1--;
+								}
+								toShow.remove(cle);
+								toShow.add(i1 + 1, cle);
+							}
 							//Délimitage des chunks
 							/*Polygon p = new Polygon();
 							p.addPoint((+ ( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize()))) * actualCam.getZoom(),
@@ -491,32 +561,32 @@ public class PanneauJeuAmeliore extends Container {
 									((int)(-(j + 1)* carte.getChunksSize() * 0.5) - (int)((i) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
 							g.draw(p);*/
 							//Initialisation de l'iterateur
-							Iterator it =  carte.getChunks()[i][j][k].getContenuIterator();
-							ObjetMap o = null;
+							Iterator it1 = new ArrayIterator(toShow);
+							ObjetMap o1 = null;
 							//Affichage du contenu
 							do{
-								o = (ObjetMap) it.getNextElement();
+								o1 = (ObjetMap) it1.getNextElement();
 								switch(debugMode){
 									case 0:
-										drawObject(g,o,false, true);
+										drawObject(g,o1,false, true);
 									break;
 									case 1:
-										drawObject(g,o, true, true);
+										drawObject(g,o1, true, true);
 									break;
 									case 2:
-										if(o != null){
-											translateToObject(g, o);
+										if(o1 != null){
+											translateToObject(g, o1);
 											
-											drawLines(g, o);
+											drawLines(g, o1);
 											
-											untranslateToObject(g, o);
+											untranslateToObject(g, o1);
 											
 										}
 									break;
 								}
 								// Si ce n'est pas fini 
 								
-							}while(o != null);
+							}while(o1 != null);
 							//System.out.println("Temps d'affichage de map : " + (System.currentTimeMillis() - tempsPrecMap) + "ms");
 							//System.out.println(nbobj);
 						}
@@ -546,6 +616,32 @@ public class PanneauJeuAmeliore extends Container {
 		
 		//System.out.println("Temps d'affichage : " + (System.currentTimeMillis() - tempsPrec) + "ms");
 	}
+	private boolean hasToBeDrawed(ObjetMap o, boolean checkScreen) {
+		if(o != null){
+			int i = o.getChunkX();
+			int j = o.getChunkY();
+			int k = o.getChunkZ();
+			
+			int baseX = (int) ((int)(( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize())) + o.getDecalageX()
+					+ ( + o.getPosX() -  o.getPosY())) * actualCam.getZoom() + this.getWidth() / 2 -actualCam.getX() * actualCam.getZoom());
+			
+			int baseY = (int) ((int)((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + o.getDecalageY()
+					- (int)(o.getPosY() * 0.5) - (int)(o.getPosX() * 0.5)  - o.getPosZ()) * actualCam.getZoom() + this.getHeight()/2  -actualCam.getY() * actualCam.getZoom());
+			
+			//Not an accurate solution, but it's more performant.
+			int maxX = (int) (baseX + (o.getSizeY()) * actualCam.getZoom());
+			int minX = (int) (baseX - (o.getSizeX()) * actualCam.getZoom());
+			
+			int maxY = baseY;
+			int minY = (int) (baseY - (o.getSizeZ() + o.getSizeX() * 0.5 + o.getSizeY() * 0.5) * actualCam.getZoom());
+			
+			if(!(maxX < 0 || minX  >= this.getWidth() || maxY < 0 || minY >= this.getHeight()) || !checkScreen){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public float getZoom(){
 		return actualCam.getZoom();
 	}
