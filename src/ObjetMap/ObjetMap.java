@@ -119,7 +119,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		animations = new ArrayList<Animation>();
 	}
 
-	private synchronized boolean acceptableX(ObjetMap o) {
+	protected synchronized boolean acceptableX(ObjetMap o) {
 		boolean accepted = true;
 		if (o.getPosX() >= getPosX() && o.getPosX() <= getPosX() + getSizeX())
 			accepted = false;
@@ -129,7 +129,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return accepted;
 	}
 
-	private synchronized boolean acceptableY(ObjetMap o) {
+	protected synchronized boolean acceptableY(ObjetMap o) {
 		boolean accepted = true;
 		if (o.getPosY() >= getPosY() && o.getPosY() <= getPosY() + getSizeY())
 			accepted = false;
@@ -138,7 +138,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return accepted;
 	}
 
-	private synchronized boolean acceptableZ(ObjetMap o) {
+	protected synchronized boolean acceptableZ(ObjetMap o) {
 		boolean accepted = true;
 		if (o.getPosZ() >= getPosZ() && o.getPosZ() <= getPosZ() + getSizeZ())
 			accepted = false;
@@ -786,8 +786,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		chunkX = o.chunkX;
 		chunkY = o.chunkY;
 		chunkZ = o.chunkZ;
-		posX = o.posX;
-		posY = o.posY;
+		posX = o.posX + o.getSizeX() / 2 - getSizeX() / 2;
+		posY = o.posY + o.getSizeY() / 2 - getSizeY() / 2;
 		posZ = o.posZ;
 	}
 

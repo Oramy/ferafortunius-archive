@@ -587,6 +587,33 @@ public class PanneauJeuAmeliore extends Container {
 								// Si ce n'est pas fini 
 								
 							}while(o1 != null);
+							
+							Iterator it2 = new ArrayIterator(this.getCarte().getChunk(i,j,k).getTeleporters());
+							ObjetMap o2 = null;
+							//Affichage du contenu
+							do{
+								o2 = (ObjetMap) it2.getNextElement();
+								switch(debugMode){
+									case 0:
+										drawObject(g,o2,false, true);
+									break;
+									case 1:
+										drawObject(g,o2, true, true);
+									break;
+									case 2:
+										if(o2 != null){
+											translateToObject(g, o2);
+											
+											drawLines(g, o2);
+											
+											untranslateToObject(g, o2);
+											
+										}
+									break;
+								}
+								// Si ce n'est pas fini 
+								
+							}while(o2 != null);
 							//System.out.println("Temps d'affichage de map : " + (System.currentTimeMillis() - tempsPrecMap) + "ms");
 							//System.out.println(nbobj);
 						}

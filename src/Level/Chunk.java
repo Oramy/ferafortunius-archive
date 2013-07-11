@@ -19,6 +19,7 @@ import ObjetMap.Ensemble;
 import ObjetMap.Entity;
 import ObjetMap.ObjetImage;
 import ObjetMap.ObjetMap;
+import ObjetMap.Teleporter;
 
 public class Chunk implements Serializable, Cloneable {
 	/**
@@ -40,6 +41,8 @@ public class Chunk implements Serializable, Cloneable {
 	
 	private ArrayList<ObjetMap> updatable;
 	protected ArrayList<ObjetMap> contenu;
+	
+	private ArrayList<Teleporter> teleporters;
 	// Variables de performances
 	protected transient long lastSort = 0;
 	protected transient long sortDelay = 10000;
@@ -69,6 +72,13 @@ public class Chunk implements Serializable, Cloneable {
 			accepted = false;
 		}
 		if (accepted && modeActuel == VERIFY_MOD) {
+			for (int i = 0; i < getTeleporters().size(); i++) {
+				if (getTeleporters().get(i).collide(o, jeu)) {
+					accepted = false;
+				}
+			}
+		}
+		if (accepted && modeActuel == VERIFY_MOD) {
 			for (int i = 0; i < getContenu().size(); i++) {
 				if (getContenu().get(i).collide(o, jeu)) {
 					accepted = false;
@@ -86,6 +96,13 @@ public class Chunk implements Serializable, Cloneable {
 				&& !(o.getPosX() <= this.sizeX && o.getPosY() <= this.sizeY && o
 				.getPosZ() <= this.sizeZ)) && modeActuel != GOD_MOD) {
 			accepted = false;
+		}
+		if (accepted && modeActuel == VERIFY_MOD) {
+			for (int i = 0; i < getTeleporters().size(); i++) {
+				if (getTeleporters().get(i).collide(o, jeu)) {
+					accepted = false;
+				}
+			}
 		}
 		if (accepted && modeActuel == VERIFY_MOD) {
 			for (int i = 0; i < getContenu().size(); i++) {
@@ -119,10 +136,14 @@ public class Chunk implements Serializable, Cloneable {
 			break;
 		case VERIFY_MOD:
 			if (accepted(o, null)) {
-				getContenu().add(o);
 				if (o.isUpdate()) {
 					updatable.add(o);
 				}
+				if(o instanceof Teleporter && acceptedTeleporter(o, null)){
+					this.getTeleporters().add((Teleporter) o);
+				}
+				else
+					getContenu().add(o);
 			} else {
 				return false;
 			}
@@ -143,10 +164,14 @@ public class Chunk implements Serializable, Cloneable {
 			break;
 		case VERIFY_MOD:
 			if (accepted(o, null)) {
-				getContenu().add(id, o);
 				if (o.isUpdate()) {
 					updatable.add(o);
 				}
+				if(o instanceof Teleporter && acceptedTeleporter(o, null)){
+					this.getTeleporters().add((Teleporter) o);
+				}
+				else
+					getContenu().add(o);
 			} else {
 				return false;
 			}
@@ -160,6 +185,44 @@ public class Chunk implements Serializable, Cloneable {
 		return true;
 	}
 
+	private synchronized boolean acceptedTeleporter(ObjetMap o, Jeu jeu) {
+		boolean accepted = true;
+		if ((!o.isInvisible()
+				&& !(o.getPosX() <= this.sizeX && o.getPosY() <= this.sizeY && o
+				.getPosZ() <= this.sizeZ)) && modeActuel != GOD_MOD) {
+			accepted = false;
+		}
+		if (accepted && modeActuel == VERIFY_MOD) {
+			for (int i = 0; i < getTeleporters().size(); i++) {
+				if (getTeleporters().get(i).collide(o, jeu)) {
+					accepted = false;
+				}
+			}
+		}
+
+		return accepted;
+	}
+
+	private synchronized boolean acceptedTeleporter(ObjetMap o, ObjetMap without, Jeu jeu) {
+		boolean accepted = true;
+
+		if ((!o.isInvisible()
+				&& !(o.getPosX() <= this.sizeX && o.getPosY() <= this.sizeY && o
+				.getPosZ() <= this.sizeZ)) && modeActuel != GOD_MOD) {
+			accepted = false;
+		}
+		if (accepted && modeActuel == VERIFY_MOD) {
+			for (int i = 0; i < getTeleporters().size(); i++) {
+				if (!getTeleporters().get(i).equals(without)) {
+					if (getTeleporters().get(i).collide(o, jeu)) {
+						accepted = false;
+					}
+				}
+			}
+		}
+		return accepted;
+	}
+
 	public synchronized boolean addContenu(ObjetMap o, ObjetMap clone) {
 		switch (getModeActuel()) {
 		case GOD_MOD:
@@ -167,10 +230,14 @@ public class Chunk implements Serializable, Cloneable {
 			break;
 		case VERIFY_MOD:
 			if (accepted(o, clone, null)) {
-				getContenu().add(o);
 				if (o.isUpdate()) {
 					updatable.add(o);
 				}
+				if(o instanceof Teleporter && acceptedTeleporter(o, clone, null)){
+					this.getTeleporters().add((Teleporter) o);
+				}
+				else
+					getContenu().add(o);
 			} else {
 				return false;
 			}
@@ -184,6 +251,7 @@ public class Chunk implements Serializable, Cloneable {
 		return true;
 	}
 
+	
 	public Chunk clone() {
 		Chunk o = null;
 		try {
@@ -374,6 +442,7 @@ public class Chunk implements Serializable, Cloneable {
 	public synchronized void remove(ObjetMap o) {
 		contenu.remove(o);
 		updatable.remove(o);
+		this.getTeleporters().remove(o);
 	}
 
 	public synchronized ObjetMap searchId(int l) {
@@ -741,6 +810,29 @@ public class Chunk implements Serializable, Cloneable {
 
 	public void setModeActuel(int modeActuel) {
 		this.modeActuel = modeActuel;
+	}
+
+	public ArrayList<Teleporter> getTeleporters() {
+		if(teleporters == null){
+			teleporters = new ArrayList<Teleporter>();
+		}
+		return teleporters;
+	}
+
+	public void setTeleporters(ArrayList<Teleporter> teleporters) {
+		this.teleporters = teleporters;
+	}
+
+	
+	public Teleporter getTeleporter(String id) {
+		for(Teleporter tp : teleporters){
+			tp.updateAlone(null, null);
+			System.out.println(tp.getTeleporterId());
+			if(tp.getTeleporterId().equals(id)){
+				return tp;
+			}
+		}
+		return null;
 	}
 
 }

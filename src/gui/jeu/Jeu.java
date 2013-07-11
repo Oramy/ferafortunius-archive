@@ -421,6 +421,13 @@ public class Jeu extends Container implements Cloneable {
 		alphaTitreMap = 300;
 		panneauDuJeu.setCarte(carte);
 	}
+	
+	public void setCarte(String path) {
+		ChunkMap carte = MapLoader.loadMap(path);
+		this.carte = carte;
+		alphaTitreMap = 300;
+		panneauDuJeu.setCarte(carte);
+	}
 
 	/**
 	 * @param cliente
@@ -513,6 +520,15 @@ public class Jeu extends Container implements Cloneable {
 		setCarte(MapLoader.loadMap("data/Maps/" + map + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
 		player.setPosition(o);
 		carte.getChunk(o).addContenu(player);
+	}
+	public void teleport(int chunkx, int chunky, int chunkz, int x,
+			int y, int z) {
+		player.setPosition(chunkx, chunky, chunkz, x, y, z);
+		carte.getChunk(player).addContenu(player);
+	}
+	public void teleport(ObjetMap o) {
+		player.setPosition(o);
+		carte.getChunk(player).addContenu(player);
 	}
 
 	public void update(GameContainer gc, int arg1) {

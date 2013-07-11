@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
+import ObjetMap.Teleporter;
 
 
 
@@ -360,5 +361,20 @@ public class ChunkMap implements Serializable, Cloneable{
 			}	
 		}
 		return entity;
+	}
+	public Teleporter getTeleporter(String id) {
+		//L'entité à retourner.
+		Teleporter teleporter = null;
+		
+		//Recherche Chunk par Chunk d'une entité.
+		for(int i = 0; i < mapSizeX; i++){
+			for(int j = 0; j < mapSizeY; j++){
+				for(int k = 0; k < mapSizeZ; k++){
+					if(teleporter == null)
+						teleporter = getChunk(i,j,k).getTeleporter(id);
+				}
+			}	
+		}
+		return teleporter;
 	}
 }
