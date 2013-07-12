@@ -407,6 +407,18 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return posZ;
 	}
 	
+	public int getAbsPosX(int chunkSize) {
+		return chunkX * chunkSize + posX;
+	}
+
+	public int getAbsPosY(int chunkSize) {
+		return  chunkY * chunkSize + posY;
+	}
+
+	public int getAbsPosZ(int chunkSize) {
+		return chunkZ * chunkSize + posZ;
+	}
+	
 	public int getSizeX() {
 		return sizeX;
 	}

@@ -110,7 +110,13 @@ public class MenuEditeurBar extends Container{
 		editeur.getCarte().getChunks()[editeur.getEditChoice().getChunkX()][editeur.getEditChoice().getChunkY()][editeur.getEditChoice().getChunkZ()].addContenu(editeur.getEditChoice());
 	}
 	protected void load() {
-		editeur.setCarte(MapLoader.loadMap("data/Maps/" + getPathMap().getInput().getContenu() + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
+		String path = "data/Maps/" + getPathMap().getInput().getContenu() + ".dat";
+		if(MapLoader.hasAutoSave(path)){
+			//TODO Prompt "Some more recents auto-saves are availables, do you want to load them ? Y/N
+		}
+		else{
+			editeur.setCarte(MapLoader.loadMap(path)); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 		nomMap.getInput().setContenu(editeur.getCarte().getNom());
 		editeur.getPanneau().setCarte(editeur.getCarte());
 	}

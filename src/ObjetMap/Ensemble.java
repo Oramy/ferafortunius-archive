@@ -13,7 +13,7 @@ public class Ensemble implements Serializable, Cloneable{
 	private ArrayList<ObjetMap> contenu;
 	private String nom;
 	private transient int posX,  posY, posZ;
-	
+	private transient int chunkX, chunkY, chunkZ;
 	public Ensemble clone(){
 		 Ensemble o = null;
 		 try {
@@ -73,5 +73,23 @@ public class Ensemble implements Serializable, Cloneable{
 	}
 	public void setContenu(ArrayList<ObjetMap> contenu) {
 		this.contenu = contenu;
+	}
+	public int getChunkX() {
+		return chunkX;
+	}
+	public void setChunkX(int chunkX) {
+		this.chunkX = chunkX;
+	}
+	public int getChunkY() {
+		return chunkY;
+	}
+	public void setChunkY(int chunkY) {
+		this.chunkY = chunkY;
+	}
+	public int getChunkZ() {
+		return chunkZ;
+	}
+	public void setChunkZ(int chunkZ) {
+		this.chunkZ = chunkZ;
 	}
 }

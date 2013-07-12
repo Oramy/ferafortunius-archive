@@ -153,15 +153,15 @@ public class ChunkMap implements Serializable, Cloneable{
 			}
 			if(clone.getPosX() + clone.getSizeX() < 0){
 				clone.setChunkX(clone.getChunkX() - 1);
-				clone.setPosX(chunksSize - clone.getSizeX() - 1);
+				clone.setPosX(chunksSize + clone.getPosX() - 1);
 			}
 			if(clone.getPosY() + clone.getSizeY() < 0){
 				clone.setChunkY(clone.getChunkY() - 1);
-				clone.setPosY(chunksSize - clone.getSizeY() - 1);
+				clone.setPosY(chunksSize + clone.getPosY() - 1);
 			}
 			if(clone.getPosZ() + clone.getSizeZ() < 0){
 				clone.setChunkZ(clone.getChunkZ() - 1);
-				clone.setPosZ(chunksSize - clone.getSizeZ() - 1);
+				clone.setPosZ(chunksSize + clone.getPosZ() - 1);
 			}
 			if(clone.getChunkX() < 0)
 			{

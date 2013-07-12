@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import Level.ChunkMap;
+import Level.LayeredChunkMap;
 import ObjetMap.Ensemble;
 import ObjetMap.ObjetMap;
 
@@ -105,7 +106,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 					esb.setPosX(getEditChoice().getPosX());
 					esb.setPosY(getEditChoice().getPosY());
 					esb.setPosZ(getEditChoice().getPosZ());
-					carte.getChunks()[0][0][0].addContenu(esb);
+					esb.setChunkX(getEditChoice().getChunkX());
+					esb.setChunkY(getEditChoice().getChunkY());
+					esb.setChunkZ(getEditChoice().getChunkZ());
+					carte.getChunk(getEditChoice()).addContenu(esb);
 				}
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && !clickr){
@@ -173,9 +177,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 				carte.deplacement(getEditChoice(), 0, 0, -1, null);
 			}
 			if(gc.getInput().isKeyPressed(Input.KEY_F3)){
-				//for(int i = 0; i < editeur.getCarte().getChunk(0,0,0).getContenu().size(); i++)
-					//editeur.getCarte().getChunk(0,0,0).melanger(editeur.getCarte().getChunk(0,0,0).getContenu().get(i));
-				
+				if(carte.getChunk(editChoice) instanceof LayeredChunkMap){
+					for(int i = 0; i < carte.getChunk(editChoice).getContenu().size(); i++)
+						((LayeredChunkMap) carte.getChunk(editChoice)).sortByLayers(carte.getChunk(editChoice).getContenu().get(i));
+				}
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
 			{

@@ -96,7 +96,7 @@ public abstract class Entity extends ObjetMap {
 			jeu.getCarte().deplacement(this, -speed, -speed, 0, jeu);*/
 	}
 	public void move(Jeu jeu, ChunkMap carte, float x, float y, float z){
-		carte.deplacement(this, (int)(x * speed), (int)(y * speed), (int)(z * speed), jeu);
+		carte.deplacement(this, (int)(x * speed), (int)(y * speed), (int) z, jeu);
 	}
 	public void startAnimations() {
 		for(Animation a : animations){
