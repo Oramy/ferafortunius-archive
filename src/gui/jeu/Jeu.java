@@ -21,9 +21,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import thread.RunJump;
-import Items.EquipmentItem;
 import Items.Item;
 import Level.Camera;
 import Level.ChunkMap;
@@ -106,6 +108,11 @@ public class Jeu extends Container implements Cloneable {
 	// Test pour les touches internationales.
 	private boolean keyI;
 
+	//Delta
+	private float delta;
+
+	private Music ambianceMusic;
+	
 	public Jeu(GameMain gameMain, GameContainer gc) {
 		super(0, 0, gc.getWidth(), gc.getHeight(), null);
 		
@@ -146,7 +153,32 @@ public class Jeu extends Container implements Cloneable {
 	public void addItemBonus(Item t) {
 		player.addBonus(new ItemBonus(t, 1, player));
 	}
-
+	public void setAmbianceMusic(String path, float pitch, float volume){
+		if(ambianceMusic != null)
+		ambianceMusic.stop();
+		try {
+			ambianceMusic = new Music("Music/" + path);
+			ambianceMusic.loop(pitch, volume);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void setAmbianceMusic(String path, float pitch){
+		setAmbianceMusic(path, pitch, 1.0f);
+	}
+	public void setAmbianceMusic(String path){
+		setAmbianceMusic(path, 1.0f, 1.0f);
+	}
+	public void playSound(String path, float pitch, float volume){
+		try {
+			Sound ambianceMusic = new Sound("Music/" + path);
+			ambianceMusic.play(pitch, volume);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void addItemBonus(String s) {
 		Item t = ItemLoader.loadObject("data/Items/" + s); //$NON-NLS-1$
 		t.setOwner(player);
@@ -270,6 +302,8 @@ public class Jeu extends Container implements Cloneable {
 		cameraPerso.setFollowHim(player);
 		
 		//Initialisation du joueur -- ZONE DE TEST
+		
+		
 		
 		player.getInventaire().setMaxWeight(3000);
 		this.addItem("epee.item");
@@ -532,8 +566,8 @@ public class Jeu extends Container implements Cloneable {
 	}
 
 	public void update(GameContainer gc, int arg1) {
-		
 		super.update(gc, this.getX(), this.getY());
+		delta = arg1 / (1000f / 60f);
 		
 		long temps = System.currentTimeMillis();
 		
@@ -758,6 +792,14 @@ public class Jeu extends Container implements Cloneable {
 			keyI = false;
 			inverseInventory();
 		}
+	}
+
+	public float getDelta() {
+		return delta;
+	}
+
+	public void setDelta(float delta) {
+		this.delta = delta;
 	}
 
 }
