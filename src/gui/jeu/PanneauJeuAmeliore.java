@@ -485,6 +485,9 @@ public class PanneauJeuAmeliore extends Container {
 		//Réinitialisation de l'objet séléctionné
 		setSurlign(false);
 		surlignObject = null;
+		
+		ArrayList<ObjetMap> toShow = new ArrayList<ObjetMap>();
+		
 		for(int i = + iTemp + chunkX + 1, i2 = - iTemp+ chunkX - 1; i > i2; i--){
 			for(int j = + jTemp + chunkY + 1, j2 = - jTemp + chunkY - 1; j > j2; j--){
 				if(i >= 0 && j >= 0 && i < carte.getMapSizeX() && j < carte.getMapSizeY()){
@@ -503,7 +506,7 @@ public class PanneauJeuAmeliore extends Container {
 							ObjetMap o = null;
 							
 							
-							ArrayList<ObjetMap> toShow = new ArrayList<ObjetMap>();
+							
 							//Affichage du contenu
 							do{
 								o = (ObjetMap) it.getNextElement();
@@ -513,42 +516,7 @@ public class PanneauJeuAmeliore extends Container {
 								// Si ce n'est pas fini 
 								
 							}while(o != null);
-							int id = -1;
 							
-							// Tri.
-							for (int j1 = 1; j1 < toShow.size(); j1++) {
-								ObjetMap cle = toShow.get(j1);
-								int i1 = j1 - 1;
-								ObjetMap other = toShow.get(i1);
-								int distanceA = (int) (Math.pow(cle.getPosZ() + cle.getSizeZ(), 2) + Math.pow(cle.getPosY() + cle.getSizeY(), 2) + Math.pow(cle.getPosX() + cle.getSizeX(), 2));
-								int distanceB = (int) (Math.pow(other.getPosZ() + other.getSizeZ(), 2) + Math.pow(other.getPosY() + other.getSizeY(), 2) + Math.pow(other.getPosX() + other.getSizeX(), 2));
-								while (i1 > -1
-										&& (distanceA > distanceB)) {
-									i1--;
-									if(i1 > - 1){
-									other = toShow.get(i1);
-									distanceB = (int) (Math.pow(other.getPosZ() + other.getSizeZ(), 2) + Math.pow(other.getPosY() + other.getSizeY(), 2) + Math.pow(other.getPosX() + other.getSizeX(), 2));
-									}
-								}
-								toShow.remove(cle);
-								toShow.add(i1 + 1, cle);
-							}
-							for (int j1 = 1; j1 < toShow.size(); j1++) {
-								ObjetMap cle = toShow.get(j1);
-								int i1 = j1 - 1;
-								int endPosZ = cle.getPosZ() + cle.getSizeZ();
-								int posY = cle.getPosY();
-								int posX = cle.getPosX();
-								while (i1 > -1
-										&& (endPosZ <= toShow.get(i1).getPosZ()
-										|| (posY >= toShow.get(i1).getPosY()
-										+ toShow.get(i1).getSizeY()) || (posX >= toShow
-										.get(i1).getPosX() + toShow.get(i1).getSizeX()))) {
-									i1--;
-								}
-								toShow.remove(cle);
-								toShow.add(i1 + 1, cle);
-							}
 							//Délimitage des chunks
 							/*Polygon p = new Polygon();
 							p.addPoint((+ ( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize()))) * actualCam.getZoom(),
@@ -561,62 +529,109 @@ public class PanneauJeuAmeliore extends Container {
 									((int)(-(j + 1)* carte.getChunksSize() * 0.5) - (int)((i) * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()) * actualCam.getZoom());
 							g.draw(p);*/
 							//Initialisation de l'iterateur
-							Iterator it1 = new ArrayIterator(toShow);
-							ObjetMap o1 = null;
-							//Affichage du contenu
-							do{
-								o1 = (ObjetMap) it1.getNextElement();
-								switch(debugMode){
-									case 0:
-										drawObject(g,o1,false, true);
-									break;
-									case 1:
-										drawObject(g,o1, true, true);
-									break;
-									case 2:
-										if(o1 != null){
-											translateToObject(g, o1);
-											
-											drawLines(g, o1);
-											
-											untranslateToObject(g, o1);
-											
-										}
-									break;
-								}
-								// Si ce n'est pas fini 
-								
-							}while(o1 != null);
 							
-							Iterator it2 = new ArrayIterator(this.getCarte().getChunk(i,j,k).getTeleporters());
-							ObjetMap o2 = null;
-							//Affichage du contenu
-							do{
-								o2 = (ObjetMap) it2.getNextElement();
-								switch(debugMode){
-									case 0:
-										drawObject(g,o2,false, true);
-									break;
-									case 1:
-										drawObject(g,o2, true, true);
-									break;
-									case 2:
-										if(o2 != null){
-											translateToObject(g, o2);
-											
-											drawLines(g, o2);
-											
-											untranslateToObject(g, o2);
-											
-										}
-									break;
-								}
-								// Si ce n'est pas fini 
-								
-							}while(o2 != null);
 							//System.out.println("Temps d'affichage de map : " + (System.currentTimeMillis() - tempsPrecMap) + "ms");
 							//System.out.println(nbobj);
 						}
+					}
+				}
+			}
+		}
+		int id = -1;
+		
+		int chunkSize = carte.getChunksSize();
+		// Tri.
+		for (int j1 = 1; j1 < toShow.size(); j1++) {
+			ObjetMap cle = toShow.get(j1);
+			int i1 = j1 - 1;
+			ObjetMap other = toShow.get(i1);
+			int distanceA = (int) (Math.pow(cle.getAbsPosZ(chunkSize) + cle.getSizeZ(), 2) + Math.pow(cle.getAbsPosY(chunkSize) + cle.getSizeY(), 2) + Math.pow(cle.getAbsPosX(chunkSize) + cle.getSizeX(), 2));
+			int distanceB = (int) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
+			while (i1 > -1
+					&& (distanceA > distanceB)) {
+				i1--;
+				if(i1 > - 1){
+				other = toShow.get(i1);
+				distanceB = (int) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
+				}
+			}
+			toShow.remove(cle);
+			toShow.add(i1 + 1, cle);
+		}
+		for (int j1 = 1; j1 < toShow.size(); j1++) {
+			ObjetMap cle = toShow.get(j1);
+			int i1 = j1 - 1;
+			int endPosZ = cle.getAbsPosZ(chunkSize) + cle.getSizeZ();
+			int posY = cle.getAbsPosY(chunkSize);
+			int posX = cle.getAbsPosX(chunkSize);
+			while (i1 > -1
+					&& (endPosZ <= toShow.get(i1).getAbsPosZ(chunkSize)
+					|| (posY >= toShow.get(i1).getAbsPosY(chunkSize)
+					+ toShow.get(i1).getSizeY()) || (posX >= toShow
+					.get(i1).getAbsPosX(chunkSize) + toShow.get(i1).getSizeX()))) {
+				i1--;
+			}
+			toShow.remove(cle);
+			toShow.add(i1 + 1, cle);
+		}
+		
+		Iterator it1 = new ArrayIterator(toShow);
+		ObjetMap o1 = null;
+		//Affichage du contenu
+		do{
+			o1 = (ObjetMap) it1.getNextElement();
+			switch(debugMode){
+				case 0:
+					drawObject(g,o1,false, true);
+				break;
+				case 1:
+					drawObject(g,o1, true, true);
+				break;
+				case 2:
+					if(o1 != null){
+						translateToObject(g, o1);
+						
+						drawLines(g, o1);
+						
+						untranslateToObject(g, o1);
+						
+					}
+				break;
+			}
+			// Si ce n'est pas fini 
+			
+		}while(o1 != null);
+		
+		if(!(this.parent instanceof Jeu)){
+			for(int i = 0; i < carte.getMapSizeX(); i++){
+				for(int j = 0; j < carte.getMapSizeY(); j++){
+					for(int k = 0; k < carte.getMapSizeZ(); k++){
+						Iterator it2 = new ArrayIterator(this.getCarte().getChunk(i,j,k).getTeleporters());
+						ObjetMap o2 = null;
+						//Affichage du contenu
+						do{
+							o2 = (ObjetMap) it2.getNextElement();
+							switch(debugMode){
+								case 0:
+									drawObject(g,o2,false, true);
+								break;
+								case 1:
+									drawObject(g,o2, true, true);
+								break;
+								case 2:
+									if(o2 != null){
+										translateToObject(g, o2);
+										
+										drawLines(g, o2);
+										
+										untranslateToObject(g, o2);
+										
+									}
+								break;
+							}
+							// Si ce n'est pas fini 
+							
+						}while(o2 != null);
 					}
 				}
 			}

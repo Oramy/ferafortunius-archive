@@ -121,6 +121,9 @@ public class Chunk implements Serializable, Cloneable {
 		for (int i = 0, c = o.getContenu().size(); i < c; i++) {
 			ObjetMap obj = o.getContenu().get(i);
 			obj.setInvisible(false);
+			obj.setChunkX(o.getChunkX());
+			obj.setChunkY(o.getChunkY());
+			obj.setChunkZ(o.getChunkZ());
 			obj.setPosX(o.getPosX() + obj.getPosX());
 			obj.setPosY(o.getPosY() + obj.getPosY());
 			obj.setPosZ(o.getPosZ() + obj.getPosZ());
