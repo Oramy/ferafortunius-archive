@@ -38,8 +38,8 @@ public class GameMain extends BasicGame {
 		setOptions(OptionsJeuLoader.loadOptions());
 		if(!options.isWindowed()){
 			setGameTextDisplayMode(options.getTextDisplayMode());
-			getApp().setMusicVolume(getOptions().getMusicVolume());
-			getApp().setSoundVolume(getOptions().getSoundVolume());
+			//getApp().setMusicVolume(getOptions().getMusicVolume());
+			//getApp().setSoundVolume(getOptions().getSoundVolume());
 			getApp().setVSync(getOptions().isVsync());
 			getApp().setAlwaysRender(getOptions().isAlwaysRend());
 			try {
@@ -52,8 +52,8 @@ public class GameMain extends BasicGame {
 		else
 		{
 			setGameTextDisplayMode(options.getTextDisplayMode());
-			getApp().setMusicVolume(getOptions().getMusicVolume());
-			getApp().setSoundVolume(getOptions().getSoundVolume());
+			//getApp().setMusicVolume(getOptions().getMusicVolume());
+			//getApp().setSoundVolume(getOptions().getSoundVolume());
 			getApp().setVSync(getOptions().isVsync());
 			getApp().setAlwaysRender(getOptions().isAlwaysRend());
 			try {
