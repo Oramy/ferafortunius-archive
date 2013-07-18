@@ -10,12 +10,14 @@ import gui.FComponent;
 import gui.GameMain;
 import gui.GridLayout;
 import gui.InternalFrame;
+import gui.MinHeightLayer;
 import gui.ModeJeu;
 import gui.PImage;
 import gui.ScrollBar;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
 
 import org.newdawn.slick.GameContainer;
 
@@ -58,8 +60,180 @@ public class EditeurMap extends Container{
 	 */
 	public void reloadObjects(){
 		getEditObject().clear();
-		editObject = ObjetMapLoader.loadFolder("data/ObjetMap/"); //$NON-NLS-1$
-		initChoixObj();
+		loadObjetMap("data/ObjetMap/");
+	}
+	public ArrayList<ObjetMap> loadObjetMap(String path){
+		if(this.components.contains(choixObjets))
+			this.components.remove(choixObjets);
+		choixObjets = new Container(sizeX / 10 * 8, 0, sizeX / 10 * 2, sizeY / 20 * 18, this);
+		this.addComponent(choixObjets);
+		scrollbar = new ScrollBar(0,0, choixObjets.getSizeX(), choixObjets.getSizeY() - 30, 0, 0, choixObjets);
+		
+
+		Container contgrid = new Container(0, 0, choixObjets.getSizeX()- 20, 1, scrollbar);
+		contgrid.setActualLayout(new MinHeightLayer());
+		ArrayList<ObjetMap> liste = loadFolder(0, 0,path, contgrid);
+		
+			//Bouton "Reload"
+			Button reload = new Button(Messages.getString("EditeurMap.0"), choixObjets); //$NON-NLS-1$
+			reload.getAction().add(new Action(){
+				public void actionPerformed(FComponent C){
+					reloadObjects();
+				}
+			});
+			choixObjets.addComponent(reload);
+			reload.setBounds(0, choixEnsembles.getSizeY() - 30, choixEnsembles.getSizeX(), 30);
+			
+			
+			contgrid.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlack.png")); //$NON-NLS-1$
+			scrollbar.setContainer(contgrid);
+			choixObjets.getComponents().add(scrollbar);
+			choixObjets.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
+		return liste;
+	} 
+	public int getObjectSavedCount(String path, int count){
+		File[] files = null;
+		File directory = new File(path);
+		files = directory.listFiles();
+		Arrays.sort(files);
+		if(files != null){
+			for(int i = 0; i < files.length; i++){
+				File file = files[i];
+				if(file.isDirectory()){
+					count += getObjectSavedCount(file.getPath(), 0);
+				}
+				else if((!file.isDirectory()) && file.getPath().contains(".obj")){ //$NON-NLS-1$
+					count++;
+				}
+			}
+		}
+		return count;
+					
+	}
+	public ArrayList<ObjetMap> loadFolder(int x, int y, String path, Container parent){
+		
+		ArrayList<ObjetMap> liste = new ArrayList<ObjetMap>();
+		File[] files = null;
+		File directory = new File(path);
+		files = directory.listFiles();
+		Arrays.sort(files);
+		if(files != null){
+			for(int i = 0; i < files.length; i++){
+				File file = files[i];
+				if(file.isDirectory()){
+					int ancientY = y;
+					y = 0;
+					InternalFrame contFolder = new InternalFrame(10,ancientY, parent.getSizeX() - 20,1, file.getName().toUpperCase(), parent);
+					contFolder.setDocked(true);
+					contFolder.getContainer().setActualLayout(new MinHeightLayer());
+					parent.addComponent(contFolder);
+					
+					ArrayList<ObjetMap> folder = loadFolder(x, y, file.getPath() + "/", contFolder.getContainer());
+					contFolder.getContainer().setSizeY(160 * folder.size());
+					liste.addAll(folder);
+					y += ancientY + 160 * (folder.size());
+				}
+				else if((!file.isDirectory()) && file.getPath().contains(".obj")){ //$NON-NLS-1$
+					ObjetMap o = ObjetMapLoader.loadObject(file.getPath());
+					parent.addComponent(getObjetMapContainer(x, y,o, parent));
+					y += 160;
+					parent.setSizeY(parent.getSizeY() + 160);
+					liste.add(o);
+				}
+			}
+		}
+		return liste;
+	}
+	
+	public Container getObjetMapContainer(int x, int y, ObjetMap o, Container parent){
+		ContainerWithBords objContainer = new ContainerWithBords(x + 10, y, parent.getSizeX() - 20,160, parent);
+		parent.setSizeY(parent.getSizeY() + 160);
+		objContainer.setActualLayout(new GridLayout(2,2));
+		((GridLayout) objContainer.getActualLayout()).setHgap(6);
+		if(o != null){
+			ButtonObjetMap selectButton = new ButtonObjetMap(o, 0,0,200,200,objContainer);
+			selectButton.getAction().add(new Action(){
+				public void actionPerformed(FComponent c){
+					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
+					ObjetMap ed = editChoice;
+					ed.setInvisible(panneau.isNateditChoiceInvisible());
+					
+					ObjetMap o = (ObjetMap) ((ButtonObjetMap)c).getObjet();
+					
+					//Changement des positions du nouvel objet.
+					o.setChunkX(ed.getChunkX());
+					o.setChunkY(ed.getChunkY());
+					o.setChunkZ(ed.getChunkZ());
+					o.setPosX(ed.getPosX());
+					o.setPosY(ed.getPosY());
+					o.setPosZ(ed.getPosZ());
+					
+					
+					//Transformation de l'objet en objet à déplacer.
+					panneau.setNateditChoiceInvisible(edit.getEditObject().get((c.getParent().getY() - 5) / 160).isInvisible());
+					o.setInvisible(true);
+					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
+					edit.setEditChoice(o);
+					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].addContenu(o);
+				}
+			});
+			//Boutons disponibles pour chaque objets.
+			
+			objContainer.addComponent(selectButton);
+		}
+		
+		ContainerWithBords buttonContainer = new ContainerWithBords(0,0,1,1, objContainer);
+		buttonContainer.setActualLayout(new GridLayout(1, 2));
+		((GridLayout) buttonContainer.getActualLayout()).setVgap(5);
+		
+		
+		Button acheter = new Button(Messages.getString("EditeurMap.6"), buttonContainer); //$NON-NLS-1$
+		
+		Button infos = new Button(Messages.getString("EditeurMap.7"), buttonContainer); //$NON-NLS-1$
+		infos.getAction().add(new Action(){
+			public void actionPerformed(FComponent c){
+				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
+				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160).clone();
+				InternalFrame frame = new InternalFrame(200,200,getGm().getApp().getGraphics().getFont().getWidth(Messages.getString("EditeurMap.8") + o.getNom() + Messages.getString("EditeurMap.9")) + 85,200,Messages.getString("EditeurMap.10") + o.getNom() + Messages.getString("EditeurMap.11"), edit); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				edit.addComponent(frame);
+			}
+		});
+		
+		objContainer.addComponent(buttonContainer);
+		
+		
+		buttonContainer.addComponent(acheter);		
+		buttonContainer.addComponent(infos);
+		Container checkbox = new Container(1,1,1,1, objContainer);
+		checkbox.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+		CheckBox miroir = new CheckBox(Messages.getString("EditeurMap.13"), checkbox); //$NON-NLS-1$
+		miroir.getAction().add(new Action(){
+			public void actionPerformed(FComponent c){
+				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
+				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160);
+				o.setMirror(((CheckBox)c).isCheck());
+			}
+		});
+		checkbox.addComponent(miroir);
+		objContainer.addComponent(checkbox);
+		
+		Button modifier = new Button(Messages.getString("EditeurMap.14"), objContainer); //$NON-NLS-1$
+		modifier.getAction().add(new Action(){
+			public void actionPerformed(FComponent c){
+				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
+				Editeur editR = ((Editeur)(c.getRacine()));
+				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getY() - 5) / 160);
+				if(edit.getEditChoice() == o){
+					o = o.clone();
+					o.setInvisible(edit.getPanneau().isNateditChoiceInvisible());
+				}
+				editR.getEditeurObjetOnglet().clickPressed();
+				editR.getEditeurObjetOnglet().clickReleased();
+				editR.getEditeurObjet().setObjetCible(o);
+			}
+		});
+		objContainer.addComponent(modifier);
+		return objContainer;
 	}
 	/*
 	 * Recharge tous les ensembles de l'éditeur
@@ -160,131 +334,6 @@ public class EditeurMap extends Container{
 		choixEnsembles.getComponents().add(scrollbar);
 		choixEnsembles.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
 	}
-	public void initChoixObj(){
-		if(this.components.contains(choixObjets))
-			this.components.remove(choixObjets);
-		choixObjets = new Container(sizeX / 10 * 8, 0, sizeX / 10 * 2, sizeY / 20 * 18, this);
-		this.addComponent(choixObjets);
-		scrollbar = new ScrollBar(0,0, choixObjets.getSizeX(), choixObjets.getSizeY() - 30, 0, 0, choixObjets);
-		
-		Container cont = new Container(0, 0, choixObjets.getSizeX(), (editObject.size()) * 160, scrollbar);
-		
-		Container contgrid = new Container(0, 0, choixObjets.getSizeX() - 75, (editObject.size()) * 160, cont);
-		contgrid.setActualLayout(new GridLayout(1, editObject.size()));
-		((GridLayout) contgrid.getActualLayout()).setVgap(10);
-		
-		
-		for(ObjetMap o : editObject){
-			
-			ContainerWithBords objContainer = new ContainerWithBords(1,1,1,1, contgrid);
-			objContainer.setActualLayout(new GridLayout(2,2));
-			((GridLayout) objContainer.getActualLayout()).setHgap(6);
-			contgrid.addComponent(objContainer);
-			
-			if(o != null){
-				ButtonImage selectButton = new ButtonImage(o.getImage(), 0,0,200,200,objContainer);
-				
-				selectButton.getAction().add(new Action(){
-					public void actionPerformed(FComponent c){
-						EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-						ObjetMap ed = editChoice;
-						ed.setInvisible(panneau.isNateditChoiceInvisible());
-						
-						ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getY() - 5) / 160);
-						
-						//Changement des positions du nouvel objet.
-						o.setChunkX(ed.getChunkX());
-						o.setChunkY(ed.getChunkY());
-						o.setChunkZ(ed.getChunkZ());
-						o.setPosX(ed.getPosX());
-						o.setPosY(ed.getPosY());
-						o.setPosZ(ed.getPosZ());
-						
-						
-						//Transformation de l'objet en objet à déplacer.
-						panneau.setNateditChoiceInvisible(edit.getEditObject().get((c.getParent().getY() - 5) / 160).isInvisible());
-						o.setInvisible(true);
-						carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
-						edit.setEditChoice(o);
-						carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].addContenu(o);
-					}
-				});
-				//Boutons disponibles pour chaque objets.
-				
-				objContainer.addComponent(selectButton);
-			}
-			
-			ContainerWithBords buttonContainer = new ContainerWithBords(0,0,1,1, objContainer);
-			buttonContainer.setActualLayout(new GridLayout(1, 2));
-			((GridLayout) buttonContainer.getActualLayout()).setVgap(5);
-			
-			
-			Button acheter = new Button(Messages.getString("EditeurMap.6"), buttonContainer); //$NON-NLS-1$
-			
-			Button infos = new Button(Messages.getString("EditeurMap.7"), buttonContainer); //$NON-NLS-1$
-			infos.getAction().add(new Action(){
-				public void actionPerformed(FComponent c){
-					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-					ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160).clone();
-					InternalFrame frame = new InternalFrame(200,200,getGm().getApp().getGraphics().getFont().getWidth(Messages.getString("EditeurMap.8") + o.getNom() + Messages.getString("EditeurMap.9")) + 85,200,Messages.getString("EditeurMap.10") + o.getNom() + Messages.getString("EditeurMap.11"), edit); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-					edit.addComponent(frame);
-				}
-			});
-			
-			objContainer.addComponent(buttonContainer);
-			
-			
-			buttonContainer.addComponent(acheter);		
-			buttonContainer.addComponent(infos);
-			Container checkbox = new Container(1,1,1,1, objContainer);
-			checkbox.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
-			CheckBox miroir = new CheckBox(Messages.getString("EditeurMap.13"), checkbox); //$NON-NLS-1$
-			miroir.getAction().add(new Action(){
-				public void actionPerformed(FComponent c){
-					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-					ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160);
-					o.setMirror(((CheckBox)c).isCheck());
-				}
-			});
-			checkbox.addComponent(miroir);
-			objContainer.addComponent(checkbox);
-			
-			Button modifier = new Button(Messages.getString("EditeurMap.14"), objContainer); //$NON-NLS-1$
-			modifier.getAction().add(new Action(){
-				public void actionPerformed(FComponent c){
-					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-					Editeur editR = ((Editeur)(c.getRacine()));
-					ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getY() - 5) / 160);
-					if(edit.getEditChoice() == o){
-						o = o.clone();
-						o.setInvisible(edit.getPanneau().isNateditChoiceInvisible());
-					}
-					editR.getEditeurObjetOnglet().clickPressed();
-					editR.getEditeurObjetOnglet().clickReleased();
-					editR.getEditeurObjet().setObjetCible(o);
-				}
-			});
-			objContainer.addComponent(modifier);
-			
-		}
-		//Bouton "Reload"
-		Button reload = new Button(Messages.getString("EditeurMap.1"), choixObjets); //$NON-NLS-1$
-		reload.getAction().add(new Action(){
-			public void actionPerformed(FComponent C){
-				reloadObjects();
-			}
-		});
-		choixObjets.addComponent(reload);
-		reload.setBounds(0, choixObjets.getSizeY() - 30, choixObjets.getSizeX(), 30);
-		
-		
-		contgrid.setBackground(null);
-		cont.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlack.png")); //$NON-NLS-1$
-		cont.addComponent(contgrid);
-		scrollbar.setContainer(cont);
-		choixObjets.getComponents().add(scrollbar);
-		choixObjets.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
-	}
 	public void initCarte(){
 		setCarte(MapLoader.loadMap("data/Maps/"+ getMaptoLoad() + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
 		carte.getChunks()[0][0][0].addContenu(editChoice);
@@ -309,7 +358,6 @@ public class EditeurMap extends Container{
 		//Chargement
 			//Chargement des objets
 				setEditObject(new ArrayList<ObjetMap>());
-				reloadObjects();
 				
 				editEnsemble = new ArrayList<Ensemble>();
 				reloadEnsemble();
@@ -322,7 +370,7 @@ public class EditeurMap extends Container{
 					initPanneauEdit();
 				//Affichage du menu
 					initMenu();
-					initChoixObj();
+					editObject = loadObjetMap("data/ObjetMap/");
 					initChoixEnsemble();
 				
 				
