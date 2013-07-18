@@ -50,6 +50,7 @@ public class InternalFrame extends Container{
 	public void update(GameContainer gc, int x, int y){
 		if(!docked){
 			container.update(gc, this.getX() + x, this.getY() + y);
+			this.sizeY = container.sizeY + 21;
 		}		
 		int mx = gc.getInput().getMouseX() - x;
 		int my = gc.getInput().getMouseY() - y;
@@ -92,21 +93,7 @@ public class InternalFrame extends Container{
 						setSizeX(natSizeX);
 						setSizeY(natSizeY);
 					}
-					if(docked){
-						docked = false;
-						this.setX(natX);
-						this.setY(natY);
-						setSizeX(natSizeX);
-						setSizeY(natSizeY);
-					}
-					else if(!docked){
-						docked = true;
-						natX = this.getX();
-						natY = this.getY();
-						natSizeX = getSizeX();
-						natSizeY = getSizeY();
-						setSizeY(windowBar.getImg().getHeight());
-					}
+					setDocked(!docked);
 				}
 			}
 			else{
@@ -263,5 +250,22 @@ public class InternalFrame extends Container{
 	 */
 	public void setContainer(Container container) {
 		this.container = container;
+	}
+	
+	public void setDocked(boolean docked){
+		this.docked = docked;
+		if(docked){
+			natX = this.getX();
+			natY = this.getY();
+			natSizeX = getSizeX();
+			natSizeY = getSizeY();
+			setSizeY(windowBar.getImg().getHeight() - 3);
+		}
+		else{
+			this.setX(natX);
+			this.setY(natY);
+			setSizeX(natSizeX);
+			setSizeY(natSizeY);
+		}
 	}
 }
