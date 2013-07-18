@@ -197,6 +197,7 @@ public class Container extends FComponent{
 	 */
 	public void setActualLayout(Layout actualLayout) {
 		this.actualLayout = actualLayout;
+		this.actualLayout.container = this;
 	}
 	/**
 	 * @return the zMax
