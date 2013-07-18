@@ -96,6 +96,9 @@ public class Start {
 		try {
 			app = new AppGameContainer(fen);
 			fen.setApp(app);
+			app.setMusicOn(true);
+			app.setMusicVolume(1.0f);
+			app.setSoundOn(true);
 			app.setTargetFrameRate(60);
 			app.start();
 		} catch (SlickException e) {
