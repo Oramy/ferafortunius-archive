@@ -2,15 +2,6 @@ package ObjetMap;
 
 import gui.jeu.Jeu;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import Level.Camera;
-import Level.MapLoader;
-
 
 
 public class Teleporter extends ObjetMap {

@@ -1,14 +1,15 @@
 package gui.editeurs;
 
-import java.util.ArrayList;
-
-import ObjetMap.ObjetImage;
-import ObjetMap.ObjetMap;
 import gui.ButtonImage;
 import gui.Container;
+import ObjetMap.ObjetMap;
 
 public class ButtonObjetMap extends ButtonImage{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ObjetMap objet;
 	public ButtonObjetMap(ObjetMap o, int posX, int posY,
 			int width, int height, Container parent) {

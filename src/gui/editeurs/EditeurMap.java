@@ -2,7 +2,6 @@ package gui.editeurs;
 
 import gui.Action;
 import gui.Button;
-import gui.ButtonImage;
 import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;

@@ -2,7 +2,6 @@ package ObjetMap;
 
 import java.io.Serializable;
 
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 //This is the Rectangle collision block
