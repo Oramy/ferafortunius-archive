@@ -142,8 +142,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public void addChrono(String name, long chrono) {
 		if (timesHelps == null)
 			timesHelps = new ArrayList<Chrono>();
-		Chrono c = new Chrono(chrono, name);
-		timesHelps.add(c);
+		if(isNotAnExistingChrono(name)){
+			Chrono c = new Chrono(chrono, name);
+			timesHelps.add(c);
+		}
 	}
 
 	public boolean addCollisionBlock(CollisionBlock c) {
@@ -425,6 +427,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		}
 		return c;
 
+	}
+	
+	public Chrono getChrono(String name) {
+		return getThisChrono(name);
 	}
 
 	public ArrayList<Chrono> getTimesHelps() {
