@@ -31,11 +31,11 @@ import Level.Camera;
 import Level.ChunkMap;
 import Level.ItemLoader;
 import Level.MapLoader;
+import Level.ObjetMapLoader;
 import ObjetMap.Chrono;
 import ObjetMap.Direction;
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
-import ObjetMap.Perso;
 import bonus.BuffRegenLife;
 import bonus.ItemBonus;
 import bonus.Life;
@@ -291,7 +291,8 @@ public class Jeu extends Container implements Cloneable {
 		carte = c;
 		setPlayer(carte.getFirstEntity());
 		if (player == null) {
-			player = new Perso(0, 0, 0, 0, 0, 0);
+			player = (Entity) ObjetMapLoader.loadObject("data/ObjetMap/Entities/entitylanguide.obj");
+			player.setPosition(0, 0, 0, 0, 0, 0);
 		}
 		player.setSpeed(1);
 		setIdPersoJoueur(-1);

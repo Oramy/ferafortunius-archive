@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import Level.ChunkMap;
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
-import ObjetMap.Perso;
 
 
 
@@ -29,7 +28,7 @@ public class CClientUpdater implements Runnable{
 		this.serverMessages = new ArrayList<ObjMessage>();
 		
 	}
-	public void syncCaracs(Perso p){
+	public void syncCaracs(Entity p){
 		client.getJeu().getPlayer().setPosX(p.getPosX());
 		client.getJeu().getPlayer().setPosY(p.getPosY());
 		client.getJeu().getPlayer().setPosZ(p.getPosZ());

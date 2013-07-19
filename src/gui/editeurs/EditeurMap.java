@@ -25,9 +25,9 @@ import Level.ChunkMap;
 import Level.EnsembleLoader;
 import Level.MapLoader;
 import Level.ObjetMapLoader;
+import ObjetMap.BasicObjetMap;
 import ObjetMap.Ensemble;
 import ObjetMap.ObjetMap;
-import ObjetMap.Terre;
 
 
 public class EditeurMap extends Container{
@@ -345,7 +345,7 @@ public class EditeurMap extends Container{
 	}
 	public void initMenu(){
 		objetMapEditorFrame = new InternalFrame(50, 50, 500, 500, Messages.getString("EditeurMap.19"), this); //$NON-NLS-1$
-		objetMapEditorFrame.getContainer().addComponent(new BasicObjetMapEditor(new Terre(0,0,0,0,0,0), 0,0, 500,500, objetMapEditorFrame.getContainer()));
+		objetMapEditorFrame.getContainer().addComponent(new BasicObjetMapEditor(new BasicObjetMap(0,0,0,0,0,0), 0,0, 500,500, objetMapEditorFrame.getContainer()));
 		
 		menu = new MenuEditeur(0, sizeY / 20 * 18, sizeX, sizeY / 20 * 2, this);
 		this.addComponent(menu);	
@@ -359,7 +359,7 @@ public class EditeurMap extends Container{
 				
 				editEnsemble = new ArrayList<Ensemble>();
 				reloadEnsemble();
-				setEditChoice(new Terre(0,0,0,0,0,0));
+				setEditChoice(new BasicObjetMap(0,0,0,0,0,0));
 			//Chargement de la carte
 				initCarte();
 			//Composants

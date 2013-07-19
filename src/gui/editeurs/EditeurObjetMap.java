@@ -19,9 +19,9 @@ import javax.script.ScriptException;
 import org.newdawn.slick.GameContainer;
 
 import Level.Camera;
+import ObjetMap.BasicObjetMap;
 import ObjetMap.Chrono;
 import ObjetMap.ObjetMap;
-import ObjetMap.Terre;
 
 
 public class EditeurObjetMap extends Container{
@@ -49,7 +49,7 @@ public class EditeurObjetMap extends Container{
 	private OngletManager managerOnglet;
 	public EditeurObjetMap(int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
-		objEditor = new BasicObjetMapEditor(new Terre(0,0,0,0,0,0), 0, 0, sizeX / 2, sizeY / 2, this);
+		objEditor = new BasicObjetMapEditor(new BasicObjetMap(0,0,0,0,0,0), 0, 0, sizeX / 2, sizeY / 2, this);
 		this.addComponent(objEditor);
 		setImgEditor(new ImgEditor(sizeX / 2, 0, sizeX / 2, sizeY / 6 * 5, objEditor.getObj(),this));
 		this.addComponent(getImgEditor());
