@@ -43,10 +43,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			g.translate(this.getWidth()/2, this.getHeight()/2);
 				g.translate(-actualCam.getX() * actualCam.getZoom(), -actualCam.getY() * actualCam.getZoom());
 					this.drawMapLines(g);
-					g.translate((float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize())) + (float)(getEditChoice().getDecalageX())
+					g.translate((float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize()))
 							+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
 			
-							(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize() + (float)(getEditChoice().getDecalageY())
+							(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize()
 									- (float)(getEditChoice().getPosY() * 0.5) - (float)(getEditChoice().getPosX() * 0.5)  - (float)(getEditChoice().getPosZ())) * actualCam.getZoom());
 						//Gestion des ensembles
 						if(editeur.getEditeurMode() == EditeurMode.Ensemble && editeur.getEnsembleChoice() != null){
@@ -62,10 +62,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 							this.drawLines(g, editChoice);
 						}
 						
-					g.translate(-(float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize())) + (float)(getEditChoice().getDecalageX())
+					g.translate(-(float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize()))
 						+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
 		
-						-(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize() + (float)(getEditChoice().getDecalageY())
+						-(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize()
 								- (float)(getEditChoice().getPosY() * 0.5) - (float)(getEditChoice().getPosX() * 0.5)  - (float)(getEditChoice().getPosZ())) * actualCam.getZoom());
 					
 				g.translate(actualCam.getX() * actualCam.getZoom(), actualCam.getY() * actualCam.getZoom());

@@ -57,7 +57,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected boolean mirror = false;
 	protected boolean invisible = false;
 	protected boolean update;
-	protected boolean surligned;
+	protected transient boolean surligned;
 	protected boolean applyZShadow = false;
 	
 	
@@ -71,14 +71,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	
 	private ArrayList<ObjetImageList> imagesLists;
 	
-	/**
-	 * decalage X sur l'ecran pour les objets speciaux
-	 */
-	protected int decalageX;
-	/**
-	 * decalage Y sur l'ecran pour les objets speciaux
-	 */
-	protected int decalageY;
+	
 	public static int instanceNumber = 0;
 	protected int sizeX, sizeY, sizeZ;
 	protected float opacity;
@@ -97,8 +90,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		maskColor = new Color(0, 0, 0, 0);
 		this.id = instanceNumber;
 		instanceNumber++;
-		decalageX = 0;
-		decalageY = 0;
 		this.setChunkX(chunkX);
 		this.setChunkY(chunkY);
 		this.setChunkZ(chunkZ);
@@ -196,8 +187,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		o.maskColor = new Color(o.maskColor.r, o.maskColor.g, o.maskColor.b,
 				o.maskColor.a);
 		o.opacity = opacity;
-		o.decalageX = decalageX;
-		o.decalageY = decalageY;
 		o.update = update;
 		o.invisible = invisible;
 		
@@ -325,15 +314,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public ArrayList<CollisionBlock> getCollision() {
 		return collision;
 	}
-
-	public int getDecalageX() {
-		return decalageX;
-	}
-
-	public int getDecalageY() {
-		return decalageY;
-	}
-
 	public ArrayList<Integer> getDrawImage() {
 		return drawImage;
 	}
@@ -678,14 +658,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 	public void setCollision(ArrayList<CollisionBlock> collision) {
 		this.collision = collision;
-	}
-
-	public void setDecalageX(int decalageX) {
-		this.decalageX = decalageX;
-	}
-
-	public void setDecalageY(int decalageY) {
-		this.decalageY = decalageY;
 	}
 
 	public void setDirection(Direction dir) {

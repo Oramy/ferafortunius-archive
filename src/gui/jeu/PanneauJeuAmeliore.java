@@ -347,10 +347,10 @@ public class PanneauJeuAmeliore extends Container {
 		int i = o.getChunkX();
 		int j = o.getChunkY();
 		int k = o.getChunkZ();
-		g.translate((float)(( + (float)(i * carte.getChunksSize()) - (float)(j * carte.getChunksSize())) + (float)(o.getDecalageX())
+		g.translate((float)(( + (float)(i * carte.getChunksSize()) - (float)(j * carte.getChunksSize()))
 				+ ( + (float)(o.getPosX()) -  (float)(o.getPosY()))) * actualCam.getZoom(),
 
-				(float)((float)-(j * carte.getChunksSize() * 0.5) - (float)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + (float)(o.getDecalageY())
+				(float)((float)-(j * carte.getChunksSize() * 0.5) - (float)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()
 						- (float)(o.getPosY() * 0.5) - (float)(o.getPosX() * 0.5)  - (float)(o.getPosZ())) * actualCam.getZoom());
 		
 	}
@@ -358,10 +358,10 @@ public class PanneauJeuAmeliore extends Container {
 		int i = o.getChunkX();
 		int j = o.getChunkY();
 		int k = o.getChunkZ();
-		g.translate(-(float)(( + (float)(i * carte.getChunksSize()) - (float)(j * carte.getChunksSize())) + (float)(o.getDecalageX())
+		g.translate(-(float)(( + (float)(i * carte.getChunksSize()) - (float)(j * carte.getChunksSize()))
 				+ ( + (float)(o.getPosX()) -  (float)(o.getPosY()))) * actualCam.getZoom(),
 
-				-(float)((float)-(j * carte.getChunksSize() * 0.5) - (float)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + (float)(o.getDecalageY())
+				-(float)((float)-(j * carte.getChunksSize() * 0.5) - (float)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()
 						- (float)(o.getPosY() * 0.5) - (float)(o.getPosX() * 0.5)  - (float)(o.getPosZ())) * actualCam.getZoom());
 		
 	}
@@ -425,10 +425,10 @@ public class PanneauJeuAmeliore extends Container {
 		int k = o.getChunkZ();
 		
 		//Calcul des points limites d'affichage en X et Y :
-		int affichX = (int) ((int)(( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize())) + o.getDecalageX()
+		int affichX = (int) ((int)(( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize()))
 				+ ( + o.getPosX() -  o.getPosY()+ (float)(objetImg.getImageSizeInGameX() / 2))) * actualCam.getZoom() + this.getWidth() / 2 -actualCam.getX() * actualCam.getZoom());
 		
-		int affichY = (int) ((int)((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + o.getDecalageY()
+		int affichY = (int) ((int)((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()
 				- (int)(o.getPosY() * 0.5) - (int)(o.getPosX() * 0.5)  - o.getPosZ()) * actualCam.getZoom() + this.getHeight()/2  -actualCam.getY() * actualCam.getZoom());
 		
 		int posX = affichX +(int)((objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX())) * actualCam.getZoom());
@@ -664,10 +664,10 @@ public class PanneauJeuAmeliore extends Container {
 			int j = o.getChunkY();
 			int k = o.getChunkZ();
 			
-			int baseX = (int) ((int)(( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize())) + o.getDecalageX()
+			int baseX = (int) ((int)(( + i * carte.getChunksSize() - (int)(j * carte.getChunksSize()))
 					+ ( + o.getPosX() -  o.getPosY())) * actualCam.getZoom() + this.getWidth() / 2 -actualCam.getX() * actualCam.getZoom());
 			
-			int baseY = (int) ((int)((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + o.getDecalageY()
+			int baseY = (int) ((int)((int)-(j * carte.getChunksSize() * 0.5) - (int)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize()
 					- (int)(o.getPosY() * 0.5) - (int)(o.getPosX() * 0.5)  - o.getPosZ()) * actualCam.getZoom() + this.getHeight()/2  -actualCam.getY() * actualCam.getZoom());
 			
 			//Not an accurate solution, but it's more performant.
