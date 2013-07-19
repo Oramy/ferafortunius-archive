@@ -45,6 +45,8 @@ public class PanneauJeuAmeliore extends Container {
 	protected ObjetMap surlignObject;
 	protected Animation a;
 	protected int debugMode;
+	
+	private int surlignPercent;
 	public static void loadFolder(String path){
 		File[] files = null;
 		File directory = new File(path);
@@ -455,6 +457,7 @@ public class PanneauJeuAmeliore extends Container {
 		}
 	}
 	public void draw(Graphics g) {
+		surlignPercent = 0;
 		long temps = System.currentTimeMillis();
 		float xcam =  (actualCam.getX() * actualCam.getZoom());
 		float ycam =  (actualCam.getY() * actualCam.getZoom());
@@ -740,6 +743,14 @@ public class PanneauJeuAmeliore extends Container {
 	 */
 	public void setSurlignObject(ObjetMap surlignObject) {
 		this.surlignObject = surlignObject;
+	}
+
+	public int getSurlignPercent() {
+		return surlignPercent;
+	}
+
+	public void setSurlignPercent(int surlignPercent) {
+		this.surlignPercent = surlignPercent;
 	}
 
 

@@ -536,23 +536,60 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected abstract ObjetMap newMe(int chunkX, int chunkY, int chunkZ,
 			int posX, int posY, int posZ);
 
+	
+	public int getXPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+		ChunkMap map = pan.getCarte();
+		float xcam =  (cam.getX() * cam.getZoom());
+		
+		int x = + (int) ((this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom());
+		x  += pan.getX();
+		x  -= xcam;
+		x  += pan.getSizeX() / 2;
+		
+		return x;
+		
+	}
+	public int getYPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+		ChunkMap map = pan.getCarte();
+		float ycam =  (cam.getY() * cam.getZoom());
+		
+		int y = (int) ((-this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom() * 0.5f);
+		y -= this.getAbsPosZ(map.getChunksSize()) * cam.getZoom();
+		y -= pan.getY();
+		y -= ycam;
+		y += pan.getSizeY() / 2;
+		
+		return y;
+		
+	}
 	public void paintComponent(PanneauJeuAmeliore pan, Graphics g, Image img,
 			int posX, int posY, ObjetImage c, Camera actualCam) {
 
 		ObjetMap o = this;
-		int x = (int) (Mouse.getX() + pan.getXOnScreen());
-		int y = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
+		
+		//Travail sur l'ombre.
+		ombre = posZ;
+		if (getOmbre() > 150)
+			setOmbre(150);
+		if (getOmbre() < 0) {
+			setOmbre(0);
+		}
+		//Obtention de la position du panneau dans le jeu
+		float mouseX = (int) (Mouse.getX() + pan.getXOnScreen());
+		float mouseY = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
 				.getYOnScreen());
-		int minX = posX
-				+ (int) ((c.getImageSizeInGameX()) * actualCam.getZoom() / 2);
-		minX -= sizeY * actualCam.getZoom();
-		int maxX = posX
-				+ (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
+		
+		//Obtention des coordonnées de l'image
+		float minX = getXPositionOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
+		float maxX = minX
+				+ (int) (c.getImageSizeInGameX() * actualCam.getZoom());
 		maxX += sizeX * actualCam.getZoom();
-		int minY = (int) (posY + c.getImageSizeInGameY() * actualCam.getZoom());
-		minY -= ((sizeY / 2 + sizeX / 2 + sizeZ) * actualCam.getZoom());
-		int maxY = (int) (posY + c.getImageSizeInGameY() * actualCam.getZoom());
-		if (x > minX && x < maxX && y > minY && y < maxY) {
+		
+		float minY = getYPositionOnScreen(pan, actualCam) -  (int) (c.getImageSizeInGameY() * actualCam.getZoom());
+		float maxY = (int) (minY + c.getImageSizeInGameY() * actualCam.getZoom());
+		
+		
+		if (mouseX > minX  && mouseX < maxX && mouseY > minY && mouseY < maxY) {
 			pan.setSurlign(true);
 
 			if (pan.getSurlignObject() != null) {
@@ -560,19 +597,16 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 					pan.getSurlignObject().surligned = false;
 					pan.setSurlignObject(this);
 					if (this.surligned == true)
-						setOmbre(getOmbre() + (100 + getOmbre()));
+						setOmbre(getOmbre() + 100);
 					surligned = true;
 				}
 			} else
 				pan.setSurlignObject(this);
-
 		}
-		ombre = posZ;
-		if (getOmbre() > 150)
-			setOmbre(150);
-		if (getOmbre() < 0) {
-			setOmbre(0);
+		else{
+			surligned = false;
 		}
+		
 		img.setAlpha(opacity);
 		
 		//Chargement du masque
@@ -580,7 +614,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		//Application de l'opacité de l'objet
 		if(maskColor.a > opacity)
 			maskColor.a = opacity;
-		
 		
 		//Changement de la taille
 		img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
@@ -602,7 +635,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
 		
 		//Si on veut appliquer l'ombre Z
-		if(this.applyZShadow){
+		if(this.applyZShadow || surligned){
 			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 					c.getImageSizeInGameY() * actualCam.getZoom(), new Color(0, 0,
 							0, getOmbre()));
