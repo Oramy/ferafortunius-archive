@@ -169,7 +169,7 @@ public class EditeurMap extends Container{
 					
 					
 					//Transformation de l'objet en objet à déplacer.
-					panneau.setNateditChoiceInvisible(edit.getEditObject().get((c.getParent().getY() - 5) / 160).isInvisible());
+					panneau.setNateditChoiceInvisible(o.isInvisible());
 					o.setInvisible(true);
 					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
 					edit.setEditChoice(o);
@@ -192,7 +192,7 @@ public class EditeurMap extends Container{
 		infos.getAction().add(new Action(){
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160).clone();
+				ObjetMap o = ((ButtonObjetMap)(c.getParent().getParent().getComponents().get(0))).getObjet().clone();
 				InternalFrame frame = new InternalFrame(200,200,getGm().getApp().getGraphics().getFont().getWidth(Messages.getString("EditeurMap.8") + o.getNom() + Messages.getString("EditeurMap.9")) + 85,200,Messages.getString("EditeurMap.10") + o.getNom() + Messages.getString("EditeurMap.11"), edit); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				edit.addComponent(frame);
 			}
@@ -209,7 +209,7 @@ public class EditeurMap extends Container{
 		miroir.getAction().add(new Action(){
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getParent().getY() - 5) / 160);
+				ObjetMap o = ((ButtonObjetMap)(c.getParent().getParent().getComponents().get(0))).getObjet();
 				o.setMirror(((CheckBox)c).isCheck());
 			}
 		});
@@ -221,10 +221,9 @@ public class EditeurMap extends Container{
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 				Editeur editR = ((Editeur)(c.getRacine()));
-				ObjetMap o = (ObjetMap) edit.getEditObject().get((c.getParent().getY() - 5) / 160);
+				ObjetMap o = ((ButtonObjetMap)(c.getParent().getComponents().get(0))).getObjet();
 				if(edit.getEditChoice() == o){
 					o = o.clone();
-					o.setInvisible(edit.getPanneau().isNateditChoiceInvisible());
 				}
 				editR.getEditeurObjetOnglet().clickPressed();
 				editR.getEditeurObjetOnglet().clickReleased();
