@@ -62,6 +62,7 @@ public class Menu extends Container {
 		File[] fonds = f.listFiles();
 		for(int i = 0; i < fonds.length; i++){
 			File fond = fonds[i];
+			if(!fond.isHidden())
 			backgroundimages.add(new PImage("Menu/" + fond.getName()));
 		}
 		backgroundid = (int) (Math.random() * backgroundimages.size());
