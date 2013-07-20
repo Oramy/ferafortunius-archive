@@ -51,14 +51,14 @@ public class ItemOnMap extends ObjetMap {
 		
 	}
 	public void paintComponent(PanneauJeuAmeliore pan,Graphics g, Image img, int posX, int posY, ObjetImage c, Camera actualCam){
-		g.translate(0, -(decalageY * actualCam.getZoom() + decalageY * actualCam.getZoom() / 10));
+		g.translate(0, -(c.getDecalageY() * actualCam.getZoom() + c.getDecalageY() * actualCam.getZoom() / 10));
 			super.paintComponent(pan, g, img, posX, posY, c, actualCam);
 			if(pan.getSurlignObject() != null){
 				if(pan.getSurlignObject().equals(this)){
 					g.drawString(nom,  - g.getFont().getWidth(nom) / 2 + c.getImageSizeInGameY() / 2 * actualCam.getZoom(), -g.getFont().getLineHeight());
 				}
 			}
-		g.translate(0, (decalageY * actualCam.getZoom() + decalageY * actualCam.getZoom() / 10));
+		g.translate(0, (c.getDecalageY() * actualCam.getZoom() + c.getDecalageY() * actualCam.getZoom() / 10));
 	}
 	public void update(Jeu jeu){
 		super.update(jeu);

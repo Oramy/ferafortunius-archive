@@ -57,7 +57,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected boolean mirror = false;
 	protected boolean invisible = false;
 	protected boolean update;
-	protected boolean surligned;
+	protected transient boolean surligned;
 	protected boolean applyZShadow = false;
 	
 	
@@ -71,14 +71,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	
 	private ArrayList<ObjetImageList> imagesLists;
 	
-	/**
-	 * decalage X sur l'ecran pour les objets speciaux
-	 */
-	protected int decalageX;
-	/**
-	 * decalage Y sur l'ecran pour les objets speciaux
-	 */
-	protected int decalageY;
+	
 	public static int instanceNumber = 0;
 	protected int sizeX, sizeY, sizeZ;
 	protected float opacity;
@@ -97,8 +90,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		maskColor = new Color(0, 0, 0, 0);
 		this.id = instanceNumber;
 		instanceNumber++;
-		decalageX = 0;
-		decalageY = 0;
 		this.setChunkX(chunkX);
 		this.setChunkY(chunkY);
 		this.setChunkZ(chunkZ);
@@ -151,8 +142,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public void addChrono(String name, long chrono) {
 		if (timesHelps == null)
 			timesHelps = new ArrayList<Chrono>();
-		Chrono c = new Chrono(chrono, name);
-		timesHelps.add(c);
+		if(isNotAnExistingChrono(name)){
+			Chrono c = new Chrono(chrono, name);
+			timesHelps.add(c);
+		}
 	}
 
 	public boolean addCollisionBlock(CollisionBlock c) {
@@ -196,8 +189,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		o.maskColor = new Color(o.maskColor.r, o.maskColor.g, o.maskColor.b,
 				o.maskColor.a);
 		o.opacity = opacity;
-		o.decalageX = decalageX;
-		o.decalageY = decalageY;
 		o.update = update;
 		o.invisible = invisible;
 		
@@ -325,15 +316,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public ArrayList<CollisionBlock> getCollision() {
 		return collision;
 	}
-
-	public int getDecalageX() {
-		return decalageX;
-	}
-
-	public int getDecalageY() {
-		return decalageY;
-	}
-
 	public ArrayList<Integer> getDrawImage() {
 		return drawImage;
 	}
@@ -446,6 +428,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return c;
 
 	}
+	
+	public Chrono getChrono(String name) {
+		return getThisChrono(name);
+	}
 
 	public ArrayList<Chrono> getTimesHelps() {
 		if (timesHelps == null)
@@ -556,23 +542,60 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected abstract ObjetMap newMe(int chunkX, int chunkY, int chunkZ,
 			int posX, int posY, int posZ);
 
+	
+	public int getXPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+		ChunkMap map = pan.getCarte();
+		float xcam =  (cam.getX() * cam.getZoom());
+		
+		int x = + (int) ((this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom());
+		x  += pan.getX();
+		x  -= xcam;
+		x  += pan.getSizeX() / 2;
+		
+		return x;
+		
+	}
+	public int getYPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+		ChunkMap map = pan.getCarte();
+		float ycam =  (cam.getY() * cam.getZoom());
+		
+		int y = (int) ((-this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom() * 0.5f);
+		y -= this.getAbsPosZ(map.getChunksSize()) * cam.getZoom();
+		y -= pan.getY();
+		y -= ycam;
+		y += pan.getSizeY() / 2;
+		
+		return y;
+		
+	}
 	public void paintComponent(PanneauJeuAmeliore pan, Graphics g, Image img,
 			int posX, int posY, ObjetImage c, Camera actualCam) {
 
 		ObjetMap o = this;
-		int x = (int) (Mouse.getX() + pan.getXOnScreen());
-		int y = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
+		
+		//Travail sur l'ombre.
+		ombre = posZ;
+		if (getOmbre() > 150)
+			setOmbre(150);
+		if (getOmbre() < 0) {
+			setOmbre(0);
+		}
+		//Obtention de la position du panneau dans le jeu
+		float mouseX = (int) (Mouse.getX() + pan.getXOnScreen());
+		float mouseY = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
 				.getYOnScreen());
-		int minX = posX
-				+ (int) ((c.getImageSizeInGameX()) * actualCam.getZoom() / 2);
-		minX -= sizeY * actualCam.getZoom();
-		int maxX = posX
-				+ (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
+		
+		//Obtention des coordonnées de l'image
+		float minX = getXPositionOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
+		float maxX = minX
+				+ (int) (c.getImageSizeInGameX() * actualCam.getZoom());
 		maxX += sizeX * actualCam.getZoom();
-		int minY = (int) (posY + c.getImageSizeInGameY() * actualCam.getZoom());
-		minY -= ((sizeY / 2 + sizeX / 2 + sizeZ) * actualCam.getZoom());
-		int maxY = (int) (posY + c.getImageSizeInGameY() * actualCam.getZoom());
-		if (x > minX && x < maxX && y > minY && y < maxY) {
+		
+		float minY = getYPositionOnScreen(pan, actualCam) -  (int) (c.getImageSizeInGameY() * actualCam.getZoom());
+		float maxY = (int) (minY + c.getImageSizeInGameY() * actualCam.getZoom());
+		
+		
+		if (mouseX > minX  && mouseX < maxX && mouseY > minY && mouseY < maxY) {
 			pan.setSurlign(true);
 
 			if (pan.getSurlignObject() != null) {
@@ -580,19 +603,16 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 					pan.getSurlignObject().surligned = false;
 					pan.setSurlignObject(this);
 					if (this.surligned == true)
-						setOmbre(getOmbre() + (100 + getOmbre()));
+						setOmbre(getOmbre() + 100);
 					surligned = true;
 				}
 			} else
 				pan.setSurlignObject(this);
-
 		}
-		ombre = posZ;
-		if (getOmbre() > 150)
-			setOmbre(150);
-		if (getOmbre() < 0) {
-			setOmbre(0);
+		else{
+			surligned = false;
 		}
+		
 		img.setAlpha(opacity);
 		
 		//Chargement du masque
@@ -600,7 +620,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		//Application de l'opacité de l'objet
 		if(maskColor.a > opacity)
 			maskColor.a = opacity;
-		
 		
 		//Changement de la taille
 		img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
@@ -622,7 +641,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
 		
 		//Si on veut appliquer l'ombre Z
-		if(this.applyZShadow){
+		if(this.applyZShadow || surligned){
 			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 					c.getImageSizeInGameY() * actualCam.getZoom(), new Color(0, 0,
 							0, getOmbre()));
@@ -678,14 +697,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 	public void setCollision(ArrayList<CollisionBlock> collision) {
 		this.collision = collision;
-	}
-
-	public void setDecalageX(int decalageX) {
-		this.decalageX = decalageX;
-	}
-
-	public void setDecalageY(int decalageY) {
-		this.decalageY = decalageY;
 	}
 
 	public void setDirection(Direction dir) {

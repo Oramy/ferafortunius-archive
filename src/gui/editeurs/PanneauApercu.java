@@ -112,10 +112,9 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 									
 									int posX = this.getWidth()/2;
 									posX += -actualCam.getX() * actualCam.getZoom();
-									posX +=  + (float)(o.getDecalageX());
+									
 									int posY = this.getHeight()/2;
 									posY += -actualCam.getY() * actualCam.getZoom();
-									posY += + (float)(o.getDecalageY());
 										
 									int mx = (int) (Mouse.getX() - this.getXOnScreen());
 									int my = (int) (getRacine().getHeight() - Mouse.getY() - this.getYOnScreen());

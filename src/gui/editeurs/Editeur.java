@@ -10,9 +10,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import ObjetMap.Banc;
+import ObjetMap.BasicObjetMap;
 import ObjetMap.ObjetMap;
-import ObjetMap.Terre;
 
 
 public class Editeur extends Container{
@@ -98,7 +97,7 @@ public class Editeur extends Container{
 		onglets.addComponent(editeurEntityOnglet);
 		
 		setEditeurAnimationOnglet(new Onglet(Messages.getString("Editeur.4"), onglets)); //$NON-NLS-1$
-		setEditeurAnimation(new EditeurAnimation(new Terre(0,0,0,0,0,0), 0,50, gc.getWidth(), gc.getHeight() - 50, onglets));
+		setEditeurAnimation(new EditeurAnimation(new BasicObjetMap(0,0,0,0,0,0), 0,50, gc.getWidth(), gc.getHeight() - 50, onglets));
 		getEditeurAnimationOnglet().setContainer(editeurAnimation);
 		onglets.addComponent(getEditeurAnimationOnglet());
 
@@ -122,7 +121,7 @@ public class Editeur extends Container{
 		ongletEditeurMap.clickReleased();
 	}
 	public void init(GameContainer gc){
-		setWorkedObj(new Banc(0,0,0,0,0, 0));
+		setWorkedObj(new BasicObjetMap(0,0,0,0,0, 0));
 		initOnglets(gc);
 
 		this.background = new PImage("alpha.png"); //$NON-NLS-1$
