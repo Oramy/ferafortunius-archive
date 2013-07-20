@@ -177,10 +177,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 				carte.deplacement(getEditChoice(), 0, 0, -1, null);
 			}
 			if(gc.getInput().isKeyPressed(Input.KEY_F3)){
-				/*if(carte.getChunk(editChoice) instanceof LayeredChunkMap){
+				if(carte.getChunk(editChoice) instanceof LayeredChunkMap){
 					for(int i = 0; i < carte.getChunk(editChoice).getContenu().size(); i++)
 						((LayeredChunkMap) carte.getChunk(editChoice)).sortByLayers(carte.getChunk(editChoice).getContenu().get(i));
-				}*/
+				}
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
 			{
