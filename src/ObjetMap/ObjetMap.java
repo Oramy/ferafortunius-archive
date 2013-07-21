@@ -536,7 +536,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			int posX, int posY, int posZ);
 
 	
-	public int getXPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+	public int getXOnScreen(PanneauJeuAmeliore pan, Camera cam){
 		ChunkMap map = pan.getCarte();
 		float xcam =  (cam.getX() * cam.getZoom());
 		
@@ -548,7 +548,11 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return x;
 		
 	}
-	public int getYPositionOnScreen(PanneauJeuAmeliore pan, Camera cam){
+	public int getXOnScreen(Jeu jeu){
+		return getXOnScreen(jeu.getPanneauDuJeu(), jeu.getPanneauDuJeu().getActualCam());
+		
+	}
+	public int getYOnScreen(PanneauJeuAmeliore pan, Camera cam){
 		ChunkMap map = pan.getCarte();
 		float ycam =  (cam.getY() * cam.getZoom());
 		
@@ -559,6 +563,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		y += pan.getSizeY() / 2;
 		
 		return y;
+		
+	}
+	public int getYOnScreen(Jeu jeu){
+		return getYOnScreen(jeu.getPanneauDuJeu(), jeu.getPanneauDuJeu().getActualCam());
 		
 	}
 	public void paintComponent(PanneauJeuAmeliore pan, Graphics g, Image img,
@@ -578,32 +586,34 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		float mouseY = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
 				.getYOnScreen());
 		
-		//Obtention des coordonnées de l'image
-		float minX = getXPositionOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
-		float maxX = minX
-				+ (int) (c.getImageSizeInGameX() * actualCam.getZoom());
-		maxX += sizeX * actualCam.getZoom();
-		
-		float minY = getYPositionOnScreen(pan, actualCam) -  (int) (c.getImageSizeInGameY() * actualCam.getZoom());
-		float maxY = (int) (minY + c.getImageSizeInGameY() * actualCam.getZoom());
-		
-		
-		if (mouseX > minX  && mouseX < maxX && mouseY > minY && mouseY < maxY) {
-			pan.setSurlign(true);
-
-			if (pan.getSurlignObject() != null) {
-				if (!pan.getSurlignObject().equals(this)) {
-					pan.getSurlignObject().surligned = false;
+		if(!(pan.getParent() instanceof Jeu)){
+			//Obtention des coordonnées de l'image
+			float minX = getXOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
+			float maxX = minX
+					+ (int) (c.getImageSizeInGameX() * actualCam.getZoom());
+			maxX += sizeX * actualCam.getZoom();
+			
+			float minY = getYOnScreen(pan, actualCam) -  (int) (c.getImageSizeInGameY() * actualCam.getZoom());
+			float maxY = (int) (minY + c.getImageSizeInGameY() * actualCam.getZoom());
+			
+			
+			if (mouseX > minX  && mouseX < maxX && mouseY > minY && mouseY < maxY) {
+				pan.setSurlign(true);
+	
+				if (pan.getSurlignObject() != null) {
+					if (!pan.getSurlignObject().equals(this)) {
+						pan.getSurlignObject().surligned = false;
+						pan.setSurlignObject(this);
+						if (this.surligned == true)
+							setOmbre(getOmbre() + 100);
+						surligned = true;
+					}
+				} else
 					pan.setSurlignObject(this);
-					if (this.surligned == true)
-						setOmbre(getOmbre() + 100);
-					surligned = true;
-				}
-			} else
-				pan.setSurlignObject(this);
-		}
-		else{
-			surligned = false;
+			}
+			else{
+				surligned = false;
+			}
 		}
 		
 		img.setAlpha(opacity);
