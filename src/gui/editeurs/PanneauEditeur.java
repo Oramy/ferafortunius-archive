@@ -21,15 +21,18 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 	private static final long serialVersionUID = -3104433715488521888L;
 	private ObjetMap editChoice;
 	private boolean nateditChoiceInvisible;
-	private int oldx, oldy;
+	private int oldX, oldY;
 	private boolean clickr;
 	private boolean clickl;
 	private EditeurMap editeur;
+	
+	protected int difCameraPosX, difCameraPosY;
+	private int draggedMarged = 10;
 	public PanneauEditeur(EditeurMap e,ChunkMap c, ObjetMap edit,  int x, int y , int sizeX, int sizeY, Container parent) {
 		super(c, x,y,sizeX,sizeY, parent);
 		this.editeur = e;
-		oldx = sizeX / 2;
-		oldy = sizeY / 2;
+		oldX = sizeX / 2;
+		oldY = sizeY / 2;
 		setEditChoice(edit);
 		clickr = false;
 		clickl = false;
@@ -114,18 +117,36 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && !clickr){
 				clickr = true;
-				oldx =  gc.getInput().getMouseX();
-				oldy =  gc.getInput().getMouseY();
+				
+				int newX = gc.getInput().getMouseX();
+				int newY = gc.getInput().getMouseY();
+				oldX = newX;
+				oldY = newY;
+			}
+			else if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)){
+				clickr = true;
+				
+				int newX = gc.getInput().getMouseX();
+				int newY = gc.getInput().getMouseY();
+				getActualCam().move((oldX - newX) / actualCam.getZoom(), (oldY-newY)/ actualCam.getZoom());
+				difCameraPosX += (oldX - newX) / actualCam.getZoom();
+				difCameraPosY += (oldY-newY)/ actualCam.getZoom();
+				oldX = newX;
+				oldY = newY;
 			}
 			else if(!gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && clickr){
 				clickr = false;
-				if(getSurlignObject() != null){
-					Editeur editR = (Editeur)editeur.getRacine();
-					editR.getEditeurObjetOnglet().clickPressed();
-					editR.getEditeurObjetOnglet().clickReleased();
-					editR.getEditeurObjet().setObjetCible(getSurlignObject());
-					editR.getEditeurAnimation().setObjetCible(getSurlignObject().clone());
+				if(Math.abs(difCameraPosX) < draggedMarged && Math.abs(difCameraPosY) < draggedMarged ){
+					if(getSurlignObject() != null){
+						Editeur editR = (Editeur)editeur.getRacine();
+						editR.getEditeurObjetOnglet().clickPressed();
+						editR.getEditeurObjetOnglet().clickReleased();
+						editR.getEditeurObjet().setObjetCible(getSurlignObject());
+						editR.getEditeurAnimation().setObjetCible(getSurlignObject().clone());
+					}
 				}
+				difCameraPosX = 0;
+				difCameraPosY = 0;
 			}
 			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && clickl){
 				clickl = false;
@@ -184,13 +205,6 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			}*/
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
 			{
-					
-			
-				int newx = gc.getInput().getMouseX();
-				int newy = gc.getInput().getMouseY();
-				getActualCam().move((oldx - newx) / actualCam.getZoom(), (oldy-newy)/ actualCam.getZoom());
-				oldx = newx;
-				oldy = newy;
 				//carte.verifyPosition(editChoice);
 			}
 			int mouse = Mouse.getDWheel();
