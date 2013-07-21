@@ -150,7 +150,7 @@ public class EditeurMap extends Container{
 		objContainer.setActualLayout(new GridLayout(2,2));
 		((GridLayout) objContainer.getActualLayout()).setHgap(6);
 		if(o != null){
-			ButtonObjetMap selectButton = new ButtonObjetMap(o, 0,0,200,200,objContainer);
+			ButtonObjetMap selectButton = (ButtonObjetMap) new ButtonObjetMap(o, 0,0,200,200,objContainer);
 			selectButton.getAction().add(new Action(){
 				public void actionPerformed(FComponent c){
 					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
@@ -174,6 +174,9 @@ public class EditeurMap extends Container{
 					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
 					edit.setEditChoice(o);
 					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].addContenu(o);
+					
+					if(editeurMode.equals(EditeurMode.Supprimer))
+						editeurMode = EditeurMode.Placer;
 				}
 			});
 			//Boutons disponibles pour chaque objets.
