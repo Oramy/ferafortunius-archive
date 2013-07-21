@@ -599,8 +599,8 @@ public class Jeu extends Container implements Cloneable {
 		updateMouse(gc);
 		
 		//Mise à jour de la Map
-		carte.update(this);
 		updateKeys(gc);
+		carte.update(this);
 		
 		/*int coef = (int) (System.currentTimeMillis() - (lastUpdate) - 17);
 		if(coef == 0){

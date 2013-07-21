@@ -7,11 +7,14 @@ import gui.jeu.Jeu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Random;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 
 import ObjetMap.Chrono;
 import ObjetMap.Direction;
@@ -46,7 +49,10 @@ public class Chunk implements Serializable, Cloneable {
 	// Variables de performances
 	protected transient long lastSort = 0;
 	protected transient long sortDelay = 10000;
+	
+	protected transient String megaCompressScript;
 
+	protected transient Bindings valuesToAdd;
 	public Chunk() {
 		sizeX = 1;
 		sizeY = 1;
@@ -737,7 +743,6 @@ public class Chunk implements Serializable, Cloneable {
 	}
 
 	public synchronized void update(Jeu jeu) {
-		String megaCompressScript = "";
 		
 		Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 		bindings.clear();
@@ -774,7 +779,6 @@ public class Chunk implements Serializable, Cloneable {
 			compressScript = compressScript.replaceAll("cible", id);
 			compressScript = compressScript.replaceAll("himself", id);
 			bindings.put(id, updatable.get(i));
-			
 			compressScript = compressScript.replaceAll("images", id + "Images");
 			bindings.put(id + "Images", updatable.get(i).getImage());
 			
@@ -787,16 +791,21 @@ public class Chunk implements Serializable, Cloneable {
 			}
 			megaCompressScript += compressScript;
 			megaCompressScript += "\n";
-			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
 		}
+		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
+			String key  = (String)getValuesToAdd().keySet().toArray()[i];
+			bindings.put(key, getValuesToAdd().get(key));
+		}
+		valuesToAdd.clear();
+		megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
+		String toLaunch = megaCompressScript;
+		megaCompressScript = "";
 		// Execution du script entr�e
 		try {
-			Jeu.moteurScript.eval(megaCompressScript, bindings);
+			Jeu.moteurScript.eval(toLaunch, bindings);
 		} catch (ScriptException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
 	}
 
 	public Entity searchEntity() {
@@ -836,6 +845,27 @@ public class Chunk implements Serializable, Cloneable {
 			}
 		}
 		return null;
+	}
+
+	public String getMegaCompressScript() {
+		return megaCompressScript;
+	}
+
+	public void setMegaCompressScript(String megaCompressScript) {
+		this.megaCompressScript = megaCompressScript;
+	}
+
+	public Bindings getValuesToAdd() {
+		if(valuesToAdd == null)
+			valuesToAdd = new SimpleBindings();
+		return valuesToAdd;
+	}
+	public void putValueToAdd(String key,  Object value) {
+		getValuesToAdd().put(key, value);
+	}
+
+	public void setValuesToAdd(Bindings valuesToAdd) {
+		this.valuesToAdd = valuesToAdd;
 	}
 
 }

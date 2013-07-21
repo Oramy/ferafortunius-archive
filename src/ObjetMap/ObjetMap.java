@@ -23,6 +23,7 @@ import org.newdawn.slick.Image;
 
 import Level.ArrayIterator;
 import Level.Camera;
+import Level.Chunk;
 import Level.ChunkMap;
 import Level.Iterator;
 
@@ -462,31 +463,23 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected void hasCollide(ObjetMap objetMap, Jeu jeu) {
 		if (getCollideScript() != null && (!getCollideScript().equals(""))
 				&& jeu != null) {
-			ScriptEngineManager manager = new ScriptEngineManager();
-			ScriptEngine moteur = manager.getEngineByName("rhino");
-			try {
-
-				Bindings bindings = moteur
-						.getBindings(ScriptContext.ENGINE_SCOPE);
-				bindings.clear();
-				// Ajout de la variable entree dans le script
-				bindings.put("himself", this);
-				bindings.put("cible", objetMap);
-				bindings.put("touchedBlocks", this.getActualTouchedBlocks());
-				bindings.put("emptytext", new Text("", jeu.getDialogBar()));
-				bindings.put("newcam", new Camera(0, 0, 1f));
-				bindings.put("actualcam", jeu.getPanneauDuJeu().getActualCam());
-				bindings.put("currentTimeMillis", System.currentTimeMillis());
-				bindings.put("emptychrono",
-						new Chrono(System.currentTimeMillis(), "Real time"));
-				bindings.put("jeu", jeu);
-				// Execution du script entr�e
-				moteur.eval(getCollideScript(), bindings);
-			} catch (ScriptException e) {
-				e.printStackTrace();
-			}
+				Random r = new Random();
+				String id = "" + Math.abs(r.nextInt());
+				String idHimself = "colH"+id;
+				String idCible = "colC" + id;
+				
+				Chunk chunk = jeu.getCarte().getChunk(this);
+				
+				String collideScript = this.collideScript;
+				collideScript = collideScript.replaceAll("himself", idHimself);
+				chunk.putValueToAdd(idHimself, this);
+				
+				collideScript  = collideScript .replaceAll("cible", idCible);
+				chunk.putValueToAdd(idCible, objetMap);
+				
+				chunk.setMegaCompressScript(chunk.getMegaCompressScript() + collideScript);
 		}
-		this.actualTouchedBlocks.clear();
+		//this.actualTouchedBlocks.clear();
 	}
 
 	public boolean isAnExistingChrono(String name) {
