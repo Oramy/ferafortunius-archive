@@ -127,7 +127,10 @@ public class Jeu extends Container implements Cloneable {
 			text = new Text(t, true, this);
 		addDialog(text);
 	}
-
+	public void moveDialogBarTo(ObjetMap o){
+		dialogBar.setX(o.getXOnScreen(this));
+		dialogBar.setY(o.getYOnScreen(this));
+	}
 	public void addDialog(Text t) {
 		t.setDisplay(getGameTextDisplayMode());
 		t.setDisplayInt(0);
