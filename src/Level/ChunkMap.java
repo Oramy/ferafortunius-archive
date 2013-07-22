@@ -274,6 +274,7 @@ public class ChunkMap implements Serializable, Cloneable{
 			}
 		}
 		verifyPosition(o);
+		getChunk(o).hasXYtoSort = true;
 		return objetActuel;
 	}
 	private synchronized  ObjetMap teleportation(ObjetMap o, int x, int y, int z, Jeu jeu) {
@@ -281,7 +282,7 @@ public class ChunkMap implements Serializable, Cloneable{
 			o.setPosX(o.getPosX() + x);
 			o.setPosY(o.getPosY() + y);
 			o.setPosZ(o.getPosZ() + z);
-			if(!getChunks()[o.getChunkX()][o.getChunkY()][o.getChunkZ()].accepted(o,o, jeu)){
+			if(!getChunk(o).accepted(o,o, jeu)){
 				o.setPosX(o.getPosX() - x);
 				o.setPosY(o.getPosY() - y);
 				o.setPosZ(o.getPosZ() - z);
