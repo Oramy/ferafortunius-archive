@@ -347,6 +347,17 @@ public abstract class Entity extends ObjetMap {
 		}
 		this.bonus.addAll(clone);
 	}
+	public void createDamage(Jeu jeu, int x, int y, int z, int attackBonus){
+		ObjetMap damage = new BasicObjetMap(chunkX, chunkY, chunkZ, this.posX + x, this.posY + y, this.posZ + z);
+		damage.setSizeX(30);
+		damage.setSizeY(30);
+		damage.setSizeZ(30);
+		damage.addCollisionBlock(new CollisionBlock(0,0,0, 30,30,30));
+		int damageNumber = attackBonus;
+		damage.collideScript = "cible.addBonusLife(-" + damageNumber + ");" + "carte.getChunk(himself).remove(himself);";
+		jeu.getCarte().getChunk(this).accepted(damage, jeu);
+		
+	}
 	public void addBonus(Bonus oneBonus){
 		Bonus aClone = oneBonus.clone();
 		this.bonus.add(aClone);
