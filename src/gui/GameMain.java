@@ -66,8 +66,6 @@ public class GameMain extends BasicGame {
 	}
 	public void initFenetre(GameContainer gc) {
 		applyOptions(gc);
-		setJeu(new Jeu(this, gc));
-		editeur = new Editeur(this, gc);
 		menu = new Menu(this, gc);
 		mode = ModeJeu.Menu;
 		imprecran = false;
@@ -154,15 +152,24 @@ public class GameMain extends BasicGame {
 	public void setMode(ModeJeu mode, GameContainer gc) {
 		this.mode = mode;
 		if(getMode() == ModeJeu.Menu){
+			menu = new Menu(this, gc);
 			menu.init(app);
+			jeu = null;
+			editeur = null;
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Jeu){
+			jeu = new Jeu(this, gc);
 			getJeu().init(app, MapLoader.loadMap("data/Maps/snapshot1.dat"));
+			menu = null;
+			editeur = null;
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Editeur){
+			editeur = new Editeur(this, gc);
 			editeur.init(app);
+			jeu = null; 
+			menu = null;
 			this.mode = mode;
 		}
 		
