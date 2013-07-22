@@ -112,7 +112,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 					esb.setChunkX(getEditChoice().getChunkX());
 					esb.setChunkY(getEditChoice().getChunkY());
 					esb.setChunkZ(getEditChoice().getChunkZ());
-					carte.getChunk(getEditChoice()).addContenu(esb);
+					carte.addContenu(esb);
 				}
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && !clickr){

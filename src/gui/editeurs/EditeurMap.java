@@ -342,7 +342,7 @@ public class EditeurMap extends Container{
 	}
 	public void initPanneauEdit(){
 		setPanneau(new PanneauEditeur(this, getCarte(), editChoice, 0,0, sizeX / 10 * 6, sizeY / 20 * 18, this));
-		setCam(new Camera(0, 0, 1f));
+		setCam(new Camera(0, 0, 1f, getCarte()));
 		getPanneau().setActualCam(getCam());
 		this.addComponent(getPanneau());
 	}

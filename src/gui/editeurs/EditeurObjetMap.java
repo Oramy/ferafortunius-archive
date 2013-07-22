@@ -87,7 +87,7 @@ public class EditeurObjetMap extends Container{
 			      bindings.put("himself", objEditor.getObj().clone()); //$NON-NLS-1$
 			      bindings.put("cible", objEditor.getObj().clone()); //$NON-NLS-1$
 			      bindings.put("emptytext", new Text("", o)); //$NON-NLS-1$ //$NON-NLS-2$
-			      bindings.put("newcam", new Camera(0,0,1f)); //$NON-NLS-1$
+			      bindings.put("newcam", new Camera(0,0,1f, null)); //$NON-NLS-1$
 			      bindings.put("currentTimeMillis", System.currentTimeMillis()); //$NON-NLS-1$
 			      bindings.put("emptychrono", new Chrono(System.currentTimeMillis(), "Real time")); //$NON-NLS-1$ //$NON-NLS-2$
 			      bindings.put("jeu", new Jeu(((Editeur)o.getRacine()).getGm(), ((Editeur)o.getRacine()).getGm().getApp())); //$NON-NLS-1$

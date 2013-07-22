@@ -12,11 +12,13 @@ public class Camera {
 	 * l'objet à suivre
 	 */
 	private ObjetMap followHim;
+	private ChunkMap carte;
 	private CameraStatus status;
 	private int destX;
 	private int destY;
 	private long timeToDest, beginTime;
-	public Camera(int x, int y, float zoom){
+	public Camera(int x, int y, float zoom, ChunkMap carte){
+		this.carte = carte;
 		this.zoom = zoom;
 		this.x = x;
 		this.y = y;
@@ -88,14 +90,20 @@ public class Camera {
 		lastMove = System.currentTimeMillis();
 	}
 	public void moveToObject(ObjetMap o, int moveSize){
+		if(carte == null)
 		moveToObject(o.getPosX(), o.getPosY(), o.getPosZ(), moveSize);
+		else
+			moveToObject(o.getAbsPosX(carte.getChunksSize()), o.getAbsPosY(carte.getChunksSize()), o.getAbsPosZ(carte.getChunksSize()), moveSize);
 	}
 	public void teleportToObject(int posX, int posY, int posZ){
 		this.x = (posX - posY);
 		this.y = -(posX + posY) / 2 - posZ;
 	}
 	public void teleportToObject(ObjetMap o){
-		teleportToObject(o.getPosX(), o.getPosY(), o.getPosZ());
+		if(carte == null)
+			teleportToObject(o.getPosX(), o.getPosY(), o.getPosZ());
+		else
+			teleportToObject(o.getAbsPosX(carte.getChunksSize()), o.getAbsPosY(carte.getChunksSize()), o.getAbsPosZ(carte.getChunksSize()));
 	}
 	public void moveAtObject(int x1, int y1, int z1, int time){
 		setStatus(CameraStatus.Move);
@@ -106,7 +114,11 @@ public class Camera {
 	}
 	//TODO gérer les chunks avec la caméra !
 	public void moveAtObject(ObjetMap o, int time){
-		moveAtObject(o.getPosX() + o.getSizeX() / 2, o.getPosY() + o.getSizeY() / 2, o.getPosZ() + o.getSizeZ() / 2, time);
+		if(carte == null)
+			moveAtObject(o.getPosX() + o.getSizeX() / 2, o.getPosY() + o.getSizeY() / 2, o.getPosZ() + o.getSizeZ() / 2, time);
+		else
+			moveAtObject(o.getAbsPosX(carte.getChunksSize()) + o.getSizeX() / 2, o.getAbsPosY(carte.getChunksSize()) + o.getSizeY() / 2, o.getAbsPosZ(carte.getChunksSize()) + o.getSizeZ() / 2, time);
+			
 	}
 	// TODO fonction de la caméra plus sophistiqués.
 	/**

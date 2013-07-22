@@ -66,7 +66,7 @@ public class PanneauJeuAmeliore extends Container {
 		super(x,y,sizeX, sizeY, parent);
 		carte = c;
 		chunkcolor = Color.white;
-		actualCam = new Camera(0,0, 2f);
+		actualCam = new Camera(0,0, 2f, c);
 		this.setBounds(x,y, sizeX, sizeY);
 		a = new Animation();
 		debugMode = 0;

@@ -90,7 +90,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 				apercuCont.getSizeY() - 20, apercuCont);
 		if (this.getObj().getImage().size() != 0) {
 			apercu.setActualCam(new Camera(0, -this.getObj().getImage().get(0)
-					.getImageSizeInGameY() / 2, 1f));
+					.getImageSizeInGameY() / 2, 1f, null));
 		}
 		apercu.getCarte().getChunks()[0][0][0].addContenu(this.getObj());
 		apercuCont.addComponent(apercu);

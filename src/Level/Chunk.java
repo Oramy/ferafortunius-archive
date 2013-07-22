@@ -133,6 +133,18 @@ public class Chunk implements Serializable, Cloneable {
 			obj.setPosX(o.getPosX() + obj.getPosX());
 			obj.setPosY(o.getPosY() + obj.getPosY());
 			obj.setPosZ(o.getPosZ() + obj.getPosZ());
+			while(obj.getPosX() > this.getSizeX()){
+				obj.setPosX(obj.getPosX() - this.getSizeX());
+				obj.setChunkX(obj.getChunkX() + 1);
+			}
+			while(obj.getPosY() > this.getSizeY()){
+				obj.setPosY(obj.getPosY() - this.getSizeY());
+				obj.setChunkY(obj.getChunkY() + 1);
+			}
+			while(obj.getPosZ() > this.getSizeZ()){
+				obj.setPosZ(obj.getPosZ() - this.getSizeZ());
+				obj.setChunkZ(obj.getChunkZ() + 1);
+			}
 			addContenu(obj);
 		}
 		return true;
@@ -537,7 +549,7 @@ public class Chunk implements Serializable, Cloneable {
 		this.updatable = updatable;
 	}
 
-	public synchronized void sort(ObjetMap cle) {
+	/*public synchronized void sort(ObjetMap cle) {
 		int id = -1;
 		for (int i = 0, c = contenu.size() - 1; i < c; i++) {
 			ObjetMap other = contenu.get(i);
@@ -551,7 +563,7 @@ public class Chunk implements Serializable, Cloneable {
 				 * 
 				 * int yA = cle.getPosY(), eyA = yA + cle.getSizeY(); int yB =
 				 * other.getPosY(), eyB = yB + other.getSizeY();
-				 */
+				 
 				if (zA > ezB)
 					id = i;
 			}
@@ -574,7 +586,7 @@ public class Chunk implements Serializable, Cloneable {
 				 * 
 				 * int yA = cle.getPosY(), eyA = yA + cle.getSizeY(); int yB =
 				 * other.getPosY(), eyB = yB + other.getSizeY();
-				 */
+				 
 				if (distanceA <= distanceB)
 					id = i;
 			}
@@ -631,7 +643,7 @@ public class Chunk implements Serializable, Cloneable {
 		contenu.remove(cle);
 		contenu.add(id + 1, cle);
 	}
-
+*/
 	public String toString() {
 		String description = "";
 		for (int i = 0; i < getContenu().size(); i++) {
@@ -640,8 +652,8 @@ public class Chunk implements Serializable, Cloneable {
 		return description;
 	}
 
-	public void trier() {
-		if(/*lastSort + sortDelay < System.currentTimeMillis() &&*/  this.isDrawing()){
+	/*public void trier() {
+		if(/*lastSort + sortDelay < System.currentTimeMillis() &&  this.isDrawing()){
 			long tempsPrec  = System.currentTimeMillis();
 			lastSort = System.currentTimeMillis();
 			sortDelay = 10000;
@@ -740,14 +752,14 @@ public class Chunk implements Serializable, Cloneable {
 			}
 			getContenu().set(i + 1, cle);
 		}
-	}
+	}*/
 
 	public synchronized void update(Jeu jeu) {
 		
 		Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 		bindings.clear();
 		// Ajout de la variable entree dans le script
-		bindings.put("newcam", new Camera(0, 0, 1f));
+		bindings.put("newcam", new Camera(0, 0, 1f, jeu.getCarte()));
 		bindings.put("E", Direction.E);
 		bindings.put("SE", Direction.SE);
 		bindings.put("S", Direction.S);
@@ -757,6 +769,7 @@ public class Chunk implements Serializable, Cloneable {
 		bindings.put("N", Direction.N);
 		bindings.put("NE", Direction.NE);
 		bindings.put("Random", new Random());
+		bindings.put("ObjetMapLoader", new ObjetMapLoader());
 		bindings.put("direction", Arrays.asList(Direction.values()));
 		bindings.put("emptychrono",
 				new Chrono(System.currentTimeMillis(), "Real time"));
@@ -797,14 +810,16 @@ public class Chunk implements Serializable, Cloneable {
 			bindings.put(key, getValuesToAdd().get(key));
 		}
 		valuesToAdd.clear();
-		megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
-		String toLaunch = megaCompressScript;
-		megaCompressScript = "";
-		// Execution du script entr�e
-		try {
-			Jeu.moteurScript.eval(toLaunch, bindings);
-		} catch (ScriptException e) {
-			e.printStackTrace();
+		if(megaCompressScript != null){
+			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
+			String toLaunch = megaCompressScript;
+			megaCompressScript = "";
+			// Execution du script entr�e
+			try {
+				Jeu.moteurScript.eval(toLaunch, bindings);
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

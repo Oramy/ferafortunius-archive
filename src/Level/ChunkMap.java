@@ -5,6 +5,7 @@ import gui.jeu.Jeu;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import ObjetMap.Ensemble;
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
 import ObjetMap.Teleporter;
@@ -138,28 +139,28 @@ public class ChunkMap implements Serializable, Cloneable{
 		ObjetMap clone = o;
 		if(getChunk(o).getModeActuel() != Chunk.GOD_MOD){
 			ObjetMap ref = (ObjetMap) o.clone();
-			if(clone.getPosX() + clone.getSizeX() >= chunksSize){
+			while(clone.getPosX() + clone.getSizeX() >= chunksSize){
 				
 				clone.setChunkX(clone.getChunkX() + 1);
 				clone.setPosX(clone.getPosX() - chunksSize);
 			}
-			if(clone.getPosY() + clone.getSizeY() >= chunksSize){
+			while(clone.getPosY() + clone.getSizeY() >= chunksSize){
 				clone.setChunkY(clone.getChunkY() + 1);
 				clone.setPosY(clone.getPosY() - chunksSize);
 			}
-			if(clone.getPosZ() + clone.getSizeZ() >= chunksSize){
+			while(clone.getPosZ() + clone.getSizeZ() >= chunksSize){
 				clone.setChunkZ(clone.getChunkZ() + 1);
 				clone.setPosZ(clone.getPosZ() - chunksSize);
 			}
-			if(clone.getPosX() + clone.getSizeX() < 0){
+			while(clone.getPosX() + clone.getSizeX() < 0){
 				clone.setChunkX(clone.getChunkX() - 1);
 				clone.setPosX(chunksSize + clone.getPosX() - 1);
 			}
-			if(clone.getPosY() + clone.getSizeY() < 0){
+			while(clone.getPosY() + clone.getSizeY() < 0){
 				clone.setChunkY(clone.getChunkY() - 1);
 				clone.setPosY(chunksSize + clone.getPosY() - 1);
 			}
-			if(clone.getPosZ() + clone.getSizeZ() < 0){
+			while(clone.getPosZ() + clone.getSizeZ() < 0){
 				clone.setChunkZ(clone.getChunkZ() - 1);
 				clone.setPosZ(chunksSize + clone.getPosZ() - 1);
 			}
@@ -199,9 +200,35 @@ public class ChunkMap implements Serializable, Cloneable{
 				getChunk(ref).remove(o);
 				getChunk(o).addContenu(o);
 			}
-			getChunk(o).sort(o);
+			//getChunk(o).sort(o);
 		}
 		return clone;
+	}
+	public synchronized boolean addContenu(Ensemble o) {
+		for (int i = 0, c = o.getContenu().size(); i < c; i++) {
+			ObjetMap obj = o.getContenu().get(i);
+			obj.setInvisible(false);
+			obj.setChunkX(o.getChunkX());
+			obj.setChunkY(o.getChunkY());
+			obj.setChunkZ(o.getChunkZ());
+			obj.setPosX(o.getPosX() + obj.getPosX());
+			obj.setPosY(o.getPosY() + obj.getPosY());
+			obj.setPosZ(o.getPosZ() + obj.getPosZ());
+			while(obj.getPosX() > this.getChunksSize()){
+				obj.setPosX(obj.getPosX() - this.getChunksSize());
+				obj.setChunkX(obj.getChunkX() + 1);
+			}
+			while(obj.getPosY() > this.getChunksSize()){
+				obj.setPosY(obj.getPosY() - this.getChunksSize());
+				obj.setChunkY(obj.getChunkY() + 1);
+			}
+			while(obj.getPosZ() > this.getChunksSize()){
+				obj.setPosZ(obj.getPosZ() - this.getChunksSize());
+				obj.setChunkZ(obj.getChunkZ() + 1);
+			}
+			this.getChunk(obj).addContenu(obj);
+		}
+		return true;
 	}
 	public void update(Jeu jeu){
 		for(int i = 0, c = mapSizeX; i < c; i++){
@@ -322,16 +349,7 @@ public class ChunkMap implements Serializable, Cloneable{
 		}
 		return found;
 	}
-	public synchronized void trierTout() {
-		for(int i = 0; i < mapSizeX; i++){
-			for(int j = 0; j < mapSizeY; j++){
-				for(int k = 0; k < mapSizeZ; k++){
-					chunks[i][j][k].trier();
-				}
-			}
-			
-		}
-	}
+
 	/**
 	 * @return the nom
 	 */

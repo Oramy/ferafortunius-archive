@@ -301,7 +301,7 @@ public class Jeu extends Container implements Cloneable {
 		setIdPersoJoueur(-1);
 		
 		//Initialisation de la caméra
-		cameraPerso = new Camera(0, 0, 1f);
+		cameraPerso = new Camera(0, 0, 1f, getCarte());
 		cameraPerso.teleportToObject(player);
 		cameraPerso.setFollowHim(player);
 		
@@ -646,7 +646,7 @@ public class Jeu extends Container implements Cloneable {
 				bindings.clear();
 				// Ajout de la variable entree dans le script
 				bindings.put("himself", panneauDuJeu.getSurlignObject()); //$NON-NLS-1$
-				bindings.put("newcam", new Camera(0, 0, 1f)); //$NON-NLS-1$
+				bindings.put("newcam", new Camera(0, 0, 1f, getCarte())); //$NON-NLS-1$
 				bindings.put("emptytext", new Text("", getDialogBar())); //$NON-NLS-1$ //$NON-NLS-2$
 				bindings.put(
 						"emptychrono", new Chrono(System.currentTimeMillis(), "Real time")); //$NON-NLS-1$ //$NON-NLS-2$

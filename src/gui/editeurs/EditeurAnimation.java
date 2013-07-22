@@ -78,9 +78,9 @@ public class EditeurAnimation extends Container{
 		cible = o;
 		apercuCont = new ContainerWithBords( 0,0, sizeX / 2, sizeY / 2, this);
 			apercu = new PanneauApercuAnimation(new ChunkMap(1,1,1,1), cible, 10,10, apercuCont.getSizeX() - 20, apercuCont.getSizeY() - 20, apercuCont);
-			apercu.setActualCam(new Camera(0,0, 1f));
+			apercu.setActualCam(new Camera(0,0, 1f, null));
 			if(cible.getImage().size() != 0){
-				apercu.setActualCam(new Camera(0, -cible.getImage().get(0).getImageSizeInGameY() / 2, 1f));
+				apercu.setActualCam(new Camera(0, -cible.getImage().get(0).getImageSizeInGameY() / 2, 1f, null));
 			}
 			apercuCont.addComponent(apercu);
 		this.addComponent(apercuCont);
