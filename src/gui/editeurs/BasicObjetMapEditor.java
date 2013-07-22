@@ -43,7 +43,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 	private IntLabel sizeX;
 	private IntLabel sizeY;
 	private IntLabel sizeZ;
-	private IntLabel colorMaskR, colorMaskG, colorMaskB, colorMaskA;
+	private IntLabel colorMaskR, colorMaskG, colorMaskB;
 	private Text opacityText;
 	private Slider opacity;
 	private Container checkCont;
@@ -73,7 +73,6 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		getObj().getMaskColor().r = (float) colorMaskR.getValue() / 255.0f;
 		getObj().getMaskColor().g = (float) colorMaskG.getValue() / 255.0f;
 		getObj().getMaskColor().b = (float) colorMaskB.getValue() / 255.0f;
-		getObj().getMaskColor().a = (float) colorMaskA.getValue() / 255.0f;
 		getObj().setOpacity(((float) opacity.getValue()) / 1000);
 		opacityText
 				.setText(Messages.getString("BasicObjetMapEditor.text.0") + ((float) opacity.getValue()) / 1000); //$NON-NLS-1$
@@ -242,14 +241,6 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		this.colorMaskB.getInput().setContenu(
 				((int) (this.getObj().getMaskColor().b * 255)) + ""); //$NON-NLS-1$
 		size.addComponent(this.colorMaskB);
-
-		this.colorMaskA = new IntLabel(size.getSizeX() / 2 + 5
-				+ ((size.getSizeX() / 2) - 10) / 2, size.getSizeY() / 3 * 2,
-				((size.getSizeX() / 2) - 10) / 2, size.getSizeY() / 3,
-				Messages.getString("BasicObjetMapEditor.text.17"), size); //$NON-NLS-1$
-		this.colorMaskA.getInput().setContenu(
-				((int) (this.getObj().getMaskColor().a * 255)) + ""); //$NON-NLS-1$
-		size.addComponent(this.colorMaskA);
 
 		this.addComponent(size);
 

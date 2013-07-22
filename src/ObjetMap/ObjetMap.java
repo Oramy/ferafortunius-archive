@@ -635,20 +635,21 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		//Rotation
 		img.rotate(c.getRotation());
 		
+		if(!(this.applyZShadow || surligned)){
+			ombre = 0;
+		}
+		if(maskColor.a == 0f){
+			maskColor.a = 1f;
+			maskColor.r = 1f;
+			maskColor.g = 1f;
+			maskColor.b = 1f;
+		}
 		//Dessin
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(255,255,255, opacity));
-		
-		//avec le maskColor
-		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), maskColor);
+				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(maskColor.r - (float)ombre / 255f,maskColor.g  - (float)ombre / 255f,maskColor.b  - (float)ombre / 255f, opacity));
 		
 		//Si on veut appliquer l'ombre Z
-		if(this.applyZShadow || surligned){
-			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-					c.getImageSizeInGameY() * actualCam.getZoom(), new Color(0, 0,
-							0, getOmbre()));
-		}
+		
 	}
 
 	public void removeChrono(String name) {
