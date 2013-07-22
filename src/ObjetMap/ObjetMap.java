@@ -647,7 +647,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		//Dessin
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
 				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(maskColor.r - (float)ombre / 255f,maskColor.g  - (float)ombre / 255f,maskColor.b  - (float)ombre / 255f, opacity));
-		
 		//Si on veut appliquer l'ombre Z
 		
 	}
@@ -661,9 +660,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public void rotate(int numberOfRotation) {
 		if (getDirection() == null)
 			setDirection(Direction.S);
-		System.out.println(getDirection());
 		setDirection(Direction.values()[(getDirection().ordinal() + numberOfRotation) % 8]);
-		System.out.println(getDirection());
 	}
 
 	public void setAnimations(ArrayList<Animation> animations) {
