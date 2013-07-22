@@ -179,6 +179,12 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			if(gc.getInput().isKeyPressed(Input.KEY_Q)){
 				carte.deplacement(getEditChoice(), -getEditChoice().getSizeX(), 0, 0, null);
 			}
+			if(gc.getInput().isKeyPressed(Input.KEY_R)){
+				carte.deplacement(getEditChoice(), 0, 0, getEditChoice().getSizeZ(), null);
+			}
+			if(gc.getInput().isKeyPressed(Input.KEY_F)){
+				carte.deplacement(getEditChoice(), 0, 0, -getEditChoice().getSizeZ(), null);
+			}
 			if(gc.getInput().isKeyPressed(Input.KEY_I)){
 				carte.deplacement(getEditChoice(), 0, 1, 0, null);
 			}
@@ -191,10 +197,10 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			if(gc.getInput().isKeyPressed(Input.KEY_J)){
 				carte.deplacement(getEditChoice(), -1, 0, 0, null);
 			}
-			if(gc.getInput().isKeyPressed(Input.KEY_R)){
+			if(gc.getInput().isKeyPressed(Input.KEY_P)){
 				carte.deplacement(getEditChoice(), 0, 0, 1, null);
 			}
-			if(gc.getInput().isKeyPressed(Input.KEY_F)){
+			if(gc.getInput().isKeyPressed(Input.KEY_M)){
 				carte.deplacement(getEditChoice(), 0, 0, -1, null);
 			}
 			/*if(gc.getInput().isKeyPressed(Input.KEY_F3)){
