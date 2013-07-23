@@ -306,7 +306,7 @@ public abstract class Entity extends ObjetMap {
 		return buffs;
 	}
 	public void addBonusLife(int amount){
-		getBonus().add(new Life(amount, this));
+		addBonus(new Life(amount, this));
 	}
 	/**
 	 * @param bonus the bonus to set

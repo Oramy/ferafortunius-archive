@@ -12,7 +12,7 @@ public class Life extends SimpleBonus{
 	private static final long serialVersionUID = 1L;
 	public Life(int amount, Entity o){
 		super(amount, o);
-		if(getCible().getHp() == getCible().getMaxHp()){
+		if(getCible().getHp() == getCible().getMaxHp() && amount > 0){
 			getCible().getBonus().remove(this);
 		}
 		if(amount > 0){
