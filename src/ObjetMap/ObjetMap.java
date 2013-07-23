@@ -942,7 +942,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				// Ajout de la variable entree dans le script
 				bindings.put("himself", this);
 				bindings.put("cible", this);
+				if(jeu != null)
 				bindings.put("newcam", new Camera(0, 0, 1f, jeu.getCarte()));
+				else
+				bindings.put("newcam", new Camera(0, 0, 1f, null));
 				bindings.put("E", Direction.E);
 				bindings.put("SE", Direction.SE);
 				bindings.put("S", Direction.S);
