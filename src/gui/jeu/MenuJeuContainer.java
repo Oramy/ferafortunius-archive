@@ -1,11 +1,18 @@
 package gui.jeu;
 
 import gui.Action;
+import gui.Button;
+import gui.ComponentState;
 import gui.Container;
+import gui.ControllersManager;
 import gui.FComponent;
+import gui.GridLayout;
 import gui.HiddenButton;
 import gui.ModeJeu;
 import gui.PImage;
+import gui.ScrollBar;
+
+import org.newdawn.slick.GameContainer;
 
 public class MenuJeuContainer extends Container{
 
@@ -25,8 +32,12 @@ public class MenuJeuContainer extends Container{
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.inverseInventory();
+				if(jeu.getComponents().contains(jeu.inventaireFrame)){
+					ControllersManager.getFirstController().setControllerContainer(((ScrollBar)(jeu.inventaireFrame.getContainer().getComponents().get(0))).getContainer());
+				}
 			}
 		});
+		this.setActualLayout(new GridLayout(1, 7));
 		HiddenButton equipement = new HiddenButton(Messages.getString("MenuJeuContainer.3"), "GUI/Icon/equipement.png", this); //$NON-NLS-1$ //$NON-NLS-2$
 		equipement.setY(inventaire.getSizeY());
 		equipement.disable();
@@ -62,6 +73,28 @@ public class MenuJeuContainer extends Container{
 			}
 		});
 		this.addComponent(quitter);
+	}
+	public void updateController(GameContainer gc) {
+		//((GridLayout)actualLayout).updateChoice();
+		GridLayout layout = ((GridLayout)actualLayout);
+		if(layout.getChoice() == -1)
+			layout.setChoice(0);
+		if(ControllersManager.getFirstController().isDownReleased()){
+			layout.increaseChoice();
+		}
+		if(ControllersManager.getFirstController().isUpReleased()){
+			layout.decreaseChoice();
+		}
+		if(ControllersManager.getFirstController().isButton1Released()){
+			layout.actionChoice();
+		}
+		if(ControllersManager.getFirstController().isButton2Released()){
+			layout.setChoice(this.getComponents().size());
+		}
+		if(ControllersManager.getFirstController().isStartReleased()){
+			ControllersManager.getFirstController().setControllerContainer(this.parent);
+			layout.resetChoice();
+		}
 	}
 
 }

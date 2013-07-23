@@ -111,8 +111,9 @@ public class GridLayout extends Layout {
 		if(choice > -1){
 			if(container.getComponents().get(choice) instanceof Button){
 				Button b = (Button) container.getComponents().get(choice);
-				b.clickPressed();
 				b.clickReleased();
+				b.setState(ComponentState.Normal);
+				updateChoice();
 			}
 		}
 	}
@@ -125,27 +126,35 @@ public class GridLayout extends Layout {
 	public void increaseChoice() {
 		if(this.choice > -1){
 			boolean disabled = true;
+			int choice = this.choice;
 			while(disabled){
-				setChoice(choice + 1);
+				choice = choice + 1;
+				if(choice > container.getComponents().size() - 1)
+					choice = container.getComponents().size() - 1;
 				if(container.getComponents().get(choice) instanceof Button){
 					Button b = (Button) container.getComponents().get(choice);
 					if(b.isEnable())
 						disabled = false;
 				}
 			}
+			setChoice(choice);
 		}
 	}
 	public void decreaseChoice() {
 		if(this.choice > -1){
 			boolean disabled = true;
+			int choice = this.choice;
 			while(disabled){
-				setChoice(choice - 1);
+				choice = choice - 1;
+				if(choice < 0)
+					choice = 0;
 				if(container.getComponents().get(choice) instanceof Button){
 					Button b = (Button) container.getComponents().get(choice);
 					if(b.isEnable())
 						disabled = false;
 				}
 			}
+			setChoice(choice);
 		}
 	}
 	public void setChoice(int choice) {
@@ -153,7 +162,7 @@ public class GridLayout extends Layout {
 			if(container.getComponents().get(this.choice) instanceof Button){
 				Button b = (Button) container.getComponents().get(this.choice);
 				b.normal();
-				b.state = ComponentState.Normal;
+				b.setState(ComponentState.Normal);
 			}
 		}
 		this.choice = choice;
@@ -163,5 +172,11 @@ public class GridLayout extends Layout {
 			if(this.choice == container.getComponents().size())
 				this.choice--;
 		}
+		updateChoice();
+	}
+	public void resetChoice() {
+		setChoice(-1);
+		((Button)getObjectChoice()).normal();
+		choice = -1;
 	}
 }

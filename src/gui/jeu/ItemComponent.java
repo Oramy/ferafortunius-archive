@@ -48,6 +48,50 @@ public class ItemComponent extends FComponent implements Cloneable{
 		equipe = new PImage("GUI/Icon/equipe.png");
 		
 	}
+	public void hover(){
+	
+		if(this.parent != this.getRacine()){
+			if(!((Container) this.getRacine()).getComponents().contains(infos)){
+				if(cibles.get(0) instanceof Utility)
+					infos = new UtilityDescription(this, (Container) this.getRacine());
+				else if(cibles.get(0) instanceof EquipmentItem)
+					infos = new EquipmentDescription(this, (Container) this.getRacine());
+				else
+					infos = new ItemDescription(this, (Container) this.getRacine());
+				
+				infos.setX((int) this.getXOnScreen());
+				infos.setY((int) this.getYOnScreen() - 5);
+				((Container) this.getRacine()).setzMax(((Container) this.getRacine()).getzMax() + 1);
+				infos.setzIndex(((Container) this.getRacine()).getzMax());
+				if(!((Container) this.getRacine()).getComponents().contains(infos))
+					((Container) this.getRacine()).addComponent(infos);	
+					
+			}
+		}
+	}
+	public void normal(){
+		((Container) this.getRacine()).getComponents().remove(infos);
+	}
+	public void equip(){
+		if(cibles.get(0) instanceof EquipmentItem){
+			if(cibles.get(0).getOwner().getEquipment() instanceof HumanEquipment){
+				if(!cibles.get(0).getOwner().getEquipment().getContents().contains(cibles.get(0))){
+					cibles.get(0).getOwner().getEquipment().equip((EquipmentItem) cibles.get(0));
+				}else{
+					cibles.get(0).getOwner().getEquipment().unequip((EquipmentItem) cibles.get(0));
+				}
+			}
+		}
+	}
+	public void use(){
+		if(getCibles().get(0) instanceof Utility){
+			((Utility) getCibles().get(0)).use();
+			if(((Utility) getCibles().get(0)).getUseNumber() <= 0){
+				((Container) this.getRacine()).getComponents().remove(infos);
+				getCibles().remove(0);
+			}
+		}
+	}
 	public void update(GameContainer gc, int x, int y){
 		if(getCibles().size() > 0){
 			if(gc.getInput().getMouseX() >= this.getX() + x
@@ -55,20 +99,7 @@ public class ItemComponent extends FComponent implements Cloneable{
 						&& gc.getInput().getMouseY() >= this.getY() + y
 						&& gc.getInput().getMouseY() <= this.getY() + y + getSizeY()){
 					if(!inside && !followingMouse){
-						if(this.parent != this.getRacine()){
-							if(cibles.get(0) instanceof Utility)
-								infos = new UtilityDescription(this, (Container) this.getRacine());
-							else if(cibles.get(0) instanceof EquipmentItem)
-								infos = new EquipmentDescription(this, (Container) this.getRacine());
-							else
-								infos = new ItemDescription(this, (Container) this.getRacine());
-							
-							infos.setX((int) this.getXOnScreen());
-							infos.setY((int) this.getYOnScreen() - 5);
-							((Container) this.getRacine()).addComponent(infos);	
-							((Container) this.getRacine()).setzMax(((Container) this.getRacine()).getzMax() + 1);
-							infos.setzIndex(((Container) this.getRacine()).getzMax());
-						}
+						hover();
 						inside = true;
 					}
 					if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !leftClick){
@@ -88,33 +119,19 @@ public class ItemComponent extends FComponent implements Cloneable{
 					}
 			}
 			else if(inside){
-				((Container) this.getRacine()).getComponents().remove(infos);
+				normal();
 				inside = false;
 			}
 			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && rightClick){
 				rightClick = false;
-				if(getCibles().get(0) instanceof Utility){
-					((Utility) getCibles().get(0)).use();
-					if(((Utility) getCibles().get(0)).getUseNumber() <= 0){
-						((Container) this.getRacine()).getComponents().remove(infos);
-						getCibles().remove(0);
-					}
-				}
+				use();
 			}
 			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && leftClick){
 				
 				
 				leftClick = false;
 				if(nbClick >= 2 && followingMouse == false){
-					if(cibles.get(0) instanceof EquipmentItem){
-						if(cibles.get(0).getOwner().getEquipment() instanceof HumanEquipment){
-							if(!cibles.get(0).getOwner().getEquipment().getContents().contains(cibles.get(0))){
-								cibles.get(0).getOwner().getEquipment().equip((EquipmentItem) cibles.get(0));
-							}else{
-								cibles.get(0).getOwner().getEquipment().unequip((EquipmentItem) cibles.get(0));
-							}
-						}
-					}
+					equip();
 					nbClick = 0;
 				}
 			}

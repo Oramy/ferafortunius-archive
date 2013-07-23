@@ -12,6 +12,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class Menu extends Container {
 	/**
@@ -248,7 +249,16 @@ public class Menu extends Container {
 		if(ControllersManager.getFirstController().isButton1Released()){
 			layout.actionChoice();
 		}
-		((GridLayout)buttonContainer.actualLayout).updateChoice();
+		if(ControllersManager.getFirstController().isButton2Released()){
+			Button ancientButton = (Button)layout.getObjectChoice();
+			ancientButton.setName(ancientButton.getName().substring(1));
+			
+			layout.setChoice(this.getComponents().size());
+			
+			Button b = (Button)layout.getObjectChoice();
+			b.setName(">"+b.getName());
+		}
+		//((GridLayout)buttonContainer.actualLayout).updateChoice();
 	}
 	public void update(GameContainer gc, int arg1) {
 		super.update(gc, this.getX(), this.getY());

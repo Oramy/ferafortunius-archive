@@ -6,6 +6,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class Button extends FComponent{
 	/**
@@ -28,7 +30,7 @@ public class Button extends FComponent{
 	 * true si on veux que la taille soit definie
 	 */
 	protected boolean defineSize;
-	protected ComponentState state;
+	private ComponentState state;
 	protected Color maskColor;
 	protected Color textColor;
 	protected boolean actionWhilePressed;
@@ -52,7 +54,7 @@ public class Button extends FComponent{
 		boutonAct = bouton;
 		enable = true;
 		defineSize = true;
-		state = ComponentState.Normal;
+		setState(ComponentState.Normal);
 		maskColor = new Color(0,0,0,0);
 		this.setBounds(0,0,1,1);
 		prop = 1f;
@@ -69,21 +71,21 @@ public class Button extends FComponent{
 				if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 					clickPressed();
 				}
-				else if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) &&  state == ComponentState.Clicked){
+				else if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) &&  getState() == ComponentState.Clicked){
 					clickReleased();
 				}
-				if(state != ComponentState.Hover && !gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+				if(getState() != ComponentState.Hover && !gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 					hover();
-					state = ComponentState.Hover;
+					setState(ComponentState.Hover);
 				}
 			}
 			else{
-				if(state == ComponentState.Hover){
+				if(getState() == ComponentState.Hover){
 					normal();
-					state = ComponentState.Normal;
+					setState(ComponentState.Normal);
 				}
 			}
-			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && state == ComponentState.Clicked){
+			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && getState() == ComponentState.Clicked){
 				clickReleased();
 			}
 		}
@@ -95,6 +97,13 @@ public class Button extends FComponent{
 	 * Lancé quand le bouton est hover
 	 */
 	public void hover(){
+		Sound son = null;
+		try {
+			son = new Sound("Sounds/click.wav");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		son.play();
 		boutonAct = boutonHover;
 		prop = 0.95f;
 	}
@@ -120,7 +129,7 @@ public class Button extends FComponent{
 	 */
 	public void clickPressed(){
 		maskColor = new Color(0,0,0,90);
-		state = ComponentState.Clicked;
+		setState(ComponentState.Clicked);
 		if(actionWhilePressed){
 			if(firstAct){
 				action();
@@ -136,7 +145,7 @@ public class Button extends FComponent{
 	 */
 	public void clickReleased(){
 		firstAct = true;
-		state = ComponentState.Hover;
+		setState(ComponentState.Hover);
 		maskColor = new Color(0,0,0,0);
 		if(!actionWhilePressed)
 			action();
@@ -229,6 +238,12 @@ public class Button extends FComponent{
 	@Override
 	public void updateSize() {
 		
+	}
+	public ComponentState getState() {
+		return state;
+	}
+	public void setState(ComponentState state) {
+		this.state = state;
 	}
 
 

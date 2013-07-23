@@ -3,6 +3,8 @@ package gui;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class HiddenButton extends Button{
 	/**
@@ -38,6 +40,14 @@ public class HiddenButton extends Button{
 	}
 	@Override
 	public void hover(){
+		Sound son = null;
+		try {
+			son = new Sound("Sounds/click.wav");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		son.play();
+		
 		hover = true;
 		normalB = false;
 	}
@@ -49,6 +59,7 @@ public class HiddenButton extends Button{
 	@Override
 	public void clickReleased(){
 		super.clickReleased();
+		boutonAct = normal;
 	}
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);

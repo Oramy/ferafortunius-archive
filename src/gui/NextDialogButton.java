@@ -53,13 +53,13 @@ public class NextDialogButton extends Button {
 	public void clickPressed(){
 		boutonAct = normal;
 		yButton = 2;
-		state = ComponentState.Clicked;
+		setState(ComponentState.Clicked);
 		
 	}
 	@Override
 	public void clickReleased(){
 		boutonAct = normal;
-		state = ComponentState.Hover;
+		setState(ComponentState.Hover);
 		action();
 		
 	}

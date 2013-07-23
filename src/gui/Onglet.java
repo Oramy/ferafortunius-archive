@@ -38,7 +38,7 @@ public class Onglet extends Button {
 		if(((OngletManager)parent).getOngletActuel() != null){
 			if(!((OngletManager)parent).getOngletActuel().equals(this)){
 				boutonAct = ongletActivate;
-				state = ComponentState.Clicked;
+				setState(ComponentState.Clicked);
 				setX(getX() - 10);
 				setSizeX(getSizeX() + 20);
 				setY(getY() - 10);
@@ -59,7 +59,7 @@ public class Onglet extends Button {
 			}
 		}else{
 			boutonAct = ongletActivate;
-			state = ComponentState.Clicked;
+			setState(ComponentState.Clicked);
 			setX(getX() - 10);
 			setSizeX(getSizeX() + 20);
 			setY(getY() - 10);
@@ -81,7 +81,7 @@ public class Onglet extends Button {
 	}
 	@Override
 	public void clickReleased(){
-		state = ComponentState.Hover;
+		setState(ComponentState.Hover);
 	}
 	@Override
 	public void hover() {
