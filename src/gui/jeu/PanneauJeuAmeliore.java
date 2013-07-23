@@ -491,8 +491,8 @@ public class PanneauJeuAmeliore extends Container {
 		
 		ArrayList<ObjetMap> toShow = new ArrayList<ObjetMap>();
 		
-		for(int i = + iTemp + chunkX + 1, i2 = - iTemp+ chunkX - 1; i > i2; i--){
-			for(int j = + jTemp + chunkY + 1, j2 = - jTemp + chunkY - 1; j > j2; j--){
+		for(int i = iTemp + chunkX, i2 = - iTemp+ chunkX; i > i2; i--){
+			for(int j = iTemp + chunkY, j2 = - jTemp + chunkY; j > j2; j--){
 				if(i >= 0 && j >= 0 && i < carte.getMapSizeX() && j < carte.getMapSizeY()){
 					for (int k = carte.getMapSizeZ()-1, k2 = 0; k >= k2; k--) {
 						// Si une partie du chunk est à l'écran, on affiche

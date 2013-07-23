@@ -135,7 +135,7 @@ public class ChunkMap implements Serializable, Cloneable{
 	 * @param without 
 	 * 
 	 */
-	public synchronized ObjetMap verifyPosition(ObjetMap o){
+	public synchronized boolean verifyPosition(ObjetMap o){
 		ObjetMap clone = o;
 		if(getChunk(o).getModeActuel() != Chunk.GOD_MOD){
 			ObjetMap ref = (ObjetMap) o.clone();
@@ -197,12 +197,15 @@ public class ChunkMap implements Serializable, Cloneable{
 				clone.setPosZ(chunksSize);
 			}
 			if(ref.getChunkX() != clone.getChunkX() || ref.getChunkY() != clone.getChunkY() || ref.getChunkZ() != clone.getChunkZ()){
-				getChunk(ref).remove(o);
-				getChunk(o).addContenu(o);
+				if(!getChunk(o).addContenu(o)){
+					return false;
+				}
+				else
+					getChunk(ref).remove(o);
 			}
 			//getChunk(o).sort(o);
 		}
-		return clone;
+		return true;
 	}
 	public synchronized boolean addContenu(Ensemble o) {
 		for (int i = 0, c = o.getContenu().size(); i < c; i++) {
@@ -300,7 +303,6 @@ public class ChunkMap implements Serializable, Cloneable{
 				teleportation(objetActuel, 0, 0, -1, jeu);
 			}
 		}
-		verifyPosition(o);
 		getChunk(o).hasXYtoSort = true;
 		return objetActuel;
 	}
@@ -313,6 +315,12 @@ public class ChunkMap implements Serializable, Cloneable{
 				o.setPosX(o.getPosX() - x);
 				o.setPosY(o.getPosY() - y);
 				o.setPosZ(o.getPosZ() - z);
+			}
+			if(!verifyPosition(o)){
+				o.setPosX(o.getPosX() - x);
+				o.setPosY(o.getPosY() - y);
+				o.setPosZ(o.getPosZ() - z);
+				verifyPosition(o);
 			}
 		 return null;
 		}
