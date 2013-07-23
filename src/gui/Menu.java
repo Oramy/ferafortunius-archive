@@ -41,8 +41,11 @@ public class Menu extends Container {
 	private Shader test;
 	
 	private float offset;
+	
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
+		ControllersManager.getFirstController().setControllerContainer(this);
+		
 		onClickLogo = false;
 		offset = 0f;
 //		String f = "Music/Brittle Rille.ogg";
@@ -98,9 +101,14 @@ public class Menu extends Container {
 		this.addComponent(logo);
 		logoAFTS = new PImage("aftsLogo.png"); //$NON-NLS-1$
 		
-		buttonContainer = new Container(sizeX / 2 - 250, 350, 500, 500, this);
+		buttonContainer = new Container(sizeX / 2 - 250, 350, 500, 250, this);
 		buttonContainer.background = PImage.alpha;
-		buttonContainer.setActualLayout(new GridLayout(1,6));
+		
+		//Création du layout
+		GridLayout layout = new GridLayout(1,3);
+		buttonContainer.setActualLayout(layout);
+		//Initialisation du choix a 0 si il y a un controller.
+		
 		this.addComponent(buttonContainer);
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
 		nouvPart.action.add(new Action(){
@@ -215,11 +223,41 @@ public class Menu extends Container {
 	protected void nouvPart() {
 		gm.setMode(ModeJeu.Jeu, gm.getApp());
 	}
-	
+	@Override
+	public void updateController(GameContainer gc) {
+		GridLayout layout = ((GridLayout)buttonContainer.actualLayout);
+		if(layout.getChoice() == -1)
+			layout.setChoice(0);
+		if(ControllersManager.getFirstController().isDownReleased()){
+			Button ancientButton = (Button)layout.getObjectChoice();
+			ancientButton.setName(ancientButton.getName().substring(1));
+			
+			layout.increaseChoice();
+			Button b = (Button)layout.getObjectChoice();
+			b.setName(">"+b.getName());
+		}
+		if(ControllersManager.getFirstController().isUpReleased()){
+			Button ancientButton = (Button)layout.getObjectChoice();
+			ancientButton.setName(ancientButton.getName().substring(1));
+			
+			layout.decreaseChoice();
+			
+			Button b = (Button)layout.getObjectChoice();
+			b.setName(">"+b.getName());
+		}
+		if(ControllersManager.getFirstController().isButton1Released()){
+			layout.actionChoice();
+		}
+		((GridLayout)buttonContainer.actualLayout).updateChoice();
+	}
 	public void update(GameContainer gc, int arg1) {
 		super.update(gc, this.getX(), this.getY());
+		//Le layout du menu
 		int mx = Mouse.getX();
 		int my = getSizeY() - Mouse.getY();
+		
+		
+		
 		if(mx > 36 && mx < 135 + 36 && my > 371 && my < 471 + 102){
 			onLogo = true;
 		}

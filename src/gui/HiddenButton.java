@@ -15,6 +15,9 @@ public class HiddenButton extends Button{
 	private PImage icon;
 	private static final PImage normal = new PImage("GUI/hiddenButton.png");
 	private static final PImage active = new PImage("GUI/hiddenButtonActive.png");
+	
+	private boolean hover;
+	private boolean normalB;
 	public HiddenButton(String texte, String img, Container parent) {
 		super(texte, parent);
 		boutonAct = normal;
@@ -29,11 +32,14 @@ public class HiddenButton extends Button{
 	}
 	@Override
 	public void normal(){
-		boutonAct = normal;
+		
+		hover = false;
+		normalB = true;
 	}
 	@Override
 	public void hover(){
-		
+		hover = true;
+		normalB = false;
 	}
 	@Override
 	public void clickPressed(){
@@ -46,18 +52,19 @@ public class HiddenButton extends Button{
 	}
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
-		if(!isInside(gc.getInput().getMouseX(),gc.getInput().getMouseY())){
-			if(visibleX > hideVisX && visibleX - hideVisX > 5)
-				visibleX-= 5;
-			else if(visibleX > hideVisX)
-				visibleX--;
-		}
-		else{
+		if(hover){
 			if(visibleX < getSizeX() && getSizeX() - visibleX > 5){
 				visibleX += 5;
 			}
 			else if(visibleX < getSizeX())
 				visibleX++;
+			
+		}
+		else if(normalB){
+			if(visibleX > hideVisX && visibleX - hideVisX > 5)
+				visibleX-= 5;
+			else if(visibleX > hideVisX)
+				visibleX--;
 		}
 		if(!isEnable()){
 			visibleX = disableVisX;

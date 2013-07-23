@@ -31,6 +31,7 @@ public class GameMain extends BasicGame {
 	public static OptionsJeu options;
 	private TextDisplayMode gameTextDisplayMode;
 	private boolean imprecran;
+	
 	public GameMain() {
 		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name"));
 	}
@@ -116,6 +117,7 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
+		ControllersManager.update(gc);
 		if(getMode() == ModeJeu.Menu)
 			menu.update(app, arg1);
 		if(getMode() == ModeJeu.Jeu)
@@ -160,7 +162,7 @@ public class GameMain extends BasicGame {
 		}
 		if(getMode() == ModeJeu.Jeu){
 			jeu = new Jeu(this, gc);
-			getJeu().init(app, MapLoader.loadMap("data/Maps/snapshot1.dat"));
+			getJeu().init(app, MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
 			menu = null;
 			editeur = null;
 			this.mode = mode;

@@ -58,6 +58,12 @@ public class Container extends FComponent{
 		super.update(gc, x, y);
 		sortComponents();
 		updateComponents(gc, x,y);
+		if(ControllersManager.getFirstController().getControllerContainer() == this)
+			updateController(gc);
+	}
+	
+	public void updateController(GameContainer gc){
+		
 	}
 	@Override
 	public void updateSize() {
