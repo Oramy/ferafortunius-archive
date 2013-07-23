@@ -4,6 +4,9 @@ import ObjetMap.ObjetMap;
 
 public class Camera {
 	private float zoom;
+	
+	private float maxzoom = 2f;
+	private float minzoom = 0.5f;
 	private int x; 
 	private	int y;
 	private long camSpeed;
@@ -190,11 +193,11 @@ public class Camera {
 	public void setZoom(float zoom) {
 		
 		this.zoom = zoom;
-		if(this.zoom < 0.01f){
-			this.zoom = 0.01f;
+		if(this.zoom < minzoom){
+			this.zoom = minzoom;
 		}
-		if(this.zoom > 2f){
-			this.zoom = 2f;
+		if(this.zoom > maxzoom){
+			this.zoom = maxzoom;
 		}
 	}
 	/**
@@ -246,5 +249,17 @@ public class Camera {
 	}
 	public void setCamSpeed(long camSpeed) {
 		this.camSpeed = camSpeed;
+	}
+	public float getMaxzoom() {
+		return maxzoom;
+	}
+	public void setMaxzoom(float maxzoom) {
+		this.maxzoom = maxzoom;
+	}
+	public float getMinzoom() {
+		return minzoom;
+	}
+	public void setMinzoom(float minzoom) {
+		this.minzoom = minzoom;
 	}
 }

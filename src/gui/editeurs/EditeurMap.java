@@ -262,6 +262,7 @@ public class EditeurMap extends Container{
 		if(toDo.equals("playMap")){ //$NON-NLS-1$
 			playMap();
 		}
+		this.panneau.getActualCam().setMinzoom(0.2f);
 	}
 	public int allSize(){
 		int i = 0;
