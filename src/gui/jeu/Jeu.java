@@ -359,9 +359,9 @@ public class Jeu extends Container implements Cloneable {
 		panneauDuJeu.setActualCam(cameraPerso);
 		this.addComponent(panneauDuJeu);
 		
-		/* Désactivé pour la version snapshot.
+		//Désactivé pour la version snapshot.
 		 this.addComponent(new FastMenuContainer(0, this.getHeight() - 86,
-		 this.getWidth(), this.getHeight() / 2, this));*/
+		 this.getWidth(), this.getHeight() / 2, this));
 		
 		//Menu du jeu
 		this.addComponent(new MenuJeuContainer(0, 30, 170, 210, this));
@@ -672,7 +672,7 @@ public class Jeu extends Container implements Cloneable {
 			
 			//Course
 			if (gc.getInput().isKeyDown(Input.KEY_LSHIFT)
-					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT)) {
+					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT) || gc.getInput().isButton2Pressed(0)) {
 				vitesseDep = 2;
 				player.setSpeed(vitesseDep);
 			} else {
@@ -681,8 +681,7 @@ public class Jeu extends Container implements Cloneable {
 			}
 			
 			//Saut
-			if (gc.getInput().isKeyDown(Input.KEY_SPACE)
-					|| gc.getInput().isControlPressed(5)) {
+			if (gc.getInput().isKeyDown(Input.KEY_SPACE)) {
 				if (sauter != null) {
 					if (!sauter.isAlive()) {
 						sauter = new Thread(new RunJump(this, carte, player,
@@ -743,6 +742,9 @@ public class Jeu extends Container implements Cloneable {
 			} 
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
 				player.setDirection(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+				player.launchAnimation("attack"+player.getDirection().name());
+			}
+			if(gc.getInput().isButton1Pressed(0) && player.getAnimationLaunchedCount() == 0){
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
