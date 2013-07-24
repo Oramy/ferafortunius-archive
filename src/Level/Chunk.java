@@ -205,7 +205,9 @@ public class Chunk implements Serializable, Cloneable {
 		}
 		return true;
 	}
-
+	public void whenLoaded(){
+		
+	}
 	private synchronized boolean acceptedTeleporter(ObjetMap o, Jeu jeu) {
 		boolean accepted = true;
 		if ((!o.isInvisible()
@@ -549,7 +551,7 @@ public class Chunk implements Serializable, Cloneable {
 		this.updatable = updatable;
 	}
 
-	/*public synchronized void sort(ObjetMap cle) {
+	public synchronized void sort(ObjetMap cle) {
 		int id = -1;
 		for (int i = 0, c = contenu.size() - 1; i < c; i++) {
 			ObjetMap other = contenu.get(i);
@@ -563,7 +565,7 @@ public class Chunk implements Serializable, Cloneable {
 				 * 
 				 * int yA = cle.getPosY(), eyA = yA + cle.getSizeY(); int yB =
 				 * other.getPosY(), eyB = yB + other.getSizeY();
-				 
+				 */
 				if (zA > ezB)
 					id = i;
 			}
@@ -586,7 +588,7 @@ public class Chunk implements Serializable, Cloneable {
 				 * 
 				 * int yA = cle.getPosY(), eyA = yA + cle.getSizeY(); int yB =
 				 * other.getPosY(), eyB = yB + other.getSizeY();
-				 
+				 */
 				if (distanceA <= distanceB)
 					id = i;
 			}
@@ -643,7 +645,7 @@ public class Chunk implements Serializable, Cloneable {
 		contenu.remove(cle);
 		contenu.add(id + 1, cle);
 	}
-*/
+
 	public String toString() {
 		String description = "";
 		for (int i = 0; i < getContenu().size(); i++) {
@@ -652,8 +654,8 @@ public class Chunk implements Serializable, Cloneable {
 		return description;
 	}
 
-	/*public void trier() {
-		if(/*lastSort + sortDelay < System.currentTimeMillis() &&  this.isDrawing()){
+	public void trier() {
+		if(/*lastSort + sortDelay < System.currentTimeMillis() && */ this.isDrawing()){
 			long tempsPrec  = System.currentTimeMillis();
 			lastSort = System.currentTimeMillis();
 			sortDelay = 10000;
@@ -752,7 +754,7 @@ public class Chunk implements Serializable, Cloneable {
 			}
 			getContenu().set(i + 1, cle);
 		}
-	}*/
+	}
 
 	public synchronized void update(Jeu jeu) {
 		
@@ -810,7 +812,7 @@ public class Chunk implements Serializable, Cloneable {
 			bindings.put(key, getValuesToAdd().get(key));
 		}
 		valuesToAdd.clear();
-		if(megaCompressScript != null){
+		if(megaCompressScript != null && !megaCompressScript.equals("")){
 			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
 			String toLaunch = megaCompressScript;
 			megaCompressScript = "";
