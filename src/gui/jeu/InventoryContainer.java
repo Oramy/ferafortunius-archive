@@ -34,14 +34,26 @@ public class InventoryContainer extends Container{
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
 		if(this.inventaire.getContents().size() != itemNumber){
+			reinitSelection();
 			this.components.clear();
 			addInventory();
+			hoverSelection();
 		}
+	}
+	public void reinitSelection(){
+		if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
+			((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).normal();
+		
+	}
+	public void hoverSelection(){
+		if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
+			((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).hover();
+		
 	}
 	public void setX(int x){
 		if(getComponents() != null){
-			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null && this.x != x)
-				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).normal();
+			if(this.x != x)
+				reinitSelection();
 			
 			this.x = x;
 			
@@ -51,16 +63,16 @@ public class InventoryContainer extends Container{
 				this.x--;
 			while(this.y * 4 + this.x + 1> getComponents().size())
 				this.x--;
-			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
-				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).hover();
+			
+			hoverSelection();
 			
 		}
 
 	}
 	public void setY(int y){
 		if(getComponents() != null){
-			if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null && this.y != y)
-				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).normal();
+			if(this.y != y)
+				reinitSelection();
 			this.y = y;
 			
 			if(this.y < 0)
@@ -70,8 +82,7 @@ public class InventoryContainer extends Container{
 			
 			while(this.y * 4 + x + 1> getComponents().size())
 				this.x--;
-			if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
-				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).hover();
+			hoverSelection();
 		}
 	}
 	public void updateController(GameContainer gc){
