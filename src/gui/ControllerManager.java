@@ -293,7 +293,9 @@ public class ControllerManager {
 	}
 
 	public boolean isButton3Released() {
-		return button3Released;
+		boolean toReturn = button3Released;
+		button3Released = false;
+		return toReturn;
 	}
 
 	public boolean isButton4Pressed() {
