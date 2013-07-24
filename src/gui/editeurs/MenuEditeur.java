@@ -55,6 +55,11 @@ public class MenuEditeur extends Container{
 				}
 				else if(editeur.getEditeurMode() == EditeurMode.Supprimer)
 				{
+					himself.setName(Messages.getString("SupprimerRel")); //$NON-NLS-1$
+					editeur.setEditeurMode(EditeurMode.SupprimerRel);
+				}
+				else if(editeur.getEditeurMode() == EditeurMode.SupprimerRel)
+				{
 					himself.setName(Messages.getString("MenuEditeur.3")); //$NON-NLS-1$
 					editeur.setEditeurMode(EditeurMode.Placer);
 				}
