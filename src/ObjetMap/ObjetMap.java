@@ -8,12 +8,12 @@ import gui.jeu.PanneauJeuAmeliore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.lwjgl.input.Mouse;
@@ -586,7 +586,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		float mouseY = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
 				.getYOnScreen());
 		
-		if(!(pan.getParent() instanceof Jeu)){
+		
 			//Obtention des coordonnées de l'image
 			float minX = getXOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
 			float maxX = minX
@@ -604,9 +604,12 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 					if (!pan.getSurlignObject().equals(this)) {
 						pan.getSurlignObject().surligned = false;
 						pan.setSurlignObject(this);
-						if (this.surligned == true)
-							setOmbre(getOmbre() + 100);
-						surligned = true;
+
+						if( !(pan.getParent() instanceof Jeu)){
+							if (this.surligned == true)
+								setOmbre(getOmbre() + 100);
+							surligned = true;
+						}
 					}
 				} else
 					pan.setSurlignObject(this);
@@ -614,7 +617,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			else{
 				surligned = false;
 			}
-		}
 		
 		img.setAlpha(opacity);
 		
@@ -644,9 +646,25 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			maskColor.g = 1f;
 			maskColor.b = 1f;
 		}
+		GregorianCalendar calendar = new GregorianCalendar();
+		float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
+	
+		float nightValue = (float)(heure - 12) / 12f;
+		if(nightValue < 0)
+			nightValue = 1f + nightValue;
+		if(8 < heure && heure < 16)
+			nightValue = 0;
+		if(heure <= 8)
+			nightValue =  1f - (heure - 4) / 4f;
+		if(heure >= 16)
+			nightValue =  (heure - 16f)/ 4f;
+		if(heure >= 20)
+			nightValue =  1f;
+		if(heure <= 4)
+			nightValue =  1f;
 		//Dessin
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), new Color(maskColor.r - (float)ombre / 255f,maskColor.g  - (float)ombre / 255f,maskColor.b  - (float)ombre / 255f, opacity));
+				c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.4f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
 		//Si on veut appliquer l'ombre Z
 		
 	}
