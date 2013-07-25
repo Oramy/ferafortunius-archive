@@ -15,8 +15,17 @@ public abstract class Bonus implements Cloneable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Cible affectée par le bonus.
+	 */
 	private Entity cible;
+	
+	/**
+	 * Texte a afficher.
+	 */
 	private String text;
+	
 	public Bonus(Entity o){
 		setCible(o);
 	}
@@ -31,12 +40,16 @@ public abstract class Bonus implements Cloneable, Serializable {
 		}
 		return null;
 	}
+	
 	public abstract void effect();
+	
 	public void paintComponent(Graphics g, Camera cam){
+	
 	}
 	public void update(Jeu jeu){
 		
 	}
+	//Getters and setters.
 	public Entity getCible() {
 		return cible;
 	}

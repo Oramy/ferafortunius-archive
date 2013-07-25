@@ -26,8 +26,7 @@ public class BuffRegenLife extends Buff{
 
 	@Override
 	public void endBuffEffect() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 }
