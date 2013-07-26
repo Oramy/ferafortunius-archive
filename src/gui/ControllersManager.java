@@ -10,7 +10,7 @@ public class ControllersManager {
 	private static PImage buttonXXbox = new PImage("GUI/Controllers/Xbox360_Button_X.png"), buttonXPS3  = new PImage("GUI/Controllers/PS3_Square.png");
 	
 	public static PImage getButtonX(GameContainer gc){
-		if(hasController(gc) && !isXBox(gc))
+		if(hasController(gc) && isXBox(gc))
 			return buttonXXbox;
 		return buttonXPS3;
 	}
