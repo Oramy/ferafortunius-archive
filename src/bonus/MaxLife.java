@@ -22,12 +22,12 @@ public class MaxLife extends Buff{
 
 	@Override
 	public void effect() {
-		getCible().setMaxHp(getCible().getMaxHp() * (100+amount) / 100);
+		getCible().setMaxHp((int)Math.ceil(getCible().getMaxHp() * (100f+(float)amount) / 100f));
 	}
 
 	@Override
 	public void endBuffEffect() {
-		getCible().setMaxHp(getCible().getMaxHp() / (100+amount) * 100);
+		getCible().setMaxHp((int)Math.floor(getCible().getMaxHp() / (100f+(float)amount) * 100f));
 	}
 
 }
