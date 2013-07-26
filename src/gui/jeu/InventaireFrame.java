@@ -25,7 +25,7 @@ public class InventaireFrame extends InternalFrame{
 		inventoryInfos.setSizeX(sizeX);
 		inventoryInfos.setSizeY(25);
 		weightContainer.addComponent(inventoryInfos);
-		weightContainer.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png"));
+		weightContainer.setBackground(Container.backGroundUnbordsBlackHorizontal);
 		this.getContainer().addComponent(scroll);
 		this.getContainer().addComponent(weightContainer);
 		

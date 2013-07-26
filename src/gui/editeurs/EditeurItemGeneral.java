@@ -7,13 +7,13 @@ import gui.Chooser;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.GridLayout;
 import gui.ImgComponent;
 import gui.IntLabel;
 import gui.Label;
 import gui.PImage;
 import gui.Text;
 import gui.TextArea;
+import gui.layouts.GridLayout;
 
 import observer.ActionListener;
 
@@ -71,7 +71,7 @@ public class EditeurItemGeneral extends EditeurItemBasic{
 			//Partie 1
 			part1 = new ContainerWithBords(0,0, 1,1, general);
 			general.addComponent(part1);	
-				apercu = new ImgComponent(new PImage("alpha.png"), part1); //$NON-NLS-1$
+				apercu = new ImgComponent(Container.alpha, part1); //$NON-NLS-1$
 				apercu.setBounds(0, 0, part1.getSizeX(), part1.getSizeY());
 				apercu.setSizeChange(false);
 				part1.addComponent(apercu);

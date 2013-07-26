@@ -169,7 +169,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		timedSExplorerscroll = new ScrollBar(10 , 90, getSizeX() / 2 - 10, getSizeY() / 2 - 100, 1, 0,this);
 		timedSExplorer = new Container(0,0, getSizeX() / 2 - 10, getSizeY() / 2 - 100, timedSExplorerscroll);
 		timedSExplorerscroll.setContainer(timedSExplorer);
-		timedSExplorer.setBackground(new PImage(Messages.getString("BasicAnimationEditor.9"))); //$NON-NLS-1$
+		timedSExplorer.setBackground(Container.alpha); //$NON-NLS-1$
 		this.addComponent(timedSExplorerscroll);
 		
 		timedSEditor =  new TimedScriptEditor(animationToAdd, 0, getSizeY()  / 2, getSizeX(), getSizeY() / 2, this);

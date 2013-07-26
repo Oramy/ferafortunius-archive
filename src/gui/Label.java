@@ -11,7 +11,7 @@ public class Label extends Container{
 	private static final long serialVersionUID = -1530076009079149287L;
 	protected String intitule;
 	protected InputLabel input;
-	private PImage backgroundLabel;
+	private static final PImage backgroundLabel = new PImage("GUI/label.png");;
 	private Color textColor;
 	public Label(int x, int y , int sizeX, int sizeY,Container parent) {
 		super(x, y, sizeX, sizeY, parent);
@@ -46,8 +46,7 @@ public class Label extends Container{
 	public void init(){
 		setIntitule("");
 		setInput(new InputLabel(this));
-		backgroundLabel = new PImage("GUI/label.png");
-		background = new PImage("alpha.png");
+		background = Container.alpha;
 		alwaysUpdateOnClick = true;
 		setTextColor(new Color(0,0,0));
 	}

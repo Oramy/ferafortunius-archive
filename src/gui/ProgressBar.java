@@ -12,7 +12,11 @@ public class ProgressBar extends FComponent{
 	protected int value;
 	protected String title;
 	protected Color color, backColor;
-	protected PImage progressBarImg;
+	
+	public static final PImage progressBarImg = new PImage("GUI/progressBar.png");
+	public static final PImage squareProgressBar = new PImage("GUI/squareProgressBar.png");
+	
+	protected PImage actProgressBarImg = progressBarImg;
 	protected Align align;
 	protected Align textAlign;
 	public ProgressBar(int valueMax, Container parent) {
@@ -84,36 +88,36 @@ public class ProgressBar extends FComponent{
 		setSizeY(50);
 		backColor = new Color(0,0,0,0);
 		color = backColor;
-		progressBarImg = new PImage("GUI/progressBar.png");
+		
 		align = Align.Left;
 		textAlign = Align.Left;
 	}
 	public void draw(Graphics g){
 		int colorToDraw = (int)((float)(getSizeX()) /  (float)(valueMax) *  (float)(value));
 		g.translate(getX(), getY()); 
-			progressBarImg.getImg().startUse();
+			actProgressBarImg.getImg().startUse();
 			
-			progressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 0,0,10, progressBarImg.getImg().getHeight());
-			progressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 10, 0, progressBarImg.getImg().getWidth() - 10, progressBarImg.getImg().getHeight());
-			progressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, getSizeX(), getSizeY(), progressBarImg.getImg().getWidth() - 10,0,progressBarImg.getImg().getWidth(), progressBarImg.getImg().getHeight());
+			actProgressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 0,0,10, actProgressBarImg.getImg().getHeight());
+			actProgressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 10, 0, actProgressBarImg.getImg().getWidth() - 10, actProgressBarImg.getImg().getHeight());
+			actProgressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, getSizeX(), getSizeY(), actProgressBarImg.getImg().getWidth() - 10,0,actProgressBarImg.getImg().getWidth(), actProgressBarImg.getImg().getHeight());
 			if(align == Align.Left){
 				if(colorToDraw > 10){
-					progressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 
-							0, 0, 10, progressBarImg.getImg().getHeight(), color);
+					actProgressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 
+							0, 0, 10, actProgressBarImg.getImg().getHeight(), color);
 					if(colorToDraw > getSizeX() - 10){
-						progressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 
-								10, 0, progressBarImg.getImg().getWidth() - 10, progressBarImg.getImg().getHeight(), color);
+						actProgressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 
+								10, 0, actProgressBarImg.getImg().getWidth() - 10, actProgressBarImg.getImg().getHeight(), color);
 						
-						progressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, colorToDraw, getSizeY(), 
-								progressBarImg.getImg().getWidth() - 10, 0, progressBarImg.getImg().getWidth(), progressBarImg.getImg().getHeight(), color);
+						actProgressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, colorToDraw, getSizeY(), 
+								actProgressBarImg.getImg().getWidth() - 10, 0, actProgressBarImg.getImg().getWidth(), actProgressBarImg.getImg().getHeight(), color);
 					}else{
-						progressBarImg.getImg().drawEmbedded(10, 0, colorToDraw, getSizeY(), 
-								10, 0, progressBarImg.getImg().getWidth() - 10, progressBarImg.getImg().getHeight(), color);
+						actProgressBarImg.getImg().drawEmbedded(10, 0, colorToDraw, getSizeY(), 
+								10, 0, actProgressBarImg.getImg().getWidth() - 10, actProgressBarImg.getImg().getHeight(), color);
 					}
 				}
 				else{
-					progressBarImg.getImg().drawEmbedded(0, 0, colorToDraw, getSizeY(), 
-							0, 0, colorToDraw, progressBarImg.getImg().getHeight(), color); 
+					actProgressBarImg.getImg().drawEmbedded(0, 0, colorToDraw, getSizeY(), 
+							0, 0, colorToDraw, actProgressBarImg.getImg().getHeight(), color); 
 				}
 				
 				
@@ -125,27 +129,27 @@ public class ProgressBar extends FComponent{
 				g.rotate(0, 0, 180);
 					g.translate(-getSizeX(), -getSizeY()); 
 					if(colorToDraw > 10){
-						progressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 
-								0, 0, 10, progressBarImg.getImg().getHeight(), color);
+						actProgressBarImg.getImg().drawEmbedded(0, 0, 10, getSizeY(), 
+								0, 0, 10, actProgressBarImg.getImg().getHeight(), color);
 						if(colorToDraw > getSizeX() - 10){
-							progressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 
-									10, 0, progressBarImg.getImg().getWidth() - 10, progressBarImg.getImg().getHeight(), color);
+							actProgressBarImg.getImg().drawEmbedded(10, 0, getSizeX() - 10, getSizeY(), 
+									10, 0, actProgressBarImg.getImg().getWidth() - 10, actProgressBarImg.getImg().getHeight(), color);
 							
-							progressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, colorToDraw, getSizeY(), 
-									progressBarImg.getImg().getWidth() - 10, 0, progressBarImg.getImg().getWidth(), progressBarImg.getImg().getHeight(), color);
+							actProgressBarImg.getImg().drawEmbedded(getSizeX() - 10, 0, colorToDraw, getSizeY(), 
+									actProgressBarImg.getImg().getWidth() - 10, 0, actProgressBarImg.getImg().getWidth(), actProgressBarImg.getImg().getHeight(), color);
 						}else{
-							progressBarImg.getImg().drawEmbedded(10, 0, colorToDraw, getSizeY(), 
-									10, 0, progressBarImg.getImg().getWidth() - 10, progressBarImg.getImg().getHeight(), color);
+							actProgressBarImg.getImg().drawEmbedded(10, 0, colorToDraw, getSizeY(), 
+									10, 0, actProgressBarImg.getImg().getWidth() - 10, actProgressBarImg.getImg().getHeight(), color);
 						}
 					}
 					else{
-						progressBarImg.getImg().drawEmbedded(0, 0, colorToDraw, getSizeY(), 
-								0, 0, colorToDraw, progressBarImg.getImg().getHeight(), color); 
+						actProgressBarImg.getImg().drawEmbedded(0, 0, colorToDraw, getSizeY(), 
+								0, 0, colorToDraw, actProgressBarImg.getImg().getHeight(), color); 
 					}
 					g.translate(getSizeX() , getSizeY() );
 				g.rotate(0, 0, -180);
 			}
-			progressBarImg.getImg().endUse();
+			actProgressBarImg.getImg().endUse();
 			g.setColor(Color.black);
 				if(textAlign == Align.Left)
 					g.drawString(getTitle(), 15, getSizeY() / 2 - g.getFont().getLineHeight() / 2);

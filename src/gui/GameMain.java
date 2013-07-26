@@ -30,10 +30,12 @@ public class GameMain extends BasicGame {
 	private AppGameContainer app;
 	public static OptionsJeu options;
 	private TextDisplayMode gameTextDisplayMode;
-	private boolean imprecran;
 	
+	
+	public static boolean imprEcran;
 	
 	public static float delta;
+	
 	public GameMain() {
 		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name"));
 	}
@@ -71,7 +73,7 @@ public class GameMain extends BasicGame {
 		applyOptions(gc);
 		menu = new Menu(this, gc);
 		mode = ModeJeu.Menu;
-		imprecran = false;
+		imprEcran = false;
 		menu.init(gc);
 		input = gc.getInput();
 		input.enableKeyRepeat();
@@ -91,8 +93,8 @@ public class GameMain extends BasicGame {
 			if(getMode() == ModeJeu.Editeur){
 				editeur.paintComponent(container, g);
 			}
-			if(imprecran){
-				imprecran = false;
+			if(imprEcran){
+				imprEcran = false;
 				Image target;
 				try {
 					target = new Image(getApp().getWidth(), getApp().getHeight());
@@ -128,7 +130,7 @@ public class GameMain extends BasicGame {
 		if(getMode() == ModeJeu.Editeur)
 			editeur.update(app, arg1);
 		if(gc.getInput().isKeyPressed(Input.KEY_F11)){
-			imprecran = true;
+			imprEcran = true;
 		}
 	}
 

@@ -14,8 +14,8 @@ public class Slider extends FComponent{
 	 */
 	private static final long serialVersionUID = 4119891275627924428L;
 	private int value, valueMax;
-	private PImage slideZone;
-	private PImage slider;
+	public static final PImage slideZone = new PImage("GUI/slideZone.png");
+	public static final PImage slider  = new PImage("GUI/slider.png");;
 	private boolean clicked;
 	private boolean dragged;
 	private int pas;
@@ -45,8 +45,6 @@ public class Slider extends FComponent{
 		valueMax = 0;
 		setSizeX(100);
 		setSizeY(58);
-		slideZone = new PImage("GUI/slideZone.png");
-		slider = new PImage("GUI/slider.png");
 		action = new ArrayList<ActionListener>();
 		clicked = false;
 		dragged = false;

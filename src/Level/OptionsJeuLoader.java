@@ -46,6 +46,8 @@ public class OptionsJeuLoader {
 		//Plein écran
 		o.setWindowed(!loadBoolean("fullscreen"));
 		
+		o.setScreenshotGUI(loadBoolean("screenshotGUI"));
+		
 		//Text Speed
 		String textspeed = RESOURCE_BUNDLE.getString("textspeed");
 		

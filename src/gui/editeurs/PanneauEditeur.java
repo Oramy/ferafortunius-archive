@@ -9,7 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import Level.ChunkMap;
-import Level.LayeredChunkMap;
 import ObjetMap.Ensemble;
 import ObjetMap.ObjetMap;
 

@@ -1,16 +1,13 @@
 package gui.jeu;
 
-import gui.Button;
-import gui.ComponentState;
 import gui.Container;
 import gui.ControllersManager;
 import gui.FComponent;
-import gui.GridLayout;
 import gui.HiddenButton;
 import gui.ModeJeu;
 import gui.PImage;
 import gui.ScrollBar;
-
+import gui.layouts.GridLayout;
 import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
@@ -24,7 +21,7 @@ public class MenuJeuContainer extends Container{
 
 	public MenuJeuContainer(int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
-		background = new PImage("alpha.png"); //$NON-NLS-1$
+		background = Container.alpha; //$NON-NLS-1$
 		HiddenButton inventaire = new HiddenButton(Messages.getString("MenuJeuContainer.1"), "GUI/Icon/inventaire.png", this); //$NON-NLS-1$ //$NON-NLS-2$
 		inventaire.setY(0);
 		//inventaire.disable();

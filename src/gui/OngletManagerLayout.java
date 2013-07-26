@@ -1,5 +1,7 @@
 package gui;
 
+import gui.layouts.Layout;
+
 public class OngletManagerLayout extends Layout {
 	public void addComponent(Container container, FComponent c) {
 		container.getComponents().add(c);

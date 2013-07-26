@@ -8,6 +8,8 @@ public class TextArea extends ContainerWithBords{
 	 */
 	private static final long serialVersionUID = 1L;
 	protected InputTextArea input;
+	
+	protected static final PImage textFieldBackGround = new PImage("GUI/textField.png");
 	public TextArea(int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
 		input = new InputTextArea(this);
@@ -17,7 +19,7 @@ public class TextArea extends ContainerWithBords{
 		input.setSizeY(sizeY - 40);
 		alwaysUpdateOnClick = true;
 		this.addComponent(input);
-		this.setBackground(new PImage("GUI/textField.png"));
+		this.setBackground(TextArea.textFieldBackGround);
 		
 	}
 	public void update(GameContainer gc, int x, int y){

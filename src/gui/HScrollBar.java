@@ -4,7 +4,7 @@ import org.newdawn.slick.Graphics;
 
 public class HScrollBar extends Container{
 	private static final long serialVersionUID = -860520415651633186L;
-	protected PImage bardedef, curseur;
+	protected static final PImage bardedef = new PImage("GUI/scrollbar.png"), curseur = new PImage("GUI/cursor.png");
 	protected float posX;
 	protected float posY;
 	protected float sizeX;
@@ -26,8 +26,6 @@ public class HScrollBar extends Container{
 		this.prop = prop;
 		this.sizeY = sizeY - 120 * prop;
 		this.sizeX = sizeX;
-		bardedef = new PImage("GUI/scrollbar.png");
-		curseur = new PImage("GUI/cursor.png");
 	}
 
 	public void draw(Graphics g){

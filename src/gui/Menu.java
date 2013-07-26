@@ -1,6 +1,6 @@
 package gui;
 
-import gui.jeu.Jeu;
+import gui.layouts.GridLayout;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -16,9 +16,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-
-import Level.MapLoader;
 
 public class Menu extends Container {
 	/**
@@ -28,11 +25,11 @@ public class Menu extends Container {
 	private GameMain gm;
 	private BasicButtonImage logo;
 	private ArrayList<PImage> backgroundimages;
-	private int backgroundid;
+	private int backgroundId;
 	private long tempsPrec;
 	private PImage transitionBackground;
-	private PImage logoAFTS;
-	private PImage alpha;
+	private static final PImage logoAFTS = new PImage("aftsLogo.png");;
+	
 	private Color transitionColor;
 	private boolean onLogo;
 	private boolean onLogoAFTS;
@@ -51,11 +48,15 @@ public class Menu extends Container {
 	
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
+		
+		//Focus the controller
 		ControllersManager.getFirstController().setControllerContainer(this);
 		
 		onClickLogo = false;
-		offset = 0f;
-//		String f = "Music/Brittle Rille.ogg";
+		
+		/*
+		offset = 10f;
+		//		String f = "Music/Brittle Rille.ogg";
 		try {
 			test = Shader.makeShader("data/Shaders/test.vert", "data/Shaders/test.frag");
 			test.setUniformFVariable("offset", offset);
@@ -63,11 +64,17 @@ public class Menu extends Container {
 		} catch (SlickException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
+		
+		//Initialisation
 		toDo = ""; //$NON-NLS-1$
 		transitionColor = new Color(0,0,0, 0);
 		gm = gameMain;
+		tempsPrec = 0;
+		
+		//Backgrounds.
 		backgroundimages = new ArrayList<PImage>();
+		
 		File f = new File("Images/Menu/");
 		File[] fonds = f.listFiles();
 		for(int i = 0; i < fonds.length; i++){
@@ -75,11 +82,17 @@ public class Menu extends Container {
 			if(!fond.isHidden())
 			backgroundimages.add(new PImage("Menu/" + fond.getName()));
 		}
-		backgroundid = (int) (Math.random() * backgroundimages.size());
+		
+		//Init background ID
+		backgroundId = (int) (Math.random() * backgroundimages.size());
+		
+		//Init backgrounds.
 		this.backgroundMode = Affichage.ImageScaled;
-		tempsPrec = 0;
-		this.setBackground(backgroundimages.get(backgroundid)); //$NON-NLS-1$
-		transitionBackground = backgroundimages.get((backgroundid + 1) % backgroundimages.size());
+		this.setBackground(backgroundimages.get(backgroundId)); //$NON-NLS-1$
+		transitionBackground = backgroundimages.get((backgroundId + 1) % backgroundimages.size());
+		
+		
+		//Init logo
 		logo = new BasicButtonImage("GUI/logo.png", this);//$NON-NLS-1$
 		logo.x = sizeX / 2 - logo.sizeX / 2;
 		logo.alwaysUpdateOnClick = true;
@@ -106,17 +119,16 @@ public class Menu extends Container {
 			}
 		});
 		this.addComponent(logo);
-		logoAFTS = new PImage("aftsLogo.png"); //$NON-NLS-1$
+		
 		
 		buttonContainer = new Container(sizeX / 2 - 250, 350, 500, 250, this);
-		buttonContainer.background = PImage.alpha;
+		buttonContainer.background = Container.alpha;
 		
 		//Création du layout
 		GridLayout layout = new GridLayout(1,3);
 		buttonContainer.setActualLayout(layout);
-		//Initialisation du choix a 0 si il y a un controller.
-		
 		this.addComponent(buttonContainer);
+		
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
 		nouvPart.action.add(new ActionListener(){
 			private Menu c;
@@ -144,7 +156,8 @@ public class Menu extends Container {
 		});
 		nouvPart.setSizeX(500);
 		buttonContainer.addComponent(nouvPart);
-		chargerPart = new Button(Messages.getString("Menu.text.1"), buttonContainer); //$NON-NLS-1$
+		
+		/*chargerPart = new Button(Messages.getString("Menu.text.1"), buttonContainer); //$NON-NLS-1$
 		chargerPart.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
@@ -302,17 +315,16 @@ public class Menu extends Container {
 		}
 		if(System.currentTimeMillis() - 120000 > tempsPrec){
 			tempsPrec = System.currentTimeMillis();
-			backgroundid++;
-			backgroundid  %= backgroundimages.size();
-			background = backgroundimages.get(backgroundid);
-			transitionBackground = backgroundimages.get((backgroundid + 1) % backgroundimages.size());
+			backgroundId++;
+			backgroundId  %= backgroundimages.size();
+			background = backgroundimages.get(backgroundId);
+			transitionBackground = backgroundimages.get((backgroundId + 1) % backgroundimages.size());
 		}
-			alpha = new PImage("alpha.png"); //$NON-NLS-1$
-			nouvPart.boutonAct = alpha;
+			nouvPart.boutonAct = Container.alpha;
 			//chargerPart.boutonAct = alpha;
-			editer.boutonAct = alpha;
+			editer.boutonAct = Container.alpha;
 			//optionsButton.boutonAct = alpha;
-			quitter.boutonAct = alpha;
+			quitter.boutonAct = Container.alpha;
 	}
 	public void paintComponent(GameContainer container, Graphics g) {
 		g.setFont(FontRessources.getFonts().titres);
@@ -332,7 +344,6 @@ public class Menu extends Container {
 			g.setColor(transitionColor);
 			g.fillRect(0, 0, getSizeX(), getSizeY());
 		this.drawEnd(g);
-		Shader.forceFixedShader();
 	}
 	public void init(GameContainer gc) {
 		toDo = "";

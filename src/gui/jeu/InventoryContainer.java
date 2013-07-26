@@ -23,7 +23,7 @@ public class InventoryContainer extends Container{
 	public InventoryContainer(int x, int y, int sizeX, int sizeY, Inventory inventaire,	Container parent) {
 		super(x, y, sizeX, sizeY, parent);
 		this.inventaire = inventaire;
-		background = new PImage("alpha.png");
+		background = Container.alpha;
 		itemNumber = 0;
 		addInventory();
 		this.x = -1;

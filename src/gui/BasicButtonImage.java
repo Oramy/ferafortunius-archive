@@ -7,7 +7,9 @@ public class BasicButtonImage extends Button{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private PImage image;
+	
 	public BasicButtonImage(String path, Container parent) {
 		super("", parent);
 		image = new PImage(path);

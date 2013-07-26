@@ -1,8 +1,8 @@
 package gui.editeurs;
 
 import gui.Container;
-import gui.GridLayout;
 import gui.IntLabel;
+import gui.layouts.GridLayout;
 import gui.widgets.WBonusList;
 import gui.widgets.Widget;
 import Items.Utility;

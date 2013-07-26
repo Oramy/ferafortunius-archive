@@ -11,7 +11,7 @@ public class ContainerWithBords extends Container{
 	public ContainerWithBords(int x, int y, int sizeX, int sizeY,
 			Container parent) {
 		super(x, y, sizeX, sizeY, parent);
-		background = new PImage("GUI/containerBackground.png");
+		background = Container.normalBackground;
 		
 	}
 	public void draw(Graphics g) {

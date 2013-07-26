@@ -26,9 +26,8 @@ public class ItemComponent extends FComponent implements Cloneable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Item> cibles;
-	private PImage background;
+	private PImage background = new PImage("GUI/itemBackground.png");
 	private ItemDescription infos;
-	private PImage equipe;
 	private boolean inside = false;
 	private boolean rightClick = false;
 	private boolean leftClick = false;
@@ -44,8 +43,7 @@ public class ItemComponent extends FComponent implements Cloneable{
 		nbClick = 0;
 		setCibles(new ArrayList<Item>());
 		getCibles().add(cible);
-		background = new PImage("GUI/itemBackground.png");
-		equipe = new PImage("GUI/Icon/equipe.png");
+		
 		
 	}
 	public void hover(){
@@ -187,7 +185,7 @@ public class ItemComponent extends FComponent implements Cloneable{
 					g.drawString(getCibles().size() + "", (int)(getSizeX() - 10 - g.getFont().getWidth(getCibles().size() + "")), (int)(getSizeY() - 10 - g.getFont().getHeight(getCibles().size() + "")));
 				}
 				if(getCibles().get(0).getOwner().getEquipment().getContents().contains(getCibles().get(0))){
-						equipe.getImg().draw(10, getSizeY() - equipe.getImg().getHeight() / 6 - 10, equipe.getImg().getWidth() / 6,  equipe.getImg().getHeight() / 6);
+						EquipmentDescription.equipe.getImg().draw(10, getSizeY() - EquipmentDescription.equipe.getImg().getHeight() / 6 - 10, EquipmentDescription.equipe.getImg().getWidth() / 6,  EquipmentDescription.equipe.getImg().getHeight() / 6);
 					
 				}
 			}

@@ -56,8 +56,7 @@ public class Editeur extends Container{
 	}
 	public void initOnglets(GameContainer gc){
 		onglets = new OngletManager(0,0,getSizeX(), getSizeY(), this);
-		PImage p  = new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png"); //$NON-NLS-1$
-		onglets.setBackground(p);
+		onglets.setBackground(Container.backGroundUnbordsBlackHorizontal);
 
 		this.addComponent(onglets);
 		Onglet ongletEditeurMap = new Onglet(Messages.getString("Editeur.1"), onglets); //$NON-NLS-1$
@@ -124,7 +123,7 @@ public class Editeur extends Container{
 		setWorkedObj(new BasicObjetMap(0,0,0,0,0, 0));
 		initOnglets(gc);
 
-		this.background = new PImage("alpha.png"); //$NON-NLS-1$
+		this.background = Container.alpha; //$NON-NLS-1$
 		Thread t = new Thread(new Runnable(){
 			public void run(){
 

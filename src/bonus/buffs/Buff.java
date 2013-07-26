@@ -1,5 +1,6 @@
-package bonus;
+package bonus.buffs;
 
+import bonus.Bonus;
 import gui.jeu.Jeu;
 import ObjetMap.Entity;
 
@@ -70,6 +71,8 @@ public abstract class Buff extends Bonus{
 	 */
 	public abstract void buffEffect();
 	public abstract void endBuffEffect();
+	
+	
 	/* -------------------
 	 * Getters and Setters
 	 * -------------------

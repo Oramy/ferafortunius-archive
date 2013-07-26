@@ -88,7 +88,7 @@ public class EditeurAnimation extends Container{
 		animExplorerscroll = new ScrollBar(0, sizeY / 2, sizeX / 2, sizeY / 2, 1, 0,this);
 		animExplorer = new Container(0,0, sizeX / 4 - 10, sizeY / 4, animExplorerscroll);
 		animExplorerscroll.setContainer(animExplorer);
-		animExplorer.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+		animExplorer.setBackground(Container.alpha); //$NON-NLS-1$
 		this.addComponent(animExplorerscroll);
 		
 		basicAnimationEditor = new BasicAnimationEditor(o, sizeX / 2, 0, sizeX / 2, sizeY, this);

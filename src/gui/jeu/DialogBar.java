@@ -25,7 +25,8 @@ public class DialogBar extends Container{
 	private static final long serialVersionUID = 1L;
 	protected ArrayList<Text> dialogList;
 	protected boolean enter;
-	protected static PImage textButton = new PImage("GUI/textboxbutton.png"), textButtonHover = new PImage("GUI/textboxbuttonhover.png");
+	public static final PImage textButton = new PImage("GUI/textboxbutton.png"), textButtonHover = new PImage("GUI/textboxbuttonhover.png");
+	public static final PImage textBox = new PImage("GUI/textBox.png");
 	protected  PImage actualTextButton;
 	protected NextDialogButton next;
 	protected boolean clicked;
@@ -89,7 +90,7 @@ public class DialogBar extends Container{
 			}
 		}
 		if(this.components.size() <= 1 && dialogList.size() > 0){
-			this.background = new PImage("GUI/textBox.png");
+			this.background = DialogBar.textBox;
 			background.getImg().setAlpha(0.5f);
 			this.addComponent(dialogList.get(0));
 			dialogList.get(0).setY(20);
@@ -97,7 +98,7 @@ public class DialogBar extends Container{
 			dialogList.get(0).setDisplay(((Jeu)(this.getRacine())).getGameTextDisplayMode());
 		}
 		else if(dialogList.size() == 0 && this.components.size() == 0){
-			this.background = new PImage("alpha.png");
+			this.background = Container.alpha;
 			
 		}
 		

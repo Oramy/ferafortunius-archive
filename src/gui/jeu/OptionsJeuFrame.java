@@ -6,7 +6,6 @@ import gui.CheckBoxManager;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.GridLayout;
 import gui.InternalFrame;
 import gui.Label;
 import gui.ModeJeu;
@@ -14,6 +13,7 @@ import gui.PImage;
 import gui.Slider;
 import gui.Text;
 import gui.TextDisplayMode;
+import gui.layouts.GridLayout;
 
 import observer.ActionListener;
 
@@ -61,7 +61,7 @@ public class OptionsJeuFrame extends InternalFrame{
 		super(p.getSizeX() / 2 - 250, p.getSizeY() / 2 - 250, 500,500, title, p);
 		this.options = options2;
 		boxManager = new CheckBoxManager(10,0,400,50, getContainer());
-		boxManager.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+		boxManager.setBackground(Container.alpha); //$NON-NLS-1$
 		vSync = new CheckBox(Messages.getString("OptionsJeuFrame.5"), boxManager); //$NON-NLS-1$
 		vSync.setCheck(options.isVsync());
 		vSync.setY(0);

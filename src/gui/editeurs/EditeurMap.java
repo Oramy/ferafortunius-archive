@@ -6,12 +6,12 @@ import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
 import gui.GameMain;
-import gui.GridLayout;
 import gui.InternalFrame;
-import gui.MinHeightLayer;
 import gui.ModeJeu;
 import gui.PImage;
 import gui.ScrollBar;
+import gui.layouts.GridLayout;
+import gui.layouts.MinHeightLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class EditeurMap extends Container{
 		
 
 		Container contgrid = new Container(0, 0, choixObjets.getSizeX()- 20, 1, scrollbar);
-		contgrid.setActualLayout(new MinHeightLayer());
+		contgrid.setActualLayout(new MinHeightLayout());
 		ArrayList<ObjetMap> liste = loadFolder(0, 0,path, contgrid);
 		
 			//Bouton "Reload"
@@ -85,10 +85,10 @@ public class EditeurMap extends Container{
 			reload.setBounds(0, choixEnsembles.getSizeY() - 30, choixEnsembles.getSizeX(), 30);
 			
 			
-			contgrid.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlack.png")); //$NON-NLS-1$
+			contgrid.setBackground(Container.backGroundUnbordsBlack); //$NON-NLS-1$
 			scrollbar.setContainer(contgrid);
 			choixObjets.getComponents().add(scrollbar);
-			choixObjets.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
+			choixObjets.setBackground(Container.backGroundUnbordsBlackHorizontal); //$NON-NLS-1$
 		return liste;
 	} 
 	public int getObjectSavedCount(String path, int count){
@@ -125,7 +125,7 @@ public class EditeurMap extends Container{
 					y = 0;
 					InternalFrame contFolder = new InternalFrame(10,ancientY, parent.getSizeX() - 20,1, file.getName().toUpperCase(), parent);
 					contFolder.setDocked(true);
-					contFolder.getContainer().setActualLayout(new MinHeightLayer());
+					contFolder.getContainer().setActualLayout(new MinHeightLayout());
 					parent.addComponent(contFolder);
 					
 					ArrayList<ObjetMap> folder = loadFolder(x, y, file.getPath() + "/", contFolder.getContainer());
@@ -208,7 +208,7 @@ public class EditeurMap extends Container{
 		buttonContainer.addComponent(acheter);		
 		buttonContainer.addComponent(infos);
 		Container checkbox = new Container(1,1,1,1, objContainer);
-		checkbox.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+		checkbox.setBackground(Container.alpha); //$NON-NLS-1$
 		CheckBox miroir = new CheckBox(Messages.getString("EditeurMap.13"), checkbox); //$NON-NLS-1$
 		miroir.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
@@ -331,11 +331,11 @@ public class EditeurMap extends Container{
 		
 		
 		contgrid.setBackground(null);
-		cont.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlack.png")); //$NON-NLS-1$
+		cont.setBackground(Container.backGroundUnbordsBlack); //$NON-NLS-1$
 		cont.addComponent(contgrid);
 		scrollbar.setContainer(cont);
 		choixEnsembles.getComponents().add(scrollbar);
-		choixEnsembles.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
+		choixEnsembles.setBackground(Container.backGroundUnbordsBlackHorizontal); //$NON-NLS-1$
 	}
 	public void initCarte(){
 		setCarte(MapLoader.loadMap("data/Maps/"+ getMaptoLoad() + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$

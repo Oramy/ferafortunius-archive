@@ -204,7 +204,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		this.setObj(objet);
 		direction = Direction.S;
 		pathContainer = new Container(20,5, (sizeX / 2) / 6 * 5 - 40,40, this);
-		pathContainer.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+		pathContainer.setBackground(Container.alpha); //$NON-NLS-1$
 		setImgPath(new Label(0,0, pathContainer.getSizeX(), 40, "", Messages.getString("ImgEditor.4"), pathContainer)); //$NON-NLS-1$ //$NON-NLS-2$
 		pathContainer.addComponent(getImgPath());
 		selecPath = new Button(Messages.getString("ImgEditor.5"), pathContainer.getSizeX() + pathContainer.getX(), 10, sizeX / 2 - (pathContainer.getSizeX() + pathContainer.getX()) - 20, 30, this); //$NON-NLS-1$

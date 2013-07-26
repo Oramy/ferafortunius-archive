@@ -1,7 +1,5 @@
 package Level;
 
-import gui.GameMain;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -99,7 +97,7 @@ public class LayeredChunkMap extends Chunk {
 		return getLayers().size();
 	}
 	
-	@Override
+	/*@Override
 	public void trier(){
 		if(this.isDrawing()){
 			long tempsPrec  = System.currentTimeMillis();
@@ -117,7 +115,7 @@ public class LayeredChunkMap extends Chunk {
 			System.out.println("Temps de tri :" + (System.currentTimeMillis() -
 					tempsPrec) + "ms");
 		}
-	}
+	}*/
 	/**
 	@Override 
 	public synchronized boolean addContenu(ObjetMap o) {

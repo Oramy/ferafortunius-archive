@@ -18,10 +18,12 @@ public class FastMenuContainer extends Container{
 	private LifeBar life;
 	private ManaBar mana;
 	private ExpBar exp;
+	
+	private static final PImage statusBackground = new PImage("GUI/statusBackground.png");
 	public FastMenuContainer(int x, int y, int sizeX, int sizeY,
 			Jeu jeu) {
 		super(x, y, sizeX, sizeY, jeu);
-		background =  new PImage("alpha.png");
+		background =  Container.alpha;
 		natY = this.getY();
 		life = new LifeBar(jeu.getPlayer(), this.getWidth() / 2 - 88, this);
 		life.setColor(new Color(0,255,0,100));
@@ -47,7 +49,7 @@ public class FastMenuContainer extends Container{
 		nomPerso.setX(cont.getSizeX() / 2 - jeu.getGm().getApp().getDefaultFont().getWidth(nomPerso.getText()) / 2);
 		nomPerso.setY(20);
 		cont.addComponent(nomPerso);
-		cont.setBackground(new PImage("GUI/statusBackground.png"));
+		cont.setBackground(statusBackground);
 		Container infos = new Container(0, 86, this.getWidth(), this.getHeight() - 86, this);
 		this.addComponent(infos);
 		this.addComponent(life);

@@ -5,7 +5,7 @@ import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.GridLayout;
+import gui.layouts.GridLayout;
 
 import java.io.File;
 import java.io.IOException;

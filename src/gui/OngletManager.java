@@ -14,7 +14,7 @@ public class OngletManager extends Container{
 		super(x, y, sizeX, sizeY, parent);
 		setOngletActuel(null);
 		this.setActualLayout(new OngletManagerLayout());
-		this.background = new PImage("GUI/containerBackgroundwithoutBords.png");
+		this.background = Container.backGroundUnbords;
 		
 	}
 	public void update(GameContainer gc, int x, int y)

@@ -7,8 +7,6 @@ import gui.jeu.Jeu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Random;
 
 import javax.script.Bindings;
@@ -772,6 +770,7 @@ public class Chunk implements Serializable, Cloneable {
 		bindings.put("NE", Direction.NE);
 		bindings.put("Random", new Random());
 		bindings.put("ObjetMapLoader", new ObjetMapLoader());
+		bindings.put("ItemLoader", new ItemLoader());
 		bindings.put("direction", Arrays.asList(Direction.values()));
 		bindings.put("emptychrono",
 				new Chrono(System.currentTimeMillis(), "Real time"));
@@ -786,7 +785,6 @@ public class Chunk implements Serializable, Cloneable {
 		}
 		Random r = new Random();
 		for (int i = 0; i < updatable.size(); i++) {
-			updatable.get(i).update(jeu);
 			String compressScript = updatable.get(i).getCompressScript();
 			
 			String id = "o"+ Math.abs(r.nextInt());
@@ -806,6 +804,8 @@ public class Chunk implements Serializable, Cloneable {
 			}
 			megaCompressScript += compressScript;
 			megaCompressScript += "\n";
+			
+			updatable.get(i).update(jeu);
 		}
 		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
 			String key  = (String)getValuesToAdd().keySet().toArray()[i];
@@ -820,7 +820,7 @@ public class Chunk implements Serializable, Cloneable {
 			try {
 				Jeu.moteurScript.eval(toLaunch, bindings);
 			} catch (ScriptException e) {
-				e.printStackTrace();
+			//	e.printStackTrace();
 			}
 		}
 	}

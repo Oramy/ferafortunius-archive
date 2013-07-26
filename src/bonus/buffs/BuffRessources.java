@@ -1,4 +1,4 @@
-package bonus;
+package bonus.buffs;
 
 import gui.PImage;
 

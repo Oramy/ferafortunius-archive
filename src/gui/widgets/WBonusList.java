@@ -2,8 +2,8 @@ package gui.widgets;
 
 import gui.Container;
 import gui.ContainerWithBords;
-import gui.GridLayout;
 import gui.ScrollBar;
+import gui.layouts.GridLayout;
 
 import java.util.ArrayList;
 

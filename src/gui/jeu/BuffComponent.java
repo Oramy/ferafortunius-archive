@@ -8,8 +8,8 @@ import gui.PImage;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bonus.Buff;
-import bonus.BuffRessources;
+import bonus.buffs.Buff;
+import bonus.buffs.BuffRessources;
 
 public class BuffComponent extends FComponent{
 	

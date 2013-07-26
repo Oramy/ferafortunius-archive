@@ -13,20 +13,33 @@ public class InternalFrame extends Container{
 	 * 
 	 */
 	private static final long serialVersionUID = 5260024665717311592L;
+
+	private static PImage windowBarImg;
+	private static PImage closeButtonImg;
+	private static PImage dockButtonImg;
+	private static PImage bordersImg;
+	private static PImage framesButtonHoverImg;
+	
+	private PImage actCloseButtonImg;
+	private PImage actDockButtonImg;
+	
 	private String title;
-	private PImage windowBar;
-	private PImage closeButton;
-	private PImage dockButton;
-	private PImage borders;
+	
+	//States
 	private boolean docked = false;
-	private Color color;
-	private Color closeColor, dockColor;
-	private boolean hover;
-	private int natX, natY, natSizeX, natSizeY;
 	private boolean fullscreen = false;
 	private boolean clicked = false;
-	private int oldX, oldY;
 	private boolean dragged = false;
+	private boolean hover;
+	
+	//Color
+	private Color color;
+	
+	//Ancient positions.
+	private int natX, natY, natSizeX, natSizeY;
+	private int oldX, oldY;
+	
+	//Container
 	protected Container container;
 	public InternalFrame(int posX, int posY, int width, int height, String title, Container parent) {
 		super(posX, posY, width, height, parent);
@@ -61,29 +74,24 @@ public class InternalFrame extends Container{
 			if(!hover)
 				hover = true;
 			color = new Color(0,0,0,10);
-			if(mx >= this.getX() + this.getWidth() - 40 && mx <= this.getX() + this.getWidth() - 40 + closeButton.getImg().getWidth()
-					&& my >= this.getY() && my <= this.getY() + windowBar.getImg().getHeight()){
-				closeButton = new PImage("GUI/closeButton.png");
-				Image i = closeButton.getImg().getScaledCopy(0.24f);
-				SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-				closeButton.setImg(s);
+			
+			//Close button.
+			if(mx >= this.getX() + this.getWidth() - 40 && mx <= this.getX() + this.getWidth() - 40 + closeButtonImg.getImg().getWidth()
+					&& my >= this.getY() && my <= this.getY() + windowBarImg.getImg().getHeight()){
+				actCloseButtonImg = closeButtonImg;
 				if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked){
 					clicked = true;
 					this.parent.getComponents().remove(this);
 				}
 			}
 			else{
-				closeButton = new PImage("GUI/frameButtonsHover.png");
-				Image i = closeButton.getImg().getScaledCopy(0.24f);
-				SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-				closeButton.setImg(s);
+				actCloseButtonImg = framesButtonHoverImg;
 			}
-			if(mx >= this.getX() + this.getWidth() - 40 - closeButton.getImg().getWidth()&& mx <= this.getX() + this.getWidth() - 40
-					&& my >= this.getY() && my <= this.getY() + windowBar.getImg().getHeight()){
-				dockButton = new PImage("GUI/dockButton.png");
-				Image i = dockButton.getImg().getScaledCopy(0.24f);
-				SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-				dockButton.setImg(s);
+			
+			//Dock button
+			if(mx >= this.getX() + this.getWidth() - 40 - closeButtonImg.getImg().getWidth()&& mx <= this.getX() + this.getWidth() - 40
+					&& my >= this.getY() && my <= this.getY() + windowBarImg.getImg().getHeight()){
+				actDockButtonImg = dockButtonImg;
 				if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked){
 					clicked = true;
 					if(fullscreen){
@@ -97,15 +105,14 @@ public class InternalFrame extends Container{
 				}
 			}
 			else{
-				dockButton = new PImage("GUI/frameButtonsHover.png");
-				Image i = dockButton.getImg().getScaledCopy(0.24f);
-				SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-				dockButton.setImg(s);
+				actDockButtonImg = framesButtonHoverImg;
 			}
-			if(!(mx >= this.getX() + this.getWidth() - 40 - closeButton.getImg().getWidth()&& mx <= this.getX() + this.getWidth() - 40)
-					&& !(mx >= this.getX() + this.getWidth() - 40 && mx <= this.getX() + this.getWidth() - 40 + closeButton.getImg().getWidth())
-					&& !(mx >= this.getX() + this.getWidth() - 40 - closeButton.getImg().getWidth() * 2&& mx <=  this.getX() + this.getWidth() - 40 - closeButton.getImg().getWidth())
-					&& my >= this.getY() && my <= this.getY() + windowBar.getImg().getHeight()){
+			
+			//Dragging.
+			if(!(mx >= this.getX() + this.getWidth() - 40 - closeButtonImg.getImg().getWidth()&& mx <= this.getX() + this.getWidth() - 40)
+					&& !(mx >= this.getX() + this.getWidth() - 40 && mx <= this.getX() + this.getWidth() - 40 + closeButtonImg.getImg().getWidth())
+					&& !(mx >= this.getX() + this.getWidth() - 40 - closeButtonImg.getImg().getWidth() * 2&& mx <=  this.getX() + this.getWidth() - 40 - closeButtonImg.getImg().getWidth())
+					&& my >= this.getY() && my <= this.getY() + windowBarImg.getImg().getHeight()){
 				if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked){
 					clicked = true;
 					dragged = true;
@@ -139,6 +146,8 @@ public class InternalFrame extends Container{
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked){
 			clicked = true;
 		}
+		
+		//Checking.
 		if(this.getX() <= 0){
 			this.setX(0);
 		}
@@ -161,24 +170,51 @@ public class InternalFrame extends Container{
 	public void init(){
 		hover = false;
 		color = new Color(0,0,0,0);
-		dockColor = new Color(0,0,0,0);
-		closeColor = new Color(0,0,0,0);
+		
 		docked = false;
-		windowBar = new PImage("GUI/windowBar.png");
-		Image i = windowBar.getImg().getScaledCopy(0.33f);
-		SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-		windowBar.setImg(s);
-		closeButton = new PImage("GUI/frameButtonsHover.png");
-		i = closeButton.getImg().getScaledCopy(0.24f);
-		s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-		closeButton.setImg(s);
-		dockButton = new PImage("GUI/frameButtonsHover.png");
-		i = dockButton.getImg().getScaledCopy(0.24f);
-		s = new SpriteSheet(i, i.getWidth(), i.getHeight());
-		dockButton.setImg(s);
+		
 		container = new Container(0,20, this.getBounds().width, this.getBounds().height - 20, this);
 		this.addComponent(container);
-		borders = new PImage("GUI/internalFrame.png");
+		
+		initImages();
+		
+		actCloseButtonImg = actDockButtonImg = framesButtonHoverImg;
+	}
+	/**
+	 * Init the static images of the Internal Frame.
+	 */
+	public static void initImages(){
+		if(windowBarImg == null){
+			//Window bar
+			windowBarImg = new PImage("GUI/windowBar.png");
+			Image i = windowBarImg.getImg().getScaledCopy(0.33f);
+			SpriteSheet s = new SpriteSheet(i, i.getWidth(), i.getHeight());
+			windowBarImg.setImg(s);
+			
+			
+			//Close button
+			framesButtonHoverImg = new PImage("GUI/frameButtonsHover.png");
+			i = framesButtonHoverImg.getImg().getScaledCopy(0.24f);
+			s = new SpriteSheet(i, i.getWidth(), i.getHeight());
+			framesButtonHoverImg.setImg(s);
+			
+			
+			//Dock button
+			dockButtonImg = new PImage("GUI/frameButtonsHover.png");
+			i = dockButtonImg.getImg().getScaledCopy(0.24f);
+			s = new SpriteSheet(i, i.getWidth(), i.getHeight());
+			dockButtonImg.setImg(s);
+			
+			//Borders.
+			bordersImg = new PImage("GUI/internalFrame.png");
+			
+			//Close button
+			closeButtonImg = new PImage("GUI/closeButton.png");
+			i = closeButtonImg.getImg().getScaledCopy(0.24f);
+			s = new SpriteSheet(i, i.getWidth(), i.getHeight());
+			closeButtonImg.setImg(s);
+			
+		}
 	}
 	public void draw(Graphics g) {
 		g.translate(this.getX(), this.getY());
@@ -200,41 +236,44 @@ public class InternalFrame extends Container{
 			g.setColor(Color.black);
 			g.translate(0, -2);
 				//Coté gauche
-				borders.getImg().startUse();
+				bordersImg.getImg().startUse();
 				
-				borders.getImg().drawEmbedded(-1, windowBar.getImg().getHeight() - 6, 3,  getSizeY() - 8, 
+				bordersImg.getImg().drawEmbedded(-1, windowBarImg.getImg().getHeight() - 6, 3,  getSizeY() - 8, 
 						17, 20, 21, 21);
-				borders.getImg().drawEmbedded(-1,  getSizeY() - 8, 9,  getSizeY() + 2, 
+				bordersImg.getImg().drawEmbedded(-1,  getSizeY() - 8, 9,  getSizeY() + 2, 
 						17, 70, 27, 80);
 				//Bas
-				borders.getImg().drawEmbedded(9,  getSizeY() - 2, getSizeX() - 7,  getSizeY() + 2, 
+				bordersImg.getImg().drawEmbedded(9,  getSizeY() - 2, getSizeX() - 7,  getSizeY() + 2, 
 						27, 76, 28, 80);
 				//Coté droit
-				borders.getImg().drawEmbedded(getSizeX() - 3, windowBar.getImg().getHeight() - 6, getSizeX() + 1,  getSizeY() - 8, 
+				bordersImg.getImg().drawEmbedded(getSizeX() - 3, windowBarImg.getImg().getHeight() - 6, getSizeX() + 1,  getSizeY() - 8, 
 						17, 20, 21, 21);
-				borders.getImg().drawEmbedded(getSizeX() - 7,  getSizeY() - 8, getSizeX() + 3,  getSizeY() + 2, 
+				bordersImg.getImg().drawEmbedded(getSizeX() - 7,  getSizeY() - 8, getSizeX() + 3,  getSizeY() + 2, 
 						173, 70, 183, 80);
 				
-				borders.getImg().endUse();
+				bordersImg.getImg().endUse();
+				
 			g.translate(0, 2);
+			
 			g.translate(-2, -3);
-				windowBar.getImg().startUse();
+			
+				windowBarImg.getImg().startUse();
 				
-				windowBar.getImg().setColor(0, color.r, color.g, color.b, color.a);
-				windowBar.getImg().setColor(1, color.r, color.g, color.b, color.a);
-				windowBar.getImg().setColor(2, color.r, color.g, color.b, color.a);
-				windowBar.getImg().setColor(3, color.r, color.g, color.b, color.a);
+				windowBarImg.getImg().setColor(0, color.r, color.g, color.b, color.a);
+				windowBarImg.getImg().setColor(1, color.r, color.g, color.b, color.a);
+				windowBarImg.getImg().setColor(2, color.r, color.g, color.b, color.a);
+				windowBarImg.getImg().setColor(3, color.r, color.g, color.b, color.a);
 				
-				windowBar.getImg().drawEmbedded(0,0, 20, 30, 0,0, 20,30);
-				windowBar.getImg().drawEmbedded(20,0, this.getWidth() - 14, 30, 20,0, 21,30);
-				windowBar.getImg().drawEmbedded(this.getWidth() - 14,0, this.getWidth() + 6, 30, windowBar.getImg().getWidth() - 20, 0, windowBar.getImg().getWidth(),30);
+				windowBarImg.getImg().drawEmbedded(0,0, 20, 30, 0,0, 20,30);
+				windowBarImg.getImg().drawEmbedded(20,0, this.getWidth() - 14, 30, 20,0, 21,30);
+				windowBarImg.getImg().drawEmbedded(this.getWidth() - 14,0, this.getWidth() + 6, 30, windowBarImg.getImg().getWidth() - 20, 0, windowBarImg.getImg().getWidth(),30);
 				
-				windowBar.getImg().endUse();
+				windowBarImg.getImg().endUse();
 				
 				g.drawString(title, 20, 5);
 				
-				closeButton.getImg().draw(this.getWidth() - 40, windowBar.getImg().getHeight() - closeButton.getImg().getHeight()- 3);
-				dockButton.getImg().draw(this.getWidth() - 40 - closeButton.getImg().getHeight(), windowBar.getImg().getHeight() - closeButton.getImg().getHeight()- 3);
+				actCloseButtonImg.getImg().draw(this.getWidth() - 40, windowBarImg.getImg().getHeight() - closeButtonImg.getImg().getHeight()- 3);
+				actDockButtonImg.getImg().draw(this.getWidth() - 40 - closeButtonImg.getImg().getHeight(), windowBarImg.getImg().getHeight() - closeButtonImg.getImg().getHeight()- 3);
 				
 			g.translate(2, 3);
 		g.translate(-this.getX(), -this.getY());
@@ -259,7 +298,7 @@ public class InternalFrame extends Container{
 			natY = this.getY();
 			natSizeX = getSizeX();
 			natSizeY = getSizeY();
-			setSizeY(windowBar.getImg().getHeight() - 3);
+			setSizeY(windowBarImg.getImg().getHeight() - 3);
 		}
 		else{
 			this.setX(natX);

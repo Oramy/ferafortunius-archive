@@ -25,7 +25,7 @@ public class ItemDescription extends FComponent{
 	public ItemDescription(ItemComponent item, Container parent) {
 		super(parent);
 		this.item = item;
-		background = new PImage("GUI/containerBackground.png"); //$NON-NLS-1$
+		background = Container.normalBackground; //$NON-NLS-1$
 		background.getImg().setAlpha(0.8f);
 		this.setSizeX(0);
 		this.setSizeY(0);

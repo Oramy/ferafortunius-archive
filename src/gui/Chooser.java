@@ -25,7 +25,7 @@ public class Chooser extends Container{
 		choices = new ArrayList<String>();
 		setShowed(false);
 		selectedChoice = "";
-		background = new PImage("GUI/containerBackgroundwithoutBords.png");
+		background = Container.backGroundUnbords;
 		show = new Button("^", sizeX - 32, 0, 30, 30, this);
 		show.defineSize = false;
 		show.action.add(new ActionListener(){

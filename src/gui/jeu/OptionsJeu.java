@@ -18,6 +18,7 @@ public class OptionsJeu implements Serializable{
 	private Locale language;
 	private boolean vsync;
 	private boolean alwaysRend;
+	private boolean screenshotGUI;
 	
 	private boolean gameSpeedPrint;
 	//Keys
@@ -198,5 +199,11 @@ public class OptionsJeu implements Serializable{
 	}
 	public void setGameSpeedPrint(boolean gameSpeedPrint) {
 		this.gameSpeedPrint = gameSpeedPrint;
+	}
+	public boolean isScreenshotGUI() {
+		return screenshotGUI;
+	}
+	public void setScreenshotGUI(boolean screenshotGUI) {
+		this.screenshotGUI = screenshotGUI;
 	}
 }

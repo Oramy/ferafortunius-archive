@@ -1,5 +1,6 @@
 package bonus;
 
+import bonus.buffs.Buff;
 import ObjetMap.Entity;
 
 public class MaxLife extends Buff{

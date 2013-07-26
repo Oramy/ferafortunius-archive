@@ -1,8 +1,8 @@
 package gui.editeurs;
 
-import gui.BorderLayout;
 import gui.Container;
 import gui.ContainerWithBords;
+import gui.layouts.BorderLayout;
 import gui.widgets.WCollisionList;
 import ObjetMap.BasicObjetMap;
 

@@ -9,7 +9,8 @@ public class ScrollBar extends Container{
 	 * 
 	 */
 	private static final long serialVersionUID = -860520415651633186L;
-	protected PImage bardedef, curseur, scrollsqr;
+
+	public static final PImage bardedef  = new PImage("GUI/scrollbar.png"), curseur = new PImage("GUI/cursor.png"), scrollsqr = new PImage("GUI/scrollBarSquare.png");
 	protected float posX;
 	protected float posY;
 	protected static final float defaultSizeX = 17, defaultSizeY = 212;
@@ -35,9 +36,6 @@ public class ScrollBar extends Container{
 		this.sizeY = sizeY;
 		this.sizeX = sizeX;
 		container = new Container(0,0,(int)this.sizeX, (int)this.sizeY, this);
-		bardedef = new PImage("GUI/scrollbar.png");
-		curseur = new PImage("GUI/cursor.png");
-		scrollsqr = new PImage("GUI/scrollBarSquare.png");
 		hscroll = new HScrollBar(0,0, 1,  sizeX, sizeY,valueYMax, this);
 	}
 	public void draw(Graphics g){

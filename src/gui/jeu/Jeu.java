@@ -37,10 +37,10 @@ import ObjetMap.Chrono;
 import ObjetMap.Direction;
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
-import bonus.BuffRegenLife;
 import bonus.ItemBonus;
 import bonus.Life;
 import bonus.MaxLife;
+import bonus.buffs.BuffRegenLife;
 
 public class Jeu extends Container implements Cloneable {
 	/**
@@ -450,6 +450,31 @@ public class Jeu extends Container implements Cloneable {
 		if(GameMain.options.isGameSpeedPrint())
 			System.out.println("Affichage : "
 				+ (System.currentTimeMillis() - temps) + "ms");
+	}
+	@Override
+	public void draw(Graphics g) {
+		g.translate(this.getX(), this.getY());
+		if(background != null)
+		drawBackground(background.getImg());
+		if(getComponents().size() != 0)
+		{
+			if((GameMain.options.isScreenshotGUI() && GameMain.imprEcran) || !GameMain.imprEcran){
+				for(int i = 0; i < getComponents().size(); i++){
+					
+					getComponents().get(i).drawBegin(g);
+					getComponents().get(i).draw(g);
+					getComponents().get(i).drawEnd(g);
+					
+				}
+			}
+			else{
+				panneauDuJeu.drawBegin(g);
+				panneauDuJeu.draw(g);
+				panneauDuJeu.drawEnd(g);
+			}
+				
+		}
+		g.translate(-this.getX(), -this.getY());
 	}
 
 	/**

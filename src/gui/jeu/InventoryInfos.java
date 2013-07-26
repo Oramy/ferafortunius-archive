@@ -16,14 +16,12 @@ public class InventoryInfos extends FComponent {
 	 */
 	private static final long serialVersionUID = -4386382492937651225L;
 	private Inventory o;
-	private PImage plume;
-	private PImage cirkuloma;
+	public PImage plume;
+	public static final PImage cirkuloma = new PImage("GUI/Icon/cirkuloma.png");
 	public InventoryInfos(Inventory o, Container parent) {
 		super(parent);
 		this.o = o;
-		plume = new PImage("GUI/Icon/plume.png");
-		cirkuloma = new PImage("GUI/Icon/cirkuloma.png");
-		
+		plume = Container.alpha;	
 	}
 	public void draw(Graphics g) {
 		String text = o.getWeight() + "/" + o.getMaxWeight();

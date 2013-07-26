@@ -1,5 +1,6 @@
-package bonus;
+package bonus.buffs;
 
+import bonus.Life;
 import ObjetMap.Entity;
 
 public class BuffRegenLife extends Buff{

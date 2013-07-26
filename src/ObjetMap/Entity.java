@@ -16,8 +16,8 @@ import Items.Item;
 import Level.Camera;
 import Level.ChunkMap;
 import bonus.Bonus;
-import bonus.Buff;
 import bonus.Life;
+import bonus.buffs.Buff;
 
 public abstract class Entity extends ObjetMap {
 

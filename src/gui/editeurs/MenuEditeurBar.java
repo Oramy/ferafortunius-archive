@@ -4,9 +4,9 @@ import observer.ActionListener;
 import gui.Button;
 import gui.Container;
 import gui.FComponent;
-import gui.GridLayout;
 import gui.Label;
 import gui.PImage;
+import gui.layouts.GridLayout;
 import Level.EnsembleLoader;
 import Level.MapLoader;
 import ObjetMap.Ensemble;
@@ -24,12 +24,12 @@ public class MenuEditeurBar extends Container{
 		super(x, y, sizeX, sizeY, parent);
 		editeur = null;
 		editeur = ((Editeur)getRacine()).getEditeurMap();
-		this.setBackground(new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png")); //$NON-NLS-1$
+		this.setBackground(Container.backGroundUnbordsBlackHorizontal); //$NON-NLS-1$
 		this.setActualLayout(new GridLayout(2, 1));
 		
 		labelNameSaveLoad =  new Container(0, 0, 1, 1, this);
 			this.addComponent(labelNameSaveLoad);
-			labelNameSaveLoad.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+			labelNameSaveLoad.setBackground(Container.alpha); //$NON-NLS-1$
 			labelNameSaveLoad.setActualLayout(new GridLayout(2,1));
 			nomMap = new Label(Messages.getString("MenuEditeurBar.2"), Messages.getString("MenuEditeurBar.3"), labelNameSaveLoad); //$NON-NLS-1$ //$NON-NLS-2$
 				
@@ -40,7 +40,7 @@ public class MenuEditeurBar extends Container{
 			Container saveLoad = new Container(0, 0, 1, 1, labelNameSaveLoad);
 				labelNameSaveLoad.addComponent(saveLoad);
 				saveLoad.setActualLayout(new GridLayout(3,1));
-				saveLoad.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
+				saveLoad.setBackground(Container.alpha); //$NON-NLS-1$
 				((GridLayout) saveLoad.getActualLayout()).setHgap(2);
 				
 				Button save = new Button(Messages.getString("MenuEditeurBar.5"), saveLoad); //$NON-NLS-1$

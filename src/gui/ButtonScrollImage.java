@@ -23,7 +23,7 @@ public class ButtonScrollImage extends Container{
 		super(posX, posY, width,height,parent);
 		this.scrollImg = scrollImg;
 		action = new ArrayList<ActionListener>();
-		bouton = new PImage("GUI/button.png");
+		bouton = Button.bouton;
 		setEnable(true);
 		color = new Color(0,0,0,0);
 	}
@@ -32,7 +32,7 @@ public class ButtonScrollImage extends Container{
 		super(0,0,1,1,parent);
 		this.scrollImg = scrollImg;
 		action = new ArrayList<ActionListener>();
-		bouton = new PImage("GUI/button.png");
+		bouton = Button.bouton;
 		this.setBounds(0,0,1,1);
 		setEnable(true);
 		color = new Color(0,0,0,0);
@@ -45,7 +45,7 @@ public class ButtonScrollImage extends Container{
 				&& gc.getInput().getMouseX() <= this.getX() + x + getSizeX()
 				&& gc.getInput().getMouseY() >= this.getY() + y
 				&& gc.getInput().getMouseY() <= this.getY() + y + getSizeY() && !clicked){
-				bouton = new PImage("GUI/buttonHover.png");
+				bouton = Button.boutonHover;
 				if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked){
 					color = new Color(0,0,0,90);
 					clicked = true;
@@ -62,7 +62,7 @@ public class ButtonScrollImage extends Container{
 				}
 			}
 			else{
-				bouton = new PImage("GUI/button.png");
+				bouton = Button.boutonHover;
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !clicked)
 			{

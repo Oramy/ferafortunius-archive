@@ -97,6 +97,7 @@ public class ObjetImage implements Serializable, Cloneable{
 			this.setSizeSpriteX(sizeX);
 			this.setSizeSpriteY(sizeY);
 		}
+		p = null;
 
 	}
 	public void rotate(float rotation){

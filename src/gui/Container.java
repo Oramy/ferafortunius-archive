@@ -1,5 +1,8 @@
 package gui;
 
+import gui.layouts.BorderLayout;
+import gui.layouts.Layout;
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -17,7 +20,11 @@ public class Container extends FComponent{
 	protected PImage background;
 	protected Affichage backgroundMode;
 	
-	public static PImage alpha = new PImage("alpha.png");
+	public static final PImage alpha = new PImage("alpha.png");
+	public static final PImage backGroundUnbords = new PImage("GUI/containerBackgroundwithoutBords.png");
+	public static final PImage backGroundUnbordsBlackHorizontal = new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png");
+	public static final PImage backGroundUnbordsBlack = new PImage("GUI/containerBackgroundwithoutBordsBlackHorizontal.png");
+	public static final PImage normalBackground = new PImage("GUI/containerBackground.png");
 	private int zMax;
 	public Container(int x, int y, int sizeX, int sizeY, Container parent){
 		super(parent);
@@ -31,7 +38,7 @@ public class Container extends FComponent{
 				
 			}});
 		backgroundMode = Affichage.Normal;
-		setBackground(new PImage("GUI/containerBackgroundwithoutBords.png"));
+		setBackground(backGroundUnbords);
 		setzMax(0);
 		alwaysUpdateOnClick = true;
 	}
@@ -153,10 +160,9 @@ public class Container extends FComponent{
 	public void draw(Graphics g) {
 		g.translate(this.getX(), this.getY());
 		if(background != null)
-		drawBackground(background.getImg());
+			drawBackground(background.getImg());
 		if(getComponents().size() != 0)
 		{
-
 			for(int i = 0; i < getComponents().size(); i++){
 				
 				getComponents().get(i).drawBegin(g);
@@ -203,7 +209,7 @@ public class Container extends FComponent{
 	 */
 	public void setActualLayout(Layout actualLayout) {
 		this.actualLayout = actualLayout;
-		this.actualLayout.container = this;
+		this.actualLayout.setContainer(this);
 	}
 	/**
 	 * @return the zMax

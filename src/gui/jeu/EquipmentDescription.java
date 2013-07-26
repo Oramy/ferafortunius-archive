@@ -19,11 +19,9 @@ public class EquipmentDescription extends ItemDescription{
 	 * 
 	 */
 	private static final long serialVersionUID = 4735423938735672L;
-	private PImage equipe;
+	public static final PImage equipe  = new PImage("GUI/Icon/equipe.png");
 	public EquipmentDescription(ItemComponent item, Container parent) {
-		super(item, parent);
-		equipe = new PImage("GUI/Icon/equipe.png"); //$NON-NLS-1$
-		
+		super(item, parent);	
 	}
 	public void draw(Graphics g){
 		g.translate(getX(), getY());

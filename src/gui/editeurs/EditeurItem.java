@@ -1,7 +1,7 @@
 package gui.editeurs;
 
 import gui.Container;
-import gui.GridLayout;
+import gui.layouts.GridLayout;
 
 import org.newdawn.slick.GameContainer;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 
 import ObjetMap.Entity;
-import bonus.Buff;
+import bonus.buffs.Buff;
 
 public class BuffBar extends Container{
 	/**
@@ -19,7 +19,7 @@ public class BuffBar extends Container{
 	public BuffBar(Entity entite, int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, 50, parent);
 		cible = entite;
-		this.background = new PImage("alpha.png");
+		this.background = Container.alpha;
 	}
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);

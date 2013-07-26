@@ -10,7 +10,6 @@ import org.newdawn.slick.SpriteSheet;
 public class PImage{
 	private SpriteSheet img;
 	private String nom = "";
-	public static final PImage alpha = new PImage("alpha.png");
 	public PImage(String nom, int sizeX, int sizeY, int spacing, int margin){
 		try {
 			this.img = new SpriteSheet(new Image("Images/" + nom), sizeX, sizeY, spacing, margin);

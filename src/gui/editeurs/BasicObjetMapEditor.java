@@ -5,11 +5,11 @@ import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.GridLayout;
 import gui.IntLabel;
 import gui.Label;
 import gui.Slider;
 import gui.Text;
+import gui.layouts.GridLayout;
 
 import observer.ActionListener;
 

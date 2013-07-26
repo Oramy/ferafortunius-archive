@@ -1,6 +1,10 @@
-package gui;
+package gui.layouts;
 
-public class GravityLayer extends Layout{
+import gui.Container;
+import gui.FComponent;
+
+public class GravityLayout extends Layout{
+	@Override
 	public void addComponent(Container container, FComponent c) {
 		container.getComponents().add(c);
 		updateLayout();
@@ -8,7 +12,7 @@ public class GravityLayer extends Layout{
 	@Override
 	public void updateLayout() {
 		int y = 0;
-		for(FComponent c : container.getComponents()){
+		for(FComponent c : getContainer().getComponents()){
 			c.setY(y);
 			y += c.getSizeY();
 		}
