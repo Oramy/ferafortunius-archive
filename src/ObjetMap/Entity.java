@@ -12,6 +12,7 @@ import Items.Equipment;
 import Items.EquipmentItem;
 import Items.HumanEquipment;
 import Items.Inventory;
+import Items.Item;
 import Level.Camera;
 import Level.ChunkMap;
 import bonus.Bonus;
@@ -115,18 +116,20 @@ public abstract class Entity extends ObjetMap {
 		//Liste des équipements
 		for(EquipmentItem equip : this.equipment.getContents()){
 			//Liste des listes d'équipements
-			for(ObjetImageList list : equip.getImages()){
-				//Si c'est la même liste
-				if(list.getAlias().equals(this.getCurrentImageList())){
-					//On parcourt la liste
-					for(ObjetImage objetImg : list.getList()){
-						//On parcourt notre liste
-						ObjetImage normal = c;
-							//Si c'est le même alias
-							if(objetImg.getAlias().equals(normal.getAlias())){
-								super.paintComponent(pan, g, PanneauJeuAmeliore.loadImage(objetImg, (ObjetMap)this).getImg(), posX, posY, c, actualCam);
-							}
-						
+			if(equip.getImages() != null){
+				for(ObjetImageList list : equip.getImages()){
+					//Si c'est la même liste
+					if(list.getAlias().equals(this.getCurrentImageList())){
+						//On parcourt la liste
+						for(ObjetImage objetImg : list.getList()){
+							//On parcourt notre liste
+							ObjetImage normal = c;
+								//Si c'est le même alias
+								if(objetImg.getAlias().equals(normal.getAlias())){
+									super.paintComponent(pan, g, PanneauJeuAmeliore.loadImage(objetImg, (ObjetMap)this).getImg(), posX, posY, c, actualCam);
+								}
+							
+						}
 					}
 				}
 			}
@@ -160,8 +163,20 @@ public abstract class Entity extends ObjetMap {
 			}
 		}*/
 	}
+	public void die(Jeu jeu){
+		jeu.getCarte().getChunk(this).remove(this);
+		for(Item item : inventaire.getContents()){
+			jeu.getCarte().getChunk(this).addContenu(new ItemOnMap(chunkX, chunkY, chunkZ, posX, posY, posZ, item));
+		}
+		inventaire.getContents().clear();
+		inventaire.setWeight(0);
+	}
 	public void update(Jeu jeu){
 		super.update(jeu);
+		
+		if(hp <= 0){
+			die(jeu);
+		}
 		long hpdivide;
 		if(hpgain == 0){
 			hpdivide = 1;
@@ -318,6 +333,8 @@ public abstract class Entity extends ObjetMap {
 	 * @return the inventaire
 	 */
 	public Inventory getInventaire() {
+		if(inventaire == null)
+			inventaire = new Inventory(this, 100);
 		return inventaire;
 	}
 	/**

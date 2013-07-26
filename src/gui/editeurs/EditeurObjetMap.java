@@ -139,9 +139,23 @@ public class EditeurObjetMap extends Container{
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
 		ObjetMap o = objEditor.getObj();
+		
+		//Changement des scripts.
 		o.setCollideScript(collidescript.getInput().getContenu());
 		o.setUpdateScript(updatescript.getInput().getContenu());
 		o.setClickScript(clickscript.getInput().getContenu());
+		
+		
+		//Vérification du chunk de l'objet a modifier.
+		if(o.getChunkX() > ((Editeur)(getRacine())).getEditeurMap().getCarte().getMapSizeX())
+			o.setChunkX(0);
+		if(o.getChunkY() > ((Editeur)(getRacine())).getEditeurMap().getCarte().getMapSizeY())
+			o.setChunkY(0);
+		if(o.getChunkZ() > ((Editeur)(getRacine())).getEditeurMap().getCarte().getMapSizeZ())
+			o.setChunkZ(0);
+		
+		
+		//Ajout dans la liste des objets a updater
 		if(o.isUpdate() 
 		&& ((Editeur)(getRacine())).getEditeurMap().getCarte().getChunks()[o.getChunkX()][o.getChunkY()][o.getChunkZ()].getContenu().contains(o)
 		&& !((Editeur)(getRacine())).getEditeurMap().getCarte().getChunks()[o.getChunkX()][o.getChunkY()][o.getChunkZ()].getUpdatable().contains(o)){

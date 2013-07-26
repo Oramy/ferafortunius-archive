@@ -89,6 +89,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 				&& gc.getInput().getMouseY() <= this.getY() + y + getSizeY()){
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) &&  gc.getInput().getMouseX() < this.getSizeX() && gc.getInput().getMouseY() < this.getSizeY()){
 				clickl = true;
+				this.setFocus(true);
 				if(editeur.getEditeurMode() == EditeurMode.Placer){
 					getEditChoice().setInvisible(isNateditChoiceInvisible());
 					ObjetMap o = (ObjetMap) getEditChoice().clone();
