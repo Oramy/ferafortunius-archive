@@ -66,16 +66,16 @@ public class HiddenButton extends Button{
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
 		if(hover){
-			if(visibleX < getSizeX() && getSizeX() - visibleX > 10f * Jeu.getDelta()){
-				visibleX += (int)(10f * Jeu.getDelta());
+			if(visibleX < getSizeX() && getSizeX() - visibleX > 10f * GameMain.delta){
+				visibleX += (int)(10f * GameMain.delta);
 			}
 			else if(visibleX < getSizeX())
 				visibleX++;
 			
 		}
 		else if(normalB){
-			if(visibleX > hideVisX && visibleX - hideVisX > 10f * Jeu.getDelta())
-				visibleX-= (int)(10f * Jeu.getDelta());
+			if(visibleX > hideVisX && visibleX - hideVisX > 10f * GameMain.delta)
+				visibleX-= (int)(10f * GameMain.delta);
 			else if(visibleX > hideVisX)
 				visibleX--;
 		}

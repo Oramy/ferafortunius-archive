@@ -109,9 +109,6 @@ public class Jeu extends Container implements Cloneable {
 	// Test pour les touches internationales.
 	private boolean keyI;
 
-	//Delta
-	private static float delta;
-
 	private Music ambianceMusic;
 
 	private MenuJeuContainer menuJeu;
@@ -584,7 +581,6 @@ public class Jeu extends Container implements Cloneable {
 
 	public void update(GameContainer gc, int arg1) {
 		super.update(gc, this.getX(), this.getY());
-		delta = arg1 / (1000f / 60f);
 		
 		long temps = System.currentTimeMillis();
 		
@@ -833,14 +829,6 @@ public class Jeu extends Container implements Cloneable {
 			keyI = false;
 			inverseInventory();
 		}
-	}
-
-	public static float getDelta() {
-		return delta;
-	}
-
-	public void setDelta(float delta) {
-		this.delta = delta;
 	}
 
 	public MenuJeuContainer getMenuJeu() {

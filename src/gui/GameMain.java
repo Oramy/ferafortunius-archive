@@ -32,6 +32,8 @@ public class GameMain extends BasicGame {
 	private TextDisplayMode gameTextDisplayMode;
 	private boolean imprecran;
 	
+	
+	public static float delta;
 	public GameMain() {
 		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name"));
 	}
@@ -118,6 +120,7 @@ public class GameMain extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		ControllersManager.update(gc);
+		delta = arg1 / (1000f / 60f);
 		if(getMode() == ModeJeu.Menu)
 			menu.update(app, arg1);
 		if(getMode() == ModeJeu.Jeu)
