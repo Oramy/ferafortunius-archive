@@ -41,13 +41,13 @@ public class InventoryContainer extends Container{
 		}
 	}
 	public void reinitSelection(){
-		if(inventaire.getContents().size() > 0){
+		if(inventaire.getContents().size() > 0 && getComponents().size() > 0){
 			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
 				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).normal();
 		}
 	}
 	public void hoverSelection(){
-		if(inventaire.getContents().size() > 0){
+		if(inventaire.getContents().size() > 0 && getComponents().size() > 0){
 			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
 				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).hover();
 		}
@@ -88,7 +88,7 @@ public class InventoryContainer extends Container{
 		}
 	}
 	public void updateController(GameContainer gc){
-		if(inventaire.getContents().size() > 0){
+		if(inventaire.getContents().size() > 0 && getComponents().size() > 0){
 				
 			if(x == -1)
 				setX(0);
