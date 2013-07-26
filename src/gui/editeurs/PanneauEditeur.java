@@ -148,7 +148,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 				difCameraPosX = 0;
 				difCameraPosY = 0;
 			}
-			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && clickl){
+			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && clickl && this.isFocus()){
 				clickl = false;
 				if(editeur.getEditeurMode() == EditeurMode.Placer){
 					getEditChoice().setInvisible(isNateditChoiceInvisible());
@@ -162,7 +162,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 					}
 					
 					carte.verifyPosition(getEditChoice());
-				}else if(editeur.getEditeurMode() == EditeurMode.Supprimer){
+				}else if(editeur.getEditeurMode() == EditeurMode.SupprimerRel){
 					if(surlignObject != null)
 						carte.getChunks()[surlignObject.getChunkX()][surlignObject.getChunkY()][surlignObject.getChunkZ()].remove(surlignObject);
 				}

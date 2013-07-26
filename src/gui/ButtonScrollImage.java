@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,11 +18,11 @@ public class ButtonScrollImage extends Container{
 	private PImage bouton;
 	private boolean clicked = false;
 	private Color color;
-	private ArrayList<Action> action;
+	private ArrayList<ActionListener> action;
 	public ButtonScrollImage(ScrollImage scrollImg, int posX, int posY, int width, int height, Container parent){
 		super(posX, posY, width,height,parent);
 		this.scrollImg = scrollImg;
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		bouton = new PImage("GUI/button.png");
 		setEnable(true);
 		color = new Color(0,0,0,0);
@@ -29,7 +31,7 @@ public class ButtonScrollImage extends Container{
 	public ButtonScrollImage(ScrollImage scrollImg, Container parent){
 		super(0,0,1,1,parent);
 		this.scrollImg = scrollImg;
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		bouton = new PImage("GUI/button.png");
 		this.setBounds(0,0,1,1);
 		setEnable(true);
@@ -100,13 +102,13 @@ public class ButtonScrollImage extends Container{
 	/**
 	 * @return the action
 	 */
-	public ArrayList<Action> getAction() {
+	public ArrayList<ActionListener> getAction() {
 		return action;
 	}
 	/**
 	 * @param actione the action to set
 	 */
-	public void setAction(ArrayList<Action> action) {
+	public void setAction(ArrayList<ActionListener> action) {
 		this.action = action;
 	}
 }

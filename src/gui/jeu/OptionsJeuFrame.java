@@ -1,6 +1,5 @@
 package gui.jeu;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.CheckBoxManager;
@@ -15,6 +14,8 @@ import gui.PImage;
 import gui.Slider;
 import gui.Text;
 import gui.TextDisplayMode;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -102,7 +103,7 @@ public class OptionsJeuFrame extends InternalFrame{
 		ContainerWithBords saveApply = new ContainerWithBords(container.getSizeX() / 2, container.getSizeY() - 30, container.getSizeX() / 2  -1, 30, getContainer());
 		saveApply.setActualLayout(new GridLayout(2,1));
 		Button save = new Button(Messages.getString("OptionsJeuFrame.12"), saveApply); //$NON-NLS-1$
-		save.getAction().add(new Action(){
+		save.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				options.setVsync(vSync.isCheck());
 				options.setWindowed(windowed.isCheck());
@@ -126,7 +127,7 @@ public class OptionsJeuFrame extends InternalFrame{
 		});
 		Button openToLan = new Button(Messages.getString("OptionsJeuFrame.13"), getContainer()); //$NON-NLS-1$
 		openToLan.setY(100);
-		openToLan.getAction().add(new Action(){
+		openToLan.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.setServer(!jeu.isServer());
@@ -140,7 +141,7 @@ public class OptionsJeuFrame extends InternalFrame{
 		Button playMulti = new Button(Messages.getString("OptionsJeuFrame.16"), getContainer()); //$NON-NLS-1$
 		playMulti.setY(100);
 		playMulti.setX(200);
-		playMulti.getAction().add(new Action(){
+		playMulti.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.setClient(!jeu.isClient());
@@ -159,7 +160,7 @@ public class OptionsJeuFrame extends InternalFrame{
 		getContainer().addComponent(ip);
 		
 		Button apply = new Button(Messages.getString("OptionsJeuFrame.20"), saveApply); //$NON-NLS-1$
-		apply.getAction().add(new Action(){
+		apply.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.applyOptions(options);

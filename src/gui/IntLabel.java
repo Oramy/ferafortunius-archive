@@ -1,5 +1,6 @@
 package gui;
 
+import observer.ActionListener;
 import ObjetMap.ObjetImage;
 
 public class IntLabel extends Label{
@@ -47,7 +48,7 @@ public class IntLabel extends Label{
 		up.setProportions(false);
 		up.actionWhilePressed = true;
 		up.setDrawButton(false);
-		up.getAction().add(new Action(){
+		up.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				up();
 			}
@@ -57,7 +58,7 @@ public class IntLabel extends Label{
 		down.setProportions(false);
 		down.actionWhilePressed = true;
 		down.setDrawButton(false);
-		down.getAction().add(new Action(){
+		down.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				down();
 			}

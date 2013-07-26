@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -26,7 +28,7 @@ public class Chooser extends Container{
 		background = new PImage("GUI/containerBackgroundwithoutBords.png");
 		show = new Button("^", sizeX - 32, 0, 30, 30, this);
 		show.defineSize = false;
-		show.action.add(new Action(){
+		show.action.add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				show();
 			}

@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.Container;
 import gui.ContainerWithBords;
@@ -8,6 +7,8 @@ import gui.FComponent;
 import gui.IntLabel;
 import gui.Label;
 import gui.ProgrammTextArea;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -54,7 +55,7 @@ public class TimedScriptEditor extends ContainerWithBords{
 		
 		add = new Button(Messages.getString("TimedScriptEditor.7"), this); //$NON-NLS-1$
 		add.setBounds(getSizeX()/2, 40, getSizeX() / 4, 40);
-		add.getAction().add(new Action(){
+		add.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				tsCible = tsCible.clone();
 				anim.getScripts().add(tsCible);
@@ -64,7 +65,7 @@ public class TimedScriptEditor extends ContainerWithBords{
 		
 		remove = new Button(Messages.getString("TimedScriptEditor.8"), this); //$NON-NLS-1$
 		remove.setBounds(getSizeX()/4*3, 40, getSizeX() / 4, 40);
-		remove.getAction().add(new Action(){
+		remove.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				anim.getScripts().remove(tsCible);
 			}
@@ -73,7 +74,7 @@ public class TimedScriptEditor extends ContainerWithBords{
 		
 		newScript = new Button(Messages.getString("TimedScriptEditor.9"), this); //$NON-NLS-1$
 		newScript.setBounds(getSizeX()/2, 80, getSizeX() / 4, 40);
-		newScript.getAction().add(new Action(){
+		newScript.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				tsCible = new TimedScript(0, 0, "","");
 				setTsCible(anim, tsCible);
@@ -84,7 +85,7 @@ public class TimedScriptEditor extends ContainerWithBords{
 		//Monter
 		monter = new Button(Messages.getString("BasicAnimationEditor.11"),  this); //$NON-NLS-1$
 		monter.setBounds(getSizeX() / 4*3, 120, getSizeX() / 4, 40);
-		monter.getAction().add(new Action(){
+		monter.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int index = anim.getScripts().indexOf(tsCible);
 				if(index > 0){
@@ -98,7 +99,7 @@ public class TimedScriptEditor extends ContainerWithBords{
 		//Descendre
 		descendre = new Button(Messages.getString("BasicAnimationEditor.12"),  this); //$NON-NLS-1$
 		descendre.setBounds(getSizeX() / 2, 120, getSizeX() / 4, 40);
-		descendre.getAction().add(new Action(){
+		descendre.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int index = anim.getScripts().indexOf(tsCible);
 				if(index < anim.getScripts().size()){

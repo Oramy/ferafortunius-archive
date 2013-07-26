@@ -57,7 +57,7 @@ public class ItemDescription extends FComponent{
 				SpriteSheet sprite = new SpriteSheet(wildImg, item.getCibles().get(0).getImg().getSizeSpriteX(), item.getCibles().get(0).getImg().getSizeSpriteY());
 				Image img =  sprite.getSprite(item.getCibles().get(0).getImg().getPosX(), item.getCibles().get(0).getImg().getPosY());
 				if(getSizeX() < img.getWidth() + g.getFont().getWidth(item.getCibles().get(0).getName()) || getSizeY() < img.getHeight()){
-					setSizeX(img.getWidth() + g.getFont().getWidth(item.getCibles().get(0).getDescription().substring(0, 19)) + 40);
+					setSizeX(img.getWidth() + g.getFont().getWidth("0123456789123456789") + 40);
 					setSizeY(img.getHeight());
 					if(getSizeY() < ((item.getCibles().get(0).getDescription().length() / 20) + 1) * 15 + 90){
 						setSizeY(((item.getCibles().get(0).getDescription().length() / 20) + 1) * 15 + 90);

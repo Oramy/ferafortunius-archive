@@ -1,6 +1,7 @@
 package gui.jeu;
 
 import gui.Container;
+import gui.ControllersManager;
 import gui.DialogsRessources;
 import gui.FontRessources;
 import gui.GameMain;
@@ -112,11 +113,14 @@ public class Jeu extends Container implements Cloneable {
 	private float delta;
 
 	private Music ambianceMusic;
+
+	private MenuJeuContainer menuJeu;
 	
 	public Jeu(GameMain gameMain, GameContainer gc) {
 		super(0, 0, gc.getWidth(), gc.getHeight(), null);
 		
 		setGm(gameMain);
+		ControllersManager.getFirstController().setControllerContainer(this);
 	}
 
 	public void addDialog(String t) {
@@ -311,6 +315,13 @@ public class Jeu extends Container implements Cloneable {
 		
 		player.getInventaire().setMaxWeight(3000);
 		this.addItem("epee.item");
+		this.addItem("fireshield.item");
+		this.addItem("epee.item");
+		this.addItem("fireshield.item");
+		this.addItem("epee.item");
+		this.addItem("popodelamort.item");
+		this.addItem("popodelamort.item");
+		this.addItem("plumeDeLaPoule.item");
 		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
 		player.addBonus(new MaxLife(player));
@@ -363,8 +374,9 @@ public class Jeu extends Container implements Cloneable {
 		 this.addComponent(new FastMenuContainer(0, this.getHeight() - 86,
 		 this.getWidth(), this.getHeight() / 2, this));
 		
-		//Menu du jeu
-		this.addComponent(new MenuJeuContainer(0, 30, 170, 210, this));
+		 setMenuJeu(new MenuJeuContainer(0, 50, 170, 210, this));
+		 //Menu du jeu
+		this.addComponent(getMenuJeu());
 		
 		//Feêtre de l'inventaire
 		inventaireFrame = new InventaireFrame(this.getWidth() / 2 - 100,
@@ -602,6 +614,7 @@ public class Jeu extends Container implements Cloneable {
 		updateMouse(gc);
 		
 		//Mise à jour de la Map
+		if(!ControllersManager.hasController(gc))
 		updateKeys(gc);
 		carte.update(this);
 		
@@ -744,12 +757,27 @@ public class Jeu extends Container implements Cloneable {
 				player.setDirection(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
-			if(gc.getInput().isButton1Pressed(0) && player.getAnimationLaunchedCount() == 0){
-				player.launchAnimation("attack"+player.getDirection().name());
-			}
+			
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
 				player.walk(this);
+			}
+			
+			//Controller
+			if (ControllersManager.getFirstController().isButton1Pressed() && player.getAnimationLaunchedCount() == 0) {
+				player.launchAnimation("attack"+player.getDirection().name());
+			}
+			if (ControllersManager.getFirstController().isStartReleased()) {
+				ControllersManager.getFirstController().setControllerContainer(getMenuJeu());
+			}
+			if (ControllersManager.getFirstController().isSelectReleased()) {
+				dialogBar.nextDialog();
+			}
+			if (ControllersManager.getFirstController().isButton4Pressed()) {
+				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.05f);
+			}
+			if (ControllersManager.getFirstController().isButton5Pressed()) {
+				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 0.95f);
 			}
 			if(player.getAllAnimationLaunchedCount() == 0)
 			{
@@ -758,7 +786,10 @@ public class Jeu extends Container implements Cloneable {
 		}
 		updateShortcuts(gc);
 	}
-
+	@Override
+	public void updateController(GameContainer gc) {
+		updateKeys(gc);
+	}
 	private Direction getMouseDirection(int xBase, int yBase){
 		double xMiddle = xBase - this.getWidth() / 2;
 		double yMiddle = yBase - this.getHeight() / 2;
@@ -806,6 +837,14 @@ public class Jeu extends Container implements Cloneable {
 
 	public void setDelta(float delta) {
 		this.delta = delta;
+	}
+
+	public MenuJeuContainer getMenuJeu() {
+		return menuJeu;
+	}
+
+	public void setMenuJeu(MenuJeuContainer menuJeu) {
+		this.menuJeu = menuJeu;
 	}
 
 }

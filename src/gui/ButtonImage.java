@@ -4,6 +4,8 @@ import gui.jeu.PanneauJeuAmeliore;
 
 import java.util.ArrayList;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,7 +26,7 @@ public class ButtonImage extends Button {
 	public ButtonImage(ArrayList<ObjetImage> image, int posX, int posY, int width, int height, Container parent){
 		super("", parent);
 		this.img = image;
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		this.setBounds(posX, posY, (int)(width * prop), (int)(height * prop));
 		enable = true;
 		proportions = true;
@@ -35,7 +37,7 @@ public class ButtonImage extends Button {
 		super("", parent);
 		this.img = new ArrayList<ObjetImage>();
 		this.img.add(image);
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		this.setBounds(posX, posY, (int)(width * prop), (int)(height * prop));
 		enable = true;
 		proportions = true;
@@ -45,7 +47,7 @@ public class ButtonImage extends Button {
 	public ButtonImage(ArrayList<ObjetImage> image, Container parent){
 		super("", parent);
 		this.img = image;
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		this.prop = 1f;
 		this.setBounds(0,0,1,1);
 		enable = true;
@@ -57,7 +59,7 @@ public class ButtonImage extends Button {
 		super("", parent);
 		this.img = new ArrayList<ObjetImage>();
 		this.img.add(image);
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		this.prop = 1f;
 		this.setBounds(0,0,1,1);
 		enable = true;
@@ -121,7 +123,7 @@ public class ButtonImage extends Button {
 	/**
 	 * @return the action
 	 */
-	public ArrayList<Action> getAction() {
+	public ArrayList<ActionListener> getAction() {
 		return action;
 	}
 	/**

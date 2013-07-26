@@ -1,6 +1,5 @@
 package gui.jeu;
 
-import gui.Action;
 import gui.Container;
 import gui.FComponent;
 import gui.NextDialogButton;
@@ -8,6 +7,8 @@ import gui.PImage;
 import gui.Text;
 
 import java.util.ArrayList;
+
+import observer.ActionListener;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -39,7 +40,7 @@ public class DialogBar extends Container{
 		next = new NextDialogButton(this);
 		next.setX(sizeX - 40);
 		next.setY(sizeY - 51);
-		next.getAction().add(new Action(){
+		next.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				nextDialog();
 			}

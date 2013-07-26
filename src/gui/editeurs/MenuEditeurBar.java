@@ -1,6 +1,6 @@
 package gui.editeurs;
 
-import gui.Action;
+import observer.ActionListener;
 import gui.Button;
 import gui.Container;
 import gui.FComponent;
@@ -45,7 +45,7 @@ public class MenuEditeurBar extends Container{
 				
 				Button save = new Button(Messages.getString("MenuEditeurBar.5"), saveLoad); //$NON-NLS-1$
 				
-					save.getAction().add(new Action(){
+					save.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent c){
 							EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 							save();
@@ -56,7 +56,7 @@ public class MenuEditeurBar extends Container{
 				saveLoad.addComponent(save);
 				Button saveAsEnsemble = new Button("Ensemble S", saveLoad); //$NON-NLS-1$
 				
-				saveAsEnsemble.getAction().add(new Action(){
+				saveAsEnsemble.getAction().add(new ActionListener(){
 					public void actionPerformed(FComponent c){
 						saveAsEnsemble();
 					}
@@ -64,7 +64,7 @@ public class MenuEditeurBar extends Container{
 				saveLoad.addComponent(saveAsEnsemble);
 				Button load = new Button(Messages.getString("MenuEditeurBar.6"), saveLoad); //$NON-NLS-1$
 				
-					load.getAction().add(new Action(){
+					load.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent c){
 							EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 							load();
@@ -84,7 +84,7 @@ public class MenuEditeurBar extends Container{
 					getPathMap().getInput().setContenu(editeur.getMaptoLoad());
 					
 					Button play = new Button(Messages.getString("MenuEditeurBar.10"), pathMapPlay); //$NON-NLS-1$
-					play.getAction().add(new Action(){
+					play.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent c){
 							editeur.playMap();
 							

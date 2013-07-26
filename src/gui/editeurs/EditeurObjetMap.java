@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.Container;
 import gui.FComponent;
@@ -15,6 +14,8 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -74,7 +75,7 @@ public class EditeurObjetMap extends Container{
 		evaluate.setSizeY(50);
 		evaluate.setY(sizeY  - 100);
 		evaluate.setX(sizeX / 4 - evaluate.getSizeX() / 2);
-		evaluate.getAction().add(new Action(){
+		evaluate.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				EditeurObjetMap o = (EditeurObjetMap) c.getParent();
 				ScriptEngineManager manager = new ScriptEngineManager(); 

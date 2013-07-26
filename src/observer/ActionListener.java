@@ -1,6 +1,8 @@
-package gui;
+package observer;
 
-public abstract class Action {
+import gui.FComponent;
+
+public interface ActionListener {
 	/**
 	 * Methode qui effectue l'action
 	 * @param c le composant qui effectue l'action

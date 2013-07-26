@@ -1,10 +1,14 @@
 package gui;
 
+import gui.jeu.Jeu;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import observer.ActionListener;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -12,6 +16,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+
+import Level.MapLoader;
 
 public class Menu extends Container {
 	/**
@@ -77,7 +84,7 @@ public class Menu extends Container {
 		logo.x = sizeX / 2 - logo.sizeX / 2;
 		logo.alwaysUpdateOnClick = true;
 		logo.y = 40;
-		logo.action.add(new Action(){
+		logo.action.add(new ActionListener(){
 			public void actionPerformed(FComponent comp){
 				Desktop desktop = null; 
 				java.net.URI url; 
@@ -111,10 +118,13 @@ public class Menu extends Container {
 		
 		this.addComponent(buttonContainer);
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
-		nouvPart.action.add(new Action(){
+		nouvPart.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
+				c.gm.setJeu(new Jeu(c.gm, c.gm.getApp()));
+				c.gm.getJeu().init(c.gm.getApp(), MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
+				
 				Thread t = new Thread(new Runnable(){
 					public void run(){
 						if(c.toDo.equals("")){ //$NON-NLS-1$
@@ -137,7 +147,7 @@ public class Menu extends Container {
 		nouvPart.setSizeX(500);
 		buttonContainer.addComponent(nouvPart);
 		chargerPart = new Button(Messages.getString("Menu.text.1"), buttonContainer); //$NON-NLS-1$
-		chargerPart.action.add(new Action(){
+		chargerPart.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -163,7 +173,7 @@ public class Menu extends Container {
 		/*chargerPart.setSizeX(500);
 		buttonContainer.addComponent(chargerPart);*/
 		editer = new Button(Messages.getString("Menu.text.2"), buttonContainer); //$NON-NLS-1$
-		editer.action.add(new Action(){
+		editer.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -194,7 +204,7 @@ public class Menu extends Container {
 		buttonContainer.addComponent(optionsButton);*/
 
 		quitter = new Button(Messages.getString("Menu.text.4"), buttonContainer); //$NON-NLS-1$
-		quitter.action.add(new Action(){
+		quitter.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -248,7 +258,16 @@ public class Menu extends Container {
 		if(ControllersManager.getFirstController().isButton1Released()){
 			layout.actionChoice();
 		}
-		((GridLayout)buttonContainer.actualLayout).updateChoice();
+		if(ControllersManager.getFirstController().isButton2Released()){
+			Button ancientButton = (Button)layout.getObjectChoice();
+			ancientButton.setName(ancientButton.getName().substring(1));
+			
+			layout.setChoice(this.getComponents().size());
+			
+			Button b = (Button)layout.getObjectChoice();
+			b.setName(">"+b.getName());
+		}
+		//((GridLayout)buttonContainer.actualLayout).updateChoice();
 	}
 	public void update(GameContainer gc, int arg1) {
 		super.update(gc, this.getX(), this.getY());

@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Chooser;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -151,7 +152,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 						modImg = new Button(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias(), imgExplorer);
 					
 					//Ajout de l'action de séléction au bouton
-					modImg.getAction().add(new Action(){
+					modImg.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent c){
 							setObj(obj);
 							getImgPath().getInput().setContenu(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get((c.getY() - 5) / 45).getImage());
@@ -207,7 +208,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		setImgPath(new Label(0,0, pathContainer.getSizeX(), 40, "", Messages.getString("ImgEditor.4"), pathContainer)); //$NON-NLS-1$ //$NON-NLS-2$
 		pathContainer.addComponent(getImgPath());
 		selecPath = new Button(Messages.getString("ImgEditor.5"), pathContainer.getSizeX() + pathContainer.getX(), 10, sizeX / 2 - (pathContainer.getSizeX() + pathContainer.getX()) - 20, 30, this); //$NON-NLS-1$
-		selecPath.getAction().add(new Action(){
+		selecPath.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				//Chargement du fichier
 				File f = new File("Images/" + "ObjetMap/"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -232,7 +233,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		this.addComponent(selecPath);
 		this.addComponent(pathContainer);
 		setLoadImage(new Button(Messages.getString("ImgEditor.10"), 20, 50, sizeX / 2 - 40,30,this)); //$NON-NLS-1$
-		getLoadImage().getAction().add(new Action(){
+		getLoadImage().getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				if(!getImgPath().getInput().getContenu().equals("")){ //$NON-NLS-1$
 					apercImg = new PImage(getImgPath().getInput().getContenu());
@@ -286,7 +287,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		this.addComponent(spriteSheetY);
 		
 		upLayer = new Button(Messages.getString("ImgEditor.38"), this); //$NON-NLS-1$
-		upLayer.getAction().add(new Action(){
+		upLayer.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int pos = getObj().getImageList(directionChoice.getSelectedChoice()).getList().indexOf(imgToAdd);
 				if(pos < getObj().getImageList(directionChoice.getSelectedChoice()).getList().size() - 1 && pos != -1){
@@ -302,7 +303,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		
 		this.addComponent(upLayer);
 		downLayer = new Button(Messages.getString("ImgEditor.39"), this); //$NON-NLS-1$
-		downLayer.getAction().add(new Action(){
+		downLayer.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int pos = getObj().getImageList(directionChoice.getSelectedChoice()).getList().indexOf(imgToAdd);
 				if(pos > 0){
@@ -331,7 +332,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		
 		setImgToAdd(new ObjetImage("", 0,0,0,0,0,0)); //$NON-NLS-1$
 		addImage = new Button(Messages.getString("ImgEditor.44"), 20, sizeY - 80, sizeX / 2 - 40,30,this); //$NON-NLS-1$
-		addImage.getAction().add(new Action(){
+		addImage.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				if(getObj().getImageList(directionChoice.getSelectedChoice()) != null)
 					getObj().getImageList(directionChoice.getSelectedChoice()).getList().add(getImgToAdd());
@@ -342,14 +343,14 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		});
 		this.addComponent(addImage);
 		addSprites = new Button(Messages.getString("ImgEditor.45"), 20, sizeY - 110, sizeX / 2 - 40,30,this); //$NON-NLS-1$
-		addSprites.getAction().add(new Action(){
+		addSprites.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				openSpritesManager();
 			}
 		});
 		this.addComponent(addSprites);
 		remImage = new Button(Messages.getString("ImgEditor.62"), 20, sizeY - 50, sizeX / 2 - 40,30,this); //$NON-NLS-1$
-		remImage.getAction().add(new Action(){
+		remImage.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				if(getObj().getImageList(directionChoice.getSelectedChoice()).getList().contains(getImgToAdd())){
 					imgExplorer.getComponents().remove(getObj().getImageList(directionChoice.getSelectedChoice()).getList().indexOf(getImgToAdd()));
@@ -368,7 +369,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		
 		
 		addImageList = new Button("Add Image List", 10, sizeY - 200, 150, 30, this);
-			addImageList.getAction().add(new Action(){
+			addImageList.getAction().add(new ActionListener(){
 				public void actionPerformed(FComponent c){
 					obj.getImagesLists().add(new ObjetImageList(imageListName.getInput().getContenu()));
 					directionChoice.addChoice(obj.getImagesLists().get(obj.getImagesLists().size() - 1).getAlias());

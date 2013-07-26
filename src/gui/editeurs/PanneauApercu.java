@@ -44,6 +44,7 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 		chunkcolor = Color.black;
 		moveImage = true;
 		dragged = false;
+		actualCam.setMinzoom(0.2f);
 	}
 	public void draw(Graphics g){
 		draggedObjImg = null;

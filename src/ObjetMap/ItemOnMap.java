@@ -1,13 +1,16 @@
 package ObjetMap;
 
+import gui.ControllersManager;
 import gui.jeu.Jeu;
 import gui.jeu.PanneauJeuAmeliore;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
 
 import Items.Item;
 import Level.Camera;
@@ -23,6 +26,8 @@ public class ItemOnMap extends ObjetMap {
 	protected Item item;
 	protected boolean gettingDown;
 	protected long tempsPrec, tempsReq;
+	
+	protected transient boolean getting = false;
 	public ItemOnMap(int chunkX, int chunkY, int chunkZ, int posX, int posY,
 			int posZ, Item item) {
 		super(chunkX, chunkY, chunkZ, posX, posY, posZ);
@@ -39,6 +44,7 @@ public class ItemOnMap extends ObjetMap {
 		
 		image.add(clone);
 		getCollision().add(new CollisionBlock(0,0,0, 30, 30, 30));
+		
 		update = true;
 		invisible = true;
 		tempsReq = 40;
@@ -51,14 +57,16 @@ public class ItemOnMap extends ObjetMap {
 		
 	}
 	public void paintComponent(PanneauJeuAmeliore pan,Graphics g, Image img, int posX, int posY, ObjetImage c, Camera actualCam){
-		g.translate(0, -(c.getDecalageY() * actualCam.getZoom() + c.getDecalageY() * actualCam.getZoom() / 10));
 			super.paintComponent(pan, g, img, posX, posY, c, actualCam);
+			g.setColor(Color.black);
 			if(pan.getSurlignObject() != null){
 				if(pan.getSurlignObject().equals(this)){
-					g.drawString(nom,  - g.getFont().getWidth(nom) / 2 + c.getImageSizeInGameY() / 2 * actualCam.getZoom(), -g.getFont().getLineHeight());
+					g.drawString(nom,  - g.getFont().getWidth(nom) / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(), -g.getFont().getLineHeight());
 				}
 			}
-		g.translate(0, (c.getDecalageY() * actualCam.getZoom() + c.getDecalageY() * actualCam.getZoom() / 10));
+			if(getting){
+				g.drawString("X : Prendre.",  - g.getFont().getWidth("X : Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),  + c.getImageSizeInGameY() * actualCam.getZoom());
+			}
 	}
 	public void update(Jeu jeu){
 		super.update(jeu);
@@ -78,15 +86,18 @@ public class ItemOnMap extends ObjetMap {
 			
 			
 		}
+		
+		//auto get part.
+		Entity p = jeu.getPlayer();
+		int centerpx = (p.posX + p.sizeX / 2);
+		int centerpy = (p.posY + p.sizeY / 2);
+		int centerpz = (p.posZ + p.sizeZ / 2);
+		
+		int centerx = (posX + sizeX / 2);
+		int centery = (posY + sizeY / 2);
+		int centerz = (posZ + sizeZ / 2);
+		
 		if(item.isAutoGet()){
-			Entity p = jeu.getPlayer();
-			int centerpx = (p.posX + p.sizeX / 2);
-			int centerpy = (p.posY + p.sizeY / 2);
-			int centerpz = (p.posZ + p.sizeZ / 2);
-			
-			int centerx = (posX + sizeX / 2);
-			int centery = (posY + sizeY / 2);
-			int centerz = (posZ + sizeZ / 2);
 			if(p.chunkX == chunkX 
 				&& p.chunkY == chunkY
 				&& p.chunkZ == chunkZ
@@ -134,14 +145,42 @@ public class ItemOnMap extends ObjetMap {
 					jeu.getCarte().getChunks()[chunkX][chunkY][chunkZ].remove(this);
 				}
 			}
+			
 		}
-		PanneauJeuAmeliore pan = jeu.getPanneauDuJeu();
-		if(pan.getSurlignObject() != null){
-			if(pan.getSurlignObject().equals(this) && jeu.getGm().getApp().getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-				item.setOwner(jeu.getPlayer());
+		
+		Rectangle persoRect = new Rectangle(p.posX, p.posY, p.sizeX, p.sizeY);
+		Rectangle rect = new Rectangle(posX - 70, posY - 70, sizeX + 70, sizeY +70);
+		
+		
+		//Controller part
+		if(p.chunkX == chunkX 
+				&& p.chunkY == chunkY
+				&& p.chunkZ == chunkZ
+				&& (persoRect.intersects(rect) || persoRect.contains(rect))){
+			getting = true;
+			if(ControllersManager.getFirstController().isButton3Released()){
+				if(item.getOwner() == null)
+					item.setOwner(jeu.getPlayer());
 				
 				jeu.getPlayer().getInventaire().addContent(item);
 				jeu.getCarte().getChunks()[chunkX][chunkY][chunkZ].remove(this);
+			}
+		}
+		else
+			getting = false;
+		
+		//Hover part
+		PanneauJeuAmeliore pan = jeu.getPanneauDuJeu();
+		if(pan.getSurlignObject() != null){
+			if(pan.getSurlignObject().equals(this)){
+				if(jeu.getGm().getApp().getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+						if(item.getOwner() == null)
+							item.setOwner(jeu.getPlayer());
+						
+						jeu.getPlayer().getInventaire().addContent(item);
+						jeu.getCarte().getChunks()[chunkX][chunkY][chunkZ].remove(this);
+					
+				}
 			}
 		}
 		

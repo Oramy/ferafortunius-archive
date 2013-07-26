@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -11,6 +10,8 @@ import gui.IntLabel;
 import gui.Label;
 import gui.Slider;
 import gui.Text;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -149,7 +150,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 				Messages.getString("BasicObjetMapEditor.text.6"), saveCont); //$NON-NLS-1$
 		save.setBounds(25, saveCont.getSizeY() / 3 * 2,
 				(saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 6);
-		save.getAction().add(new Action() {
+		save.getAction().add(new ActionListener() {
 			public void actionPerformed(FComponent c) {
 				save();
 			}
@@ -160,7 +161,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 				Messages.getString("BasicObjetMapEditor.text.7"), saveCont); //$NON-NLS-1$
 		exportInAnim.setBounds(25, saveCont.getSizeY() / 6 * 5,
 				(saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 6);
-		exportInAnim.getAction().add(new Action() {
+		exportInAnim.getAction().add(new ActionListener() {
 			public void actionPerformed(FComponent c) {
 				exportInAnim();
 			}
@@ -169,7 +170,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 
 		newObject = new Button(
 				Messages.getString("BasicObjetMapEditor.text.8"), 25 + (saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 3 * 2, (saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 6, saveCont); //$NON-NLS-1$
-		newObject.getAction().add(new Action() {
+		newObject.getAction().add(new ActionListener() {
 			public void actionPerformed(FComponent c) {
 				setObj(emptyObject.clone());
 			}
@@ -178,7 +179,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 
 		newEntity = new Button(
 				Messages.getString("BasicObjetMapEditor.text.9"), 25 + (saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 6 * 5, (saveCont.getSizeX() - 50) / 2, saveCont.getSizeY() / 6, saveCont); //$NON-NLS-1$
-		newEntity.getAction().add(new Action() {
+		newEntity.getAction().add(new ActionListener() {
 			public void actionPerformed(FComponent c) {
 				setObj(emptyEntity.clone());
 			}

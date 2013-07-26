@@ -1,7 +1,6 @@
 package gui.widgets;
 
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -11,6 +10,8 @@ import gui.GridLayout;
 import gui.IntLabel;
 import gui.ScrollBar;
 import gui.Text;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -67,7 +68,7 @@ public class WCollisionList extends Widget{
 		lsizeZ	= new IntLabel("SZ", collisionBar);
 		
 		losange = new CheckBox("Losange", collisionBar);
-		losange.getAction().add(new Action(){
+		losange.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e)
 			{
 				
@@ -86,7 +87,7 @@ public class WCollisionList extends Widget{
 		
 		//Bouton d'ajout de collision
 		add = new Button("Add a Collision Block", utilsBar);
-		add.getAction().add(new Action(){
+		add.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				CollisionBlock newBlock = new CollisionBlock(0,0,0,0,0,0);
 				getCible().getCollision().add(newBlock);
@@ -120,7 +121,7 @@ public class WCollisionList extends Widget{
 					select.setY(i * 40 + 10);
 					select.setSizeY(20);
 					select.setX(collisionList.getSizeX() - 120);
-				select.getAction().add(new Action(){
+				select.getAction().add(new ActionListener(){
 
 					@Override
 					public void actionPerformed(FComponent c) {
@@ -148,7 +149,7 @@ public class WCollisionList extends Widget{
 					suppr.setY(i * 40 + 10);
 					suppr.setSizeY(20);
 					suppr.setX(collisionList.getSizeX() - 80);
-				suppr.getAction().add(new Action(){
+				suppr.getAction().add(new ActionListener(){
 	
 					@Override
 					public void actionPerformed(FComponent c) {
