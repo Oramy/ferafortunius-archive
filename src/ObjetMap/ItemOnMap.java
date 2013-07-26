@@ -1,6 +1,7 @@
 package ObjetMap;
 
 import gui.ControllersManager;
+import gui.PImage;
 import gui.jeu.Jeu;
 import gui.jeu.PanneauJeuAmeliore;
 
@@ -23,6 +24,7 @@ public class ItemOnMap extends ObjetMap {
 	 */
 	private static final long serialVersionUID = 4075030050866438123L;
 	
+	private static PImage buttonX = new PImage("GUI/Xbox360_Button_X.png");
 	protected Item item;
 	protected boolean gettingDown;
 	protected long tempsPrec, tempsReq;
@@ -65,7 +67,9 @@ public class ItemOnMap extends ObjetMap {
 				}
 			}
 			if(getting){
-				g.drawString("X : Prendre.",  - g.getFont().getWidth("X : Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),  + c.getImageSizeInGameY() * actualCam.getZoom());
+				buttonX.getImg().draw(- 35 - g.getFont().getWidth("Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),
+						+ c.getImageSizeInGameY() * actualCam.getZoom() - 8, 30,30);
+				g.drawString("Prendre.",  - g.getFont().getWidth("Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),  + c.getImageSizeInGameY() * actualCam.getZoom());
 			}
 	}
 	public void update(Jeu jeu){
