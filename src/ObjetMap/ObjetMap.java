@@ -664,9 +664,9 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			nightValue =  1f;
 		//Dessin
 		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.4f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
+				c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
 		//Si on veut appliquer l'ombre Z
-		
+	
 	}
 
 	public void removeChrono(String name) {
