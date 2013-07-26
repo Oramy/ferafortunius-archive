@@ -110,7 +110,7 @@ public class Jeu extends Container implements Cloneable {
 	private boolean keyI;
 
 	//Delta
-	private float delta;
+	private static float delta;
 
 	private Music ambianceMusic;
 
@@ -295,7 +295,8 @@ public class Jeu extends Container implements Cloneable {
 		
 		//Initialisation de la carte
 		setDialogList(new ArrayList<Text>());
-		carte = c;
+		this.carte = c;
+		alphaTitreMap = 300;
 		setPlayer(carte.getFirstEntity());
 		if (player == null) {
 			player = (Entity) ObjetMapLoader.loadObject("data/ObjetMap/Entities/entitylanguide.obj");
@@ -439,8 +440,8 @@ public class Jeu extends Container implements Cloneable {
 		g.setFont(FontRessources.getFonts().titres);
 		g.setColor(new Color(255, 255, 255, (alphaTitreMap)));
 
-		// g.drawString(carte.getNom() + "", sizeX / 2 -
-		// g.getFont().getWidth(carte.getNom()) / 2, 100);
+		 g.drawString(carte.getNom() + "", sizeX / 2 -
+		 g.getFont().getWidth(carte.getNom()) / 2, 100);
 
 		g.setColor(transitionColor);
 		
@@ -773,6 +774,9 @@ public class Jeu extends Container implements Cloneable {
 			if (ControllersManager.getFirstController().isSelectReleased()) {
 				dialogBar.nextDialog();
 			}
+			if (ControllersManager.getFirstController().isButton2Released()) {
+				player.walkAnim(Direction.values()[(player.getDirection().ordinal() + 4) % 8]);
+			}
 			if (ControllersManager.getFirstController().isButton4Pressed()) {
 				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.05f);
 			}
@@ -831,7 +835,7 @@ public class Jeu extends Container implements Cloneable {
 		}
 	}
 
-	public float getDelta() {
+	public static float getDelta() {
 		return delta;
 	}
 
