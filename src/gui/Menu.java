@@ -122,8 +122,6 @@ public class Menu extends Container {
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
-				c.gm.setJeu(new Jeu(c.gm, c.gm.getApp()));
-				c.gm.getJeu().init(c.gm.getApp(), MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
 				
 				Thread t = new Thread(new Runnable(){
 					public void run(){
