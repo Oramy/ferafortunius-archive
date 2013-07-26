@@ -830,7 +830,6 @@ public class Jeu extends Container implements Cloneable {
 			inverseInventory();
 		}
 	}
-
 	public MenuJeuContainer getMenuJeu() {
 		return menuJeu;
 	}
