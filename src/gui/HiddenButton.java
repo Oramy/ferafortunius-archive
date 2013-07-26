@@ -1,5 +1,7 @@
 package gui;
 
+import gui.jeu.Jeu;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -64,16 +66,16 @@ public class HiddenButton extends Button{
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
 		if(hover){
-			if(visibleX < getSizeX() && getSizeX() - visibleX > 5){
-				visibleX += 5;
+			if(visibleX < getSizeX() && getSizeX() - visibleX > 10f * Jeu.getDelta()){
+				visibleX += (int)(10f * Jeu.getDelta());
 			}
 			else if(visibleX < getSizeX())
 				visibleX++;
 			
 		}
 		else if(normalB){
-			if(visibleX > hideVisX && visibleX - hideVisX > 5)
-				visibleX-= 5;
+			if(visibleX > hideVisX && visibleX - hideVisX > 10f * Jeu.getDelta())
+				visibleX-= (int)(10f * Jeu.getDelta());
 			else if(visibleX > hideVisX)
 				visibleX--;
 		}
