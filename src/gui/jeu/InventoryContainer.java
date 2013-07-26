@@ -41,14 +41,16 @@ public class InventoryContainer extends Container{
 		}
 	}
 	public void reinitSelection(){
-		if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
-			((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).normal();
-		
+		if(inventaire.getContents().size() > 0){
+			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
+				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).normal();
+		}
 	}
 	public void hoverSelection(){
-		if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
-			((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).hover();
-		
+		if(inventaire.getContents().size() > 0){
+			if(((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)) != null)
+				((ItemComponent)getComponent(this.x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).hover();
+		}
 	}
 	public void setX(int x){
 		if(getComponents() != null){
@@ -86,38 +88,41 @@ public class InventoryContainer extends Container{
 		}
 	}
 	public void updateController(GameContainer gc){
-		if(x == -1)
-			setX(0);
-		if(y == -1)
-			setY(0);
-		if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
-			((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).hover();
-		
-		if(ControllersManager.getFirstController().isButton2Released()){
-			ControllersManager.getFirstController().setControllerContainer(((Jeu)getRacine()).getMenuJeu());
+		if(inventaire.getContents().size() > 0){
+				
+			if(x == -1)
+				setX(0);
+			if(y == -1)
+				setY(0);
 			if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
-				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).normal();
+				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).hover();
 			
-			((Jeu)getRacine()).inverseInventory();
-		}
-		if(ControllersManager.getFirstController().isButton1Released()){
-			((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).use();
-		}
-		if(ControllersManager.getFirstController().isButton3Released()){
-			((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).equip();
-		}
-			
-		if(ControllersManager.getFirstController().isRightReleased()){
-			setX(x + 1);
-		}
-		if(ControllersManager.getFirstController().isLeftReleased()){
-			setX(x - 1);
-		}
-		if(ControllersManager.getFirstController().isUpReleased()){
-			setY(y - 1);
-		}
-		if(ControllersManager.getFirstController().isDownReleased()){
-			setY(y + 1);
+			if(ControllersManager.getFirstController().isButton2Released()){
+				ControllersManager.getFirstController().setControllerContainer(((Jeu)getRacine()).getMenuJeu());
+				if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
+					((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).normal();
+				
+				((Jeu)getRacine()).inverseInventory();
+			}
+			if(ControllersManager.getFirstController().isButton1Released()){
+				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).use();
+			}
+			if(ControllersManager.getFirstController().isButton3Released()){
+				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).equip();
+			}
+				
+			if(ControllersManager.getFirstController().isRightReleased()){
+				setX(x + 1);
+			}
+			if(ControllersManager.getFirstController().isLeftReleased()){
+				setX(x - 1);
+			}
+			if(ControllersManager.getFirstController().isUpReleased()){
+				setY(y - 1);
+			}
+			if(ControllersManager.getFirstController().isDownReleased()){
+				setY(y + 1);
+			}
 		}
 	}
 	public FComponent getComponent(int x, int y){
