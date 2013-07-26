@@ -34,10 +34,12 @@ public class InventoryContainer extends Container{
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
 		if(this.inventaire.getContents().size() != itemNumber){
-			reinitSelection();
+			if(ControllersManager.hasController(gc))
+				reinitSelection();
 			this.components.clear();
 			addInventory();
-			hoverSelection();
+			if(ControllersManager.hasController(gc))
+				hoverSelection();
 		}
 	}
 	public void reinitSelection(){
