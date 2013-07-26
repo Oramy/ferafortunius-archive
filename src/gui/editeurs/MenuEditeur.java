@@ -1,8 +1,9 @@
 package gui.editeurs;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.GameContainer;
 
-import gui.Action;
 import gui.Button;
 import gui.Container;
 import gui.FComponent;
@@ -28,7 +29,7 @@ public class MenuEditeur extends Container{
 		newmap.setY(sizeY / 2);
 		newmap.setSizeX(sizeX / 8);
 		newmap.setSizeY(sizeY/2);
-		newmap.getAction().add(new Action(){
+		newmap.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				InternalFrame i = new InternalFrame(0, 0, 400, 200, Messages.getString("MenuEditeur.1"), editeur); //$NON-NLS-1$
 				i.getContainer().addComponent(new NewMapContainer(0, 0,400,200, i.getContainer()));
@@ -41,7 +42,7 @@ public class MenuEditeur extends Container{
 		supprimer.setX(sizeX/8);
 		supprimer.setSizeY(sizeY/2);
 		supprimer.setSizeX(sizeX / 8);
-		supprimer.getAction().add(new Action(){
+		supprimer.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				Button himself = (Button) e;
 				if(editeur.getEditeurMode() == EditeurMode.Placer){

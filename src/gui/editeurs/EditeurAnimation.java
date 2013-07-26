@@ -1,12 +1,13 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
 import gui.PImage;
 import gui.ScrollBar;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -54,7 +55,7 @@ public class EditeurAnimation extends Container{
 				for(int i = animExplorer.getComponents().size(); i < this.cible.getAnimations().size(); i++){
 					Button modImg = null;
 					modImg = new Button(cible.getAnimations().get(i).getNom(), animExplorer);
-					modImg.getAction().add(new Action(){
+					modImg.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent c){
 							basicAnimationEditor.setAnimationToAdd(cible, cible.getAnimations().get((c.getY() - 5) / 45));
 							((Button)c).setName(cible.getAnimations().get((c.getY() - 5) / 45).getNom());
@@ -94,7 +95,7 @@ public class EditeurAnimation extends Container{
 		this.addComponent(basicAnimationEditor);
 		
 		applyAnimation = new Button(Messages.getString("EditeurAnimation.1"), 0,sizeY / 2 - sizeY / 16, sizeX / 2, sizeY / 16, this); //$NON-NLS-1$
-		applyAnimation.getAction().add(new Action(){
+		applyAnimation.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				((Editeur)e.getRacine()).getEditeurObjet().getObjetCible().setAnimations(cible.getAnimations());
 			}

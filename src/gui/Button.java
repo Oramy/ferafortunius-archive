@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -36,7 +38,7 @@ public class Button extends FComponent{
 	protected boolean actionWhilePressed;
 	protected boolean firstAct;
 	protected long lastAct;
-	protected ArrayList<Action> action;
+	protected ArrayList<ActionListener> action;
 	public Button(String name, int posX, int posY, int width, int height, Container parent){
 		super(parent);
 		init(name, parent);
@@ -50,7 +52,7 @@ public class Button extends FComponent{
 		setName(name);
 		actionWhilePressed = false;
 		firstAct = true;
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		boutonAct = bouton;
 		enable = true;
 		defineSize = true;
@@ -220,7 +222,7 @@ public class Button extends FComponent{
 	/**
 	 * @return the action
 	 */
-	public ArrayList<Action> getAction() {
+	public ArrayList<ActionListener> getAction() {
 		return action;
 	}
 	/**

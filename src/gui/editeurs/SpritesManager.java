@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -18,6 +17,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import observer.ActionListener;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -69,7 +70,7 @@ public class SpritesManager extends Container implements Observable{
 		//Chargement par défaut
 		Button loadDefault = new Button("Load Default", buttons);
 		loadDefault.setSize(250, 50);
-		loadDefault.getAction().add(new Action(){
+		loadDefault.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				addSprites(loadSprites());
 			}
@@ -77,7 +78,7 @@ public class SpritesManager extends Container implements Observable{
 		buttons.addComponent(loadDefault);
 		
 		Button selecPath = new Button("Load XML File", 0, 55, 250, 50, buttons); //$NON-NLS-1$
-		selecPath.getAction().add(new Action(){
+		selecPath.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				//Chargement du fichier
 				File f = new File("Images/" + "ObjetMap/"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -111,7 +112,7 @@ public class SpritesManager extends Container implements Observable{
 		//Select ALL 
 		Button selectAll = new Button("Select ALL", buttons);
 		selectAll.setBounds(0, 110, 125, 50);
-		selectAll.getAction().add(new Action(){
+		selectAll.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				for(FComponent comp : imageChoice.getComponents()){
 					if(comp instanceof CheckBox){
@@ -125,7 +126,7 @@ public class SpritesManager extends Container implements Observable{
 		//Deselect ALL 
 				Button deselectAll = new Button("Deselect ALL", buttons);
 				deselectAll.setBounds(125, 110, 125, 50);
-				deselectAll.getAction().add(new Action(){
+				deselectAll.getAction().add(new ActionListener(){
 					public void actionPerformed(FComponent c){
 						for(FComponent comp : imageChoice.getComponents()){
 							if(comp instanceof CheckBox){
@@ -138,7 +139,7 @@ public class SpritesManager extends Container implements Observable{
 		//OK
 		Button ok = new Button("OK", buttons);
 		ok.setBounds(0, buttons.getSizeY() - 70, 250, 70);
-		ok.getAction().add(new Action(){
+		ok.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				notifyObservers();
 			}
@@ -161,7 +162,7 @@ public class SpritesManager extends Container implements Observable{
 		for(ObjetImage sprite : loadSprites){
 			CheckBox toAdd = new CheckBox(sprite.getAlias(), imageChoice);
 			toAdd.setBounds(0, (spritesLoaded.indexOf(sprite)) * 50, 150, 50);
-			toAdd.getAction().add(new Action(){
+			toAdd.getAction().add(new ActionListener(){
 
 				@Override
 				public void actionPerformed(FComponent c) {
@@ -184,7 +185,7 @@ public class SpritesManager extends Container implements Observable{
 			
 			Button delete = new Button("Del", imageChoice);
 			delete.setBounds(150, (spritesLoaded.indexOf(sprite)) * 50, 100, 50);
-			delete.getAction().add(new Action(){
+			delete.getAction().add(new ActionListener(){
 
 				@Override
 				public void actionPerformed(FComponent c) {

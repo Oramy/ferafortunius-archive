@@ -1,6 +1,6 @@
 package gui.editeurs;
 
-import gui.Action;
+import observer.ActionListener;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -39,7 +39,7 @@ public class NewMapContainer extends Container{
 		this.addComponent(layeredChunkMap);
 		
 		newMap = new Button(Messages.getString("NewMapContainer.4"), sizeX/2, 80,sizeX / 2, 40,  this); //$NON-NLS-1$
-		newMap.getAction().add(new Action(){
+		newMap.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int size = chunksize.getValue();
 				int x = chunkx.getValue();

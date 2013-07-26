@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -17,7 +19,7 @@ public class Slider extends FComponent{
 	private boolean clicked;
 	private boolean dragged;
 	private int pas;
-	private ArrayList<Action> action;
+	private ArrayList<ActionListener> action;
 	public Slider(int valueMax, Container parent){
 		super(parent);
 		init();
@@ -45,7 +47,7 @@ public class Slider extends FComponent{
 		setSizeY(58);
 		slideZone = new PImage("GUI/slideZone.png");
 		slider = new PImage("GUI/slider.png");
-		action = new ArrayList<Action>();
+		action = new ArrayList<ActionListener>();
 		clicked = false;
 		dragged = false;
 	}
@@ -101,13 +103,13 @@ public class Slider extends FComponent{
 	/**
 	 * @return the action
 	 */
-	public ArrayList<Action> getAction() {
+	public ArrayList<ActionListener> getAction() {
 		return action;
 	}
 	/**
 	 * @param action the action to set
 	 */
-	public void setAction(ArrayList<Action> action) {
+	public void setAction(ArrayList<ActionListener> action) {
 		this.action = action;
 	}
 	/**

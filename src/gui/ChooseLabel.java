@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import observer.ActionListener;
+
 import org.newdawn.slick.UnicodeFont;
 
 public class ChooseLabel extends Label{
@@ -27,7 +29,7 @@ public class ChooseLabel extends Label{
 		
 		searchButton = new Button("...", this.sizeX - 40, this.sizeY / 2 - 8, 40, 16, this); //$NON-NLS-1$
 		
-		searchButton.getAction().add(new Action(){
+		searchButton.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				File f = new File(getSourceFolder()); //$NON-NLS-1$
 				System.out.println(f.getAbsolutePath());
@@ -47,7 +49,7 @@ public class ChooseLabel extends Label{
 	public void setSourceFolder(String sourceFolder){
 		this.sourceFolder = sourceFolder;
 		searchButton.getAction().clear();
-		searchButton.getAction().add(new Action(){
+		searchButton.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				File f = new File(getSourceFolder()); //$NON-NLS-1$
 				JFileChooser fc = new JFileChooser(f.getAbsolutePath());

@@ -1,6 +1,5 @@
 package gui.jeu;
 
-import gui.Action;
 import gui.Button;
 import gui.ComponentState;
 import gui.Container;
@@ -11,6 +10,8 @@ import gui.HiddenButton;
 import gui.ModeJeu;
 import gui.PImage;
 import gui.ScrollBar;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -28,7 +29,7 @@ public class MenuJeuContainer extends Container{
 		inventaire.setY(0);
 		//inventaire.disable();
 		this.addComponent(inventaire);
-		inventaire.getAction().add(new Action(){
+		inventaire.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.inverseInventory();
@@ -53,7 +54,7 @@ public class MenuJeuContainer extends Container{
 		HiddenButton options = new HiddenButton(Messages.getString("MenuJeuContainer.9"), "GUI/Icon/options.png", this); //$NON-NLS-1$ //$NON-NLS-2$
 		options.setY(inventaire.getSizeY() * 4);
 		this.addComponent(options);
-		options.getAction().add(new Action(){
+		options.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu) c.getRacine();
 				jeu.addComponent(jeu.getOptionsFen());
@@ -66,7 +67,7 @@ public class MenuJeuContainer extends Container{
 		HiddenButton quitter = new HiddenButton(Messages.getString("MenuJeuContainer.13"), "GUI/Icon/quitter.png", this); //$NON-NLS-1$ //$NON-NLS-2$
 		quitter.setY(inventaire.getSizeY() * 6);
 		//quitter.disable();
-		quitter.getAction().add(new Action(){
+		quitter.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu)getRacine();
 				jeu.getGm().setMode(ModeJeu.Menu, jeu.getGm().getApp());

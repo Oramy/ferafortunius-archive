@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -17,6 +16,8 @@ import gui.ScrollBar;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -75,7 +76,7 @@ public class EditeurMap extends Container{
 		
 			//Bouton "Reload"
 			Button reload = new Button(Messages.getString("EditeurMap.0"), choixObjets); //$NON-NLS-1$
-			reload.getAction().add(new Action(){
+			reload.getAction().add(new ActionListener(){
 				public void actionPerformed(FComponent C){
 					reloadObjects();
 				}
@@ -151,7 +152,7 @@ public class EditeurMap extends Container{
 		((GridLayout) objContainer.getActualLayout()).setHgap(6);
 		if(o != null){
 			ButtonObjetMap selectButton = (ButtonObjetMap) new ButtonObjetMap(o, 0,0,200,200,objContainer);
-			selectButton.getAction().add(new Action(){
+			selectButton.getAction().add(new ActionListener(){
 				public void actionPerformed(FComponent c){
 					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 					ObjetMap ed = editChoice;
@@ -192,7 +193,7 @@ public class EditeurMap extends Container{
 		Button acheter = new Button(Messages.getString("EditeurMap.6"), buttonContainer); //$NON-NLS-1$
 		
 		Button infos = new Button(Messages.getString("EditeurMap.7"), buttonContainer); //$NON-NLS-1$
-		infos.getAction().add(new Action(){
+		infos.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 				ObjetMap o = ((ButtonObjetMap)(c.getParent().getParent().getComponents().get(0))).getObjet().clone();
@@ -209,7 +210,7 @@ public class EditeurMap extends Container{
 		Container checkbox = new Container(1,1,1,1, objContainer);
 		checkbox.setBackground(new PImage("alpha.png")); //$NON-NLS-1$
 		CheckBox miroir = new CheckBox(Messages.getString("EditeurMap.13"), checkbox); //$NON-NLS-1$
-		miroir.getAction().add(new Action(){
+		miroir.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 				ObjetMap o = ((ButtonObjetMap)(c.getParent().getParent().getComponents().get(0))).getObjet();
@@ -220,7 +221,7 @@ public class EditeurMap extends Container{
 		objContainer.addComponent(checkbox);
 		
 		Button modifier = new Button(Messages.getString("EditeurMap.14"), objContainer); //$NON-NLS-1$
-		modifier.getAction().add(new Action(){
+		modifier.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 				Editeur editR = ((Editeur)(c.getRacine()));
@@ -293,7 +294,7 @@ public class EditeurMap extends Container{
 			
 			Button selectButton = new Button(o.getNom(), 0,0,200,200,objContainer);
 			
-			selectButton.getAction().add(new Action(){
+			selectButton.getAction().add(new ActionListener(){
 				public void actionPerformed(FComponent c){
 					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 					Ensemble ed = ensembleChoice;
@@ -320,7 +321,7 @@ public class EditeurMap extends Container{
 		}
 		//Bouton "Reload"
 		Button reload = new Button(Messages.getString("EditeurMap.0"), choixEnsembles); //$NON-NLS-1$
-		reload.getAction().add(new Action(){
+		reload.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent C){
 				reloadEnsemble();
 			}

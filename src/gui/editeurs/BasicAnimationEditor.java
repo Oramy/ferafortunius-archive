@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.Container;
@@ -10,6 +9,8 @@ import gui.IntLabel;
 import gui.Label;
 import gui.PImage;
 import gui.ScrollBar;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -77,7 +78,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Commencer l'animation
 		start = new Button(Messages.getString("BasicAnimationEditor.5"),  this); //$NON-NLS-1$
 		start.setBounds(getSizeX() / 2 + getSizeX() / 6, 10, getSizeX() / 6, 40);
-		start.getAction().add(new Action(){
+		start.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				animationToAdd.start();
 				stop.enable();
@@ -90,7 +91,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Stopper l'animation
 		stop = new Button(Messages.getString("BasicAnimationEditor.6"),  this); //$NON-NLS-1$
 		stop.setBounds(getSizeX() / 2 + getSizeX() / 3, 10, getSizeX() / 6, 40);
-		stop.getAction().add(new Action(){
+		stop.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				animationToAdd.stop();
 				start.enable();
@@ -103,7 +104,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Ajouter une animation
 		clone = new Button(Messages.getString("BasicAnimationEditor.7"),  this); //$NON-NLS-1$
 		clone.setBounds(getSizeX() / 2 + getSizeX() / 6, 50, getSizeX() / 6, 40);
-		clone.getAction().add(new Action(){
+		clone.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				animationToAdd = animationToAdd.clone();
 				getCible().getAnimations().add(animationToAdd);
@@ -116,7 +117,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Supprimer l'animation.
 		remove = new Button(Messages.getString("BasicAnimationEditor.8"),  this); //$NON-NLS-1$
 		remove.setBounds(getSizeX() / 2 + getSizeX() / 3, 50, getSizeX() / 6, 40);
-		remove.getAction().add(new Action(){
+		remove.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				getCible().getAnimations().remove(animationToAdd);
 			}
@@ -126,7 +127,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Ajouter une animation
 		newAnim = new Button(Messages.getString("BasicAnimationEditor.10"),  this); //$NON-NLS-1$
 		newAnim.setBounds(getSizeX() / 2 + getSizeX() / 6, 90, getSizeX() / 6, 40);
-		newAnim.getAction().add(new Action(){
+		newAnim.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				animationToAdd = new Animation("", 0);
 				setAnimationToAdd(cible, animationToAdd);
@@ -140,7 +141,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Monter
 		monter = new Button(Messages.getString("BasicAnimationEditor.11"),  this); //$NON-NLS-1$
 		monter.setBounds(getSizeX() / 2 + getSizeX() / 6, 130, getSizeX() / 6, 40);
-		monter.getAction().add(new Action(){
+		monter.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int index = getCible().getAnimations().indexOf(animationToAdd);
 				if(index > 0){
@@ -154,7 +155,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 		//Descendre
 		descendre = new Button(Messages.getString("BasicAnimationEditor.12"),  this); //$NON-NLS-1$
 		descendre.setBounds(getSizeX() / 2 + getSizeX() / 3, 130, getSizeX() / 6, 40);
-		descendre.getAction().add(new Action(){
+		descendre.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				int index = getCible().getAnimations().indexOf(animationToAdd);
 				if(index < getCible().getAnimations().size()){
@@ -194,7 +195,7 @@ public class BasicAnimationEditor extends ContainerWithBords{
 					for(int i = timedSExplorer.getComponents().size(); i < this.animationToAdd.getScripts().size(); i++){
 						Button modImg = null;
 						modImg = new Button(animationToAdd.getScript(i).getName(), timedSExplorer);
-						modImg.getAction().add(new Action(){
+						modImg.getAction().add(new ActionListener(){
 							public void actionPerformed(FComponent c){
 								((Button)c).setName(animationToAdd.getScript((c.getY() - 5) / 45).getName());
 								timedSEditor.setTsCible(animationToAdd, animationToAdd.getScript((c.getY() - 5) / 45));

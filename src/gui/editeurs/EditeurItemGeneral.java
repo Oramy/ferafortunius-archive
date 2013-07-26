@@ -1,6 +1,5 @@
 package gui.editeurs;
 
-import gui.Action;
 import gui.Button;
 import gui.CheckBox;
 import gui.ChooseLabel;
@@ -15,6 +14,8 @@ import gui.Label;
 import gui.PImage;
 import gui.Text;
 import gui.TextArea;
+
+import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
@@ -95,14 +96,14 @@ public class EditeurItemGeneral extends EditeurItemBasic{
 					
 					
 					save = new Button(Messages.getString("EditeurItem.11"), 0,0, 1,1, labelsASave); //$NON-NLS-1$
-					save.getAction().add(new Action(){
+					save.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent e){
 							editItem.setDescriptionPath(path.getInput().getContenu());
 							ItemDescriptionRessources.createDesc(editItem.getName(), editItem.getDescription(), editItem.getDescriptionPath());
 							ItemLoader.saveObject(editItem, "data/Items/"+path.getInput().getContenu()+".item"); //$NON-NLS-1$ //$NON-NLS-2$
 						}
 					});
-					save.getAction().add(new Action(){
+					save.getAction().add(new ActionListener(){
 						public void actionPerformed(FComponent e){
 							ObjetMapLoader.saveObject(new ItemOnMap(0,0,0,0,0,0, editItem), "data/ObjetMap/item"+path.getInput().getContenu()+".obj"); //$NON-NLS-1$ //$NON-NLS-2$
 						}
