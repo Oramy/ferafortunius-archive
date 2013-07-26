@@ -1,9 +1,29 @@
 package gui;
 
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+
 import org.newdawn.slick.GameContainer;
 
 public class ControllersManager {
 	private static ControllerManager firstController;
+	private static PImage buttonXXbox = new PImage("GUI/Controllers/Xbox360_Button_X.png"), buttonXPS3  = new PImage("GUI/Controllers/PS3_Square.png");
+	
+	public static PImage getButtonX(GameContainer gc){
+		if(hasController(gc) && !isXBox(gc))
+			return buttonXXbox;
+		return buttonXPS3;
+	}
+	public static boolean isXBox(GameContainer gc){
+		Controller[] cons = ControllerEnvironment.getDefaultEnvironment().getControllers();
+		for(Controller c : cons){
+			if(c.getName().contains("XBOX 360"))
+		    {
+				return true;
+		    }
+		}
+		return false;
+	}
 	public static boolean hasController(GameContainer gc){
 		if(gc.getInput().getControllerCount() > 0)
 			return true;
