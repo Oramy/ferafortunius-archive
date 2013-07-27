@@ -37,7 +37,7 @@ public class GameMain extends BasicGame {
 	public static float delta;
 	
 	public GameMain() {
-		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name"));
+		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name") + " " + OptionsJeuLoader.RESOURCE_BUNDLE.getString("version"));
 	}
 	public void applyOptions(GameContainer gc) {
 		setOptions(OptionsJeuLoader.loadOptions());
