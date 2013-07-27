@@ -548,14 +548,14 @@ public class PanneauJeuAmeliore extends Container {
 			ObjetMap cle = toShow.get(j1);
 			int i1 = j1 - 1;
 			ObjetMap other = toShow.get(i1);
-			int distanceA = (int) (Math.pow(cle.getAbsPosZ(chunkSize) + cle.getSizeZ(), 2) + Math.pow(cle.getAbsPosY(chunkSize) + cle.getSizeY(), 2) + Math.pow(cle.getAbsPosX(chunkSize) + cle.getSizeX(), 2));
-			int distanceB = (int) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
+			long distanceA = (long) (Math.pow(cle.getAbsPosZ(chunkSize) + cle.getSizeZ(), 2) + Math.pow(cle.getAbsPosY(chunkSize) + cle.getSizeY(), 2) + Math.pow(cle.getAbsPosX(chunkSize) + cle.getSizeX(), 2));
+			long distanceB = (long) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
 			while (i1 > -1
 					&& (distanceA > distanceB)) {
 				i1--;
 				if(i1 > - 1){
 				other = toShow.get(i1);
-				distanceB = (int) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
+				distanceB = (long) (Math.pow(other.getAbsPosZ(chunkSize) + other.getSizeZ(), 2) + Math.pow(other.getAbsPosY(chunkSize) + other.getSizeY(), 2) + Math.pow(other.getAbsPosX(chunkSize) + other.getSizeX(), 2));
 				}
 			}
 			toShow.remove(cle);

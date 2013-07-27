@@ -139,28 +139,28 @@ public class ChunkMap implements Serializable, Cloneable{
 		ObjetMap clone = o;
 		if(getChunk(o).getModeActuel() != Chunk.GOD_MOD){
 			ObjetMap ref = (ObjetMap) o.clone();
-			while(clone.getPosX() + clone.getSizeX() >= chunksSize){
+			while(clone.getPosX() >= chunksSize){
 				
 				clone.setChunkX(clone.getChunkX() + 1);
 				clone.setPosX(clone.getPosX() - chunksSize);
 			}
-			while(clone.getPosY() + clone.getSizeY() >= chunksSize){
+			while(clone.getPosY() >= chunksSize){
 				clone.setChunkY(clone.getChunkY() + 1);
 				clone.setPosY(clone.getPosY() - chunksSize);
 			}
-			while(clone.getPosZ() + clone.getSizeZ() >= chunksSize){
+			while(clone.getPosZ() >= chunksSize){
 				clone.setChunkZ(clone.getChunkZ() + 1);
 				clone.setPosZ(clone.getPosZ() - chunksSize);
 			}
-			while(clone.getPosX() + clone.getSizeX() < 0){
+			while(clone.getPosX() < 0){
 				clone.setChunkX(clone.getChunkX() - 1);
 				clone.setPosX(chunksSize + clone.getPosX());
 			}
-			while(clone.getPosY() + clone.getSizeY() < 0){
+			while(clone.getPosY() < 0){
 				clone.setChunkY(clone.getChunkY() - 1);
 				clone.setPosY(chunksSize + clone.getPosY());
 			}
-			while(clone.getPosZ() + clone.getSizeZ() < 0){
+			while(clone.getPosZ() < 0){
 				clone.setChunkZ(clone.getChunkZ() - 1);
 				clone.setPosZ(chunksSize + clone.getPosZ());
 			}
