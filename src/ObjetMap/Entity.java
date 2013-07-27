@@ -166,7 +166,7 @@ public abstract class Entity extends ObjetMap {
 	public void die(Jeu jeu){
 		jeu.getCarte().getChunk(this).remove(this);
 		for(Item item : inventaire.getContents()){
-			jeu.getCarte().getChunk(this).addContenu(new ItemOnMap(chunkX, chunkY, chunkZ, posX + (int)(Math.random() * sizeX), posY + (int)(Math.random() * sizeY), posZ + (int)(Math.random() * sizeZ), item));
+			jeu.getCarte().getChunk(this).addContenu(new ItemOnMap(chunkX, chunkY, chunkZ, posX + (int)(Math.random() * sizeX), posY + (int)(Math.random() * sizeY), posZ + (int)(Math.random() * 50), item));
 		}
 		inventaire.getContents().clear();
 		inventaire.setWeight(0);

@@ -77,9 +77,9 @@ public class ItemOnMap extends ObjetMap {
 		long temps = System.currentTimeMillis();
 		if(temps - tempsReq > tempsPrec){
 			tempsPrec = temps;
-			if(image.get(0).getDecalageY() == image.get(0).getImageSizeInGameY() / 2)
+			if(image.get(0).getDecalageY() >= image.get(0).getImageSizeInGameY() / 2)
 				gettingDown = true;
-			else if(image.get(0).getDecalageY()  == 0){
+			else if(image.get(0).getDecalageY()  <= 0){
 				gettingDown = false;
 			}
 			if(gettingDown == false && image.get(0).getDecalageY() < image.get(0).getImageSizeInGameY() / 2){
