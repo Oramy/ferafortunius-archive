@@ -24,6 +24,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	private int detailRotation;
 	private boolean mirror;
 	
+	protected float ratio = 1f;
 	private transient int imageID;
 	public ObjetImage clone(){
 		ObjetImage clone = null;
@@ -122,6 +123,8 @@ public class ObjetImage implements Serializable, Cloneable{
 		rotationCenterY = (int)((float)rotationCenterY / prop);
 	}
 	public void move(int x, int y){
+		if(ratio == 0f )
+			ratio = 1f;
 		decalageX += x;
 		decalageY += y;
 	}
@@ -141,7 +144,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the posX
 	 */
 	public int getDecalageX() {
-		return decalageX;
+		return (int) (decalageX * getRatio());
 	}
 	/**
 	 * @param posX the posX to set
@@ -274,7 +277,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the posY
 	 */
 	public int getDecalageY() {
-		return decalageY;
+		return (int) (decalageY * getRatio());
 	}
 	/**
 	 * @param posY the posY to set
@@ -341,5 +344,14 @@ public class ObjetImage implements Serializable, Cloneable{
 	}
 	public void setImageID(int imageID) {
 		this.imageID = imageID;
+	}
+	public float getRatio() {
+		if(ratio <= 0.0f)
+			ratio = 1f;
+		return ratio;
+	}
+	public void setRatio(float ratio) {
+		this.ratio = ratio;
+		System.out.println(this.ratio);
 	}
 }

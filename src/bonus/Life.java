@@ -12,8 +12,10 @@ public class Life extends SimpleBonus{
 	private static final long serialVersionUID = 1L;
 	public Life(int amount, Entity o){
 		super(amount, o);
-		if(getCible().getHp() == getCible().getMaxHp() && amount > 0){
-			getCible().getBonus().remove(this);
+		if(getCible() != null){
+			if(getCible().getHp() == getCible().getMaxHp() && amount > 0){
+				getCible().getBonus().remove(this);
+			}
 		}
 		if(amount > 0){
 			color = new Color(0,255,0,255);
@@ -25,6 +27,8 @@ public class Life extends SimpleBonus{
 		}
 	}
 	public void effect(){
-		getCible().increaseHp(amount);
+		if(getCible() != null){
+			getCible().increaseHp(amount);
+		}
 	}
 }

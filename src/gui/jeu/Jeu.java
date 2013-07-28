@@ -318,7 +318,7 @@ public class Jeu extends Container implements Cloneable {
 		this.addItem("fireshield.item");
 		this.addItem("epee.item");
 		this.addItem("popodelamort.item");
-		this.addItem("popodelamort.item");
+		this.addItem("potionDuPaysDesMerveilles.item");
 		this.addItem("plumeDeLaPoule.item");
 		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
@@ -786,7 +786,7 @@ public class Jeu extends Container implements Cloneable {
 			}
 			
 			//Controller
-			if (ControllersManager.getFirstController().isButton1Pressed() && player.getAnimationLaunchedCount() == 0) {
+			if (ControllersManager.getFirstController().isButton1Pressed()) {
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			if (ControllersManager.getFirstController().isStartReleased()) {
@@ -808,6 +808,9 @@ public class Jeu extends Container implements Cloneable {
 			{
 				player.launchAnimation("stay" + player.getDirection().name());
 			}
+			if (gc.getInput().isButtonPressed(3, 0)) {
+				player.extend(1/1.05f);
+			} 
 		}
 		updateShortcuts(gc);
 	}

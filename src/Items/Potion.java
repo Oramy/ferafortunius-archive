@@ -16,15 +16,18 @@ public class Potion extends Utility{
 		this.weight = 5;
 		this.name = "Potion de vie mineure";
 		this.img = new ObjetImage("Items/potion1.png");
-		addBonus(new Life(capacite, owner));
-		setUseNumberMax(3);
+		//addBonus(new Life(capacite, owner));
+		setUseNumberMax(1);
 		maxstackNumber = 99;
 		useNumber = getUseNumberMax();
 		setDescription("Potion commune dans Histae, on la retrouve dans tous les magasins.");
 		
 	}
 	public void use() {
+		this.setUseNumberMax(1);
+		this.setUseNumber(1);
 		super.use();
 		this.img = new ObjetImage("Items/potion"+(4-useNumber)+".png");
+		owner.reduce(2f);
 	}
 }

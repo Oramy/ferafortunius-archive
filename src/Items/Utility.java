@@ -75,6 +75,8 @@ public class Utility extends Item{
 		this.effectDescription = effectDescription;
 	}
 	public ArrayList<Bonus> getBonus() {
+		if(bonus == null)
+			bonus = new ArrayList<Bonus>();
 		return bonus;
 	}
 	public void setBonus(ArrayList<Bonus> bonus) {

@@ -76,7 +76,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public static int instanceNumber = 0;
 	protected int sizeX, sizeY, sizeZ;
 	protected float opacity;
-	private int ombre;
+	private transient int ombre;
 
 	private transient boolean drawing;
 
@@ -108,34 +108,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		animations = new ArrayList<Animation>();
 	}
 
-	protected synchronized boolean acceptableX(ObjetMap o) {
-		boolean accepted = true;
-		if (o.getPosX() >= getPosX() && o.getPosX() <= getPosX() + getSizeX())
-			accepted = false;
-		if (getPosX() >= o.getPosX() && getPosX() <= o.getPosX() + o.getSizeX())
-			accepted = false;
-
-		return accepted;
-	}
-
-	protected synchronized boolean acceptableY(ObjetMap o) {
-		boolean accepted = true;
-		if (o.getPosY() >= getPosY() && o.getPosY() <= getPosY() + getSizeY())
-			accepted = false;
-		if (getPosY() >= o.getPosY() && getPosY() <= o.getPosY() + o.getSizeY())
-			accepted = false;
-		return accepted;
-	}
-
-	protected synchronized boolean acceptableZ(ObjetMap o) {
-		boolean accepted = true;
-		if (o.getPosZ() >= getPosZ() && o.getPosZ() <= getPosZ() + getSizeZ())
-			accepted = false;
-		if (getPosZ() >= o.getPosZ() && getPosZ() <= o.getPosZ() + o.getSizeZ())
-			accepted = false;
-
-		return accepted;
-	}
 
 	public void addChrono(String name, long chrono) {
 		if (timesHelps == null)
@@ -218,7 +190,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public boolean collide(ObjetMap o, Jeu jeu) {
 		boolean collide = false;	
 		if (!isInvisible() && !o.isInvisible()) {
-			if (!acceptableX(o) && !acceptableY(o) && !acceptableZ(o)) {
+			if(ObjetMapUtils.acceptableXYZ(this, o)) {
 				for (int i = 0, l = this.getCollision().size(); i < l; i++) {
 					for (int j = 0, l2 = o.getCollision().size(); j < l2; j++) {
 						CollisionBlock c = this.getCollision().get(i);
@@ -241,7 +213,31 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		}
 		return collide;
 	}
-
+	public void reduce(float ratio){
+		extend(1f / ratio);
+	}
+	public void extend(float ratio){
+		sizeX *= ratio;
+		sizeY *= ratio;
+		sizeZ *= ratio;
+		
+		posX -= (sizeX / ratio / 2) - sizeX / 2;
+		posY -= (sizeY / ratio / 2) - sizeY / 2;
+		for(CollisionBlock c : collision){
+			c.setPosX((int) (c.getPosX() * ratio));
+			c.setPosY((int) (c.getPosY() * ratio));
+			c.setPosZ((int) (c.getPosZ() * ratio));
+			c.setSizeX((int) (c.getSizeX() * ratio));
+			c.setSizeY((int) (c.getSizeY() * ratio));
+			c.setSizeZ((int) (c.getSizeZ() * ratio));
+		}
+		for(ObjetImageList list : imagesLists){
+			for(ObjetImage i : list.getList()){
+				i.extend(ratio);
+				i.setRatio(i.getRatio() * ratio);
+			}
+		}
+	}
 	public ArrayList<CollisionBlock> getActualTouchedBlocks(){
 		if(actualTouchedBlocks == null)
 			actualTouchedBlocks = new ArrayList<CollisionBlock>();
@@ -407,6 +403,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	public int getSizeZ() {
 		return sizeZ;
 	}
+	
 	public void move(Jeu jeu, ChunkMap carte, float x, float y, float z){
 		carte.deplacement(this, (int)x, (int)y, (int)z, jeu);
 	}

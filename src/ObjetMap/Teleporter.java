@@ -51,7 +51,7 @@ public class Teleporter extends ObjetMap {
 	public boolean collide(ObjetMap o, Jeu jeu) {
 		boolean collide = false;	
 		if (!isInvisible() && !o.isInvisible()) {
-			if (!acceptableX(o) && !acceptableY(o) && !acceptableZ(o)) {
+			if (ObjetMapUtils.acceptableXYZ(this, o)) {
 				for (int i = 0, l = this.getCollision().size(); i < l; i++) {
 					for (int j = 0, l2 = o.getCollision().size(); j < l2; j++) {
 						CollisionBlock c = this.getCollision().get(i);

@@ -17,6 +17,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.imageout.ImageOut;
 
+import Items.ItemDescriptionRessources;
+import Items.Potion;
+import Level.ItemLoader;
 import Level.MapLoader;
 import Level.OptionsJeuLoader;
 
@@ -38,6 +41,7 @@ public class GameMain extends BasicGame {
 	
 	public GameMain() {
 		super(OptionsJeuLoader.RESOURCE_BUNDLE.getString("name") + " " + OptionsJeuLoader.RESOURCE_BUNDLE.getString("version"));
+		
 	}
 	public void applyOptions(GameContainer gc) {
 		setOptions(OptionsJeuLoader.loadOptions());
@@ -77,8 +81,6 @@ public class GameMain extends BasicGame {
 		menu.init(gc);
 		input = gc.getInput();
 		input.enableKeyRepeat();
-		
-		
 	}
 
 	@Override

@@ -4,12 +4,16 @@ import gui.GameMain;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import Items.Potion;
+import Level.ItemLoader;
+
 
 
 public class Start {
 
 	public static void main(String[] args) {
 		AppGameContainer app;
+		
 		GameMain fen = new GameMain();
 		try {
 			app = new AppGameContainer(fen);
@@ -19,6 +23,7 @@ public class Start {
 			app.setSoundOn(true);
 			app.setTargetFrameRate(300);
 			app.start();
+			
 		} catch (SlickException e) {
 			
 			e.printStackTrace();

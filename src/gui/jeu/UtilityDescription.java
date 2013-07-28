@@ -16,10 +16,12 @@ public class UtilityDescription extends ItemDescription {
 	/**
 	 * 
 	 */
+	private int maxSize;
+	
 	private static final long serialVersionUID = 3199863060828435097L;
 	public UtilityDescription(ItemComponent cible, Container parent) {
 		super(cible, parent);
-		
+		maxSize = 19;
 	}
 	public void draw(Graphics g){
 		g.translate(getX(), getY());
@@ -43,13 +45,21 @@ public class UtilityDescription extends ItemDescription {
 				Image wildImg = ItemRessources.getItemRessource().get(i).getImg();
 				SpriteSheet sprite = new SpriteSheet(wildImg, item.getCibles().get(0).getImg().getSizeSpriteX(), item.getCibles().get(0).getImg().getSizeSpriteY());
 				Image img =  sprite.getSprite(item.getCibles().get(0).getImg().getPosX(), item.getCibles().get(0).getImg().getPosY());
+				
+				//Test avec le titre
 				if(getSizeX() < img.getWidth() + g.getFont().getWidth(item.getCibles().get(0).getName()) || getSizeY() < img.getHeight()){
-					setSizeX(img.getWidth() + g.getFont().getWidth(item.getCibles().get(0).getDescription().substring(0, 19)) + 40);
+					setSizeX(img.getWidth() +g.getFont().getWidth(item.getCibles().get(0).getName()) + 40);
+					maxSize = item.getCibles().get(0).getName().length();
 					setSizeY(img.getHeight());
-					if(getSizeY() < ((item.getCibles().get(0).getDescription().length() / 20) + 1) * 15 + ((((Utility) (item.getCibles().get(0))).getEffectDescription().length() / 20) + 1) * 15 + 130){
-						setSizeY(((item.getCibles().get(0).getDescription().length() / 20) + 1) * 15 + ((((Utility) (item.getCibles().get(0))).getEffectDescription().length() / 20) + 1) * 15 + 130);
+					if(getSizeY() < ((item.getCibles().get(0).getDescription().length() / maxSize) + 1) * 15 + ((((Utility) (item.getCibles().get(0))).getEffectDescription().length() / maxSize) + 1) * 15 + 130){
+						setSizeY(((item.getCibles().get(0).getDescription().length() / maxSize) + 1) * 15 + ((((Utility) (item.getCibles().get(0))).getEffectDescription().length() / maxSize) + 1) * 15 + 130);
 					}
 				}
+				
+				//Test avec la description
+				if(getSizeX() < img.getWidth() + g.getFont().getWidth("0123456789123456789"))
+					setSizeX(img.getWidth() + g.getFont().getWidth("0123456789123456789") + 40);
+					
 				imgSizeX = img.getWidth();
 				img.setAlpha(0.8f);
 				img.draw(0,0);
@@ -70,14 +80,14 @@ public class UtilityDescription extends ItemDescription {
 		g.drawString(Messages.getString("UtilityDescription.5") + item.getCibles().get(0).getWeight(), imgSizeX, actX); //$NON-NLS-1$
 		actX += 20;
 		g.setColor(new Color(80,140,80));
-		for(int i = 0; i <= ((Utility) (item.getCibles().get(0))).getEffectDescription().length() / 20; i++){
-			if(i ==((Utility) (item.getCibles().get(0))).getEffectDescription().length() / 20){
-				g.drawString(((Utility) (item.getCibles().get(0))).getEffectDescription().substring(i * 20), imgSizeX, actX);
+		for(int i = 0; i <= ((Utility) (item.getCibles().get(0))).getEffectDescription().length() / maxSize; i++){
+			if(i ==((Utility) (item.getCibles().get(0))).getEffectDescription().length() / maxSize){
+				g.drawString(((Utility) (item.getCibles().get(0))).getEffectDescription().substring(i * maxSize), imgSizeX, actX);
 			}else{
-				String todraw = ((Utility) (item.getCibles().get(0))).getEffectDescription().substring(i * 20, (i + 1) * 20);
+				String todraw = ((Utility) (item.getCibles().get(0))).getEffectDescription().substring(i * maxSize, (i + 1) * maxSize);
 				String tiret = "-._ /;?,:!)(|"; //$NON-NLS-1$
 				if(!tiret.contains(todraw.substring(todraw.length() - 1, todraw.length())) && 
-						!tiret.contains(((Utility) (item.getCibles().get(0))).getEffectDescription().substring((i + 1) * 20, (i+1) * 20 + 1))){
+						!tiret.contains(((Utility) (item.getCibles().get(0))).getEffectDescription().substring((i + 1) * maxSize, (i+1) * maxSize + 1))){
 					todraw += "-"; //$NON-NLS-1$
 				}
 				g.drawString(todraw, imgSizeX, actX);
@@ -89,14 +99,14 @@ public class UtilityDescription extends ItemDescription {
 		}
 		g.setColor(new Color(50, 50, 50));
 		actX += 20;
-		for(int i = 0; i <= item.getCibles().get(0).getDescription().length() / 20; i++){
-			if(i == item.getCibles().get(0).getDescription().length() / 20){
-				g.drawString(item.getCibles().get(0).getDescription().substring(i * 20), imgSizeX, actX);
+		for(int i = 0; i <= item.getCibles().get(0).getDescription().length() / maxSize; i++){
+			if(i == item.getCibles().get(0).getDescription().length() / maxSize){
+				g.drawString(item.getCibles().get(0).getDescription().substring(i * maxSize), imgSizeX, actX);
 			}else{
-				String todraw = item.getCibles().get(0).getDescription().substring(i * 20, (i + 1) * 20);
+				String todraw = item.getCibles().get(0).getDescription().substring(i * maxSize, (i + 1) * maxSize);
 				String tiret = "-._ /;?,:!)(|"; //$NON-NLS-1$
 				if(!tiret.contains(todraw.substring(todraw.length() - 1, todraw.length())) && 
-						!tiret.contains(item.getCibles().get(0).getDescription().substring((i + 1) * 20, (i+1) * 20 + 1))){
+						!tiret.contains(item.getCibles().get(0).getDescription().substring((i + 1) * maxSize, (i+1) * maxSize + 1))){
 					todraw += "-"; //$NON-NLS-1$
 				}
 				g.drawString(todraw, imgSizeX, actX);
