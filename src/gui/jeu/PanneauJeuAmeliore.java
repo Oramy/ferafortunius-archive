@@ -80,30 +80,23 @@ public class PanneauJeuAmeliore extends Container {
 	public static PImage loadImage(ObjetImage objetImg, ObjetMap o){
 		PImage imgToDraw = null;
 		boolean loadImage = false;
-		if(o.getDrawImage() != null){
-			
-			for(int z = 0 , z2 =  o.getDrawImage().size(); z < z2; z++){
-				if(o.getDrawImage().get(z) < img.size()){
-					PImage imageIt = img.get(o.getDrawImage().get(z));
-					if(imageIt.getNom().equals(objetImg.getImage())){
-						loadImage = true;
-						imgToDraw = imageIt;
-					}
-				}
+		
+		//Chargement de l'id de l'image enregistré7
+		if(img.size() > objetImg.getImageID()){
+			PImage imageIt = img.get(objetImg.getImageID());
+			if(imageIt.getNom().equals(objetImg.getImage())){
+				loadImage = true;
+				imgToDraw = imageIt;
 			}
 		}
-		else{
-			o.setDrawImage(new ArrayList<Integer>());
-		}
+		//Si l'image n'a pas été chargée.
 		if(!loadImage){
 			
 			boolean inList = false;
 			for (int l = 0, l2 = img.size(); l < l2; l++) {
 				if (img.get(l).getNom().equals(objetImg.getImage())) {
-					if(!o.getDrawImage().contains(l)){
-						o.getDrawImage().add(l);
-						imgToDraw = img.get(l);
-					}
+					o.setId(l);
+					imgToDraw = img.get(l);
 					inList = true;
 					l = l2;
 				}
@@ -111,7 +104,7 @@ public class PanneauJeuAmeliore extends Container {
 			if(!inList){
 				PImage toload = new PImage(objetImg.getImage());
 				img.add(toload);
-				o.getDrawImage().add(img.size() - 1);
+				o.setId(img.size() - 1);
 				imgToDraw = toload;
 			}
 		}

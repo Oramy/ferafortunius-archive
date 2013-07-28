@@ -78,8 +78,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected float opacity;
 	private int ombre;
 
-	// Variables de performances
-	protected transient ArrayList<Integer> drawImage;
 	private transient boolean drawing;
 
 	public ObjetMap(int chunkX, int chunkY, int chunkZ, int posX, int posY,
@@ -106,7 +104,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		setSizeZ(0);
 		image = new ArrayList<ObjetImage>();
 		setCollision(new ArrayList<CollisionBlock>());
-		setDrawImage(new ArrayList<Integer>());
 		setTimesHelps(new ArrayList<Chrono>());
 		animations = new ArrayList<Animation>();
 	}
@@ -316,9 +313,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 	public ArrayList<CollisionBlock> getCollision() {
 		return collision;
-	}
-	public ArrayList<Integer> getDrawImage() {
-		return drawImage;
 	}
 
 	public int getId() {
@@ -723,9 +717,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		setImage(dir);
 	}
 
-	public void setDrawImage(ArrayList<Integer> drawImage) {
-		this.drawImage = drawImage;
-	}
+
 
 	public void setDrawing(boolean drawing) {
 		this.drawing = drawing;

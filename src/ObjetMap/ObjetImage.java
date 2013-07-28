@@ -23,6 +23,8 @@ public class ObjetImage implements Serializable, Cloneable{
 	private int rotation;
 	private int detailRotation;
 	private boolean mirror;
+	
+	private transient int imageID;
 	public ObjetImage clone(){
 		ObjetImage clone = null;
 		try {
@@ -333,5 +335,11 @@ public class ObjetImage implements Serializable, Cloneable{
 	}
 	public void setDetailRotation(int detailRotation) {
 		this.detailRotation = detailRotation;
+	}
+	public int getImageID() {
+		return imageID;
+	}
+	public void setImageID(int imageID) {
+		this.imageID = imageID;
 	}
 }

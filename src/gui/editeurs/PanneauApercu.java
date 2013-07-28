@@ -64,43 +64,9 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 						do{
 							objetImg = (ObjetImage) it2.getNextElement();
 							if(objetImg != null){
-								PImage imgToDraw = null;
-								boolean loadImage = false;
-								if(o.getDrawImage() != null){
 									
-									for(int z = 0; z < o.getDrawImage().size(); z++){
-										PImage imageIt = img.get(o.getDrawImage().get(z));
-										if(imageIt.getNom().equals(objetImg.getImage())){
-											loadImage = true;
-											imgToDraw = imageIt;
-										}
-									}
-								}
-								else{
-									o.setDrawImage(new ArrayList<Integer>());
-								}
-								if(!loadImage){
-									
-									boolean inList = false;
-									for (int l = 0, l2 = img.size(); l < l2; l++) {
-										if (img.get(l).getNom().equals(objetImg.getImage())) {
-											if(!o.getDrawImage().contains(l)){
-												o.getDrawImage().add(l);
-												imgToDraw = img.get(l);
-											}
-											inList = true;
-											l = l2;
-										}
-									}
-									if(!inList){
-										PImage toload = new PImage(objetImg.getImage());
-										img.add(toload);
-										o.getDrawImage().add(img.size() - 1);
-										imgToDraw = toload;
-									}
-								}
-
-								Image wildImg = imgToDraw.getImg();
+								
+								Image wildImg = loadImage(objetImg, o).getImg();
 								Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
 								wildImg = formatImage;
 								SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
