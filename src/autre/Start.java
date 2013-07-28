@@ -14,7 +14,7 @@ public class Start {
 		try {
 			app = new AppGameContainer(fen);
 			fen.setApp(app);
-			app.setMusicOn(true);
+			app.setMusicOn(false);
 			app.setMusicVolume(1.0f);
 			app.setSoundOn(true);
 			app.setTargetFrameRate(300);
