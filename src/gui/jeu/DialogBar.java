@@ -52,6 +52,7 @@ public class DialogBar extends Container{
 	}
 	public void draw(Graphics g){
 		super.draw(g);
+		if(this.getComponents().size() > 0)
 		g.drawImage(actualTextButton.getImg(), getX(),getY());
 	}
 	public void update(GameContainer gc, int x, int y){
