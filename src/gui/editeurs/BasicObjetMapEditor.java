@@ -41,9 +41,9 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 	private Label path;
 	private String savePath = ""; //$NON-NLS-1$
 	private Container size;
-	private IntLabel sizeX;
-	private IntLabel sizeY;
-	private IntLabel sizeZ;
+	private IntLabel sizeXLab;
+	private IntLabel sizeYLab;
+	private IntLabel sizeZLab;
 	private IntLabel colorMaskR, colorMaskG, colorMaskB;
 	private Text opacityText;
 	private Slider opacity;
@@ -63,9 +63,9 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 
 	}
 	public void updateData(){
-		getObj().setSizeX(sizeX.getValue());
-		getObj().setSizeY(sizeY.getValue());
-		getObj().setSizeZ(sizeZ.getValue());
+		getObj().setSizeX(sizeXLab.getValue());
+		getObj().setSizeY(sizeYLab.getValue());
+		getObj().setSizeZ(sizeZLab.getValue());
 		getObj().setInvisible(invisible.isCheck());
 		getObj().setFly(invisible.isCheck());
 		getObj().setUpdate(updatable.isCheck());
@@ -101,7 +101,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		// Checkable
 		checkCont = new ContainerWithBords(sizeX / 3 * 2, 0, sizeX / 3,
 				sizeY / 3, this);
-		checkCont.setActualLayout(new GridLayout(1, 4));
+		checkCont.setActualLayout(new GridLayout(1, 6));
 		((GridLayout) checkCont.getActualLayout()).setHgap(10);
 
 		invisible = new CheckBox(
@@ -130,6 +130,39 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		applyZShadow.setY(2);
 		applyZShadow.setCheck(this.getObj().isApplyZShadow());
 		checkCont.addComponent(applyZShadow);
+		
+
+		Button extend = new Button(Messages.getString("BasicObjetMapEditor.text.19"), checkCont); //$NON-NLS-1$
+		extend.setX(10);
+		extend.setY(2);
+		extend.getAction().add(new ActionListener(){
+
+			@Override
+			public void actionPerformed(FComponent c) {
+				getObj().extend(1.01f);
+				sizeXLab.setValue(getObj().getSizeX());
+				sizeYLab.setValue(getObj().getSizeY());
+				sizeZLab.setValue(getObj().getSizeZ());
+			}
+			
+		});
+		checkCont.addComponent(extend);
+		
+		Button reduce = new Button(Messages.getString("BasicObjetMapEditor.text.20"), checkCont); //$NON-NLS-1$
+		reduce.setX(10);
+		reduce.setY(2);
+		reduce.getAction().add(new ActionListener(){
+
+			@Override
+			public void actionPerformed(FComponent c) {
+				getObj().reduce(1.01f);
+				sizeXLab.setValue(getObj().getSizeX());
+				sizeYLab.setValue(getObj().getSizeY());
+				sizeZLab.setValue(getObj().getSizeZ());
+			}
+			
+		});
+		checkCont.addComponent(reduce);
 
 		this.addComponent(checkCont);
 		// Save container
@@ -189,23 +222,23 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 
 		size = new ContainerWithBords(0, sizeY / 3 * 2, sizeX, sizeY / 3, this);
 
-		this.sizeX = new IntLabel(5, 0, size.getSizeX() / 2 - 10,
+		this.sizeXLab = new IntLabel(5, 0, size.getSizeX() / 2 - 10,
 				size.getSizeY() / 3,
 				Messages.getString("BasicObjetMapEditor.text.10"), size); //$NON-NLS-1$
-		this.sizeX.getInput().setContenu(this.getObj().getSizeX() + ""); //$NON-NLS-1$
-		size.addComponent(this.sizeX);
+		this.sizeXLab.getInput().setContenu(this.getObj().getSizeX() + ""); //$NON-NLS-1$
+		size.addComponent(this.sizeXLab);
 
-		this.sizeY = new IntLabel(5, size.getSizeY() / 3,
+		this.sizeYLab = new IntLabel(5, size.getSizeY() / 3,
 				size.getSizeX() / 2 - 10, size.getSizeY() / 3,
 				Messages.getString("BasicObjetMapEditor.text.11"), size); //$NON-NLS-1$
-		this.sizeY.getInput().setContenu(this.getObj().getSizeY() + ""); //$NON-NLS-1$
-		size.addComponent(this.sizeY);
+		this.sizeYLab.getInput().setContenu(this.getObj().getSizeY() + ""); //$NON-NLS-1$
+		size.addComponent(this.sizeYLab);
 
-		this.sizeZ = new IntLabel(5, size.getSizeY() / 3 * 2,
+		this.sizeZLab = new IntLabel(5, size.getSizeY() / 3 * 2,
 				size.getSizeX() / 2 - 10, size.getSizeY() / 3,
 				Messages.getString("BasicObjetMapEditor.text.12"), size); //$NON-NLS-1$
-		this.sizeZ.getInput().setContenu(this.getObj().getSizeZ() + ""); //$NON-NLS-1$
-		size.addComponent(this.sizeZ);
+		this.sizeZLab.getInput().setContenu(this.getObj().getSizeZ() + ""); //$NON-NLS-1$
+		size.addComponent(this.sizeZLab);
 
 		opacityText = new Text(
 				Messages.getString("BasicObjetMapEditor.text.0") + obj2.getOpacity(), size); //$NON-NLS-1$
