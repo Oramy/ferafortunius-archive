@@ -65,15 +65,19 @@ public class EquipmentDescription extends ItemDescription{
 		if(getX() + getSizeX() > parent.getSizeX()){
 			setX(parent.getSizeX() - getSizeX());
 		}
-		if(item.getCibles().get(0).getOwner().getEquipment().getContents().contains(item.getCibles().get(0))){
-				equipe.getImg().draw(10, imgSizeY - equipe.getImg().getHeight() / 3 - 10, equipe.getImg().getWidth() / 3,  equipe.getImg().getHeight() / 3);
+		if(item.getCibles().get(0).getOwner() != null){
+			if(item.getCibles().get(0).getOwner().getEquipment().getContents().contains(item.getCibles().get(0))){
+					equipe.getImg().draw(10, imgSizeY - equipe.getImg().getHeight() / 3 - 10, equipe.getImg().getWidth() / 3,  equipe.getImg().getHeight() / 3);
+			}
 		}
 		actY = 10;
 		g.setColor(Color.black);
 		g.drawString(item.getCibles().get(0).getName(), imgSizeX, actY);
 		g.setColor(new Color(80,80,80));
 		actY += 20;
-		g.drawString(item.getCibles().get(0).getOwner().getNom(), imgSizeX, actY);
+		if(item.getCibles().get(0).getOwner() != null){
+			g.drawString(item.getCibles().get(0).getOwner().getNom(), imgSizeX, actY);
+		}
 		if(item.getCibles().get(0) instanceof Arme){
 			actY += 20;
 			if(item.getCibles().get(0) instanceof Bouclier){

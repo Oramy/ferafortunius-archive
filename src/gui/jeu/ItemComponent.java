@@ -184,9 +184,11 @@ public class ItemComponent extends FComponent implements Cloneable{
 				if(getCibles().size() > 1){
 					g.drawString(getCibles().size() + "", (int)(getSizeX() - 10 - g.getFont().getWidth(getCibles().size() + "")), (int)(getSizeY() - 10 - g.getFont().getHeight(getCibles().size() + "")));
 				}
-				if(getCibles().get(0).getOwner().getEquipment().getContents().contains(getCibles().get(0))){
-						EquipmentDescription.equipe.getImg().draw(10, getSizeY() - EquipmentDescription.equipe.getImg().getHeight() / 6 - 10, EquipmentDescription.equipe.getImg().getWidth() / 6,  EquipmentDescription.equipe.getImg().getHeight() / 6);
-					
+				if(getCibles().get(0).getOwner() != null){
+					if(getCibles().get(0).getOwner().getEquipment().getContents().contains(getCibles().get(0))){
+							EquipmentDescription.equipe.getImg().draw(10, getSizeY() - EquipmentDescription.equipe.getImg().getHeight() / 6 - 10, EquipmentDescription.equipe.getImg().getWidth() / 6,  EquipmentDescription.equipe.getImg().getHeight() / 6);
+						
+					}
 				}
 			}
 		g.translate(-this.getBounds().x, -this.getBounds().y);

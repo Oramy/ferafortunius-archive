@@ -99,8 +99,10 @@ public class ItemDescription extends FComponent{
 	}
 	public void update(GameContainer gc, int x, int y){
 		Item i = item.getCibles().get(0);
+		if(i.getOwner() != null){
 		if(!i.getOwner().getInventaire().getContents().contains(i))
 			this.parent.getComponents().remove(this);
+		}
 	}
 	/**
 	 * @return the backgrounde

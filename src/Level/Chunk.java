@@ -780,28 +780,28 @@ public class Chunk implements Serializable, Cloneable {
 			bindings.put("actualcam", jeu.getPanneauDuJeu()
 					.getActualCam());
 		}
-		Random r = new Random();
+		int idCount = 0;
 		for (int i = 0; i < updatable.size(); i++) {
+			idCount++;
 			String compressScript = updatable.get(i).getCompressScript();
-			
-			String id = "o"+ Math.abs(r.nextInt());
+			String id = "a"+idCount;
 			
 			compressScript = compressScript.replaceAll("cible", id);
 			compressScript = compressScript.replaceAll("himself", id);
 			bindings.put(id, updatable.get(i));
-			compressScript = compressScript.replaceAll("images", id + "Images");
-			bindings.put(id + "Images", updatable.get(i).getImage());
+			
+			//compressScript = compressScript.replaceAll("images", id + "Images");
+			//bindings.put(id + "Images", updatable.get(i).getImage());
 			
 			for(ObjetImage objImg : updatable.get(i).getImage()){
 				if(objImg.getAlias() != null && !objImg.getAlias().equals("")){
-					String id2 = "i"+  Math.abs(r.nextInt());
+					idCount++;
+					String id2 = "a"+idCount;
 					compressScript = compressScript.replaceAll(objImg.getAlias(), id2);
 					bindings.put(id2, objImg);
 				}
 			}
 			megaCompressScript += compressScript;
-			megaCompressScript += "\n";
-			
 			updatable.get(i).update(jeu);
 		}
 		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
@@ -813,11 +813,12 @@ public class Chunk implements Serializable, Cloneable {
 			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
 			String toLaunch = megaCompressScript;
 			megaCompressScript = "";
+			
 			// Execution du script entr�e
 			try {
 				Jeu.moteurScript.eval(toLaunch, bindings);
 			} catch (ScriptException e) {
-			//	e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}

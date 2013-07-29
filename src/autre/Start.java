@@ -21,7 +21,7 @@ public class Start {
 			app.setMusicOn(false);
 			app.setMusicVolume(1.0f);
 			app.setSoundOn(true);
-			app.setTargetFrameRate(300);
+			app.setTargetFrameRate(60);
 			app.start();
 			
 		} catch (SlickException e) {
