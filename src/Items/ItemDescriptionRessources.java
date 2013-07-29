@@ -74,10 +74,12 @@ public abstract class ItemDescriptionRessources {
 					fis = new FileInputStream(f);
 				
 				char carac = 'a';
-				while(carac != '\n')
+				
+				fis.skip(loadName(file).length());
+				
+				carac =  (char) fis.read();
+				while(carac == (char) 10 || carac == (char) 13 )
 					carac = (char) fis.read();
-				carac = (char) fis.read();
-				carac = (char) fis.read();
 				while(carac != (char)-1){
 					contenu += carac;
 					carac = (char) fis.read();
