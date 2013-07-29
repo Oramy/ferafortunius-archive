@@ -493,7 +493,6 @@ public class EditeurMap extends Container{
 	}
 	public void playMap() {
 		getGm().setMode(ModeJeu.Jeu, getGm().getApp());
-		getGm().setJeu(new Jeu(getGm(), getGm().getApp()));
 		setCarte(MapLoader.loadMap("data/Maps/" + menu.getBarre().getPathMap().getInput().getContenu() + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
 		getGm().getJeu().setCarte(getCarte());
 		getGm().getJeu().getPanneauDuJeu().setCarte(getCarte());

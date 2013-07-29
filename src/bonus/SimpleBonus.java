@@ -32,7 +32,7 @@ public abstract class SimpleBonus extends Bonus{
 		
 		g.scale(cam.getZoom(), cam.getZoom());
 			g.setColor(color);
-			g.drawString(getText(), 0, y - 100);
+			g.drawString(getText(), - g.getFont().getWidth(getText()) / 2, y - (getCible().getSizeX() + getCible().getSizeY()) / 2 - getCible().getSizeZ() );
 		g.scale(1 / (cam.getZoom()), 1 / (cam.getZoom()));
 		
 		g.setFont(FontRessources.getFonts().text);

@@ -113,6 +113,7 @@ public class Jeu extends Container implements Cloneable {
 
 	private MenuJeuContainer menuJeu;
 	
+	private transient ObjetMap dialogFollow;
 	public Jeu(GameMain gameMain, GameContainer gc) {
 		super(0, 0, gc.getWidth(), gc.getHeight(), null);
 		
@@ -129,8 +130,8 @@ public class Jeu extends Container implements Cloneable {
 		addDialog(text);
 	}
 	public void moveDialogBarTo(ObjetMap o){
-		dialogBar.setX(o.getXOnScreen(this));
-		dialogBar.setY(o.getYOnScreen(this));
+		dialogBar.setX(o.getXOnScreen(this) - dialogBar.getSizeX() / 2);
+		dialogBar.setY(o.getYOnScreen(this) - 50);
 	}
 	public void addDialog(Text t) {
 		t.setDisplay(getGameTextDisplayMode());
@@ -143,6 +144,7 @@ public class Jeu extends Container implements Cloneable {
 	public void addFileDialog(String file) {
 		addDialog(DialogsRessources.loadText(file));
 	}
+	
 
 	public void addItem(Item t) {
 		player.getInventaire().addContent(t);
@@ -157,6 +159,7 @@ public class Jeu extends Container implements Cloneable {
 	public void addItemBonus(Item t) {
 		player.addBonus(new ItemBonus(t, 1, player));
 	}
+
 	public void setAmbianceMusic(String path, float pitch, float volume){
 		if(ambianceMusic != null)
 		ambianceMusic.stop();
@@ -312,14 +315,6 @@ public class Jeu extends Container implements Cloneable {
 		
 		
 		player.getInventaire().setMaxWeight(3000);
-		this.addItem("epee.item");
-		this.addItem("fireshield.item");
-		this.addItem("epee.item");
-		this.addItem("fireshield.item");
-		this.addItem("epee.item");
-		this.addItem("popodelamort.item");
-		this.addItem("potionDuPaysDesMerveilles.item");
-		this.addItem("plumeDeLaPoule.item");
 		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
 		player.addBonus(new MaxLife(player));
@@ -609,8 +604,8 @@ public class Jeu extends Container implements Cloneable {
 		
 		long temps = System.currentTimeMillis();
 		
-		//Mise à jours des touches
-		
+		if(dialogFollow != null)
+		moveDialogBarTo(dialogFollow);
 		
 		//Titre de la map
 		if (alphaTitreMap > 0)
@@ -864,6 +859,14 @@ public class Jeu extends Container implements Cloneable {
 
 	public void setMenuJeu(MenuJeuContainer menuJeu) {
 		this.menuJeu = menuJeu;
+	}
+
+	public ObjetMap getDialogFollow() {
+		return dialogFollow;
+	}
+
+	public void setDialogFollow(ObjetMap dialogFollow) {
+		this.dialogFollow = dialogFollow;
 	}
 
 }
