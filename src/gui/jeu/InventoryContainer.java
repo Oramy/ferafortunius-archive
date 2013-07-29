@@ -99,13 +99,6 @@ public class InventoryContainer extends Container{
 			if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
 				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).hover();
 			
-			if(ControllersManager.getFirstController().isButton2Released()){
-				ControllersManager.getFirstController().setControllerContainer(((Jeu)getRacine()).getMenuJeu());
-				if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
-					((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).normal();
-				
-				((Jeu)getRacine()).inverseInventory();
-			}
 			if(ControllersManager.getFirstController().isButton1Released()){
 				((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, this.y * getComponents().get(0).getSizeY() + 30)).use();
 			}
@@ -125,6 +118,14 @@ public class InventoryContainer extends Container{
 			if(ControllersManager.getFirstController().isDownReleased()){
 				setY(y + 1);
 			}
+		}
+		if(ControllersManager.getFirstController().isButton2Released()){
+			if(inventaire.getContents().size() > 0 && getComponents().size() > 0){
+				if(((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)) != null)
+					((ItemComponent)getComponent(x * getComponents().get(0).getSizeX() + 30, y * getComponents().get(0).getSizeY() + 30)).normal();
+			}
+			ControllersManager.getFirstController().setControllerContainer(((Jeu)getRacine()).getMenuJeu());
+			((Jeu)getRacine()).inverseInventory();
 		}
 	}
 	public FComponent getComponent(int x, int y){
