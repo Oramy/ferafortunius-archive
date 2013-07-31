@@ -2,53 +2,118 @@ package texts;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
+
+import texts.converters.ColorConverter;
+
 public class BaliseRecognizer {
 	
 	public static void main(String[] args){
-		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\";>text<color>texte2</color></color>";
-		Balise balise = getBalise("color", text, false);
-		//System.out.println(balise.getAttributes().get(1).getValue());
-		text = text.replace("<color>", "");
-		text = text.replace("</color>|", "");
-		System.out.println(balise.getAttributes().get(0).getValue());
-		balise = getBalise("color", text, false);
-		System.out.println(balise.getAttributes().get(3).getValue());
+		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\";>text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3></color>";
+		ArrayList<Balise> results = recognize(text);
+		for(Balise b : results){
+			System.out.println(b.getAttribute("text").getValue());
+			if(b.getName().equals("color")){
+				ColorConverter converter = new ColorConverter();
+				Color c = converter.convert(b);
+				System.out.println(c);
+			}
+		}
 	}
 	
-	public static Balise getBalise(String baliseName, String text, boolean alone){
-		return getFirstBalise(baliseName, text, alone);
-	}
 	/**
-	 * Get the first balise with that name in this text.
+	 * Recognize all of the balises in that text. It also removes the balises strings.
+	 * @param text the text to evaluate.
+	 * @return a lists of the balise.
 	 */
-	private static Balise getFirstBalise(String balise, String text, boolean alone){
+	public static ArrayList<Balise> recognize(String text){
+		ArrayList<Balise> balises = new ArrayList<Balise>();
+		Balise balise = getFirstBalise(text);
+		while(balise != null){
+			balises.add(balise);
+			text = removeBalise(text, balise.getName());
+			balise = getFirstBalise(text);
+		}
+		
+		return balises;
+	}
+	
+	/**
+	 * Remove the selected balise in the {@link text }
+	 * @param text text to evaluate
+	 * @param balise balise to remove
+	 * @return new text.
+	 */
+	public static String removeBalise(String text, String balise){
+		text = text.replaceFirst("</"+ balise +">", "");
+		text = text.replaceFirst("(.*)<" + balise + "[^/>]*>(.*)", "$1$2");
+		text = text.replaceFirst("<" + balise + "[^>]* />", "");
+		return text;
+	}
+	
+	/**
+	 * Get the balise with that name, 
+	 *
+	 */
+	public static Balise getBalise(String balise, String text, boolean alone){
 		String research = "(.*)((<" + balise + " .*/>)|(<"+ balise +".*>))(.*)";
 		
 		Balise newBalise = null;
 		if(text.matches(research)){
-		    newBalise = new Balise(balise, true);
-			String workWith = text.replace("</"+balise+">", "").replaceFirst(research,"$2");
-			if(hasAttributes(workWith)){
-				newBalise = new Balise(balise, getAttributes(workWith.replace(balise + " ", "")));
-			}
+			 newBalise = new Balise(balise, true);
+			
 			if(!alone){
-				workWith = text.replaceAll("</"+balise+">", "").replaceFirst(research,"$2$5");
+				String workWith = text.replaceFirst("</"+balise+">", "").replaceFirst(research,"$2");
+				if(hasAttributes(workWith)){
+					newBalise = new Balise(balise, getAttributes(workWith.replace(balise + " ", "")));
+				}
+				workWith = text.substring(0, text.indexOf("</"+balise+">")).replaceFirst("</"+balise+">", "").replaceFirst("(.*)(<"+balise+".*)", "$2");
 				addTextAttribute(newBalise, workWith);
+			}
+			else{
+				String workWith = text.replaceFirst(research,"$3");
+				
+				if(hasAttributes(workWith)){
+					newBalise = new Balise(balise, getAttributes(workWith.replace(balise + " ", "")));
+				}
 			}
 		}
 		return newBalise;
 	}
+	
+	/**
+	 * Get the first balise in this text.
+	 * @param text the text to search in.
+	 */
+	private static Balise getFirstBalise(String text){
+		//Balise to search
+		String research = ".*(<([^/>]*) {0,1}/{0,1}>).*";
+		
+		Balise balise = null;
+		String baliseName = "";
+		if(text.matches(research)){
+			baliseName = text.replaceAll(research, "$2");
+			if(baliseName.indexOf(" ") != - 1)
+				baliseName = baliseName.substring(0, baliseName.indexOf(" "));
+		}
+		if(text.replaceAll(research, "$1").contains(" />"))
+			balise = getBalise(baliseName, text, true);
+		else
+			balise = getBalise(baliseName, text, false);
+		return balise;
+	}
+	
 	/**
 	 * Add a text attribute of a not alone balise on a Balise object.
 	 * @param balise
 	 * @param text
 	 */
 	private static void addTextAttribute(Balise balise, String text){
-		String research = "(.*)<" + balise.getName() + ".*>";
+		String research = "<[^>]*>";
 		String value = text.replaceAll(research, "");
-		
 		balise.addAttribute("text", value);
 	}
+	
 	/**
 	 * Tell if there is attributes to get or not.
 	 * @param balise balise to work on.
@@ -60,6 +125,7 @@ public class BaliseRecognizer {
 			return true;
 		return false;
 	}
+	
 	/**
 	 * Allow to remove all balise signs of a String.
 	 * @param balise the balise to work on
@@ -70,6 +136,7 @@ public class BaliseRecognizer {
 		workCopy = workCopy.replaceAll("(</)|(<)|( />)|(/>)|(>)", "");
 		return workCopy;
 	}
+	
 	/**
 	 * Get all attributes of the first balise with that name
 	 * @param balise name of the balise
