@@ -4,20 +4,22 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 
+import texts.converters.BaliseConverter;
+import texts.converters.BaliseConvertersList;
 import texts.converters.ColorConverter;
 
 public class BaliseRecognizer {
 	
 	public static void main(String[] args){
-		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\";>text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3></color>";
+		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\"; />>text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3>";
 		ArrayList<Balise> results = recognize(text);
 		for(Balise b : results){
-			System.out.println(b.getAttribute("text").getValue());
-			if(b.getName().equals("color")){
-				ColorConverter converter = new ColorConverter();
-				Color c = converter.convert(b);
-				System.out.println(c);
-			}
+				System.out.println(b.getName());
+				BaliseConverter converter = BaliseConvertersList.getBaliseConverter(b.getName());
+				if(converter != null){
+					Color c = (Color) converter.convert(b);
+					System.out.println(c);
+				}
 		}
 	}
 	

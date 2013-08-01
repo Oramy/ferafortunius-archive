@@ -43,7 +43,10 @@ public class BaliseConvertersList {
 	 * @return the baliseConverter associated.
 	 */
 	public static BaliseConverter getBaliseConverter(String baliseName){
-		return (BaliseConverter) getConverters().toArray()[getBaliseConverterIndex(baliseName)];
+		BaliseConvertersManager.initBaliseConverters();
+		if(getBaliseConverterIndex(baliseName) != -1)
+			return (BaliseConverter) getConverters().toArray()[getBaliseConverterIndex(baliseName)];
+		return null;
 	}
 	/**
 	 * 
