@@ -113,6 +113,9 @@ public class Jeu extends Container implements Cloneable {
 
 	private MenuJeuContainer menuJeu;
 	
+	//Time controller
+	private TimeController timeController;
+	
 	private transient ObjetMap dialogFollow;
 	public Jeu(GameMain gameMain, GameContainer gc) {
 		super(0, 0, gc.getWidth(), gc.getHeight(), null);
@@ -284,6 +287,8 @@ public class Jeu extends Container implements Cloneable {
 		//Initialisation des variables
 		alphaTitreMap = 0;
 		
+		//TimeController
+		timeController = new TimeController(1);
 		//Afficher les FPS
 		gc.setShowFPS(true);
 		
@@ -429,12 +434,16 @@ public class Jeu extends Container implements Cloneable {
 		
 		this.draw(g);
 		
+
+		g.setColor(Color.white);
+		String hourString = timeController.getStringHour() + ":" + timeController.getStringMinute();	
+		g.drawString(hourString, this.getWidth() - g.getFont().getWidth("00:00:00") - 20,  20);
+		
 		g.setFont(FontRessources.getFonts().gametitles);
 		g.setColor(new Color(255, 255, 255, (alphaTitreMap)));
 
 		 g.drawString(carte.getNom() + "", sizeX / 2 -
-		 g.getFont().getWidth(carte.getNom()) / 2, 100);
-
+		 g.getFont().getWidth(carte.getNom()) / 2, 100);	
 		g.setColor(transitionColor);
 		
 		g.fillRect(0, 0, getSizeX(), getSizeY());
@@ -603,6 +612,8 @@ public class Jeu extends Container implements Cloneable {
 		super.update(gc, this.getX(), this.getY());
 		
 		long temps = System.currentTimeMillis();
+		
+		timeController.updateTime(GameMain.delta);
 		
 		if(dialogFollow != null)
 		moveDialogBarTo(dialogFollow);
@@ -867,6 +878,14 @@ public class Jeu extends Container implements Cloneable {
 
 	public void setDialogFollow(ObjetMap dialogFollow) {
 		this.dialogFollow = dialogFollow;
+	}
+
+	public TimeController getTimeController() {
+		return timeController;
+	}
+
+	public void setTimeController(TimeController timeController) {
+		this.timeController = timeController;
 	}
 
 }

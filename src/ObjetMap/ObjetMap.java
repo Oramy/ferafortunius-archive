@@ -640,22 +640,18 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		GregorianCalendar calendar = new GregorianCalendar();
 		float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
 	
-		float nightValue = (float)(heure - 12) / 12f;
-		if(nightValue < 0)
-			nightValue = 1f + nightValue;
-		if(8 < heure && heure < 16)
-			nightValue = 0;
-		if(heure <= 8)
-			nightValue =  1f - (heure - 4) / 4f;
-		if(heure >= 16)
-			nightValue =  (heure - 16f)/ 4f;
-		if(heure >= 20)
-			nightValue =  1f;
-		if(heure <= 4)
-			nightValue =  1f;
-		//Dessin
-		img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-				c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
+		if(pan.getParent() instanceof Jeu){
+			Jeu jeu = (Jeu) pan.getParent();
+			float nightValue = jeu.getTimeController().getNightValue();
+	
+			//Dessin
+			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
+					c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
+		}
+		else{
+			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
+					c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
+		}
 		//Si on veut appliquer l'ombre Z
 	
 	}
