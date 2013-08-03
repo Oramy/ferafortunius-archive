@@ -11,10 +11,11 @@ import texts.converters.ColorConverter;
 public class BaliseRecognizer {
 	
 	public static void main(String[] args){
-		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\"; />>text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3>";
+		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\"; />text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3>";
 		ArrayList<Balise> results = recognize(text);
+		System.out.println(removeAllBalise(text));
 		for(Balise b : results){
-				System.out.println(b.getName());
+				System.out.println(removeAllBalise(text).substring(0, b.beginIndex) + ":" + b.getName());
 				BaliseConverter converter = BaliseConvertersList.getBaliseConverter(b.getName());
 				if(converter != null){
 					Color c = (Color) converter.convert(b);
@@ -47,10 +48,15 @@ public class BaliseRecognizer {
 	 * @return new text.
 	 */
 	public static String removeBalise(String text, String balise){
-		text = text.replaceFirst("</"+ balise +">", "");
-		text = text.replaceFirst("(.*)<" + balise + "[^/>]*>(.*)", "$1$2");
-		text = text.replaceFirst("<" + balise + "[^>]* />", "");
-		return text;
+		String textRet = text.replaceFirst("</"+ balise +">", "");
+		textRet = textRet.replaceFirst("(.*)<" + balise + "[^/>]*>(.*)", "$1$2");
+		textRet = textRet.replaceFirst("<" + balise + "[^>]* />", "");
+		return textRet;
+	}
+	
+	public static String removeAllBalise(String text){
+		String textRet = text.replaceAll("<[^>]*>", "");
+		return textRet;
 	}
 	
 	/**
@@ -58,7 +64,7 @@ public class BaliseRecognizer {
 	 *
 	 */
 	public static Balise getBalise(String balise, String text, boolean alone){
-		String research = "(.*)((<" + balise + " .*/>)|(<"+ balise +".*>))(.*)";
+		String research = "(.*)((<" + balise + " .*/>)|(<"+ balise +"[^/>]*>))(.*)";
 		
 		Balise newBalise = null;
 		if(text.matches(research)){
@@ -69,6 +75,12 @@ public class BaliseRecognizer {
 				if(hasAttributes(workWith)){
 					newBalise = new Balise(balise, getAttributes(workWith.replace(balise + " ", "")));
 				}
+				int beginIndex =  text.replaceFirst(research, "$1$2").length();
+				int beginIndexBaliseless = removeAllBalise(text.substring(0, beginIndex)).length();
+				newBalise.beginIndex = beginIndexBaliseless;
+				newBalise.endIndex = text.replaceFirst("(.*)</"+balise+">", "$1").length();
+				System.out.println(text.substring(0, newBalise.endIndex));
+				System.out.println(newBalise.beginIndex + newBalise.getName());
 				workWith = text.substring(0, text.indexOf("</"+balise+">")).replaceFirst("</"+balise+">", "").replaceFirst("(.*)(<"+balise+".*)", "$2");
 				addTextAttribute(newBalise, workWith);
 			}

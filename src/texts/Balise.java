@@ -12,6 +12,8 @@ public class Balise  {
 	
 	protected ArrayList<Attribute> attributes;
 	
+	protected int beginIndex, endIndex;
+	
 	//Builders
 	public Balise(String name, boolean alone){
 		this.name = name;
@@ -31,16 +33,21 @@ public class Balise  {
 	public void addAttribute(String name, String value){
 		attributes.add(new Attribute(name, value));
 	}
+	/**
+	 * 
+	 * @return A list of all the balise's attributes
+	 */
 	public ArrayList<Attribute> getAttributes(){
 		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
 		for(Attribute att : this.attributes)
 			attributes.add(att.clone());
 		return attributes;
 	}
-	public String getName(){
-		return name;
-	}
-
+	/**
+	 * Return the attribute with that name
+	 * @param name attribute's name
+	 * @return the attribute with this name.
+	 */
 	public Attribute getAttribute(String name) {
 		for(Attribute a : attributes)
 		{
@@ -50,4 +57,7 @@ public class Balise  {
 		return null;
 	}
 	
+	public String getName(){
+		return name;
+	}
 }

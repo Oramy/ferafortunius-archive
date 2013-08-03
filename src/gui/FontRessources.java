@@ -14,6 +14,7 @@ public class FontRessources {
 	public UnicodeFont text;
 	public UnicodeFont titres;
 	public UnicodeFont gametext;
+	public UnicodeFont gametitles;
 
 	private FontRessources() {
 		// Texte normal
@@ -86,6 +87,25 @@ public class FontRessources {
 
 		try {
 			titres.loadGlyphs();
+		} catch (SlickException e) {
+
+			e.printStackTrace();
+		}
+		
+		// Game Titles
+		try {
+			gametitles = new UnicodeFont("Polices/Arabia.ttf", 120, false,
+					false);
+		} catch (SlickException e) {
+
+			e.printStackTrace();
+		}
+		gametitles.addAsciiGlyphs();
+		gametitles.addGlyphs(400, 600);
+		gametitles.getEffects().add(new ColorEffect(Color.black));
+
+		try {
+			gametitles.loadGlyphs();
 		} catch (SlickException e) {
 
 			e.printStackTrace();

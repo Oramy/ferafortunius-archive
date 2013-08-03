@@ -429,7 +429,7 @@ public class Jeu extends Container implements Cloneable {
 		
 		this.draw(g);
 		
-		g.setFont(FontRessources.getFonts().titres);
+		g.setFont(FontRessources.getFonts().gametitles);
 		g.setColor(new Color(255, 255, 255, (alphaTitreMap)));
 
 		 g.drawString(carte.getNom() + "", sizeX / 2 -
@@ -781,7 +781,7 @@ public class Jeu extends Container implements Cloneable {
 			}
 			
 			//Controller
-			if (ControllersManager.getFirstController().isButton1Pressed()) {
+			if (ControllersManager.getFirstController().isButton1Pressed() && player.getAnimationLaunchedCount() == 0) {
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			if (ControllersManager.getFirstController().isStartReleased()) {

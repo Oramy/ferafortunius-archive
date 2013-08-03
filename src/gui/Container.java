@@ -44,7 +44,8 @@ public class Container extends FComponent{
 	}
 	/**
 	 * Ajoute un composant
-	 * @param c le composant à ajouter
+	 * @param c le com
+	 * Composant à ajouter
 	 */
 	public void addComponent(FComponent c){
 		setzMax(getzMax() + 1);
