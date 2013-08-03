@@ -30,13 +30,14 @@ public class Editeur extends Container{
 	//Objetmap Editor
 	private ObjetMap			workedObj;
 	private OngletManager		ongletsObj;
+	
 	private EditeurObjetMap 	editeurObjetMapGeneral;
 	private EditeurCollObjMap 	editeurObjetMapColli;
+	private EditeurEntity 	editeurEntity;
+	
 	private Onglet 				editeurObjetOnglet;
 	
 	private EditeurItem 	editeurItem;
-	private EditeurEntity 	editeurEntity;
-	
 	private Onglet editeurAnimationOnglet;
 	private EditeurAnimation editeurAnimation;
 	public Editeur(GameMain gameMain, GameContainer gc) {
@@ -55,64 +56,93 @@ public class Editeur extends Container{
 		super.update(gc, this.getX(), this.getY());
 	}
 	public void initOnglets(GameContainer gc){
+		
+		//Initialisation du manager d'onglets
 		onglets = new OngletManager(0,0,getSizeX(), getSizeY(), this);
 		onglets.setBackground(Container.backGroundUnbordsBlackHorizontal);
-
 		this.addComponent(onglets);
+		
+		
+		//EditeurMap
 		Onglet ongletEditeurMap = new Onglet(Messages.getString("Editeur.1"), onglets); //$NON-NLS-1$
-
-
+		
 		setEditeurMap(new EditeurMap(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets, getGm(), gc));
 		editeurMap.init(gc);
-		ongletEditeurMap.setContainer(editeurMap);
 		
+		ongletEditeurMap.setContainer(editeurMap);
 		onglets.addComponent(ongletEditeurMap);
 		
+		//EditeurMap Caracteristics.
 		Onglet editeurMapC = new Onglet(Messages.getString("Editeur.2"), onglets); //$NON-NLS-1$
+		
 		Container mapC = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
 		editeurMapC.setContainer(mapC);
+		
 		onglets.addComponent(editeurMapC);
 		
+		//Editeur Objets
 		setEditeurObjetOnglet(new Onglet(Messages.getString("Editeur.3"), onglets)); //$NON-NLS-1$
 		
 		ongletsObj = new OngletManager(0, 50,  gc.getWidth(), gc.getHeight() - 50, onglets);
 		
+			//General
 			editeurObjetMapGeneral = new EditeurObjetMap(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 100, ongletsObj);
+			
 			Onglet general = new Onglet(Messages.getString("Editeur.0"), ongletsObj); //$NON-NLS-1$
 			general.setContainer(editeurObjetMapGeneral);
+			
 			ongletsObj.addComponent(general);
 			
+			//Collision
 			editeurObjetMapColli = new EditeurCollObjMap(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 100, ongletsObj);
+			
 			Onglet collision = new Onglet(Messages.getString("Editeur.9"), ongletsObj); //$NON-NLS-1$
 			collision.setContainer(editeurObjetMapColli);
+			
 			ongletsObj.addComponent(collision);
+			
+			//Entity
+			Onglet editeurEntityOnglet = new Onglet(Messages.getString("Editeur.8"), ongletsObj); //$NON-NLS-1$
+			
+			editeurEntity = new EditeurEntity(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 50, ongletsObj);
+			editeurEntityOnglet.setContainer(editeurEntity);
+			
+			ongletsObj.addComponent(editeurEntityOnglet);
+			
 		getEditeurObjetOnglet().setContainer(ongletsObj);
 		
 		onglets.addComponent(getEditeurObjetOnglet());
 		
-		Onglet editeurEntityOnglet = new Onglet(Messages.getString("Editeur.8"), onglets); //$NON-NLS-1$
-		editeurEntity = new EditeurEntity(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
-		editeurEntityOnglet.setContainer(editeurEntity);
-		onglets.addComponent(editeurEntityOnglet);
-		
+		//Animations.
 		setEditeurAnimationOnglet(new Onglet(Messages.getString("Editeur.4"), onglets)); //$NON-NLS-1$
+		
 		setEditeurAnimation(new EditeurAnimation(new BasicObjetMap(0,0,0,0,0,0), 0,50, gc.getWidth(), gc.getHeight() - 50, onglets));
 		getEditeurAnimationOnglet().setContainer(editeurAnimation);
+		
 		onglets.addComponent(getEditeurAnimationOnglet());
 
+		//Items
 		Onglet editeurItemOnglet = new Onglet(Messages.getString("Editeur.5"), onglets); //$NON-NLS-1$
+		
 		editeurItem = new EditeurItem(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
 		editeurItemOnglet.setContainer(editeurItem);
+		
 		onglets.addComponent(editeurItemOnglet);
 
+		//Quest
 		Onglet editeurQuest = new Onglet(Messages.getString("Editeur.6"), onglets); //$NON-NLS-1$
+		
 		Container quetes = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
 		editeurQuest.setContainer(quetes);
+		
 		onglets.addComponent(editeurQuest);
 
+		//Compétence.
 		Onglet editeurComp = new Onglet(Messages.getString("Editeur.7"), onglets); //$NON-NLS-1$
+		
 		Container comp = new Container(0, 50, gc.getWidth(), gc.getHeight() - 50, onglets);
 		editeurComp.setContainer(comp);
+		
 		onglets.addComponent(editeurComp);
 
 
@@ -260,8 +290,10 @@ public class Editeur extends Container{
 	 * @param workedObj the workedObj to set
 	 */
 	public void setWorkedObj(ObjetMap workedObj) {
-		if(editeurObjetMapColli != null)
-		editeurObjetMapColli.setObj(workedObj);
+		if(editeurObjetMapColli != null){
+			editeurObjetMapColli.setObj(workedObj);
+			editeurEntity.setObj(workedObj);
+		}
 		this.workedObj = workedObj;
 	}
 }
