@@ -637,9 +637,11 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			maskColor.g = 1f;
 			maskColor.b = 1f;
 		}
-		GregorianCalendar calendar = new GregorianCalendar();
-		float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
+	//	GregorianCalendar calendar = new GregorianCalendar();
+	//	float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
 	
+		if(posX > pan.getCarte().getChunksSize() || posY > pan.getCarte().getChunksSize() || posZ > pan.getCarte().getChunksSize())
+			pan.getCarte().getChunk(this).remove(this);
 		if(pan.getParent() instanceof Jeu){
 			Jeu jeu = (Jeu) pan.getParent();
 			float nightValue = jeu.getTimeController().getNightValue();
