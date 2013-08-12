@@ -20,6 +20,9 @@ public class InputProgrammTextArea extends InputTextArea{
 	protected ArrayList<String> fields;
 	public InputProgrammTextArea(Container parent) {
 		super(parent);
+		
+		enableLinesNumber();
+		
 		linecomment = false;
 		multilinecomment = false;
 		string = false;
@@ -165,6 +168,12 @@ public class InputProgrammTextArea extends InputTextArea{
 		g.translate(getX(), getY());
 			int ancientX = textX;
 			int ancientY = textY;
+			
+			//Text variables.
+			int position = 0;
+			int x = 0;
+			int y = g.getFont().getLineHeight() / 2;
+			
 			g.translate(-textX, -textY);
 			if(!focus && (contenu == null || contenu.equals(""))){
 				g.setColor(Color.gray);
@@ -175,16 +184,18 @@ public class InputProgrammTextArea extends InputTextArea{
 				if(contenu == null){
 					contenu = "";
 				}
-					int position = 0;
-					int x = 0;
-					int y = g.getFont().getLineHeight() / 2;
 					linecomment = false;
 					multilinecomment = false;
 					string = false;
 					keybool = false;
 					int lastguillemet = -1;
+					int lineNumber = 1;
 					while(position < contenu.length()){
+						if(position == 0)
+							drawLineNumber(g, x, y, lineNumber);
+						
 						// Commentaires
+						
 						if(mx >= this.getXOnScreen() + x - textX && mx <= this.getXOnScreen() - textX + x + g.getFont().getWidth(contenu.substring(position, position + 1))
 								&& my > this.getYOnScreen() - textY +  y - g.getFont().getLineHeight() / 2 && my <= this.getYOnScreen() - textY + y + g.getFont().getLineHeight()
 								&& action.equals("mouseclick")){
@@ -237,6 +248,8 @@ public class InputProgrammTextArea extends InputTextArea{
 							else if((int)contenu.charAt(position) == 10){
 								x = 0;
 								y += g.getFont().getLineHeight();
+								lineNumber++;
+								drawLineNumber(g, x, y, lineNumber);
 								linecomment = false;
 							}
 							else if((int)contenu.charAt(position) == 13){
@@ -244,6 +257,8 @@ public class InputProgrammTextArea extends InputTextArea{
 								if(x > getSizeX()){
 									x = 0;
 									y += g.getFont().getLineHeight();
+									lineNumber++;
+									drawLineNumber(g, x, y, lineNumber);
 									linecomment = false;
 								}
 							}
@@ -254,6 +269,8 @@ public class InputProgrammTextArea extends InputTextArea{
 							else if(contenu.charAt(position) == (char)10){
 								x = 0;
 								y += g.getFont().getLineHeight();
+								lineNumber++;
+								drawLineNumber(g, x, y, lineNumber);
 								linecomment = false;
 							}
 							else if(contenu.charAt(position) == (char)13){
@@ -261,6 +278,8 @@ public class InputProgrammTextArea extends InputTextArea{
 								if(x > getSizeX()){
 									x = 0;
 									y += g.getFont().getLineHeight();
+									lineNumber++;
+									drawLineNumber(g, x, y, lineNumber);
 									linecomment = false;
 								}
 							}
@@ -284,6 +303,8 @@ public class InputProgrammTextArea extends InputTextArea{
 			}
 			
 			g.translate(ancientX, ancientY);
+			
+			drawScrollBar(g, y);
 		g.translate(-getX(), -getY());
 	}
 	@Override
