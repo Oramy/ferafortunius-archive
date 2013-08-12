@@ -96,8 +96,8 @@ public abstract class Entity extends ObjetMap {
 		if(direction == Direction.S)
 			jeu.getCarte().deplacement(this, -speed, -speed, 0, jeu);*/
 	}
-	public void move(Jeu jeu, ChunkMap carte, float x, float y, float z){
-		carte.deplacement(this, (int)(x * speed), (int)(y * speed), (int) z, jeu);
+	public void move(Jeu jeu, ChunkMap carte, int x, int y, int z){
+		carte.deplacement(this, x, y, z, jeu);
 	}
 	public void startAnimations() {
 		for(Animation a : animations){
@@ -205,6 +205,15 @@ public abstract class Entity extends ObjetMap {
 		for(int i = 0; i < bonus.size(); i++){
 			bonus.get(i).update(jeu);
 		}
+	}
+	@Override
+	public String getCompressScript(){
+		String compressScript = "";
+		for(int i = 0 ; i < speed; i++)
+		{
+			compressScript += super.getCompressScript();
+		}
+		return compressScript;
 	}
 	/**
 	 * @return the hp

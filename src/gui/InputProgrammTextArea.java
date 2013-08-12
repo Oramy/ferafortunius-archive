@@ -286,9 +286,10 @@ public class InputProgrammTextArea extends InputTextArea{
 						}
 						if(position == cursor - 1 && cursorEnable){
 							g.drawLine(x, y, x, y + g.getFont().getLineHeight());
-							textX = + x + g.getFont().getWidth(contenu.substring(position, position+1)) - getSizeX();
+							textX =  x + g.getFont().getWidth(contenu.substring(position, position+1)) - getSizeX() + 50;
 							if(textX < 0)
 								textX = 0;
+							
 						}
 						position ++;
 					}

@@ -900,7 +900,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		} else {
 			animations = new ArrayList<Animation>();
 		}
-		
 		return compressScript;
 		
 	}

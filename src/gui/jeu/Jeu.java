@@ -714,10 +714,10 @@ public class Jeu extends Container implements Cloneable {
 			//Course
 			if (gc.getInput().isKeyDown(Input.KEY_LSHIFT)
 					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT) || gc.getInput().isButton2Pressed(0)) {
-				vitesseDep = 2;
+				vitesseDep = 3;
 				player.setSpeed(vitesseDep);
-			} else {
-				vitesseDep = 1;
+			} else if(vitesseDep > 1 && player.getAnimationLaunchedCount() == 0){
+				vitesseDep = 2;
 				player.setSpeed(vitesseDep);
 			}
 			
@@ -802,6 +802,8 @@ public class Jeu extends Container implements Cloneable {
 				dialogBar.nextDialog();
 			}
 			if (ControllersManager.getFirstController().isButton2Released()) {
+				vitesseDep = 3;
+				player.setSpeed(vitesseDep);
 				player.walkAnim(Direction.values()[(player.getDirection().ordinal() + 4) % 8]);
 			}
 			if (ControllersManager.getFirstController().isButton4Pressed()) {

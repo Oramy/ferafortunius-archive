@@ -54,7 +54,7 @@ public class Camera {
 	}
 	public void moveToObject(int posX, int posY, int posZ, int moveSize){
 		int x = (posX - posY);
-		int y = -(posX + posY) / 2 - posZ;
+		int y = -(posX + posY) / 2;
 		float difx = this.x - x;
 		if(difx < 0)
 			difx = -difx;
