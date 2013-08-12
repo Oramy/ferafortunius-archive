@@ -15,7 +15,7 @@ public class Chooser extends Container{
 	 */
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> choices;
-	private String selectedChoice;
+	private int selectedChoice;
 	private Button show;
 	private boolean showed;
 	private int lineheight;
@@ -24,7 +24,7 @@ public class Chooser extends Container{
 		lineheight = 0;
 		choices = new ArrayList<String>();
 		setShowed(false);
-		selectedChoice = "";
+		selectedChoice = -1;
 		background = Container.backGroundUnbords;
 		show = new Button("^", sizeX - 32, 0, 30, 30, this);
 		show.defineSize = false;
@@ -58,9 +58,9 @@ public class Chooser extends Container{
 			if(isShowed())
 			{
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					int id  = (int) ((my - this.getYOnScreen() - sizeY / 2) / lineheight + choices.indexOf(selectedChoice));
+					int id  = (int) ((my - this.getYOnScreen() - sizeY / 2) / lineheight + selectedChoice);
 					if(id < choices.size() && id >= 0)
-					setSelectedChoice(choices.get(id));
+					setSelectedChoice(id);
 				}
 			}
 		}
@@ -72,14 +72,13 @@ public class Chooser extends Container{
 		g.translate(this.getBounds().x, this.getBounds().y);
 			
 			g.setColor(Color.black);
-			g.drawString(selectedChoice, 10, sizeY / 2 - lineheight / 2 );
+			g.drawString(choices.get(selectedChoice), 10, sizeY / 2 - lineheight / 2 );
 			if(isShowed()){
-				int pos = choices.indexOf(selectedChoice);
+				int pos = selectedChoice;
 				if(pos == -1)
 				{
-					selectedChoice = choices.get(0);
-					pos =
-							0;
+					selectedChoice = 0;
+					pos =0;
 				}
 				for(int i = pos; i >= 0; i--){
 					g.drawString(choices.get(i), 10, 
@@ -99,11 +98,14 @@ public class Chooser extends Container{
 	public void removeChoice(String choice){
 		choices.remove(choice);
 	}
-	public void setSelectedChoice(String choice){
+	public void setSelectedChoice(int choice){
 		selectedChoice = choice;
 	}
+	public void setSelectedChoice(String choice){
+		selectedChoice = choices.indexOf(choice);
+	}
 	public String getSelectedChoice(){
-		return selectedChoice;
+		return choices.get(selectedChoice);
 	}
 	public String getChoice(int id){
 		return choices.get(id);
@@ -113,5 +115,8 @@ public class Chooser extends Container{
 	}
 	public void setShowed(boolean showed) {
 		this.showed = showed;
+	}
+	public int getSelectedChoiceID() {
+		return selectedChoice;
 	}
 }

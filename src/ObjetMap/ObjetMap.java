@@ -1045,6 +1045,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			
 			this.currentImageList = "default";
 		}
+		
 		return imagesLists;
 	}
 

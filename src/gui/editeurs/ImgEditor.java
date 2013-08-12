@@ -83,6 +83,8 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 	private Button addImageList;
 
 	private Label imageListName;
+
+	private Button remImageList;
 	
 	
 	
@@ -376,6 +378,14 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 				}
 			});
 		this.addComponent(addImageList);
+		remImageList = new Button("Remove Image List", 160, sizeY - 200, 150, 30, this);
+		remImageList.getAction().add(new ActionListener(){
+			public void actionPerformed(FComponent c){
+				obj.getImagesLists().remove(directionChoice.getSelectedChoiceID());
+				directionChoice.removeChoice(directionChoice.getSelectedChoice());
+			}
+		});
+		this.addComponent(remImageList);
 		
 		imageListName = new Label(100, sizeY - 250, 300, 30, "Image List Name", this);
 		
