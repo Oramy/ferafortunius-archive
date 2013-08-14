@@ -1,7 +1,5 @@
 package Level;
 
-import gui.GameMain;
-import gui.Text;
 import gui.jeu.Jeu;
 
 import java.io.Serializable;
@@ -14,7 +12,6 @@ import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
-import ObjetMap.Chrono;
 import ObjetMap.Direction;
 import ObjetMap.Ensemble;
 import ObjetMap.Entity;

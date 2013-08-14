@@ -17,9 +17,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.imageout.ImageOut;
 
-import Items.ItemDescriptionRessources;
-import Items.Potion;
-import Level.ItemLoader;
 import Level.MapLoader;
 import Level.OptionsJeuLoader;
 

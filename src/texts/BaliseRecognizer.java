@@ -6,7 +6,6 @@ import org.newdawn.slick.Color;
 
 import texts.converters.BaliseConverter;
 import texts.converters.BaliseConvertersList;
-import texts.converters.ColorConverter;
 
 public class BaliseRecognizer {
 	

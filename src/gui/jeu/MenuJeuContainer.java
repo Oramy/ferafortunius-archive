@@ -5,7 +5,6 @@ import gui.ControllersManager;
 import gui.FComponent;
 import gui.HiddenButton;
 import gui.ModeJeu;
-import gui.PImage;
 import gui.ScrollBar;
 import gui.layouts.GridLayout;
 import observer.ActionListener;

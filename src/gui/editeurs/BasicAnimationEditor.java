@@ -7,9 +7,7 @@ import gui.ContainerWithBords;
 import gui.FComponent;
 import gui.IntLabel;
 import gui.Label;
-import gui.PImage;
 import gui.ScrollBar;
-
 import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;

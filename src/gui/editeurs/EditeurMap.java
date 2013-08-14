@@ -9,7 +9,6 @@ import gui.GameMain;
 import gui.InternalFrame;
 import gui.ModeJeu;
 import gui.ScrollBar;
-import gui.jeu.Jeu;
 import gui.layouts.GridLayout;
 import gui.layouts.MinHeightLayout;
 

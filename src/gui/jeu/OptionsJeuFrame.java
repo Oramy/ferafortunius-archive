@@ -9,12 +9,10 @@ import gui.FComponent;
 import gui.InternalFrame;
 import gui.Label;
 import gui.ModeJeu;
-import gui.PImage;
 import gui.Slider;
 import gui.Text;
 import gui.TextDisplayMode;
 import gui.layouts.GridLayout;
-
 import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;

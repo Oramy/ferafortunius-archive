@@ -4,7 +4,6 @@ import gui.Container;
 import gui.GameMain;
 import gui.Onglet;
 import gui.OngletManager;
-import gui.PImage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

@@ -1,7 +1,6 @@
 package gui.jeu;
 
 import gui.Container;
-import gui.PImage;
 import gui.ProgressBar;
 
 import org.newdawn.slick.GameContainer;

@@ -1,7 +1,6 @@
 package gui.jeu;
 
 import gui.Container;
-import gui.PImage;
 
 import java.util.ArrayList;
 

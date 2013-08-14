@@ -4,9 +4,7 @@ import gui.Button;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.PImage;
 import gui.ScrollBar;
-
 import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;

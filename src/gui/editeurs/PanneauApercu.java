@@ -1,10 +1,7 @@
 package gui.editeurs;
 
 import gui.Container;
-import gui.PImage;
 import gui.jeu.PanneauJeuAmeliore;
-
-import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;

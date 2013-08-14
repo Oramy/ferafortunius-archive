@@ -3,7 +3,6 @@ package gui.jeu;
 import gui.Container;
 import gui.ControllersManager;
 import gui.FComponent;
-import gui.PImage;
 
 import org.newdawn.slick.GameContainer;
 

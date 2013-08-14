@@ -4,10 +4,6 @@ import gui.GameMain;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-import Items.Potion;
-import Level.ItemLoader;
-import ObjetMap.Direction;
-
 
 
 public class Start {

@@ -2,7 +2,6 @@ package gui.jeu;
 
 import gui.Container;
 import gui.InternalFrame;
-import gui.PImage;
 import gui.ScrollBar;
 import ObjetMap.Entity;
 
