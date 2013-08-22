@@ -20,6 +20,14 @@ public class Balise  {
 		attributes = new ArrayList<Attribute>();
 	}
 	
+	public int getBeginIndex() {
+		return beginIndex;
+	}
+
+	public int getEndIndex() {
+		return endIndex;
+	}
+
 	public Balise(String name, ArrayList<Attribute> attributes){
 		this.name = name;
 		this.attributes = attributes;

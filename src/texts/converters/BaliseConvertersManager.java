@@ -1,5 +1,7 @@
 package texts.converters;
 
+import texts.utils.converters.ColorConverter;
+
 public class BaliseConvertersManager {
 	private static boolean init;
 	

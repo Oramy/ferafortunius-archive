@@ -2,56 +2,27 @@ package texts;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
-
-import texts.converters.BaliseConverter;
-import texts.converters.BaliseConvertersList;
-
 public class BaliseRecognizer {
-	
-	public static void main(String[] args){
-		String text = "Texte<color r=\"0.3f\"; g=\"0.5f\"; b=\"1f\"; a=\"0.5f\"; />text<1>texte2</1><2><text4 text=\"mouha\"; />texte3<3></2>autre</3>";
-		ArrayList<Balise> results = recognize(text);
-		System.out.println(removeAllBalise(text));
-		for(Balise b : results){
-				System.out.println(removeAllBalise(text).substring(0, b.beginIndex) + ":" + b.getName());
-				BaliseConverter converter = BaliseConvertersList.getBaliseConverter(b.getName());
-				if(converter != null){
-					Color c = (Color) converter.convert(b);
-					System.out.println(c);
-				}
-		}
-	}
-	
 	/**
 	 * Recognize all of the balises in that text. It also removes the balises strings.
 	 * @param text the text to evaluate.
 	 * @return a lists of the balise.
 	 */
-	public static ArrayList<Balise> recognize(String text){
+	public static ArrayList<Balise> recognize(String textOrig){
 		ArrayList<Balise> balises = new ArrayList<Balise>();
+		String text = textOrig;
 		Balise balise = getFirstBalise(text);
+		text = removeFirstBalise(text);
 		while(balise != null){
 			balises.add(balise);
-			text = removeBalise(text, balise.getName());
 			balise = getFirstBalise(text);
+			text = removeFirstBalise(text);
 		}
 		
 		return balises;
 	}
 	
-	/**
-	 * Remove the selected balise in the {@link text }
-	 * @param text text to evaluate
-	 * @param balise balise to remove
-	 * @return new text.
-	 */
-	public static String removeBalise(String text, String balise){
-		String textRet = text.replaceFirst("</"+ balise +">", "");
-		textRet = textRet.replaceFirst("(.*)<" + balise + "[^/>]*>(.*)", "$1$2");
-		textRet = textRet.replaceFirst("<" + balise + "[^>]* />", "");
-		return textRet;
-	}
+	
 	
 	public static String removeAllBalise(String text){
 		String textRet = text.replaceAll("<[^>]*>", "");
@@ -63,24 +34,21 @@ public class BaliseRecognizer {
 	 *
 	 */
 	public static Balise getBalise(String balise, String text, boolean alone){
-		String research = "(.*)((<" + balise + " .*/>)|(<"+ balise +"[^/>]*>))(.*)";
+		String research = "([^</>]*)((<" + balise + " .*/>)|(<"+ balise +"[^</>]*>))(.*)";
 		
 		Balise newBalise = null;
 		if(text.matches(research)){
 			 newBalise = new Balise(balise, true);
 			
 			if(!alone){
-				String workWith = text.replaceFirst("</"+balise+">", "").replaceFirst(research,"$2");
+				int beginIndex =  text.replaceFirst(research, "$1$2").length();
+				int beginIndexBaliseless = removeAllBalise(text.substring(0, beginIndex)).length();
+				String workWith =text.substring(text.replaceFirst(research, "$1").length()).replaceFirst("</"+balise+">(.*)", "");
 				if(hasAttributes(workWith)){
 					newBalise = new Balise(balise, getAttributes(workWith.replace(balise + " ", "")));
 				}
-				int beginIndex =  text.replaceFirst(research, "$1$2").length();
-				int beginIndexBaliseless = removeAllBalise(text.substring(0, beginIndex)).length();
 				newBalise.beginIndex = beginIndexBaliseless;
-				newBalise.endIndex = text.replaceFirst("(.*)</"+balise+">", "$1").length();
-				System.out.println(text.substring(0, newBalise.endIndex));
-				System.out.println(newBalise.beginIndex + newBalise.getName());
-				workWith = text.substring(0, text.indexOf("</"+balise+">")).replaceFirst("</"+balise+">", "").replaceFirst("(.*)(<"+balise+".*)", "$2");
+				newBalise.endIndex = text.substring(beginIndex).replaceFirst("(.*)</"+balise+">", "$1").length();
 				addTextAttribute(newBalise, workWith);
 			}
 			else{
@@ -100,20 +68,39 @@ public class BaliseRecognizer {
 	 */
 	private static Balise getFirstBalise(String text){
 		//Balise to search
-		String research = ".*(<([^/>]*) {0,1}/{0,1}>).*";
+		String research = "([^</>]*)(<([^</>]*)/?>)(.*)";
 		
 		Balise balise = null;
 		String baliseName = "";
-		if(text.matches(research)){
-			baliseName = text.replaceAll(research, "$2");
+		if(text.matches(".*"+research+".*")){
+			baliseName = text.replaceFirst(research, "$3");
 			if(baliseName.indexOf(" ") != - 1)
 				baliseName = baliseName.substring(0, baliseName.indexOf(" "));
 		}
-		if(text.replaceAll(research, "$1").contains(" />"))
+		if(text.replaceFirst(research, "$2").contains("/>"))
 			balise = getBalise(baliseName, text, true);
 		else
 			balise = getBalise(baliseName, text, false);
+		
+		text = text.replaceFirst(research, "$1$4").replaceFirst("</"+baliseName + ">", "");
 		return balise;
+	}
+	/**
+	 * Remove the first balise in the text
+	 * @param text the text to search in.
+	 */
+	private static String removeFirstBalise(String text){
+		//Balise to search
+		String research = "([^</>]*)(<([^</>]*)/?>)(.*)";
+		
+		String baliseName = "";
+		if(text.matches(".*"+research+".*")){
+			baliseName = text.replaceFirst(research, "$3");
+			if(baliseName.indexOf(" ") != - 1)
+				baliseName = baliseName.substring(0, baliseName.indexOf(" "));
+		}
+		text = text.replaceFirst(research, "$1$4").replaceFirst("</"+baliseName + ">", "");
+		return text;
 	}
 	
 	/**
