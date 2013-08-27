@@ -2,6 +2,7 @@ package gui;
 
 import gui.editeurs.Editeur;
 import gui.jeu.Jeu;
+import gui.jeu.LoadingScreen;
 import gui.jeu.OptionsJeu;
 
 import java.text.DateFormat;
@@ -26,6 +27,7 @@ public class GameMain extends BasicGame {
 	private Jeu jeu;
 	private Editeur editeur;
 	private Menu menu;
+	private LoadingScreen loadingScreen;
 	private ModeJeu mode;
 	private AppGameContainer app;
 	public static OptionsJeu options;
@@ -92,6 +94,9 @@ public class GameMain extends BasicGame {
 			if(getMode() == ModeJeu.Editeur){
 				editeur.paintComponent(container, g);
 			}
+			if(getMode() == ModeJeu.Loading){
+				loadingScreen.paintComponent(container, g);
+			}
 			if(imprEcran){
 				imprEcran = false;
 				Image target;
@@ -128,6 +133,8 @@ public class GameMain extends BasicGame {
 			getJeu().update(app, arg1);
 		if(getMode() == ModeJeu.Editeur)
 			editeur.update(app, arg1);
+		if(getMode() == ModeJeu.Loading)
+			loadingScreen.update(app, arg1);
 		if(gc.getInput().isKeyPressed(Input.KEY_F11)){
 			imprEcran = true;
 		}
@@ -162,6 +169,15 @@ public class GameMain extends BasicGame {
 			menu.init(app);
 			jeu = null;
 			editeur = null;
+			loadingScreen = null;
+			this.mode = mode;
+		}
+		if(getMode() == ModeJeu.Loading){
+			loadingScreen = new LoadingScreen(this, 0,0, 1600, 900, null);
+			loadingScreen.init(app);
+			menu = null;
+			editeur = null;
+			jeu = null;
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Jeu){
@@ -169,6 +185,7 @@ public class GameMain extends BasicGame {
 			getJeu().init(app, MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
 			menu = null;
 			editeur = null;
+			loadingScreen = null;
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Editeur){
@@ -176,6 +193,7 @@ public class GameMain extends BasicGame {
 			editeur.init(app);
 			jeu = null; 
 			menu = null;
+			loadingScreen = null;
 			this.mode = mode;
 		}
 		

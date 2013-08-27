@@ -3,5 +3,5 @@ package gui;
 public enum ModeJeu{
 	Menu,
 	Jeu, 
-	Editeur,
+	Editeur, Loading,
 }

@@ -176,7 +176,7 @@ public class Button extends FComponent{
 				0, 0, 20, boutonAct.getImg().getHeight());
 		
 		boutonAct.getImg().drawEmbedded(20, 0, this.getBounds().width - 20, this.getBounds().height, 
-				20,0, 21, boutonAct.getImg().getHeight());
+				20,0, boutonAct.getImg().getWidth() - 20, boutonAct.getImg().getHeight());
 		
 		boutonAct.getImg().drawEmbedded(this.getBounds().width - 20, 0, this.getBounds().width, this.getBounds().height, 
 				boutonAct.getImg().getWidth() - 20, 0, boutonAct.getImg().getWidth(), boutonAct.getImg().getHeight());
@@ -185,7 +185,7 @@ public class Button extends FComponent{
 				0, 0, 20, boutonAct.getImg().getHeight(), maskColor);
 		
 		boutonAct.getImg().drawEmbedded(20, 0, this.getBounds().width - 20, this.getBounds().height, 
-				20,0, 21, boutonAct.getImg().getHeight(), maskColor);
+				20,0, boutonAct.getImg().getWidth() - 20, boutonAct.getImg().getHeight(), maskColor);
 		
 		boutonAct.getImg().drawEmbedded(this.getBounds().width - 20, 0, this.getBounds().width, this.getBounds().height, 
 				boutonAct.getImg().getWidth() - 20, 0, boutonAct.getImg().getWidth(), boutonAct.getImg().getHeight(), maskColor);

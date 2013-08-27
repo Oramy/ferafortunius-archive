@@ -61,10 +61,26 @@ public class PanneauJeuAmeliore extends Container {
 			}
 		}
 	}
-
+	public void clearCache(){
+		img.clear();
+	}
+	public void loadMapImages(){
+		for(int i = 0; i < carte.getMapSizeX(); i++){
+			for(int j = 0; j < carte.getMapSizeY(); j++){
+				for(int k = 0; k < carte.getMapSizeZ(); k++){
+					for(ObjetMap o : carte.getChunks()[i][j][k].getContenu()){
+						for(ObjetImage img : o.getImage()){
+							loadImage(img, o);
+						}
+					}
+				}
+			}
+		}
+	}
 	public PanneauJeuAmeliore(ChunkMap c, int x, int y , int sizeX, int sizeY, Container parent) {
 		super(x,y,sizeX, sizeY, parent);
 		carte = c;
+		loadMapImages();
 		chunkcolor = Color.white;
 		actualCam = new Camera(0,0, 2f, c);
 		this.setBounds(x,y, sizeX, sizeY);

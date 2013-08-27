@@ -298,10 +298,12 @@ public class Jeu extends Container implements Cloneable {
 		
 		keyI = false;
 		
-		//Initialisation de la carte
 		setDialogList(new ArrayList<Text>());
+		
+		//Initialisation de la carte
 		this.carte = c;
 		alphaTitreMap = 300;
+		
 		setPlayer(carte.getFirstEntity());
 		if (player == null) {
 			player = (Entity) ObjetMapLoader.loadObject("data/ObjetMap/Entities/entitylanguide.obj");
@@ -311,7 +313,7 @@ public class Jeu extends Container implements Cloneable {
 		setIdPersoJoueur(-1);
 		
 		//Initialisation de la caméra
-		cameraPerso = new Camera(0, 0, 1f, getCarte());
+		cameraPerso = new Camera(0, 0, 0.5f, getCarte());
 		cameraPerso.teleportToObject(player);
 		cameraPerso.setFollowHim(player);
 		
@@ -322,8 +324,8 @@ public class Jeu extends Container implements Cloneable {
 		player.getInventaire().setMaxWeight(3000);
 		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
-		player.addBonus(new MaxLife(player));
-		player.addBonus(new BuffRegenLife(player));
+		/*player.addBonus(new MaxLife(player));
+		player.addBonus(new BuffRegenLife(player));*/
 		
 		//Initialisation de la GUI
 		cleanGUI();
@@ -369,8 +371,8 @@ public class Jeu extends Container implements Cloneable {
 		this.addComponent(panneauDuJeu);
 		
 		//Désactivé pour la version snapshot.
-		 this.addComponent(new FastMenuContainer(0, this.getHeight() - 86,
-		 this.getWidth(), this.getHeight() / 2, this));
+		// this.addComponent(new FastMenuContainer(0, this.getHeight() - 86,
+		// this.getWidth(), this.getHeight() / 2, this));
 		
 		 setMenuJeu(new MenuJeuContainer(0, 50, 170, 210, this));
 		 //Menu du jeu
@@ -429,7 +431,7 @@ public class Jeu extends Container implements Cloneable {
 
 	public void paintComponent(GameContainer container, Graphics g) {
 		long temps = System.currentTimeMillis();
-		
+			
 		this.drawBegin(g);
 		
 		this.draw(g);
@@ -454,6 +456,8 @@ public class Jeu extends Container implements Cloneable {
 		if(GameMain.options.isGameSpeedPrint())
 			System.out.println("Affichage : "
 				+ (System.currentTimeMillis() - temps) + "ms");
+		
+		g.setColor(Color.white);				
 	}
 	@Override
 	public void draw(Graphics g) {
@@ -607,10 +611,7 @@ public class Jeu extends Container implements Cloneable {
 		player.setPosition(o);
 		carte.getChunk(player).addContenu(player);
 	}
-
-	public void update(GameContainer gc, int arg1) {
-		super.update(gc, this.getX(), this.getY());
-		
+	public void updateGame(GameContainer gc, int arg1){
 		long temps = System.currentTimeMillis();
 		
 		timeController.updateTime(GameMain.delta);
@@ -662,6 +663,11 @@ public class Jeu extends Container implements Cloneable {
 			System.out.println("Update : " + (System.currentTimeMillis() - temps)
 				+ "ms");
 		lastUpdate = System.currentTimeMillis();
+	}
+	public void update(GameContainer gc, int arg1) {
+		super.update(gc, this.getX(), this.getY());
+		
+		updateGame(gc, arg1);
 	}
 	
 	private void updateMouse(GameContainer gc){

@@ -3,6 +3,7 @@ package Items;
 import ObjetMap.Entity;
 import ObjetMap.ObjetImage;
 import bonus.Life;
+import bonus.buffs.BuffMini;
 
 public class Potion extends Utility{
 	/**
@@ -28,6 +29,6 @@ public class Potion extends Utility{
 		this.setUseNumber(1);
 		super.use();
 		this.img = new ObjetImage("Items/potion"+(4-useNumber)+".png");
-		owner.reduce(2f);
+		owner.addBonus(new BuffMini(120, owner));
 	}
 }

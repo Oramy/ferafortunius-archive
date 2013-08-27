@@ -223,7 +223,6 @@ public class SpritesManager extends Container implements Observable{
 				
 				//On converti le document XML
 				Document doc = dBuilder.parse(fXmlFile);
-				
 				//On compresse le document
 				doc.getDocumentElement().normalize();
 				

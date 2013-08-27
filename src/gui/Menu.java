@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import observer.ActionListener;
 
@@ -14,7 +15,9 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 public class Menu extends Container {
 	/**
@@ -53,8 +56,8 @@ public class Menu extends Container {
 		
 		onClickLogo = false;
 		
-		/*
-		offset = 10f;
+		
+		offset = 0.000f;
 		//		String f = "Music/Brittle Rille.ogg";
 		try {
 			test = Shader.makeShader("data/Shaders/test.vert", "data/Shaders/test.frag");
@@ -63,8 +66,7 @@ public class Menu extends Container {
 		} catch (SlickException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
-		
+		}
 		//Initialisation
 		toDo = ""; //$NON-NLS-1$
 		transitionColor = new Color(0,0,0, 0);
@@ -129,6 +131,8 @@ public class Menu extends Container {
 		this.addComponent(buttonContainer);
 		
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
+		if(!ControllersManager.hasController(gc))
+			nouvPart.setName(nouvPart.getName().substring(1));
 		nouvPart.action.add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
@@ -145,6 +149,8 @@ public class Menu extends Container {
 									e.printStackTrace();
 								}
 								c.transitionColor = new Color(0,0,0, i);
+								Random r = new Random();
+								offset+= 0.001f;
 							}
 						}
 							c.toDo = "nouvPart"; //$NON-NLS-1$
@@ -281,6 +287,7 @@ public class Menu extends Container {
 	}
 	public void update(GameContainer gc, int arg1) {
 		super.update(gc, this.getX(), this.getY());
+		test.setUniformFVariable("offset", offset);
 		//Le layout du menu
 		int mx = Mouse.getX();
 		int my = getSizeY() - Mouse.getY();
@@ -301,7 +308,8 @@ public class Menu extends Container {
 			onClickLogo = false;
 		}
 		if(toDo.equals("nouvPart")){ //$NON-NLS-1$
-			gm.setMode(ModeJeu.Jeu, gm.getApp());
+			gm.setMode(ModeJeu.Loading, gm.getApp());
+			
 		}
 		else if(toDo.equals("chargerPart")){ //$NON-NLS-1$
 			gm.setMode(ModeJeu.Jeu, gm.getApp());
@@ -325,24 +333,40 @@ public class Menu extends Container {
 			//optionsButton.boutonAct = alpha;
 			quitter.boutonAct = Container.alpha;
 	}
+	@Override
+	public void drawBackground(Image img){
+		super.drawBackground(img);
+		if(!img.equals(transitionBackground.getImg()))
+			Shader.forceFixedShader();
+		
+	}
 	public void paintComponent(GameContainer container, Graphics g) {
+		
 		g.setFont(FontRessources.getFonts().titres);
 		g.setColor(Color.white);
+		test.startShader();
 		g.fillRect(0, 0, sizeX, sizeY);
 		this.drawBegin(g);
+			
 			transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - 119745) / 255f);
 			background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - 119745) / 255f);
+			
 			drawBackground(transitionBackground.getImg());
+			
 			this.draw(g);
+			
+			
 			if(!onLogoAFTS){
 				logoAFTS.getImg().draw(getSizeX() - 300, getSizeY() - 400, 256, 354);
 			}else{
 				
 				logoAFTS.getImg().draw(31, 466, 145, 112);
 			}
+			
 			g.setColor(transitionColor);
 			g.fillRect(0, 0, getSizeX(), getSizeY());
 		this.drawEnd(g);
+		
 	}
 	public void init(GameContainer gc) {
 		toDo = "";

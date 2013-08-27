@@ -211,7 +211,6 @@ public class EditeurMap extends Container{
 		CheckBox miroir = new CheckBox(Messages.getString("EditeurMap.13"), checkbox); //$NON-NLS-1$
 		miroir.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
-				EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
 				ObjetMap o = ((ButtonObjetMap)(c.getParent().getParent().getComponents().get(0))).getObjet();
 				o.setMirror(((CheckBox)c).isCheck());
 			}
@@ -278,44 +277,38 @@ public class EditeurMap extends Container{
 		this.addComponent(choixEnsembles);
 		scrollbar = new ScrollBar(0,0, choixEnsembles.getSizeX(), choixEnsembles.getSizeY() - 30, 0, 0, choixEnsembles);
 		
-		Container cont = new Container(0, 0, choixEnsembles.getSizeX(), (editEnsemble.size()) * 160, scrollbar);
+		Container cont = new Container(0, 0, choixEnsembles.getSizeX(), (editEnsemble.size()) * 30, scrollbar);
 		
-		Container contgrid = new Container(0, 0, choixEnsembles.getSizeX() - 75, (editEnsemble.size()) * 160, cont);
+		Container contgrid = new Container(0, 0, choixEnsembles.getSizeX() - 75, (editEnsemble.size()) * 30, cont);
 		contgrid.setActualLayout(new GridLayout(1, editEnsemble.size()));
-		((GridLayout) contgrid.getActualLayout()).setVgap(10);
+		((GridLayout) contgrid.getActualLayout()).setVgap(2);
 		
 		for(Ensemble o : editEnsemble){
 			
-			ContainerWithBords objContainer = new ContainerWithBords(1,1,1,1, contgrid);
-			objContainer.setActualLayout(new GridLayout(1,1));
-			((GridLayout) objContainer.getActualLayout()).setHgap(6);
-			contgrid.addComponent(objContainer);
-			
-			Button selectButton = new Button(o.getNom(), 0,0,200,200,objContainer);
+			Button selectButton = new Button(o.getNom(), 0,0, 30, 30, contgrid);
 			
 			selectButton.getAction().add(new ActionListener(){
 				public void actionPerformed(FComponent c){
 					EditeurMap edit = ((Editeur)(c.getRacine())).getEditeurMap();
-					Ensemble ed = ensembleChoice;
-					Ensemble o = (Ensemble) edit.editEnsemble.get((c.getParent().getY() - 5) / 160);
 					
-					if(ed != null){
+					Ensemble lastEnsemble = ensembleChoice;
+					Ensemble o = editEnsemble.get((c.getY()) / 30);
+					
+					if(lastEnsemble != null){
 						//Changement des positions du nouvel objet.
-						o.setPosX(ed.getPosX());
-						o.setPosY(ed.getPosY());
-						o.setPosZ(ed.getPosZ());
-						carte.getChunks()[0][0][0].remove(ed);
-						
+						o.setPosX(lastEnsemble.getPosX());
+						o.setPosY(lastEnsemble.getPosY());
+						o.setPosZ(lastEnsemble.getPosZ());
+						carte.getChunks()[0][0][0].remove(lastEnsemble);
+						System.out.println("ouf");
 					}
-						edit.setEnsembleChoice(o);
-					//carte.getChunks()[0][0][0].addContenu(o);
-					
+					edit.setEnsembleChoice(o);
+					System.out.println(o.getNom());
 					editeurMode = EditeurMode.Ensemble;
 				}
 			});
 			//Boutons disponibles pour chaque objets.
-			
-			objContainer.addComponent(selectButton);
+			contgrid.addComponent(selectButton);
 			
 		}
 		//Bouton "Reload"
