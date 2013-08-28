@@ -1,4 +1,7 @@
-package gui;
+package gui.buttons;
+
+import gui.Container;
+import gui.layouts.OngletManagerLayout;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,6 +22,7 @@ public class OngletManager extends Container{
 	}
 	public void update(GameContainer gc, int x, int y)
 	{
+		//Updating the showed container.
 		if(ongletActuel == null)
 			ongletActuel = (Onglet) this.components.get(0);
 		if(toDraw != null)
@@ -33,6 +37,14 @@ public class OngletManager extends Container{
 			toDraw = ongletActuel.getContainer();
 			this.components.add(toDraw);
 		}
+		
+		//Makes the selected onglet bigger.
+		/*if(ongletActuel.getSizeY() >= ((OngletManager)parent).getOngletActuel().getSizeY()){
+			this.setX(this.getX() + 10);
+			setSizeX(getSizeX() - 20);
+			this.setY(this.getY() + 10); 
+			setSizeY(getSizeY() - 10);
+		}*/
 		super.update(gc, x, y);
 		
 	}

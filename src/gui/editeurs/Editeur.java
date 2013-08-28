@@ -2,8 +2,8 @@ package gui.editeurs;
 
 import gui.Container;
 import gui.GameMain;
-import gui.Onglet;
-import gui.OngletManager;
+import gui.buttons.Onglet;
+import gui.buttons.OngletManager;
 import gui.editeurs.items.EditeurItem;
 import gui.editeurs.objetmaps.EditeurAnimation;
 import gui.editeurs.objetmaps.EditeurCollObjMap;
@@ -112,6 +112,9 @@ public class Editeur extends Container{
 			editeurEntityOnglet.setContainer(editeurEntity);
 			
 			ongletsObj.addComponent(editeurEntityOnglet);
+			
+			general.clickPressed();
+			general.clickReleased();
 			
 		getEditeurObjetOnglet().setContainer(ongletsObj);
 		

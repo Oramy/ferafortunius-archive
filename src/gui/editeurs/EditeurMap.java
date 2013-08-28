@@ -8,9 +8,9 @@ import gui.InternalFrame;
 import gui.ModeJeu;
 import gui.ScrollBar;
 import gui.buttons.Button;
+import gui.buttons.ButtonObjetMap;
 import gui.buttons.CheckBox;
 import gui.editeurs.objetmaps.BasicObjetMapEditor;
-import gui.editeurs.objetmaps.ButtonObjetMap;
 import gui.layouts.GridLayout;
 import gui.layouts.MinHeightLayout;
 

@@ -1,6 +1,8 @@
-package gui;
+package gui.buttons;
 
-import gui.buttons.Button;
+import gui.ComponentState;
+import gui.Container;
+import gui.PImage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -22,8 +24,11 @@ public class Onglet extends Button {
 		setSizeY(40);
 		
 	}
-	public void update(GameContainer gc, int x, int y){
-		super.update(gc, x, y);
+	/**
+	 * Updates the manager if the Onglet class is controlled by it.
+	 * @param gc the game environment.
+	 */
+	public void updateManager(GameContainer gc){
 		if(parent instanceof OngletManager){
 			if(((OngletManager)parent).getOngletActuel() != null){
 				if(!((OngletManager)parent).getOngletActuel().equals(this) && this.getSizeY() >= ((OngletManager)parent).getOngletActuel().getSizeY()){
@@ -34,6 +39,10 @@ public class Onglet extends Button {
 				}
 			}
 		}
+	}
+	public void update(GameContainer gc, int x, int y){
+		super.update(gc, x, y);
+		updateManager(gc);
 	}
 	@Override
 	public void clickPressed(){

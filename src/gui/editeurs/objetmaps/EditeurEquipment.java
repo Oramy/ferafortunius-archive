@@ -1,9 +1,9 @@
 package gui.editeurs.objetmaps;
 
 import gui.Container;
-import gui.Onglet;
-import gui.OngletManager;
 import gui.PImage;
+import gui.buttons.Onglet;
+import gui.buttons.OngletManager;
 import gui.editeurs.PanneauApercu;
 import gui.editeurs.items.EditeurItemBasic;
 import gui.jeu.PanneauJeuAmeliore;

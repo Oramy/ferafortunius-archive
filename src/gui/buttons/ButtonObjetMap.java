@@ -1,7 +1,6 @@
-package gui.editeurs.objetmaps;
+package gui.buttons;
 
 import gui.Container;
-import gui.buttons.ButtonImage;
 import ObjetMap.ObjetMap;
 
 public class ButtonObjetMap extends ButtonImage{

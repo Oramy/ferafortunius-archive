@@ -2,10 +2,10 @@ package gui.editeurs.objetmaps;
 
 import gui.Container;
 import gui.FComponent;
-import gui.Onglet;
-import gui.OngletManager;
 import gui.Text;
 import gui.buttons.Button;
+import gui.buttons.Onglet;
+import gui.buttons.OngletManager;
 import gui.editeurs.Editeur;
 import gui.editeurs.Messages;
 import gui.inputs.ProgrammTextArea;

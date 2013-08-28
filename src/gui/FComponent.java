@@ -106,6 +106,9 @@ public abstract class FComponent implements Serializable, Cloneable{
 	 */
 	public void update(GameContainer gc, int x, int y){
 		updateSize();
+		if(parent != null && parent instanceof Manager){
+			((Manager)parent).updateChilds();
+		}
 	}
 	/**
 	 * @return the focus

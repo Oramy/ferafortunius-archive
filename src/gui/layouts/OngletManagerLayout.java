@@ -1,6 +1,7 @@
-package gui;
+package gui.layouts;
 
-import gui.layouts.Layout;
+import gui.Container;
+import gui.FComponent;
 
 public class OngletManagerLayout extends Layout {
 	public void addComponent(Container container, FComponent c) {
