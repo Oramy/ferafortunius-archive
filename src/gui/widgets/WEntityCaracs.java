@@ -14,6 +14,11 @@ import ObjetMap.ObjetMap;
 
 public class WEntityCaracs extends Widget{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Entity obj;
 	
 	private ScrollBar scrollbar;

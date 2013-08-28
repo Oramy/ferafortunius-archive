@@ -115,7 +115,6 @@ public class Camera {
 		timeToDest = time;
 		beginTime = System.currentTimeMillis() + 1;
 	}
-	//TODO gérer les chunks avec la caméra !
 	public void moveAtObject(ObjetMap o, int time){
 		if(carte == null)
 			moveAtObject(o.getPosX() + o.getSizeX() / 2, o.getPosY() + o.getSizeY() / 2, o.getPosZ() + o.getSizeZ() / 2, time);

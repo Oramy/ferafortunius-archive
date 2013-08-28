@@ -53,7 +53,6 @@ public class BuffComponent extends FComponent{
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
 		
 	}
 }

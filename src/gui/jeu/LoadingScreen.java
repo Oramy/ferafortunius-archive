@@ -10,12 +10,15 @@ import org.newdawn.slick.Graphics;
 
 public class LoadingScreen extends Container {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int pointCount = 0;
 	private GameMain gm;
 	public LoadingScreen(GameMain gm, int x, int y, int sizeX, int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
 		this.gm = gm;
-		// TODO Auto-generated constructor stub
 	}
 	public void init(GameContainer gc) {
 		

@@ -33,10 +33,7 @@ public class Container extends FComponent{
 		setActualLayout(new Layout(){
 
 			@Override
-			public void updateLayout() {
-				// TODO Auto-generated method stub
-				
-			}});
+			public void updateLayout() {}});
 		backgroundMode = Affichage.Normal;
 		setBackground(backGroundUnbords);
 		setzMax(0);

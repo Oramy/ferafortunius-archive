@@ -64,7 +64,6 @@ public class Menu extends Container {
 			test.setUniformFVariable("offset", offset);
 			
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		//Initialisation

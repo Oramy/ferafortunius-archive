@@ -219,7 +219,6 @@ public class ItemComponent extends FComponent implements Cloneable{
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
 		
 	}
 }

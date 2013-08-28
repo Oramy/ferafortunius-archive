@@ -245,7 +245,6 @@ public class InputLabel extends FComponent implements KeyListener{
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
 		
 	}
 

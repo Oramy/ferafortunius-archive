@@ -13,9 +13,8 @@ public class LosangeBlock extends CollisionBlock{
 			int sizeZ) {
 		super(posX, posY, posZ, sizeX, sizeY, sizeZ);
 	}
-	//Teste les quatres points d'un carré avec un losange.
 	//TODO Collision rectangles à 45°
-	
+	@Override
 	public Shape getShape(ObjetMap parent){
 		Polygon p2 = new Polygon();
 		p2.addPoint(parent.getX() + this.getPosX() + (this.getSizeX()-1) / 2,

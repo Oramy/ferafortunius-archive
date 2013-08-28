@@ -183,7 +183,6 @@ public class Text extends FComponent {
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
 		
 	}
 	public int getMarginX() {

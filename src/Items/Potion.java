@@ -2,7 +2,6 @@ package Items;
 
 import ObjetMap.Entity;
 import ObjetMap.ObjetImage;
-import bonus.Life;
 import bonus.buffs.BuffMini;
 
 public class Potion extends Utility{

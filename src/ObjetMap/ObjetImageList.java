@@ -16,7 +16,6 @@ public class ObjetImageList implements Cloneable, Serializable{
 		try {
 			clone = (ObjetImageList) super.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

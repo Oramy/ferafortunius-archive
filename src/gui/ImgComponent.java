@@ -40,8 +40,7 @@ public class ImgComponent extends FComponent{
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	public PImage getImg() {
 		return img;

@@ -39,8 +39,6 @@ import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
 import bonus.ItemBonus;
 import bonus.Life;
-import bonus.MaxLife;
-import bonus.buffs.BuffRegenLife;
 
 public class Jeu extends Container implements Cloneable {
 	/**
@@ -170,7 +168,6 @@ public class Jeu extends Container implements Cloneable {
 			ambianceMusic = new Music("Music/" + path);
 			ambianceMusic.loop(pitch, volume);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -185,7 +182,6 @@ public class Jeu extends Container implements Cloneable {
 			Sound ambianceMusic = new Sound("Music/" + path);
 			ambianceMusic.play(pitch, volume);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

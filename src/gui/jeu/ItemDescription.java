@@ -118,7 +118,6 @@ public class ItemDescription extends FComponent{
 	}
 	@Override
 	public void updateSize() {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -16,7 +16,6 @@ public class OngletManagerLayout extends Layout {
 
 	@Override
 	public void updateLayout() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 }

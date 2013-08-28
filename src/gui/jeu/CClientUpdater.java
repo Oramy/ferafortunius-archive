@@ -99,7 +99,6 @@ public class CClientUpdater implements Runnable{
 					try {
 						Thread.sleep(16);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					getServerMessages();

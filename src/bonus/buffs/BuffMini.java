@@ -4,6 +4,11 @@ import ObjetMap.Entity;
 
 public class BuffMini extends Buff{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public BuffMini(int length, Entity o) {
 		super(length, o);
 		buffImage = "GUI/Buff/regenlife.png";
@@ -11,7 +16,6 @@ public class BuffMini extends Buff{
 
 	@Override
 	public void buffEffect() {
-		// TODO Auto-generated method stub
 		
 	}
 

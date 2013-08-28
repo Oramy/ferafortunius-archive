@@ -41,7 +41,6 @@ public class SClientUpdater implements Runnable {
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

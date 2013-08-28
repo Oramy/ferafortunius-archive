@@ -97,66 +97,11 @@ public class LayeredChunkMap extends Chunk {
 		return getLayers().size();
 	}
 	
-	/*@Override
-	public void trier(){
-		if(this.isDrawing()){
-			long tempsPrec  = System.currentTimeMillis();
-			lastSort = System.currentTimeMillis();
-			sortDelay = 10000;
-			if(lastUpdateCount != this.getContenu().size())
-				this.updateLayersObjectCount();
-			for(int i = 0; i < contenu.size(); i++)
-				sortByLayers(contenu.get(i));
-			drawing = false;
-			hasXYtoSort = false;
-			
-			//Si on veut afficher les informations de vitesse
-			if(GameMain.options.isGameSpeedPrint())
-			System.out.println("Temps de tri :" + (System.currentTimeMillis() -
-					tempsPrec) + "ms");
-		}
-	}*/
-	/**
-	@Override 
-	public synchronized boolean addContenu(ObjetMap o) {
-		boolean result = super.addContenu(o);
-		if(result)
-			sortByLayers(o);
-		
-		return result;
-	}
-	@Override 
-	public synchronized boolean addContenu(ObjetMap o, int i) {
-		boolean result = super.addContenu(o, i);
-		if(result)
-			sortByLayers(o);
-		
-		return result;
-	}*/
-	/**
-	 * Met à jour l'inventaire des objets par layer
-	 */
-	private void updateLayersObjectCount() {
-		int layer = 0;
-		int count = 0;
-		
-		this.getLayersObjectCount().clear();
-		
-		while(this.getLayersObjectCount().size() < this.getLayersCount())
-			this.getLayersObjectCount().add(0);
-		
-		for(int i = 0; i < contenu.size(); i++){
-			this.getLayersObjectCount().set(
-					getDepthLayer(contenu.get(i).getZ()), 
-					this.getLayersObjectCount().get(	getDepthLayer	(	contenu.get(i).getZ()	)	) + 1
-					);
-		}
-		lastUpdateCount = contenu.size();
-	}
 	/**
 	 * Trie un objet selon son layer
 	 * @param cle Objet a classer
 	 */
+	@SuppressWarnings("unused")
 	private void sortByLayers(ObjetMap cle) {
 		int depthLayerA = getDepthLayer(cle.getZ());
 		int id =  getAccumuledLayerObjectCount(depthLayerA-1);
