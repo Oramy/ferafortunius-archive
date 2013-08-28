@@ -67,7 +67,10 @@ public class ObjetMapLoader {
 				ois.close();
 				return o;
 			} catch (ClassNotFoundException e) {
-				
+				//Launch that only to delete not working objects.
+				/*ois.close();
+				File f = new File(path);
+				f.deleteOnExit();*/
 				e.printStackTrace();
 			}
 			ois.close();

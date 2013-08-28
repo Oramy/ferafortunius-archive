@@ -7,7 +7,6 @@ import gui.ScrollBar;
 import gui.buttons.Button;
 import gui.buttons.CheckBox;
 import gui.editeurs.Messages;
-import gui.editeurs.TimedScriptEditor;
 import gui.inputs.IntLabel;
 import gui.inputs.Label;
 import observer.ActionListener;

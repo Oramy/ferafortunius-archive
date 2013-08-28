@@ -1,9 +1,10 @@
-package gui.editeurs;
+package gui.editeurs.objetmaps;
 
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
 import gui.buttons.Button;
+import gui.editeurs.Messages;
 import gui.inputs.IntLabel;
 import gui.inputs.Label;
 import gui.inputs.ProgrammTextArea;

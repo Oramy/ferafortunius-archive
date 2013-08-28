@@ -21,12 +21,44 @@ public class BuffMini extends Buff{
 
 	@Override
 	public void endBuffEffect() {
-		this.getCible().extend(2f);
+		Thread t = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				for(int i = 0; i < 7; i ++){
+					getCible().extend(1.1f);
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		});
+		t.start();
 	}
 
 	@Override
 	public void effect() {
-		this.getCible().reduce(2f);
+		Thread t = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				for(int i = 0; i < 7; i ++){
+					getCible().reduce(1.1f);
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		});
+		t.start();
 	}
 
 }

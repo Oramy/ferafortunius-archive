@@ -21,6 +21,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import ObjetMap.BasicObjetMap;
+import ObjetMap.ObjetImage;
+import ObjetMap.ObjetMap;
+
+import com.ferafortunius.animations.AnimationReactor;
+import com.oramy.balises.Balise;
+import com.oramy.balises.BaliseRecognizer;
+
 public class Menu extends Container {
 	/**
 	 * 
@@ -52,6 +60,22 @@ public class Menu extends Container {
 	
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
+		
+		ObjetMap o = new BasicObjetMap(0,0,0,0,0,0);
+		ObjetImage img = new ObjetImage("ObjetMap/Banc/banc.png");
+		img.setAlias("banc");
+		o.getImage().add(img);
+		
+		System.out.println("X : " + img.getDecalageX() + " Y : "+img.getDecalageY() + "Rot : " + img.getRotation());
+		
+		String command = "<keyframe image=\"banc\"; x=\"10\"; y=\"5\"; rot=\"15f\"; />";
+		Balise b = BaliseRecognizer.recognize(command).get(0);
+		
+		
+		AnimationReactor ar = new AnimationReactor();
+		ar.react(o, b);
+		
+		System.out.println("X : " + img.getDecalageX() + " Y : "+img.getDecalageY() + "Rot : " + img.getRotation());
 		
 		//Focus the controller
 		ControllersManager.getFirstController().setControllerContainer(this);
