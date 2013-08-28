@@ -7,6 +7,10 @@ import gui.FontRessources;
 import gui.GameMain;
 import gui.Text;
 import gui.TextDisplayMode;
+import gui.jeu.inventory.InventaireFrame;
+import gui.jeu.multi.Client;
+import gui.jeu.multi.Serveur;
+import gui.jeu.utils.TimeController;
 
 import java.util.ArrayList;
 

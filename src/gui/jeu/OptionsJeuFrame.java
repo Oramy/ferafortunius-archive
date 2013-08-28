@@ -1,17 +1,17 @@
 package gui.jeu;
 
-import gui.Button;
-import gui.CheckBox;
-import gui.CheckBoxManager;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
 import gui.InternalFrame;
-import gui.Label;
 import gui.ModeJeu;
 import gui.Slider;
 import gui.Text;
 import gui.TextDisplayMode;
+import gui.buttons.Button;
+import gui.buttons.CheckBox;
+import gui.buttons.CheckBoxManager;
+import gui.inputs.Label;
 import gui.layouts.GridLayout;
 import observer.ActionListener;
 

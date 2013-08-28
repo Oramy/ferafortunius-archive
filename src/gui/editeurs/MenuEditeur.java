@@ -4,10 +4,10 @@ import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
-import gui.Button;
 import gui.Container;
 import gui.FComponent;
 import gui.InternalFrame;
+import gui.buttons.Button;
 
 public class MenuEditeur extends Container{
 	/**

@@ -1,14 +1,14 @@
 package gui.widgets;
 
 
-import gui.Button;
-import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.IntLabel;
 import gui.ScrollBar;
 import gui.Text;
+import gui.buttons.Button;
+import gui.buttons.CheckBox;
+import gui.inputs.IntLabel;
 import gui.layouts.GridLayout;
 
 import observer.ActionListener;

@@ -1,5 +1,7 @@
 package gui;
 
+import gui.buttons.Button;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -43,22 +45,22 @@ public class NextDialogButton extends Button {
 				yButton = 5;
 			}
 		}
-		boutonAct = normal;
+		setBoutonAct(normal);
 	}
 	@Override
 	public void normal(){
-		boutonAct = normal;
+		setBoutonAct(normal);
 	}
 	@Override
 	public void clickPressed(){
-		boutonAct = normal;
+		setBoutonAct(normal);
 		yButton = 2;
 		setState(ComponentState.Clicked);
 		
 	}
 	@Override
 	public void clickReleased(){
-		boutonAct = normal;
+		setBoutonAct(normal);
 		setState(ComponentState.Hover);
 		action();
 		
@@ -68,7 +70,7 @@ public class NextDialogButton extends Button {
 			g.translate(0, 11);
 				shadow.getImg().draw(0, 0, this.getSizeX(), this.getSizeY() -6, 0, 0, shadow.getImg().getWidth(), shadow.getImg().getHeight());
 				g.translate(0, -yButton);
-					boutonAct.getImg().draw(0, 0, this.getSizeX(), this.getSizeY() - 11, 0, 0, boutonAct.getImg().getWidth(), boutonAct.getImg().getHeight());
+					getBoutonAct().getImg().draw(0, 0, this.getSizeX(), this.getSizeY() - 11, 0, 0, getBoutonAct().getImg().getWidth(), getBoutonAct().getImg().getHeight());
 				g.translate(0, yButton);
 			g.translate(0, -11);
 		g.translate(-this.getBounds().x, -this.getBounds().y);	

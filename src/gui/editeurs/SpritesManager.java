@@ -1,10 +1,10 @@
 package gui.editeurs;
 
-import gui.Button;
-import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
+import gui.buttons.Button;
+import gui.buttons.CheckBox;
 import gui.layouts.GridLayout;
 
 import java.io.File;
@@ -19,6 +19,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import observer.ActionListener;
+import observer.Observable;
+import observer.Observer;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;

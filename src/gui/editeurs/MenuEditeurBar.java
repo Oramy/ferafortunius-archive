@@ -1,11 +1,11 @@
 package gui.editeurs;
 
 import observer.ActionListener;
-import gui.Button;
 import gui.Container;
 import gui.FComponent;
-import gui.Label;
 import gui.PImage;
+import gui.buttons.Button;
+import gui.inputs.Label;
 import gui.layouts.GridLayout;
 import Level.EnsembleLoader;
 import Level.MapLoader;

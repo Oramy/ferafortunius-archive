@@ -1,7 +1,5 @@
 package gui.editeurs;
 
-import gui.Button;
-import gui.CheckBox;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
@@ -9,6 +7,10 @@ import gui.GameMain;
 import gui.InternalFrame;
 import gui.ModeJeu;
 import gui.ScrollBar;
+import gui.buttons.Button;
+import gui.buttons.CheckBox;
+import gui.editeurs.objetmaps.BasicObjetMapEditor;
+import gui.editeurs.objetmaps.ButtonObjetMap;
 import gui.layouts.GridLayout;
 import gui.layouts.MinHeightLayout;
 

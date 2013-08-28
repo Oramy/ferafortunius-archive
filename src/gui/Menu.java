@@ -1,5 +1,7 @@
 package gui;
 
+import gui.buttons.BasicButtonImage;
+import gui.buttons.Button;
 import gui.layouts.GridLayout;
 
 import java.awt.Desktop;
@@ -97,7 +99,7 @@ public class Menu extends Container {
 		logo.x = sizeX / 2 - logo.sizeX / 2;
 		logo.alwaysUpdateOnClick = true;
 		logo.y = 40;
-		logo.action.add(new ActionListener(){
+		logo.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent comp){
 				Desktop desktop = null; 
 				java.net.URI url; 
@@ -132,7 +134,7 @@ public class Menu extends Container {
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
 		if(!ControllersManager.hasController(gc))
 			nouvPart.setName(nouvPart.getName().substring(1));
-		nouvPart.action.add(new ActionListener(){
+		nouvPart.getAction().add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -188,7 +190,7 @@ public class Menu extends Container {
 		/*chargerPart.setSizeX(500);
 		buttonContainer.addComponent(chargerPart);*/
 		editer = new Button(Messages.getString("Menu.text.2"), buttonContainer); //$NON-NLS-1$
-		editer.action.add(new ActionListener(){
+		editer.getAction().add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -219,7 +221,7 @@ public class Menu extends Container {
 		buttonContainer.addComponent(optionsButton);*/
 
 		quitter = new Button(Messages.getString("Menu.text.4"), buttonContainer); //$NON-NLS-1$
-		quitter.action.add(new ActionListener(){
+		quitter.getAction().add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
@@ -326,11 +328,11 @@ public class Menu extends Container {
 			background = backgroundimages.get(backgroundId);
 			transitionBackground = backgroundimages.get((backgroundId + 1) % backgroundimages.size());
 		}
-			nouvPart.boutonAct = Container.alpha;
+			nouvPart.setBoutonAct(Container.alpha);
 			//chargerPart.boutonAct = alpha;
-			editer.boutonAct = Container.alpha;
+			editer.setBoutonAct(Container.alpha);
 			//optionsButton.boutonAct = alpha;
-			quitter.boutonAct = Container.alpha;
+			quitter.setBoutonAct(Container.alpha);
 	}
 	@Override
 	public void drawBackground(Image img){

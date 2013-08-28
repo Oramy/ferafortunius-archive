@@ -1,6 +1,8 @@
 package gui.editeurs;
 
 import gui.Container;
+import gui.editeurs.objetmaps.EditeurObjetMap;
+import gui.editeurs.objetmaps.ImgEditor;
 import gui.jeu.PanneauJeuAmeliore;
 
 import org.lwjgl.input.Mouse;

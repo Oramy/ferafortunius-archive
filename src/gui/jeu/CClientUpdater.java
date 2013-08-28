@@ -1,5 +1,7 @@
 package gui.jeu;
 
+import gui.jeu.multi.Client;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

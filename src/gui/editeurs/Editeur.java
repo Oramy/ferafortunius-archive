@@ -4,6 +4,11 @@ import gui.Container;
 import gui.GameMain;
 import gui.Onglet;
 import gui.OngletManager;
+import gui.editeurs.items.EditeurItem;
+import gui.editeurs.objetmaps.EditeurAnimation;
+import gui.editeurs.objetmaps.EditeurCollObjMap;
+import gui.editeurs.objetmaps.EditeurEntity;
+import gui.editeurs.objetmaps.EditeurObjetMap;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

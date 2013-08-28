@@ -1,8 +1,8 @@
 package gui.widgets;
 
-import gui.Button;
 import gui.Container;
 import gui.ContainerWithBords;
+import gui.buttons.Button;
 
 import org.newdawn.slick.GameContainer;
 

@@ -1,5 +1,7 @@
 package gui;
 
+import gui.buttons.Button;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
@@ -14,7 +16,7 @@ public class Onglet extends Button {
 	protected Container container;
 	public Onglet(String nom,Container parent) {
 		super(nom, parent);
-		this.boutonAct = onglet;
+		this.setBoutonAct(onglet);
 		this.focus = false;
 		alwaysUpdateOnClick = true;
 		setSizeY(40);
@@ -37,7 +39,7 @@ public class Onglet extends Button {
 	public void clickPressed(){
 		if(((OngletManager)parent).getOngletActuel() != null){
 			if(!((OngletManager)parent).getOngletActuel().equals(this)){
-				boutonAct = ongletActivate;
+				setBoutonAct(ongletActivate);
 				setState(ComponentState.Clicked);
 				setX(getX() - 10);
 				setSizeX(getSizeX() + 20);
@@ -58,7 +60,7 @@ public class Onglet extends Button {
 				}
 			}
 		}else{
-			boutonAct = ongletActivate;
+			setBoutonAct(ongletActivate);
 			setState(ComponentState.Clicked);
 			setX(getX() - 10);
 			setSizeX(getSizeX() + 20);
@@ -85,13 +87,13 @@ public class Onglet extends Button {
 	}
 	@Override
 	public void hover() {
-		boutonAct = ongletHover;
+		setBoutonAct(ongletHover);
 		textColor = Color.black;
 		
 	}
 	@Override
 	public void normal() {
-		boutonAct = onglet;
+		setBoutonAct(onglet);
 		textColor = Color.white;
 	}
 	/**

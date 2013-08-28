@@ -1,5 +1,8 @@
 package gui;
 
+import gui.buttons.Button;
+import gui.inputs.Label;
+
 import java.io.File;
 
 import javax.swing.JFileChooser;

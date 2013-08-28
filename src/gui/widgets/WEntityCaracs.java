@@ -3,8 +3,8 @@ package gui.widgets;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.IntLabel;
 import gui.ScrollBar;
+import gui.inputs.IntLabel;
 import gui.layouts.MinHeightLayout;
 
 import org.newdawn.slick.GameContainer;

@@ -1,12 +1,12 @@
 package gui.editeurs;
 
-import gui.Button;
 import gui.Container;
 import gui.ContainerWithBords;
 import gui.FComponent;
-import gui.IntLabel;
-import gui.Label;
-import gui.ProgrammTextArea;
+import gui.buttons.Button;
+import gui.inputs.IntLabel;
+import gui.inputs.Label;
+import gui.inputs.ProgrammTextArea;
 
 import observer.ActionListener;
 

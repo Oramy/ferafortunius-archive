@@ -1,10 +1,10 @@
 package gui.layouts;
 
-import gui.Button;
 import gui.Chooser;
 import gui.ComponentState;
 import gui.Container;
 import gui.FComponent;
+import gui.buttons.Button;
 
 
 public class GridLayout extends Layout {

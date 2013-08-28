@@ -3,9 +3,9 @@ package gui.jeu;
 import gui.Container;
 import gui.ControllersManager;
 import gui.FComponent;
-import gui.HiddenButton;
 import gui.ModeJeu;
 import gui.ScrollBar;
+import gui.buttons.HiddenButton;
 import gui.layouts.GridLayout;
 import observer.ActionListener;
 

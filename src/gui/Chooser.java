@@ -1,5 +1,7 @@
 package gui;
 
+import gui.buttons.Button;
+
 import java.util.ArrayList;
 
 import observer.ActionListener;
@@ -27,8 +29,8 @@ public class Chooser extends Container{
 		selectedChoice = -1;
 		background = Container.backGroundUnbords;
 		show = new Button("^", sizeX - 32, 0, 30, 30, this);
-		show.defineSize = false;
-		show.action.add(new ActionListener(){
+		show.setDefineSize(false);
+		show.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				show();
 			}

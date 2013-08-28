@@ -1,11 +1,11 @@
 package gui.editeurs;
 
 import observer.ActionListener;
-import gui.Button;
-import gui.CheckBox;
 import gui.Container;
 import gui.FComponent;
-import gui.IntLabel;
+import gui.buttons.Button;
+import gui.buttons.CheckBox;
+import gui.inputs.IntLabel;
 import Level.ChunkMap;
 
 public class NewMapContainer extends Container{
