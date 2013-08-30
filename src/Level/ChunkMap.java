@@ -4,9 +4,18 @@ import gui.jeu.Jeu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
+import javax.script.Bindings;
+import javax.script.ScriptContext;
+import javax.script.ScriptException;
+import javax.script.SimpleBindings;
+
+import ObjetMap.Direction;
 import ObjetMap.Ensemble;
 import ObjetMap.Entity;
+import ObjetMap.ObjetImage;
 import ObjetMap.ObjetMap;
 import ObjetMap.Teleporter;
 
@@ -23,6 +32,10 @@ public class ChunkMap implements Serializable, Cloneable{
 	private int mapSizeZ;
 	private int chunksSize;
 	private String nom;
+	
+	protected transient Bindings valuesToAdd;
+	private transient String scriptToLaunch;
+	private transient int scriptId;
 	public ChunkMap(int chunksSize, int mapSizeX, int mapSizeY, int mapSizeZ){
 		chunks = new Chunk[mapSizeX][mapSizeY][mapSizeZ];
 		this.setChunksSize(chunksSize);
@@ -234,6 +247,7 @@ public class ChunkMap implements Serializable, Cloneable{
 		return true;
 	}
 	public void update(Jeu jeu){
+		scriptId = 0;
 		for(int i = 0, c = mapSizeX; i < c; i++){
 			for(int j = 0, c2 = mapSizeY; j < c2; j++){
 				for(int k = 0, c3 =  mapSizeZ; k < c3; k++){
@@ -241,6 +255,57 @@ public class ChunkMap implements Serializable, Cloneable{
 				}
 			}
 		}
+		
+		Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
+		bindings.clear();
+		
+		bindings.clear();
+		// Ajout de la variable entree dans le script
+		bindings.put("newcam", new Camera(0, 0, 1f, jeu.getCarte()));
+		bindings.put("E", Direction.E);
+		bindings.put("SE", Direction.SE);
+		bindings.put("S", Direction.S);
+		bindings.put("SW", Direction.SW);
+		bindings.put("W", Direction.W);
+		bindings.put("NW", Direction.NW);
+		bindings.put("N", Direction.N);
+		bindings.put("NE", Direction.NE);
+		bindings.put("Random", new Random());
+		bindings.put("ObjetMapLoader", new ObjetMapLoader());
+		bindings.put("ItemLoader", new ItemLoader());
+		bindings.put("direction", Arrays.asList(Direction.values()));
+		bindings.put("currentTimeMillis", System.currentTimeMillis());
+		
+		if (jeu != null) {
+			bindings.put("jeu", jeu);
+			bindings.put("carte", jeu.getCarte());
+			bindings.put("actualcam", jeu.getPanneauDuJeu()
+					.getActualCam());
+		}
+		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
+			String key  = (String)getValuesToAdd().keySet().toArray()[i];
+			bindings.put(key, getValuesToAdd().get(key));
+		}
+		valuesToAdd.clear();
+		if(getScriptToLaunch() != null && !getScriptToLaunch().equals("")){
+			setScriptToLaunch(getScriptToLaunch().replaceAll(Character.valueOf((char) 22).toString(), ""));
+			String toLaunch = getScriptToLaunch();
+			setScriptToLaunch("");
+			
+			// Execution du script entr�e
+			try {
+				Jeu.moteurScript.eval(toLaunch, bindings);
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			}
+			System.out.println(scriptId + " " +toLaunch.length());
+			
+		}
+		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
+			String key  = (String)getValuesToAdd().keySet().toArray()[i];
+			bindings.put(key, getValuesToAdd().get(key));
+		}
+		
 	}
 	public synchronized  boolean accepted(ObjetMap o, ObjetMap without, Jeu jeu){
 		return getChunk(o).accepted(o, without, jeu);
@@ -403,5 +468,31 @@ public class ChunkMap implements Serializable, Cloneable{
 			}	
 		}
 		return teleporter;
+	}
+
+	public Bindings getValuesToAdd() {
+		if(valuesToAdd == null)
+			valuesToAdd = new SimpleBindings();
+		return valuesToAdd;
+	}
+
+	public void putValueToAdd(String key,  Object value) {
+		getValuesToAdd().put(key, value);
+	}
+
+	public void setValuesToAdd(Bindings valuesToAdd) {
+		this.valuesToAdd = valuesToAdd;
+	}
+	public String getScriptToLaunch() {
+		return scriptToLaunch;
+	}
+	public void setScriptToLaunch(String scriptToLaunch) {
+		this.scriptToLaunch = scriptToLaunch;
+	}
+	public int getScriptId() {
+		return scriptId++;
+	}
+	public void setScriptId(int scriptId) {
+		this.scriptId = scriptId;
 	}
 }

@@ -47,7 +47,6 @@ public class Chunk implements Serializable, Cloneable {
 	
 	protected transient String megaCompressScript;
 
-	protected transient Bindings valuesToAdd;
 	public Chunk() {
 		sizeX = 1;
 		sizeY = 1;
@@ -752,72 +751,10 @@ public class Chunk implements Serializable, Cloneable {
 	}
 */
 	public synchronized void update(Jeu jeu) {
-		
-		Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
-		bindings.clear();
-		// Ajout de la variable entree dans le script
-		bindings.put("newcam", new Camera(0, 0, 1f, jeu.getCarte()));
-		bindings.put("E", Direction.E);
-		bindings.put("SE", Direction.SE);
-		bindings.put("S", Direction.S);
-		bindings.put("SW", Direction.SW);
-		bindings.put("W", Direction.W);
-		bindings.put("NW", Direction.NW);
-		bindings.put("N", Direction.N);
-		bindings.put("NE", Direction.NE);
-		bindings.put("Random", new Random());
-		bindings.put("ObjetMapLoader", new ObjetMapLoader());
-		bindings.put("ItemLoader", new ItemLoader());
-		bindings.put("direction", Arrays.asList(Direction.values()));
-		bindings.put("currentTimeMillis", System.currentTimeMillis());
-		
-		if (jeu != null) {
-			bindings.put("jeu", jeu);
-			bindings.put("carte", jeu.getCarte());
-			bindings.put("actualcam", jeu.getPanneauDuJeu()
-					.getActualCam());
-		}
-		int idCount = 0;
 		for (int i = 0; i < updatable.size(); i++) {
-			idCount++;
-			String compressScript = updatable.get(i).getCompressScript();
-			String id = "a"+idCount;
-			
-			compressScript = compressScript.replaceAll("cible", id);
-			compressScript = compressScript.replaceAll("himself", id);
-			bindings.put(id, updatable.get(i));
-			
-			//compressScript = compressScript.replaceAll("images", id + "Images");
-			//bindings.put(id + "Images", updatable.get(i).getImage());
-			
-			for(ObjetImage objImg : updatable.get(i).getImage()){
-				if(objImg.getAlias() != null && !objImg.getAlias().equals("")){
-					idCount++;
-					String id2 = "a"+idCount;
-					compressScript = compressScript.replaceAll(objImg.getAlias(), id2);
-					bindings.put(id2, objImg);
-				}
-			}
-			megaCompressScript += compressScript;
 			updatable.get(i).update(jeu);
 		}
-		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
-			String key  = (String)getValuesToAdd().keySet().toArray()[i];
-			bindings.put(key, getValuesToAdd().get(key));
-		}
-		valuesToAdd.clear();
-		if(megaCompressScript != null && !megaCompressScript.equals("")){
-			megaCompressScript = megaCompressScript.replaceAll(Character.valueOf((char) 22).toString(), "");
-			String toLaunch = megaCompressScript;
-			megaCompressScript = "";
-			
-			// Execution du script entr�e
-			try {
-				Jeu.moteurScript.eval(toLaunch, bindings);
-			} catch (ScriptException e) {
-				e.printStackTrace();
-			}
-		}
+		System.out.println(updatable.size());
 	}
 
 	public Entity searchEntity() {
@@ -867,17 +804,5 @@ public class Chunk implements Serializable, Cloneable {
 		this.megaCompressScript = megaCompressScript;
 	}
 
-	public Bindings getValuesToAdd() {
-		if(valuesToAdd == null)
-			valuesToAdd = new SimpleBindings();
-		return valuesToAdd;
-	}
-	public void putValueToAdd(String key,  Object value) {
-		getValuesToAdd().put(key, value);
-	}
-
-	public void setValuesToAdd(Bindings valuesToAdd) {
-		this.valuesToAdd = valuesToAdd;
-	}
 
 }

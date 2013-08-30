@@ -452,21 +452,17 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	protected void hasCollide(ObjetMap objetMap, Jeu jeu) {
 		if (getCollideScript() != null && (!getCollideScript().equals(""))
 				&& jeu != null) {
-				Random r = new Random();
-				String id = "" + Math.abs(r.nextInt());
-				String idHimself = "colH"+id;
-				String idCible = "colC" + id;
-				
-				Chunk chunk = jeu.getCarte().getChunk(this);
+				String idHimself = "sc"+jeu.getCarte().getScriptId();
+				String idCible = "sc" + jeu.getCarte().getScriptId();
 				
 				String collideScript = this.collideScript;
 				collideScript = collideScript.replaceAll("himself", idHimself);
-				chunk.putValueToAdd(idHimself, this);
+				jeu.getCarte().putValueToAdd(idHimself, this);
 				
 				collideScript  = collideScript .replaceAll("cible", idCible);
-				chunk.putValueToAdd(idCible, objetMap);
+				jeu.getCarte().putValueToAdd(idCible, objetMap);
 				
-				chunk.setMegaCompressScript(chunk.getMegaCompressScript() + collideScript);
+				jeu.getCarte().setScriptToLaunch(jeu.getCarte().getScriptToLaunch() + collideScript);
 		}
 		//this.actualTouchedBlocks.clear();
 	}
@@ -909,6 +905,25 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 		if (timesHelps == null)
 			timesHelps = new ArrayList<Chrono>();
+		
+		String compressScript = getCompressScript();
+		String id = "a"+jeu.getCarte().getScriptId();
+		
+		compressScript = compressScript.replaceAll("cible", id);
+		compressScript = compressScript.replaceAll("himself", id);
+		jeu.getCarte().putValueToAdd(id, this);
+		
+		//compressScript = compressScript.replaceAll("images", id + "Images");
+		//bindings.put(id + "Images", updatable.get(i).getImage());
+		
+		for(ObjetImage objImg : getImage()){
+			if(objImg.getAlias() != null && !objImg.getAlias().equals("")){
+				String id2 = "a"+jeu.getCarte().getScriptId();
+				compressScript = compressScript.replaceAll(objImg.getAlias(), id2);
+				jeu.getCarte().putValueToAdd(id2, objImg);
+			}
+		}
+		jeu.getCarte().setScriptToLaunch(jeu.getCarte().getScriptToLaunch() + compressScript);
 	}
 	/** 
 	 * Permet d'updater seul, sans prendre en compte les autres. 
