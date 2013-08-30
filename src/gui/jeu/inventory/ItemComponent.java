@@ -181,13 +181,19 @@ public class ItemComponent extends FComponent implements Cloneable{
 			else{
 				background.getImg().draw(5, 5, getSizeX() - 10, getSizeY() - 10);
 			}
+			//Loading images
 			Image wildImg = ItemRessources.getOneItemRessource(getCibles().get(0).getImg().getImage()).getImg();
 			if(wildImg != null){
+				
+				//Operating modifications.
 				SpriteSheet sprite = new SpriteSheet(wildImg, getCibles().get(0).getImg().getSizeSpriteX(), getCibles().get(0).getImg().getSizeSpriteY());
+				
 				Image img =  sprite.getSprite(getCibles().get(0).getImg().getPosX(), getCibles().get(0).getImg().getPosY());
+				
 				img.draw(getSizeX() / 2 - getCibles().get(0).getImg().getImageSizeInGameX() / 5,
-				getSizeY() / 2 - getCibles().get(0).getImg().getImageSizeInGameY() / 5,
-				getCibles().get(0).getImg().getImageSizeInGameX() / 5 * 2, getCibles().get(0).getImg().getImageSizeInGameX() / 5 * 2);
+						 getSizeY() / 2 - getCibles().get(0).getImg().getImageSizeInGameY() / 5,
+						 getCibles().get(0).getImg().getImageSizeInGameX() / 5 * 2, 
+						 getCibles().get(0).getImg().getImageSizeInGameY() / 5 * 2);
 				if(getCibles().size() > 1){
 					g.drawString(getCibles().size() + "", (int)(getSizeX() - 10 - g.getFont().getWidth(getCibles().size() + "")), (int)(getSizeY() - 10 - g.getFont().getHeight(getCibles().size() + "")));
 				}
