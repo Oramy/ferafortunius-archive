@@ -27,7 +27,7 @@ public class PanneauApercuAnimation extends PanneauApercu{
 	
 	public PanneauApercuAnimation(ChunkMap c, ObjetMap obj, int x, int y,
 			int sizeX, int sizeY, Container parent) {
-		super(obj, x, y, sizeX, sizeY, parent);
+		super(null, obj, x, y, sizeX, sizeY, parent);
 		moveImage = false;
 		follow = true;
 		translate = true;

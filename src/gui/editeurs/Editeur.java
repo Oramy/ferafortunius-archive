@@ -8,6 +8,7 @@ import gui.editeurs.items.EditeurItem;
 import gui.editeurs.objetmaps.EditeurAnimation;
 import gui.editeurs.objetmaps.EditeurCollObjMap;
 import gui.editeurs.objetmaps.EditeurEntity;
+import gui.editeurs.objetmaps.EditeurImageRender;
 import gui.editeurs.objetmaps.EditeurObjetMap;
 
 import org.newdawn.slick.Color;
@@ -44,6 +45,7 @@ public class Editeur extends Container{
 	private EditeurItem 	editeurItem;
 	private Onglet editeurAnimationOnglet;
 	private EditeurAnimation editeurAnimation;
+	private EditeurImageRender editeurImageRender;
 	public Editeur(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
 		this.setGm(gameMain);
@@ -104,6 +106,14 @@ public class Editeur extends Container{
 			collision.setContainer(editeurObjetMapColli);
 			
 			ongletsObj.addComponent(collision);
+			
+			//Images.
+			editeurImageRender = new EditeurImageRender(workedObj, 0, 50, gc.getWidth(), gc.getHeight() - 100, ongletsObj);
+			
+			Onglet imageRenderOnglet = new Onglet("Images", ongletsObj); //$NON-NLS-1$
+			imageRenderOnglet.setContainer(editeurImageRender);
+			
+			ongletsObj.addComponent(imageRenderOnglet);
 			
 			//Entity
 			Onglet editeurEntityOnglet = new Onglet(Messages.getString("Editeur.8"), ongletsObj); //$NON-NLS-1$
@@ -300,6 +310,7 @@ public class Editeur extends Container{
 		if(editeurObjetMapColli != null){
 			editeurObjetMapColli.setObj(workedObj);
 			editeurEntity.setObj(workedObj);
+			editeurImageRender.setObj(workedObj);
 		}
 		this.workedObj = workedObj;
 	}

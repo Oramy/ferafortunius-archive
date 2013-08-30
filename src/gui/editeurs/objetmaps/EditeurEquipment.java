@@ -68,7 +68,7 @@ public class EditeurEquipment extends EditeurItemBasic {
 		Onglet apercu = new Onglet("Apercu", ongletManager);
 		
 		//Chargement de l'éditeur
-		panneauAperc = new PanneauApercu(imgEditor.getObj(), 0, 50, sizeX, sizeY - 50, this);
+		panneauAperc = new PanneauApercu(null, imgEditor.getObj(), 0, 50, sizeX, sizeY - 50, this);
 		apercu.setContainer(panneauAperc);
 		
 		

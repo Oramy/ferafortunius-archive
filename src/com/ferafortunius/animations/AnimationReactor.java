@@ -1,15 +1,13 @@
 package com.ferafortunius.animations;
 
-import ObjetMap.BasicObjetMap;
 import ObjetMap.ObjetImage;
 import ObjetMap.ObjetMap;
 
 import com.oramy.balises.Balise;
-import com.oramy.balises.BaliseRecognizer;
 import com.oramy.balises.converters.BaliseReactor;
 
 public class AnimationReactor implements BaliseReactor{
-	private int cursor;
+	//private int cursor;
 	@Override
 	public void react(Object obj, Balise balise) {
 		if(obj instanceof ObjetMap){

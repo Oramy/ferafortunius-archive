@@ -56,17 +56,29 @@ public class BorderLayout extends Layout{
 	
 	@Override
 	public void updateLayout() {
-		if(getContainer().getComponents().contains(center))
+		boolean centerHere = false;
+		if(getContainer().getComponents().contains(center)){
 			center.setBounds(0, 0, getContainer().getSizeX(), getContainer().getSizeY());
+			centerHere = true;
+		}
 		if(getContainer().getComponents().contains(west)){
 			
-			west.setBounds(0, 0, getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
-			center.setBounds(getContainer().getSizeX() / 10 * 2, 0, getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
-		
+			if(centerHere){
+				west.setBounds(0, 0, getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
+				center.setBounds(getContainer().getSizeX() / 10 * 2, 0, getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
+			}
+			else{
+				west.setBounds(0, 0, getContainer().getSizeX() / 2, getContainer().getSizeY());
+			}
 		}
 		if(getContainer().getComponents().contains(east)){
-			east.setBounds(getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2, 0, getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
-			center.setSizeX(getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2 - center.getX());
+			if(centerHere){
+				east.setBounds(getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2, 0, getContainer().getSizeX() / 10 * 2, getContainer().getSizeY());
+				center.setSizeX(getContainer().getSizeX() -  getContainer().getSizeX() / 10 * 2 - center.getX());
+			}
+			else{
+				east.setBounds(getContainer().getSizeX() / 2 + 10, 0, getContainer().getSizeX() / 2 - 20, getContainer().getSizeY());
+			}
 		}
 		if(getContainer().getComponents().contains(north)){
 			north.setBounds(0, 0, getContainer().getSizeX(), getContainer().getSizeY() / 10 * 2);

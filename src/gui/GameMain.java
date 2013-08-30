@@ -50,6 +50,7 @@ public class GameMain extends BasicGame {
 			//getApp().setSoundVolume(getOptions().getSoundVolume());
 			getApp().setVSync(getOptions().isVsync());
 			getApp().setAlwaysRender(getOptions().isAlwaysRend());
+			getApp().setMultiSample(20);
 			try {
 				getApp().setDisplayMode(gc.getScreenWidth(), gc.getScreenHeight(), true);
 			} catch (SlickException e) {
@@ -84,7 +85,8 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		
+		g.clear();
+		g.setAntiAlias(true);
 		g.setFont(FontRessources.getFonts().text);
 			
 			if(getMode() == ModeJeu.Menu)

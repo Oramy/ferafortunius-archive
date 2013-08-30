@@ -134,19 +134,20 @@ public class ItemComponent extends FComponent implements Cloneable{
 				}
 			}
 			if(followingMouse){
-				this.setX(Mouse.getX());
-				this.setY(parent.getSizeY() - Mouse.getY());
+				this.setX(Mouse.getX() - this.getSizeX() / 2);
+				this.setY(parent.getSizeY() - Mouse.getY() - this.getSizeY() / 2);
 			}
 			long temps = System.currentTimeMillis();
 			if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && lastClick + 400 < temps && nbClick == 1){
+				//Reset du click
 				nbClick = 0;
-				followingMouse = !followingMouse;
+				/*followingMouse = !followingMouse;
 				if(followingMouse){
-					followingMouse = false;
-					
 					ItemComponent c = null;
-					c = (ItemComponent) this.clone();
+					c = this.clone();
 					if(this.parent != this.getRacine()){
+						this.followingMouse = false;
+						
 						c.followingMouse = true;
 						((Container)this.getRacine()).addComponent(c);
 						c.setParent((Container) this.getRacine());
@@ -160,12 +161,18 @@ public class ItemComponent extends FComponent implements Cloneable{
 						x = (int) this.getXOnScreen();
 						y = (int) this.getYOnScreen();
 					}
-				}
+				}*/
 			}
 		}
 		else{
 			parent.getComponents().remove(this);
 		}
+	}
+	public ItemComponent clone(){
+		ItemComponent ic = null;
+		ic = (ItemComponent) super.clone();
+		ic.setCibles(cibles);
+		return ic;
 	}
 	public void draw(Graphics g){
 		g.translate(this.getBounds().x, this.getBounds().y);

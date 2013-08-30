@@ -343,9 +343,6 @@ public class EditeurMap extends Container{
 		this.addComponent(getPanneau());
 	}
 	public void initMenu(){
-		objetMapEditorFrame = new InternalFrame(50, 50, 500, 500, Messages.getString("EditeurMap.19"), this); //$NON-NLS-1$
-		objetMapEditorFrame.getContainer().addComponent(new BasicObjetMapEditor(new BasicObjetMap(0,0,0,0,0,0), 0,0, 500,500, objetMapEditorFrame.getContainer()));
-		
 		menu = new MenuEditeur(0, sizeY / 20 * 18, sizeX, sizeY / 20 * 2, this);
 		this.addComponent(menu);	
 	}

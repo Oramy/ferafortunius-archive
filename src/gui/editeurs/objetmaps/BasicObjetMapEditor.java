@@ -13,6 +13,7 @@ import gui.editeurs.PanneauApercu;
 import gui.inputs.IntLabel;
 import gui.inputs.Label;
 import gui.layouts.GridLayout;
+import gui.layouts.MinHeightLayout;
 
 import observer.ActionListener;
 
@@ -84,13 +85,14 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 	public BasicObjetMapEditor(ObjetMap obj2, int x, int y, int sizeX,
 			int sizeY, Container parent) {
 		super(x, y, sizeX, sizeY, parent);
+		
 		emptyObject = new BasicObjetMap(0, 0, 0, 0, 0, 0);
 		emptyEntity = new BasicEntity(0, 0, 0, 0, 0, 0);
 		// Aperçu
-		apercuCont = new ContainerWithBords(0, 0, sizeX / 3 * 2, sizeY / 3 * 2,
+		apercuCont = new ContainerWithBords(0, 0, sizeX, sizeY / 6 * 4,
 				this);
 
-		apercu = new PanneauApercu(obj2, 10, 10, apercuCont.getSizeX() - 20,
+		apercu = new PanneauApercu(null, obj2, 10, 10, apercuCont.getSizeX() - 20,
 				apercuCont.getSizeY() - 20, apercuCont);
 		if (this.getObj().getImage().size() != 0) {
 			apercu.setActualCam(new Camera(0, -this.getObj().getImage().get(0)
@@ -102,8 +104,8 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		this.addComponent(apercuCont);
 
 		// Checkable
-		checkCont = new ContainerWithBords(sizeX / 3 * 2, 0, sizeX / 3,
-				sizeY / 3, this);
+		checkCont = new ContainerWithBords(sizeX / 2, sizeY / 6 * 4, sizeX / 2,
+				sizeY / 6, this);
 		checkCont.setActualLayout(new GridLayout(1, 6));
 		((GridLayout) checkCont.getActualLayout()).setHgap(10);
 
@@ -169,8 +171,8 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 
 		this.addComponent(checkCont);
 		// Save container
-		saveCont = new ContainerWithBords(sizeX / 3 * 2, sizeY / 3, sizeX / 3,
-				sizeY / 3, this);
+		saveCont = new ContainerWithBords(0, sizeY / 6 * 4, sizeX / 2,
+				sizeY / 6, this);
 		name = new Label(25, 0, saveCont.getSizeX() - 50,
 				saveCont.getSizeY() / 3,
 				Messages.getString("BasicObjetMapEditor.text.4"), "", saveCont); //$NON-NLS-1$ //$NON-NLS-2$
@@ -223,7 +225,7 @@ public class BasicObjetMapEditor extends ContainerWithBords {
 		saveCont.addComponent(newEntity);
 		this.addComponent(saveCont);
 
-		size = new ContainerWithBords(0, sizeY / 3 * 2, sizeX, sizeY / 3, this);
+		size = new ContainerWithBords(0, sizeY / 6 * 5, sizeX, sizeY / 6, this);
 
 		this.sizeXLab = new IntLabel(5, 0, size.getSizeX() / 2 - 10,
 				size.getSizeY() / 3,

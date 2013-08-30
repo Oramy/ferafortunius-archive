@@ -27,6 +27,9 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 	protected static final long serialVersionUID = 1L;
 	protected ObjetMap editChoice;
 	protected ObjetImage draggedObjImg;
+	
+	protected ImgEditor update;
+	
 	protected int oldx;
 	protected int oldy;
 	protected boolean clicked;
@@ -36,11 +39,13 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 	protected int fps;
 	
 	protected boolean translate = false;
- 	public PanneauApercu(ObjetMap obj, int x, int y, int sizeX, int sizeY,
+ 	public PanneauApercu(ImgEditor updateImg, ObjetMap obj, int x, int y, int sizeX, int sizeY,
 			Container parent) {
 		super(new ChunkMap(10000000,1,1,1), x, y, sizeX, sizeY, parent);
 		editChoice = obj;
+		this.update = updateImg;
 		chunkcolor = Color.black;
+		clickable = true;
 		moveImage = true;
 		dragged = false;
 		actualCam.setMinzoom(0.2f);
@@ -210,10 +215,9 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 				if(draggedObjImg != null && isMoveImage()){
 					int newx = gc.getInput().getMouseX();
 					int newy = gc.getInput().getMouseY();
-					draggedObjImg.setDecalageX((int) (draggedObjImg.getDecalageX()+(- oldx + newx)));
-					draggedObjImg.setDecalageY((int) (draggedObjImg.getDecalageY()+(- oldy + newy)));
-					if(parent.getParent().getParent() instanceof EditeurObjetMap){
-						ImgEditor ie = ((EditeurObjetMap)parent.getParent().getParent()).getImgEditor();
+					draggedObjImg.move((int)((- oldx + newx) / actualCam.getZoom()),(int)(( - oldy + newy) / actualCam.getZoom()));
+					ImgEditor ie = update;
+					if(ie != null){
 						for(ObjetImage img : ie.getObj().getImageList(ie.getObj().getCurrentImageList()).getList()){
 							if(draggedObjImg.getAlias() != null){
 								if(draggedObjImg.getAlias().equals(img.getAlias())){

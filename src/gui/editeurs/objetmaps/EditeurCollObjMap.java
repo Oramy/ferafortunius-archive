@@ -21,7 +21,7 @@ public class EditeurCollObjMap extends Container{
 		this.actualLayout = new BorderLayout();
 		collisionList = new WCollisionList(workedObj, this);
 		this.addComponent(BorderLayout.WEST, collisionList);
-		panneauAp = new PanneauApercu(workedObj, 0,0,1,1, this);
+		panneauAp = new PanneauApercu(null, workedObj, 0,0,1,1, this);
 		this.addComponent(BorderLayout.CENTER, panneauAp);
 	}
 	public void setObj(ObjetMap obj){

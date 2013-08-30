@@ -95,7 +95,6 @@ public class Container extends FComponent{
 						
 						if(getComponents().get(i).isInside(mouseX, mouseY)){
 							getComponents().get(i).update(gc, this.getX() + x, this.getY() + y);
-							i = -1;	
 						}
 						else if(getComponents().get(i).alwaysUpdateOnClick){	
 							getComponents().get(i).update(gc, this.getX() + x, this.getY() + y);

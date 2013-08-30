@@ -196,7 +196,6 @@ public class Jeu extends Container implements Cloneable {
 	}
 
 	public void applyOptions(OptionsJeu options) {
-
 	}
 
 	public void cleanGUI() {
