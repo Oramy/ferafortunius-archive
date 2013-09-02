@@ -35,7 +35,6 @@ public class ChooseLabel extends Label{
 		searchButton.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				File f = new File(getSourceFolder()); //$NON-NLS-1$
-				System.out.println(f.getAbsolutePath());
 				if(f.exists() && f.isDirectory()){
 					JFileChooser fc = new JFileChooser(f.getAbsolutePath());
 					int returnVal = fc.showOpenDialog(fc);

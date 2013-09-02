@@ -640,13 +640,12 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			Jeu jeu = (Jeu) pan.getParent();
 			float nightValue = jeu.getTimeController().getNightValue();
 	
+			g.setAntiAlias(false);
 			//Dessin
-			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-					c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
+			img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
 		}
 		else{
-			img.draw(0, 0, c.getImageSizeInGameX() * actualCam.getZoom(),
-					c.getImageSizeInGameY() * actualCam.getZoom(), new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
+			img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
 		}
 		//Si on veut appliquer l'ombre Z
 	

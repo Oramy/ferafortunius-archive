@@ -95,8 +95,6 @@ public class Slider extends FComponent{
 			this.value = valueMax;
 		if(value <= 0)
 			this.value = 0;
-		//System.out.println("Value = " + value);
-		//System.out.println("ValueMax = " + valueMax);
 	}
 	/**
 	 * @return the action

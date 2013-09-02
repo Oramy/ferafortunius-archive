@@ -190,10 +190,11 @@ public class ItemComponent extends FComponent implements Cloneable{
 				
 				Image img =  sprite.getSprite(getCibles().get(0).getImg().getPosX(), getCibles().get(0).getImg().getPosY());
 				
+				img = wildImg.getScaledCopy(0.4f);
+				
 				img.draw(getSizeX() / 2 - getCibles().get(0).getImg().getImageSizeInGameX() / 5,
-						 getSizeY() / 2 - getCibles().get(0).getImg().getImageSizeInGameY() / 5,
-						 getCibles().get(0).getImg().getImageSizeInGameX() / 5 * 2, 
-						 getCibles().get(0).getImg().getImageSizeInGameY() / 5 * 2);
+						 getSizeY() / 2 - getCibles().get(0).getImg().getImageSizeInGameY() / 5);
+				
 				if(getCibles().size() > 1){
 					g.drawString(getCibles().size() + "", (int)(getSizeX() - 10 - g.getFont().getWidth(getCibles().size() + "")), (int)(getSizeY() - 10 - g.getFont().getHeight(getCibles().size() + "")));
 				}

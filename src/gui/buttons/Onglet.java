@@ -31,7 +31,7 @@ public class Onglet extends Button {
 	public void updateManager(GameContainer gc){
 		if(parent instanceof OngletManager){
 			if(((OngletManager)parent).getOngletActuel() != null){
-				if(!((OngletManager)parent).getOngletActuel().equals(this) && this.getSizeY() >= ((OngletManager)parent).getOngletActuel().getSizeY()){
+				if(!((OngletManager)parent).getOngletActuel().equals(this) && this.getSizeY() >= 50){
 					this.setX(this.getX() + 10);
 					setSizeX(getSizeX() - 20);
 					this.setY(this.getY() + 10); 

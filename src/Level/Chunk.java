@@ -754,7 +754,6 @@ public class Chunk implements Serializable, Cloneable {
 		for (int i = 0; i < updatable.size(); i++) {
 			updatable.get(i).update(jeu);
 		}
-		System.out.println(updatable.size());
 	}
 
 	public Entity searchEntity() {
@@ -788,7 +787,6 @@ public class Chunk implements Serializable, Cloneable {
 	public Teleporter getTeleporter(String id) {
 		for(Teleporter tp : teleporters){
 			tp.updateAlone(null, null);
-			System.out.println(tp.getTeleporterId());
 			if(tp.getTeleporterId().equals(id)){
 				return tp;
 			}

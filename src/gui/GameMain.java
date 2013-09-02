@@ -50,7 +50,6 @@ public class GameMain extends BasicGame {
 			//getApp().setSoundVolume(getOptions().getSoundVolume());
 			getApp().setVSync(getOptions().isVsync());
 			getApp().setAlwaysRender(getOptions().isAlwaysRend());
-			getApp().setMultiSample(20);
 			try {
 				getApp().setDisplayMode(gc.getScreenWidth(), gc.getScreenHeight(), true);
 			} catch (SlickException e) {

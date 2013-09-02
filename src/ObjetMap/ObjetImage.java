@@ -352,7 +352,6 @@ public class ObjetImage implements Serializable, Cloneable{
 	}
 	public void setRatio(float ratio) {
 		this.ratio = ratio;
-		System.out.println(this.ratio);
 	}
 	public void moveIn(float x, float y, long time) {
 		Thread t = new Thread(new MoveAnimation(x, y, time, this));

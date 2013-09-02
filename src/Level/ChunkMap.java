@@ -297,9 +297,7 @@ public class ChunkMap implements Serializable, Cloneable{
 				Jeu.moteurScript.eval(toLaunch, bindings);
 			} catch (ScriptException e) {
 				e.printStackTrace();
-			}
-			System.out.println(scriptId + " " +toLaunch.length());
-			
+			}	
 		}
 		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
 			String key  = (String)getValuesToAdd().keySet().toArray()[i];
