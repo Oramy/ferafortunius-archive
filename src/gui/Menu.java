@@ -111,8 +111,8 @@ public class Menu extends Container {
 		this.backgroundMode = Affichage.ImageScaled;
 		this.setBackground(backgroundimages.get(backgroundId)); //$NON-NLS-1$
 		transitionBackground = backgroundimages.get((backgroundId + 1) % backgroundimages.size());
-		
-		
+		transitionBackground.getImg().setAlpha(1f);
+		background.getImg().setAlpha(0f);
 		//Init logo
 		logo = new BasicButtonImage("GUI/logo.png", this);//$NON-NLS-1$
 		logo.x = sizeX / 2 - logo.sizeX / 2;
@@ -168,10 +168,11 @@ public class Menu extends Container {
 									
 									e.printStackTrace();
 								}
-								offset+= 0.001f;
+								offset+= 1f/255f;
 							}
 						}
-							c.toDo = "nouvPart"; //$NON-NLS-1$
+						c.toDo = "nouvPart";
+							 //$NON-NLS-1$
 					}
 				});	
 				t.start();
@@ -340,23 +341,21 @@ public class Menu extends Container {
 	@Override
 	public void drawBackground(Image img){
 		super.drawBackground(img);
-		if(!img.equals(transitionBackground.getImg()))
-			Shader.forceFixedShader();
-		
+			
 	}
 	public void paintComponent(GameContainer container, Graphics g) {
 		
 		g.setFont(FontRessources.getFonts().titres);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, sizeX, sizeY);
-		
 		test.startShader();
 		
 		this.drawBegin(g);
-			
-			transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
-			background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
-			
+			if((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f) <= 1f
+					&& (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f) >= 0f){
+				transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
+				background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));		
+			}
 			drawBackground(transitionBackground.getImg());
 			
 			this.draw(g);
@@ -364,6 +363,8 @@ public class Menu extends Container {
 			g.setColor(transitionColor);
 			g.fillRect(0, 0, getSizeX(), getSizeY());
 		this.drawEnd(g);
+		Shader.forceFixedShader();
+		
 		
 	}
 	public void init(GameContainer gc) {
