@@ -18,7 +18,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import ObjetMap.BasicObjetMap;
@@ -40,14 +39,10 @@ public class Menu extends Container {
 	private int backgroundId;
 	private long tempsPrec;
 	private PImage transitionBackground;
-	private static final PImage logoAFTS = new PImage("aftsLogo.png");;
 	
 	private Color transitionColor;
-	private boolean onLogo;
-	private boolean onLogoAFTS;
 	private String toDo;
-	private boolean onClickLogo;
-	
+
 	private Container buttonContainer;
 	private Button nouvPart;
 	private Button chargerPart;
@@ -58,6 +53,7 @@ public class Menu extends Container {
 	
 	private float offset;
 	
+	private static final int TRANSITION_TIME = 12000;
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
 		
@@ -80,7 +76,6 @@ public class Menu extends Container {
 		//Focus the controller
 		ControllersManager.getFirstController().setControllerContainer(this);
 		
-		onClickLogo = false;
 		
 		
 		offset = 0.000f;
@@ -173,8 +168,6 @@ public class Menu extends Container {
 									
 									e.printStackTrace();
 								}
-								c.transitionColor = new Color(0,0,0, i);
-								Random r = new Random();
 								offset+= 0.001f;
 							}
 						}
@@ -318,20 +311,6 @@ public class Menu extends Container {
 		int my = getSizeY() - Mouse.getY();
 		
 		
-		
-		if(mx > 36 && mx < 135 + 36 && my > 371 && my < 471 + 102){
-			onLogo = true;
-		}
-		else{
-			onLogo = false;
-		}
-		if(onLogo && gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !onClickLogo){
-			onClickLogo = true;
-			
-		}
-		else if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && onClickLogo){
-			onClickLogo = false;
-		}
 		if(toDo.equals("nouvPart")){ //$NON-NLS-1$
 			gm.setMode(ModeJeu.Loading, gm.getApp());
 			
@@ -345,7 +324,7 @@ public class Menu extends Container {
 		else if(toDo.equals("quitter")){ //$NON-NLS-1$
 			System.exit(1);
 		}
-		if(System.currentTimeMillis() - 120000 > tempsPrec){
+		if(System.currentTimeMillis() - TRANSITION_TIME > tempsPrec){
 			tempsPrec = System.currentTimeMillis();
 			backgroundId++;
 			backgroundId  %= backgroundimages.size();
@@ -369,24 +348,18 @@ public class Menu extends Container {
 		
 		g.setFont(FontRessources.getFonts().titres);
 		g.setColor(Color.white);
-		test.startShader();
 		g.fillRect(0, 0, sizeX, sizeY);
+		
+		test.startShader();
+		
 		this.drawBegin(g);
 			
-			transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - 119745) / 255f);
-			background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - 119745) / 255f);
+			transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
+			background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
 			
 			drawBackground(transitionBackground.getImg());
 			
 			this.draw(g);
-			
-			
-			if(!onLogoAFTS){
-				logoAFTS.getImg().draw(getSizeX() - 300, getSizeY() - 400, 256, 354);
-			}else{
-				
-				logoAFTS.getImg().draw(31, 466, 145, 112);
-			}
 			
 			g.setColor(transitionColor);
 			g.fillRect(0, 0, getSizeX(), getSizeY());

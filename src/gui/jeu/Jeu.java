@@ -52,10 +52,7 @@ public class Jeu extends Container implements Cloneable {
 
 	public static long lastUpdate, timeRest;
 	
-	//Manager et moteur de script
-	public static final ScriptEngineManager managerScript = new ScriptEngineManager();
-	public static final ScriptEngine moteurScript = managerScript
-			.getEngineByName("rhino");
+	
 	
 	//Affichage
 	private PanneauJeuAmeliore panneauDuJeu;
@@ -72,9 +69,6 @@ public class Jeu extends Container implements Cloneable {
 	
 	//Application
 	private GameMain gm;
-	
-	//Thread de saut
-	private Thread sauter;
 	
 	//Vitesse
 	private int vitesseDep = 1;
@@ -358,6 +352,7 @@ public class Jeu extends Container implements Cloneable {
 	}
 
 	public void initGUI() {
+		MapLoader.clearAllAutoSaves();
 		//Panneau d'affichage
 		panneauDuJeu = new PanneauJeuAmeliore(carte, 0, 0, getSizeX(),
 				getSizeY(), this);
@@ -377,9 +372,9 @@ public class Jeu extends Container implements Cloneable {
 		 //Menu du jeu
 		this.addComponent(getMenuJeu());
 		
-		//Feêtre de l'inventaire
-		inventaireFrame = new InventaireFrame(this.getWidth() / 2 - 100,
-				this.getHeight() / 2 - 100, 260, 330,
+		//Fenêtre de l'inventaire
+		inventaireFrame = new InventaireFrame(this.getWidth() - 330,
+				this.getHeight() - 400, 260, 330,
 				Messages.getString("Jeu.1"), this, player); //$NON-NLS-1$
 		
 		//Barre de buff
@@ -443,8 +438,11 @@ public class Jeu extends Container implements Cloneable {
 		g.setFont(FontRessources.getFonts().gametitles);
 		g.setColor(new Color(255, 255, 255, (alphaTitreMap)));
 
-		 g.drawString(carte.getNom() + "", sizeX / 2 -
-		 g.getFont().getWidth(carte.getNom()) / 2, 100);	
+		if(carte.getNom() != null)
+		{
+			 g.drawString(carte.getNom() + "", sizeX / 2 -
+				 g.getFont().getWidth(carte.getNom()) / 2, 100);
+		}
 		g.setColor(transitionColor);
 		
 		g.fillRect(0, 0, getSizeX(), getSizeY());
@@ -687,7 +685,7 @@ public class Jeu extends Container implements Cloneable {
 		if (getGm().getApp().getInput()
 				.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)
 				&& !clickonsurlign) {
-				Bindings bindings = moteurScript
+				Bindings bindings = ScriptManager.moteurScript
 						.getBindings(ScriptContext.ENGINE_SCOPE);
 				bindings.clear();
 				// Ajout de la variable entree dans le script
@@ -703,7 +701,7 @@ public class Jeu extends Container implements Cloneable {
 					if (panneauDuJeu.getSurlignObject().getClickScript() != null
 							&& panneauDuJeu.getSurlignObject().getClickScript() != "")
 						try {
-							moteurScript.eval(panneauDuJeu.getSurlignObject()
+							ScriptManager.moteurScript.eval(panneauDuJeu.getSurlignObject()
 									.getClickScript(), bindings);
 						} catch (ScriptException e) {
 							e.printStackTrace();
@@ -726,23 +724,6 @@ public class Jeu extends Container implements Cloneable {
 				player.setSpeed(vitesseDep);
 			}
 			
-			//Saut
-			if (gc.getInput().isKeyDown(Input.KEY_SPACE)) {
-				if (sauter != null) {
-					if (!sauter.isAlive()) {
-						sauter = new Thread(new RunJump(this, carte, player,
-								player.getSizeZ(), 250, player.getId()));
-						sauter.start();
-						player.addBonus(new Life(-5, player));
-					}
-				} else {
-					sauter = new Thread(new RunJump(this, carte, player,
-							player.getSizeZ(), 250, player.getId()));
-					sauter.start();
-					player.addBonus(new Life(-5, player));
-				}
-				player.decreaseMp(2);
-			}
 			// Touches directionnelles.
 			if ((gc.getInput().isKeyDown(Input.KEY_Q) || gc.getInput()
 					.isControllerLeft(0))

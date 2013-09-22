@@ -1,29 +1,16 @@
 package gui.editeurs.objetmaps;
 
 import gui.Container;
-import gui.FComponent;
 import gui.Text;
-import gui.buttons.Button;
 import gui.buttons.Onglet;
 import gui.buttons.OngletManager;
 import gui.editeurs.Editeur;
 import gui.editeurs.Messages;
 import gui.inputs.ProgrammTextArea;
-import gui.jeu.Jeu;
-
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;
 
-import Level.Camera;
 import ObjetMap.BasicObjetMap;
-import ObjetMap.Chrono;
 import ObjetMap.ObjetMap;
 
 
@@ -33,7 +20,6 @@ public class EditeurObjetMap extends Container{
 	 */
 	private static final long serialVersionUID = 1L;
 	private BasicObjetMapEditor objEditor;
-	private Button evaluate;
 	private Text console;
 	
 	//Scripts

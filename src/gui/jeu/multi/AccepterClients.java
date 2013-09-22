@@ -21,6 +21,7 @@ public class AccepterClients implements Runnable {
 		try {
 			while(true){
 				socket = socketserver.accept(); // Un client se connecte on l'accepte
+				socket.setSoTimeout(0);
 				//nbrclient++;
 				Thread t = new Thread(new Authentification(socket, serveur));
 				t.start();

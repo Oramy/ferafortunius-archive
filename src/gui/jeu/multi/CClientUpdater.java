@@ -1,6 +1,6 @@
-package gui.jeu;
+package gui.jeu.multi;
 
-import gui.jeu.multi.Client;
+import gui.jeu.ObjMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,6 +50,7 @@ public class CClientUpdater implements Runnable{
 		client.getJeu().getCarte().getChunk(o).addContenu(o, id);
 	}
 	public void removeData(ObjetMap o){
+		if(o != null)
 		client.getJeu().getCarte().getChunk(o).getContenu().remove(o);
 	}
 	public int removeDatCoords(ObjetMap o){
@@ -59,8 +60,11 @@ public class CClientUpdater implements Runnable{
 		return id;
 	}
 	public void executeMessage(ObjMessage mail){
-		if(mail.getAction() == 'u')
+		System.out.println(mail.getAction());
+		
+		if(mail.getAction() == 'u'){
 			updateData(mail.getObject());
+		}
 		if(mail.getAction() == 'a')
 			addData(mail.getObject());
 		if(mail.getAction() == 'r')
@@ -70,14 +74,17 @@ public class CClientUpdater implements Runnable{
 		for(int i = 0, c = serverMessages.size(); i < c; i++)
 		{
 			executeMessage(serverMessages.get(i));
-			serverMessages.remove(i);
 		}
+		serverMessages.clear();
 	}
 	public void getServerMessages(){
 		try {
 			ObjMessage message;
 			message = (ObjMessage)(ois.readObject());
-			serverMessages.add(message);			
+			serverMessages.add(message);
+			
+			message = (ObjMessage)(ois.readObject());
+			serverMessages.add(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -93,20 +100,23 @@ public class CClientUpdater implements Runnable{
 			c.getChunk(p).addContenu(p);
 			client.getJeu().setCarte(c);
 			client.getJeu().getPanneauDuJeu().setCarte(c);
-			
+			c.getChunk(p).getUpdatable().remove(p);
 			while(serveur.isConnected()){
 					Entity pclone = (Entity) p.clone();
 					oos.writeObject(pclone);
 					oos.flush();
+					
 					try {
 						Thread.sleep(16);
 					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					getServerMessages();
 					executeMessages();
-					
 			}
+			client.getJeu().addDialog("Deconnexion");
 			serveur.close();
 		} catch (IOException e1) {
 			client.getJeu().addDialog(e1.getMessage());
@@ -114,6 +124,8 @@ public class CClientUpdater implements Runnable{
 		} catch (ClassNotFoundException e1) {
 			client.getJeu().addDialog(e1.getMessage());
 			e1.printStackTrace();
+		}finally{
+			System.out.println("Deconnexion");
 		}
   
 	}

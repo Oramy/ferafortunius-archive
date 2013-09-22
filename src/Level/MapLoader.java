@@ -66,8 +66,18 @@ public class MapLoader {
 		}
 	}
 	public static final void clearAllAutoSaves(){
-		for(int i = 0; i < 9; i++){
-			File f =  new File("data/Maps/");
+		clearAllAutoSaves("data/Maps/");
+	}
+	private static final void clearAllAutoSaves(String path){
+		File f =  new File(path);
+		if(f.isDirectory()){
+			File[] files = f.listFiles();
+			for(File file : files){
+				clearAllAutoSaves(file.getPath());
+			}
+		}
+		else if(f.getPath().matches(".*$[1-9].dat")){
+			f.delete();
 		}
 	}
 	public static final boolean hasAutoSave(String path){

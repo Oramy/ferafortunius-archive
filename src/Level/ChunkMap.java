@@ -1,6 +1,7 @@
 package Level;
 
 import gui.jeu.Jeu;
+import gui.jeu.ScriptManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import javax.script.SimpleBindings;
 import ObjetMap.Direction;
 import ObjetMap.Ensemble;
 import ObjetMap.Entity;
-import ObjetMap.ObjetImage;
 import ObjetMap.ObjetMap;
 import ObjetMap.Teleporter;
 
@@ -80,6 +80,7 @@ public class ChunkMap implements Serializable, Cloneable{
 	}
 	public ChunkMap clone(){
 		ChunkMap o = new ChunkMap(chunksSize, mapSizeX, mapSizeY, mapSizeZ);
+		o.setNom(nom);
 		for(int i = 0; i < mapSizeX; i++){
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
@@ -256,7 +257,7 @@ public class ChunkMap implements Serializable, Cloneable{
 			}
 		}
 		
-		Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
+		Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 		bindings.clear();
 		
 		bindings.clear();
@@ -294,10 +295,9 @@ public class ChunkMap implements Serializable, Cloneable{
 			
 			// Execution du script entr�e
 			try {
-				Jeu.moteurScript.eval(toLaunch, bindings);
+				ScriptManager.moteurScript.eval(toLaunch, bindings);
 			} catch (ScriptException e) {
-				e.printStackTrace();
-			}	
+			}
 		}
 		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){
 			String key  = (String)getValuesToAdd().keySet().toArray()[i];

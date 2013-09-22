@@ -13,8 +13,6 @@ import gui.editeurs.PanneauApercu;
 import gui.inputs.IntLabel;
 import gui.inputs.Label;
 import gui.layouts.GridLayout;
-import gui.layouts.MinHeightLayout;
-
 import observer.ActionListener;
 
 import org.newdawn.slick.GameContainer;

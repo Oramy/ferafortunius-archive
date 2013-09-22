@@ -4,18 +4,9 @@ import gui.jeu.Jeu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptException;
-import javax.script.SimpleBindings;
-
-import ObjetMap.Direction;
 import ObjetMap.Ensemble;
 import ObjetMap.Entity;
-import ObjetMap.ObjetImage;
 import ObjetMap.ObjetMap;
 import ObjetMap.Teleporter;
 

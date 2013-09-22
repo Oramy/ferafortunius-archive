@@ -192,6 +192,7 @@ public class ItemComponent extends FComponent implements Cloneable{
 				
 				img = wildImg.getScaledCopy(0.4f);
 				
+				//Drawing
 				img.draw(getSizeX() / 2 - getCibles().get(0).getImg().getImageSizeInGameX() / 5,
 						 getSizeY() / 2 - getCibles().get(0).getImg().getImageSizeInGameY() / 5);
 				
@@ -200,7 +201,8 @@ public class ItemComponent extends FComponent implements Cloneable{
 				}
 				if(getCibles().get(0).getOwner() != null){
 					if(getCibles().get(0).getOwner().getEquipment().getContents().contains(getCibles().get(0))){
-							EquipmentDescription.equipe.getImg().draw(10, getSizeY() - EquipmentDescription.equipe.getImg().getHeight() / 6 - 10, EquipmentDescription.equipe.getImg().getWidth() / 6,  EquipmentDescription.equipe.getImg().getHeight() / 6);
+						//Si l'item équipé, on l'indique  !
+						EquipmentDescription.equipe.getImg().draw(10, getSizeY() - EquipmentDescription.equipe.getImg().getHeight() / 6 - 10, EquipmentDescription.equipe.getImg().getWidth() / 6,  EquipmentDescription.equipe.getImg().getHeight() / 6);
 						
 					}
 				}

@@ -33,9 +33,9 @@ public class SClientUpdater implements Runnable {
 		persoClient.setChunkY(p.getChunkY());
 		persoClient.setChunkZ(p.getChunkZ());
 		persoClient.setImage(p.getImage());
-		
+		persoClient.setUpdate(true);
 		if(!serveur.getJeu().getCarte().getChunk(persoClient).getContenu().contains(persoClient)){
-			serveur.getJeu().getCarte().getChunks()[0][0][0].addContenu(persoClient);
+			serveur.getJeu().getCarte().getChunk(persoClient).addContenu(persoClient);
 		}
 	}
 	public void sendMessage(ObjMessage obj){
@@ -49,20 +49,23 @@ public class SClientUpdater implements Runnable {
 	@Override
 	public void run() {
 	    try {
+	    	
 	    	ChunkMap s = serveur.getJeu().getCarte().clone();
 			oos.writeObject(s);
 			oos.flush();
-    		
-			do{
+    		do{
 				Entity p  = (Entity) ois.readObject();	
 				
 				if(persoClient == null)
 					persoClient = p;
-	
+
 				syncCaracs(p);
 				
 				ObjMessage player = new ObjMessage(serveur.getJeu().getPlayer(), 'u');
 				sendMessage(player);
+				
+				ObjMessage persoClient = new ObjMessage(this.persoClient, 'u');
+				sendMessage(persoClient);
 				
 			}while(client.isConnected());
 			serveur.getJeu().addDialog("Un client s'est déconnecté");

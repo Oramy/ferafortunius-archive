@@ -9,10 +9,8 @@ public class Potion extends Utility{
 	 * 
 	 */
 	private static final long serialVersionUID = -5664922540983133183L;
-	private int capacite;
 	public Potion(Entity owner) {
 		super(owner);
-		capacite = 5;
 		this.weight = 5;
 		this.name = "Potion de vie mineure";
 		this.img = new ObjetImage("Items/potion1.png");

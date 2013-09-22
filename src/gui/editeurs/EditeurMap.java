@@ -10,7 +10,6 @@ import gui.ScrollBar;
 import gui.buttons.Button;
 import gui.buttons.ButtonObjetMap;
 import gui.buttons.CheckBox;
-import gui.editeurs.objetmaps.BasicObjetMapEditor;
 import gui.layouts.GridLayout;
 import gui.layouts.MinHeightLayout;
 
@@ -51,7 +50,6 @@ public class EditeurMap extends Container{
 	private Camera cam;
 	private GameMain gm;
 	private MenuEditeur menu;
-	private InternalFrame objetMapEditorFrame;
 	private	String maptoLoad = ""; //$NON-NLS-1$
 	private String toDo = ""; //$NON-NLS-1$
 	private EditeurMode editeurMode;

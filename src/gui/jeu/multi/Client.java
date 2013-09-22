@@ -1,7 +1,6 @@
 package gui.jeu.multi;
 
 import gui.Text;
-import gui.jeu.CClientUpdater;
 import gui.jeu.Jeu;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class Client{
 		try {
 		
 				socket = new Socket(InetAddress.getByName("localhost"),2009);	
-			
+				socket.setSoTimeout(10000);
 				if(!jeu.getOptionsFen().getIp().getInput().getContenu().equals(""))
 					socket = new Socket(InetAddress.getByName(jeu.getOptionsFen().getIp().getInput().getContenu()),2009);	
 				

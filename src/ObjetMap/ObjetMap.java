@@ -4,6 +4,7 @@ package ObjetMap;
 import gui.Text;
 import gui.jeu.Jeu;
 import gui.jeu.PanneauJeuAmeliore;
+import gui.jeu.ScriptManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import org.newdawn.slick.Image;
 
 import Level.ArrayIterator;
 import Level.Camera;
-import Level.Chunk;
 import Level.ChunkMap;
 import Level.Iterator;
 
@@ -953,7 +953,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		if (!finalScript.equals("")) {
 			try {
 
-				Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
+				Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 				bindings.clear();
 				// Ajout de la variable entree dans le script
 				bindings.put("himself", this);
@@ -993,7 +993,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 				//Suppression des caractères louches.
 				finalScript = finalScript.replaceAll(Character.toString((char) 22), "");
 				// Execution du script entrï¿½e
-				Jeu.moteurScript.eval(finalScript, bindings);
+				ScriptManager.moteurScript.eval(finalScript, bindings);
 				
 			} catch (ScriptException e) {
 				e.printStackTrace();

@@ -1,6 +1,7 @@
 package ObjetMap;
 
 import gui.jeu.Jeu;
+import gui.jeu.ScriptManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class Animation implements Serializable, Cloneable{
 		String compressScript = getCompressScript();
 		try { 
 
-			Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
+			Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 			bindings.clear(); 
 			//Ajout de la variable entree dans le script
 			bindings.put("cible", o);
@@ -69,7 +70,7 @@ public class Animation implements Serializable, Cloneable{
 					bindings.put(objImg.getAlias(), objImg);
 			}
 			//Execution du script entr�e
-			Jeu.moteurScript.eval(compressScript, bindings);
+			ScriptManager.moteurScript.eval(compressScript, bindings);
 		} catch (ScriptException e) { 
 			e.printStackTrace(); 
 		} 
@@ -82,7 +83,7 @@ public class Animation implements Serializable, Cloneable{
 		String compressScript = getCompressScript();
 		try { 
 
-			Bindings bindings = Jeu.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
+			Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
 			bindings.clear(); 
 			//Ajout de la variable entree dans le script
 			bindings.put("cible", o);
@@ -95,7 +96,7 @@ public class Animation implements Serializable, Cloneable{
 					bindings.put(objImg.getAlias(), objImg);
 			}
 			//Execution du script entr�e
-			Jeu.moteurScript.eval(compressScript, bindings);
+			ScriptManager.moteurScript.eval(compressScript, bindings);
 		} catch (ScriptException e) { 
 			e.printStackTrace(); 
 		} 

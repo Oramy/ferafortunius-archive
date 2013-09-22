@@ -3,11 +3,14 @@ package gui.editeurs.objetmaps;
 import gui.Container;
 import gui.editeurs.PanneauApercu;
 import gui.layouts.BorderLayout;
-import gui.widgets.WCollisionList;
 import ObjetMap.ObjetMap;
 
 public class EditeurImageRender extends Container{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ImgEditor imgEditor;
 	private PanneauApercu panneauAp;
 	public EditeurImageRender(ObjetMap workedObj, int x, int y, int sizeX, int sizeY, Container parent) {

@@ -113,14 +113,14 @@ public class ObjetImage implements Serializable, Cloneable{
 	public void extend(float prop){
 		imageSizeInGameX = (int)((float)imageSizeInGameX * prop + 0.5f);
 		imageSizeInGameY = (int)((float)imageSizeInGameY * prop + 0.5f);
-		rotationCenterX = (int)((float)rotationCenterX * prop);
-		rotationCenterY = (int)((float)rotationCenterY * prop);
+		rotationCenterX = (int)((float)rotationCenterX * prop + 0.5f);
+		rotationCenterY = (int)((float)rotationCenterY * prop + 0.5f);
 	}
 	public void reduce(float prop){
 		imageSizeInGameX = (int)((float)imageSizeInGameX / prop + 0.5f);
 		imageSizeInGameY = (int)((float)imageSizeInGameY / prop + 0.5f);
-		rotationCenterX = (int)((float)rotationCenterX / prop);
-		rotationCenterY = (int)((float)rotationCenterY / prop);
+		rotationCenterX = (int)((float)rotationCenterX / prop + 0.5f);
+		rotationCenterY = (int)((float)rotationCenterY / prop + 0.5f);
 	}
 	public void move(int x, int y){
 		if(ratio == 0f )
