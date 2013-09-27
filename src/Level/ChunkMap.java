@@ -13,6 +13,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
+import maths.Trigonometry;
 import ObjetMap.Direction;
 import ObjetMap.Ensemble;
 import ObjetMap.Entity;
@@ -272,6 +273,7 @@ public class ChunkMap implements Serializable, Cloneable{
 		bindings.put("N", Direction.N);
 		bindings.put("NE", Direction.NE);
 		bindings.put("Random", new Random());
+		bindings.put("Trigonometry", new Trigonometry());
 		bindings.put("ObjetMapLoader", new ObjetMapLoader());
 		bindings.put("ItemLoader", new ItemLoader());
 		bindings.put("direction", Arrays.asList(Direction.values()));
@@ -297,6 +299,7 @@ public class ChunkMap implements Serializable, Cloneable{
 			try {
 				ScriptManager.moteurScript.eval(toLaunch, bindings);
 			} catch (ScriptException e) {
+				e.printStackTrace();
 			}
 		}
 		for(int i = 0, c = getValuesToAdd().size(); i < c; i++){

@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import maths.Trigonometry;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -29,8 +29,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Vector2f;
 
-import thread.RunJump;
 import Items.Item;
 import Level.Camera;
 import Level.ChunkMap;
@@ -42,7 +42,6 @@ import ObjetMap.Direction;
 import ObjetMap.Entity;
 import ObjetMap.ObjetMap;
 import bonus.ItemBonus;
-import bonus.Life;
 
 public class Jeu extends Container implements Cloneable {
 	/**
@@ -128,10 +127,6 @@ public class Jeu extends Container implements Cloneable {
 			text = new Text(t, true, this);
 		addDialog(text);
 	}
-	public void moveDialogBarTo(ObjetMap o){
-		dialogBar.setX(o.getXOnScreen(this) - dialogBar.getSizeX() / 2);
-		dialogBar.setY(o.getYOnScreen(this) - 50);
-	}
 	public void addDialog(Text t) {
 		t.setDisplay(getGameTextDisplayMode());
 		t.setDisplayInt(0);
@@ -139,15 +134,14 @@ public class Jeu extends Container implements Cloneable {
 			dialogList = new ArrayList<Text>();
 		dialogList.add(t);
 	}
-
 	public void addFileDialog(String file) {
 		addDialog(DialogsRessources.loadText(file));
 	}
-	
 
 	public void addItem(Item t) {
 		player.getInventaire().addContent(t);
 	}
+	
 
 	public void addItem(String s) {
 		Item t = ItemLoader.loadObject("data/Items/" + s); //$NON-NLS-1$
@@ -159,30 +153,6 @@ public class Jeu extends Container implements Cloneable {
 		player.addBonus(new ItemBonus(t, 1, player));
 	}
 
-	public void setAmbianceMusic(String path, float pitch, float volume){
-		if(ambianceMusic != null)
-		ambianceMusic.stop();
-		try {
-			ambianceMusic = new Music("Music/" + path);
-			ambianceMusic.loop(pitch, volume);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
-	public void setAmbianceMusic(String path, float pitch){
-		setAmbianceMusic(path, pitch, 1.0f);
-	}
-	public void setAmbianceMusic(String path){
-		setAmbianceMusic(path, 1.0f, 1.0f);
-	}
-	public void playSound(String path, float pitch, float volume){
-		try {
-			Sound ambianceMusic = new Sound("Music/" + path);
-			ambianceMusic.play(pitch, volume);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
 	public void addItemBonus(String s) {
 		Item t = ItemLoader.loadObject("data/Items/" + s); //$NON-NLS-1$
 		t.setOwner(player);
@@ -191,17 +161,39 @@ public class Jeu extends Container implements Cloneable {
 
 	public void applyOptions(OptionsJeu options) {
 	}
-
 	public void cleanGUI() {
 		while (components.size() != 0)
 			components.remove(0);
 	}
-
 	public void closeInventory() {
 		if (this.components.contains(inventaireFrame))
 			this.components.remove(inventaireFrame);
 	}
-
+	@Override
+	public void draw(Graphics g) {
+		g.translate(this.getX(), this.getY());
+		if(background != null)
+		drawBackground(background.getImg());
+		if(getComponents().size() != 0)
+		{
+			if((GameMain.options.isScreenshotGUI() && GameMain.imprEcran) || !GameMain.imprEcran){
+				for(int i = 0; i < getComponents().size(); i++){
+					
+					getComponents().get(i).drawBegin(g);
+					getComponents().get(i).draw(g);
+					getComponents().get(i).drawEnd(g);
+					
+				}
+			}
+			else{
+				panneauDuJeu.drawBegin(g);
+				panneauDuJeu.draw(g);
+				panneauDuJeu.drawEnd(g);
+			}
+				
+		}
+		g.translate(-this.getX(), -this.getY());
+	}
 	/**
 	 * @return the cameraPerso
 	 */
@@ -225,6 +217,10 @@ public class Jeu extends Container implements Cloneable {
 	 */
 	public DialogBar getDialogBar() {
 		return dialogBar;
+	}
+
+	public ObjetMap getDialogFollow() {
+		return dialogFollow;
 	}
 
 	/**
@@ -255,6 +251,30 @@ public class Jeu extends Container implements Cloneable {
 		return idPersoJoueur;
 	}
 
+	public MenuJeuContainer getMenuJeu() {
+		return menuJeu;
+	}
+
+	private Direction getMiddleToPointDirection(float x, float y){
+		return getMiddleToPointDirection(new Vector2f(x,y));
+	}
+
+	/**
+	 * Return a 2Diso direction with the mouse coordinates.
+	 * It uses the middle of the screen as a reference point.
+	 * @param point A vector with a point position.
+	 * @return an iso direction.
+	 */
+	private Direction getMiddleToPointDirection(Vector2f point){
+		float angle = Trigonometry.getXAxisAngle(new Vector2f(this.getWidth() / 2, this.getHeight() / 2), point);
+			
+		int dir = ((int) ((angle + 22.5f) / 45) + 2) % 8;
+		if(dir != 0  && dir != 4){
+			dir = (8 - dir) % 8;
+		}
+		return Direction.values()[dir];
+	}
+
 	/**
 	 * @return the optionsFen
 	 */
@@ -274,6 +294,10 @@ public class Jeu extends Container implements Cloneable {
 	 */
 	public Entity getPlayer() {
 		return player;
+	}
+
+	public TimeController getTimeController() {
+		return timeController;
 	}
 
 	public void init(GameContainer gc, ChunkMap c) {
@@ -391,13 +415,13 @@ public class Jeu extends Container implements Cloneable {
 				Messages.getString("Jeu.0"), GameMain.getOptions(), this)); //$NON-NLS-1$
 	}
 
+
 	public void inverseInventory() {
 		if (this.components.contains(inventaireFrame))
 			closeInventory();
 		else
 			openInventory();
 	}
-
 
 	/**
 	 * @return the cliente
@@ -413,12 +437,16 @@ public class Jeu extends Container implements Cloneable {
 		return server;
 	}
 
+	public void moveDialogBarTo(ObjetMap o){
+		dialogBar.setX(o.getXOnScreen(this) - dialogBar.getSizeX() / 2);
+		dialogBar.setY(o.getYOnScreen(this) - 50);
+	}
+
 	public boolean noDialogs() {
 		if (dialogList.size() == 0)
 			return true;
 		return false;
 	}
-
 	public void openInventory() {
 		this.addComponent(inventaireFrame);
 	}
@@ -456,30 +484,33 @@ public class Jeu extends Container implements Cloneable {
 		
 		g.setColor(Color.white);				
 	}
-	@Override
-	public void draw(Graphics g) {
-		g.translate(this.getX(), this.getY());
-		if(background != null)
-		drawBackground(background.getImg());
-		if(getComponents().size() != 0)
-		{
-			if((GameMain.options.isScreenshotGUI() && GameMain.imprEcran) || !GameMain.imprEcran){
-				for(int i = 0; i < getComponents().size(); i++){
-					
-					getComponents().get(i).drawBegin(g);
-					getComponents().get(i).draw(g);
-					getComponents().get(i).drawEnd(g);
-					
-				}
-			}
-			else{
-				panneauDuJeu.drawBegin(g);
-				panneauDuJeu.draw(g);
-				panneauDuJeu.drawEnd(g);
-			}
-				
+
+	public void playSound(String path, float pitch, float volume){
+		try {
+			Sound ambianceMusic = new Sound("Music/" + path);
+			ambianceMusic.play(pitch, volume);
+		} catch (SlickException e) {
+			e.printStackTrace();
 		}
-		g.translate(-this.getX(), -this.getY());
+	}
+	
+	public void setAmbianceMusic(String path){
+		setAmbianceMusic(path, 1.0f, 1.0f);
+	}
+
+	public void setAmbianceMusic(String path, float pitch){
+		setAmbianceMusic(path, pitch, 1.0f);
+	}
+
+	public void setAmbianceMusic(String path, float pitch, float volume){
+		if(ambianceMusic != null)
+		ambianceMusic.stop();
+		try {
+			ambianceMusic = new Music("Music/" + path);
+			ambianceMusic.loop(pitch, volume);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -499,7 +530,7 @@ public class Jeu extends Container implements Cloneable {
 		alphaTitreMap = 300;
 		panneauDuJeu.setCarte(carte);
 	}
-	
+
 	public void setCarte(String path) {
 		ChunkMap carte = MapLoader.loadMap(path);
 		this.carte = carte;
@@ -521,6 +552,10 @@ public class Jeu extends Container implements Cloneable {
 	 */
 	public void setDialogBar(DialogBar dialogBar) {
 		this.dialogBar = dialogBar;
+	}
+
+	public void setDialogFollow(ObjetMap dialogFollow) {
+		this.dialogFollow = dialogFollow;
 	}
 
 	/**
@@ -554,7 +589,9 @@ public class Jeu extends Container implements Cloneable {
 	public void setIdPersoJoueur(int idPersoJoueur) {
 		this.idPersoJoueur = idPersoJoueur;
 	}
-
+	public void setMenuJeu(MenuJeuContainer menuJeu) {
+		this.menuJeu = menuJeu;
+	}
 	/**
 	 * @param optionsFen
 	 *            the optionsFen to set
@@ -562,7 +599,6 @@ public class Jeu extends Container implements Cloneable {
 	public void setOptionsFen(OptionsJeuFrame optionsFen) {
 		this.optionsFen = optionsFen;
 	}
-
 	/**
 	 * @param panneauDuJeu
 	 *            the panneauDuJeu to set
@@ -570,7 +606,6 @@ public class Jeu extends Container implements Cloneable {
 	public void setPanneauDuJeu(PanneauJeuAmeliore panneauDuJeu) {
 		this.panneauDuJeu = panneauDuJeu;
 	}
-
 	/**
 	 * @param personnage
 	 *            the personnage to set
@@ -578,7 +613,7 @@ public class Jeu extends Container implements Cloneable {
 	public void setPlayer(Entity player) {
 		this.player = player;
 	}
-
+	
 	/**
 	 * @param servere
 	 *            the servere to set
@@ -586,18 +621,8 @@ public class Jeu extends Container implements Cloneable {
 	public void setServer(boolean servere) {
 		this.server = servere;
 	}
-
-	public void teleport(String map, int chunkx, int chunky, int chunkz, int x,
-			int y, int z) {
-		setCarte(MapLoader.loadMap("data/Maps/" + map + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
-		player.setPosition(chunkx, chunky, chunkz, x, y, z);
-		carte.getChunk(player).addContenu(player);
-	}
-
-	public void teleport(String map, ObjetMap o) {
-		setCarte(MapLoader.loadMap("data/Maps/" + map + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
-		player.setPosition(o);
-		carte.getChunk(o).addContenu(player);
+	public void setTimeController(TimeController timeController) {
+		this.timeController = timeController;
 	}
 	public void teleport(int chunkx, int chunky, int chunkz, int x,
 			int y, int z) {
@@ -608,6 +633,28 @@ public class Jeu extends Container implements Cloneable {
 		player.setPosition(o);
 		carte.getChunk(player).addContenu(player);
 	}
+	public void teleport(String map, int chunkx, int chunky, int chunkz, int x,
+			int y, int z) {
+		setCarte(MapLoader.loadMap("data/Maps/" + map + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
+		player.setPosition(chunkx, chunky, chunkz, x, y, z);
+		carte.getChunk(player).addContenu(player);
+	}
+	public void teleport(String map, ObjetMap o) {
+		setCarte(MapLoader.loadMap("data/Maps/" + map + ".dat")); //$NON-NLS-1$ //$NON-NLS-2$
+		player.setPosition(o);
+		carte.getChunk(o).addContenu(player);
+	}
+	public void update(GameContainer gc, int arg1) {
+		super.update(gc, this.getX(), this.getY());
+		
+		updateGame(gc, arg1);
+	}
+
+	@Override
+	public void updateController(GameContainer gc) {
+		updateKeys(gc);
+	}
+
 	public void updateGame(GameContainer gc, int arg1){
 		long temps = System.currentTimeMillis();
 		
@@ -661,55 +708,7 @@ public class Jeu extends Container implements Cloneable {
 				+ "ms");
 		lastUpdate = System.currentTimeMillis();
 	}
-	public void update(GameContainer gc, int arg1) {
-		super.update(gc, this.getX(), this.getY());
-		
-		updateGame(gc, arg1);
-	}
-	
-	private void updateMouse(GameContainer gc){
-		int mouse = Mouse.getDWheel();
-		if (mouse > 0) {
-			panneauDuJeu.getActualCam().setZoom(
-					panneauDuJeu.getActualCam().getZoom() * 1.2f);
-		} else if (mouse < 0) {
-			panneauDuJeu.getActualCam().setZoom(
-					panneauDuJeu.getActualCam().getZoom() / 1.2f);
-		}
-		
-		if (!getGm().getApp().getInput()
-				.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)
-				&& clickonsurlign) {
-			clickonsurlign = false;
-		}
-		if (getGm().getApp().getInput()
-				.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)
-				&& !clickonsurlign) {
-				Bindings bindings = ScriptManager.moteurScript
-						.getBindings(ScriptContext.ENGINE_SCOPE);
-				bindings.clear();
-				// Ajout de la variable entree dans le script
-				bindings.put("himself", panneauDuJeu.getSurlignObject()); //$NON-NLS-1$
-				bindings.put("newcam", new Camera(0, 0, 1f, getCarte())); //$NON-NLS-1$
-				bindings.put("emptytext", new Text("", getDialogBar())); //$NON-NLS-1$ //$NON-NLS-2$
-				bindings.put(
-						"emptychrono", new Chrono(System.currentTimeMillis(), "Real time")); //$NON-NLS-1$ //$NON-NLS-2$
-				bindings.put("currentTimeMillis", System.currentTimeMillis()); //$NON-NLS-1$
-				bindings.put("jeu", this); //$NON-NLS-1$
-				
-				if (panneauDuJeu.getSurlignObject() != null) {
-					if (panneauDuJeu.getSurlignObject().getClickScript() != null
-							&& panneauDuJeu.getSurlignObject().getClickScript() != "")
-						try {
-							ScriptManager.moteurScript.eval(panneauDuJeu.getSurlignObject()
-									.getClickScript(), bindings);
-						} catch (ScriptException e) {
-							e.printStackTrace();
-						}
-				}
-				clickonsurlign = true;
-		}
-	}
+
 	private void updateKeys(GameContainer gc) {
 		if (tempsDepPrec + vitessePerso < System.currentTimeMillis()) {
 			tempsDepPrec = System.currentTimeMillis();
@@ -768,12 +767,12 @@ public class Jeu extends Container implements Cloneable {
 				player.walk(this);
 			} 
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
-				player.setDirection(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+				player.setDirection(getMiddleToPointDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
-				player.walkAnim(getMouseDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+				player.walkAnim(getMiddleToPointDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
 				player.walk(this);
 			}
 			
@@ -808,40 +807,51 @@ public class Jeu extends Container implements Cloneable {
 		}
 		updateShortcuts(gc);
 	}
-	@Override
-	public void updateController(GameContainer gc) {
-		updateKeys(gc);
+
+	private void updateMouse(GameContainer gc){
+		int mouse = Mouse.getDWheel();
+		if (mouse > 0) {
+			panneauDuJeu.getActualCam().setZoom(
+					panneauDuJeu.getActualCam().getZoom() * 1.2f);
+		} else if (mouse < 0) {
+			panneauDuJeu.getActualCam().setZoom(
+					panneauDuJeu.getActualCam().getZoom() / 1.2f);
+		}
+		
+		if (!getGm().getApp().getInput()
+				.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)
+				&& clickonsurlign) {
+			clickonsurlign = false;
+		}
+		if (getGm().getApp().getInput()
+				.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)
+				&& !clickonsurlign) {
+				Bindings bindings = ScriptManager.moteurScript
+						.getBindings(ScriptContext.ENGINE_SCOPE);
+				bindings.clear();
+				// Ajout de la variable entree dans le script
+				bindings.put("himself", panneauDuJeu.getSurlignObject()); //$NON-NLS-1$
+				bindings.put("newcam", new Camera(0, 0, 1f, getCarte())); //$NON-NLS-1$
+				bindings.put("emptytext", new Text("", getDialogBar())); //$NON-NLS-1$ //$NON-NLS-2$
+				bindings.put(
+						"emptychrono", new Chrono(System.currentTimeMillis(), "Real time")); //$NON-NLS-1$ //$NON-NLS-2$
+				bindings.put("currentTimeMillis", System.currentTimeMillis()); //$NON-NLS-1$
+				bindings.put("jeu", this); //$NON-NLS-1$
+				
+				if (panneauDuJeu.getSurlignObject() != null) {
+					if (panneauDuJeu.getSurlignObject().getClickScript() != null
+							&& panneauDuJeu.getSurlignObject().getClickScript() != "")
+						try {
+							ScriptManager.moteurScript.eval(panneauDuJeu.getSurlignObject()
+									.getClickScript(), bindings);
+						} catch (ScriptException e) {
+							e.printStackTrace();
+						}
+				}
+				clickonsurlign = true;
+		}
 	}
-	private Direction getMouseDirection(int xBase, int yBase){
-		double xMiddle = xBase - this.getWidth() / 2;
-		double yMiddle = yBase - this.getHeight() / 2;
-		
-		//Ajout d'une déformation de la sensibilité selon le format de l'écran
-		
-		//Format Paysage
-		if(this.getWidth() > this.getHeight()){
-			yMiddle = yMiddle / (double)this.getHeight() * this.getWidth();
-		}
-		
-		//Format Portrait
-		else if(this.getHeight() > this.getWidth()){
-			xMiddle = xMiddle / (double)this.getWidth() * this.getHeight();
-		}
-		
-		double distancePoint = Math.sqrt(Math.pow(xMiddle, 2) + Math.pow(yMiddle, 2));
-		
-		
-		double angle = Math.acos(xMiddle / distancePoint) * 180 / Math.PI;
-		
-		if(yMiddle > 0)
-			angle = 360 - angle;
-			
-		int dir = ((int) ((angle + 22.5f) / 45) + 2) % 8;
-		if(dir != 0  && dir != 4){
-			dir = (8 - dir) % 8;
-		}
-		return Direction.values()[dir];
-	}
+
 	private void updateShortcuts(GameContainer gc) {
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_I) && !keyI) {
@@ -851,29 +861,6 @@ public class Jeu extends Container implements Cloneable {
 			keyI = false;
 			inverseInventory();
 		}
-	}
-	public MenuJeuContainer getMenuJeu() {
-		return menuJeu;
-	}
-
-	public void setMenuJeu(MenuJeuContainer menuJeu) {
-		this.menuJeu = menuJeu;
-	}
-
-	public ObjetMap getDialogFollow() {
-		return dialogFollow;
-	}
-
-	public void setDialogFollow(ObjetMap dialogFollow) {
-		this.dialogFollow = dialogFollow;
-	}
-
-	public TimeController getTimeController() {
-		return timeController;
-	}
-
-	public void setTimeController(TimeController timeController) {
-		this.timeController = timeController;
 	}
 
 }

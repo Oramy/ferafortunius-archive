@@ -3,6 +3,7 @@ package gui.jeu;
 import gui.Container;
 import gui.GameMain;
 import gui.PImage;
+import gui.Shader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 
@@ -47,6 +49,8 @@ public class PanneauJeuAmeliore extends Container {
 	protected int debugMode;
 	
 	private int surlignPercent;
+	
+	private Shader blackWhite;
 	public static void loadFolder(String path){
 		File[] files = null;
 		File directory = new File(path);
@@ -86,6 +90,13 @@ public class PanneauJeuAmeliore extends Container {
 		this.setBounds(x,y, sizeX, sizeY);
 		a = new Animation();
 		debugMode = 0;
+		
+		try {
+			blackWhite = Shader.makeShader("data/Shaders/blackWhite.vert", "data/Shaders/blackWhite.frag");	
+			blackWhite.setUniformFVariable("offset", 1f);
+		} catch (SlickException e1) {
+			e1.printStackTrace();
+		}
 	}
 	public void update(GameContainer gc, int x, int y ){
 		super.update(gc, x, y);
@@ -466,6 +477,7 @@ public class PanneauJeuAmeliore extends Container {
 		}
 	}
 	public void draw(Graphics g) {
+		blackWhite.startShader();
 		surlignPercent = 0;
 		long temps = System.currentTimeMillis();
 		float xcam =  (actualCam.getX() * actualCam.getZoom());
@@ -669,6 +681,7 @@ public class PanneauJeuAmeliore extends Container {
 			System.out.println("Affichage Map : " + (System.currentTimeMillis() - temps) + "ms");
 		
 		//System.out.println("Temps d'affichage : " + (System.currentTimeMillis() - tempsPrec) + "ms");
+		Shader.forceFixedShader();
 	}
 	private boolean hasToBeDrawed(ObjetMap o, boolean checkScreen) {
 		if(o != null){
