@@ -1,0 +1,5 @@
+<animation>
+	<parameters name="modele" framesSize="60"/>
+	<move alias="bras" x="20" y="40" rotation="10" begin="0" duration="2000" />
+	<move alias="bras" x="-10" y="40" rotation="10" begin="0" duration="2000" />
+</animation>

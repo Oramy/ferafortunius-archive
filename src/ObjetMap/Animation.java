@@ -10,14 +10,21 @@ import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
+import com.ferafortunius.animations.AnimationKey;
+
 public class Animation implements Serializable, Cloneable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private ArrayList<TimedScript> scripts;
+	
+	private ArrayList<AnimationKey> keys;
+	
 	private int cursor;
 	private int framesSize;
+	
+	private long millisBegin, millisCursor;
 	private String nom;
 	private boolean repeat;
 	private boolean started;
@@ -28,6 +35,7 @@ public class Animation implements Serializable, Cloneable{
 		repeat = false;
 		started = false;
 		scripts = new ArrayList<TimedScript>();
+		setKeys(new ArrayList<AnimationKey>());
 	}
 	public Animation clone(){
 		Animation anim = null; 
@@ -40,10 +48,15 @@ public class Animation implements Serializable, Cloneable{
 		anim.scripts = new ArrayList<TimedScript>();
 		for(int i = 0; i < scripts.size(); i++)
 			anim.scripts.add(scripts.get(i).clone());
+		
+		anim.setKeys(new ArrayList<AnimationKey>());
+		for(int i = 0; i < getKeys().size(); i++)
+			anim.getKeys().add(getKeys().get(i).cloneAnimation());
 		return anim;
 	}
-	public String getCompressScript(){
+	public String getCompressScript(ObjetMap o){
 		String compressScript = "";
+		update(o);
 		for(TimedScript script : scripts){
 			if(script.hastoBe(cursor))
 			compressScript += script.getScript();
@@ -52,11 +65,17 @@ public class Animation implements Serializable, Cloneable{
 		}
 		return compressScript;
 	}
+	public void update(ObjetMap o){
+		millisCursor = System.currentTimeMillis() - millisBegin;
+		for(AnimationKey key : getKeys())
+			key.execute(o, millisCursor);
+	}
+	@Deprecated
 	public void executeScripts(ObjetMap o){
 		if(cursor > framesSize && repeat){
 			repeat();
 		}
-		String compressScript = getCompressScript();
+		String compressScript = getCompressScript(o);
 		try { 
 
 			Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
@@ -76,11 +95,12 @@ public class Animation implements Serializable, Cloneable{
 		} 
 		cursor++;
 	}
+	@Deprecated
 	public void executeScripts(ObjetMap o, Jeu jeu){
 		if(cursor > framesSize && repeat){
 			repeat();
 		}
-		String compressScript = getCompressScript();
+		String compressScript = getCompressScript(o);
 		try { 
 
 			Bindings bindings = ScriptManager.moteurScript.getBindings(ScriptContext.ENGINE_SCOPE); 
@@ -109,6 +129,7 @@ public class Animation implements Serializable, Cloneable{
 		if(!started){
 			started = true;
 			cursor = 0;
+			millisBegin = System.currentTimeMillis();
 		}
 	}
 	private void restart(){
@@ -196,6 +217,14 @@ public class Animation implements Serializable, Cloneable{
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	public ArrayList<AnimationKey> getKeys() {
+		if(keys == null)
+			keys = new ArrayList<AnimationKey>();
+		return keys;
+	}
+	public void setKeys(ArrayList<AnimationKey> keys) {
+		this.keys = keys;
 	}
 	
 }

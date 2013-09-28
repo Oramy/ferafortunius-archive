@@ -792,10 +792,10 @@ public class Jeu extends Container implements Cloneable {
 				player.walkAnim(Direction.values()[(player.getDirection().ordinal() + 4) % 8]);
 			}
 			if (ControllersManager.getFirstController().isButton4Pressed()) {
-				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.05f);
+				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.001f);
 			}
 			if (ControllersManager.getFirstController().isButton5Pressed()) {
-				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 0.95f);
+				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 0.999f);
 			}
 			if(player.getAllAnimationLaunchedCount() == 0)
 			{

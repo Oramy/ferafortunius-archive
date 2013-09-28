@@ -4,6 +4,8 @@ import gui.PImage;
 
 import java.io.Serializable;
 
+import com.ferafortunius.animations.MoveToAnimation;
+
 
 public class ObjetImage implements Serializable, Cloneable{
 	/**
@@ -353,8 +355,8 @@ public class ObjetImage implements Serializable, Cloneable{
 	public void setRatio(float ratio) {
 		this.ratio = ratio;
 	}
-	public void moveIn(float x, float y, long time) {
-		Thread t = new Thread(new MoveAnimation(x, y, time, this));
+	public void moveIn(float x, float y, float rotation, long time) {
+		Thread t = new Thread(new MoveToAnimation(x, y, rotation, time, this));
 		t.start();
 	}
 }

@@ -69,12 +69,14 @@ public class PanneauJeuAmeliore extends Container {
 		img.clear();
 	}
 	public void loadMapImages(){
-		for(int i = 0; i < carte.getMapSizeX(); i++){
-			for(int j = 0; j < carte.getMapSizeY(); j++){
-				for(int k = 0; k < carte.getMapSizeZ(); k++){
-					for(ObjetMap o : carte.getChunks()[i][j][k].getContenu()){
-						for(ObjetImage img : o.getImage()){
-							loadImage(img, o);
+		if(carte != null){
+			for(int i = 0; i < carte.getMapSizeX(); i++){
+				for(int j = 0; j < carte.getMapSizeY(); j++){
+					for(int k = 0; k < carte.getMapSizeZ(); k++){
+						for(ObjetMap o : carte.getChunks()[i][j][k].getContenu()){
+							for(ObjetImage img : o.getImage()){
+								loadImage(img, o);
+							}
 						}
 					}
 				}

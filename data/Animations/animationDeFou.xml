@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<animation>
+    <parameters framesSize="100" name="animationDeFou"/>
+    <move alias="bras" begin="0" duration="10000" rotation="20.0" x="10.0" y="10.0"/>
+    <move alias="bras2" begin="10000" duration="20000" rotation="24.0" x="-10.0" y="16.0"/>
+</animation>

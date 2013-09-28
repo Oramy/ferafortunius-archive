@@ -883,7 +883,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		if (animations != null) {
 			for (Animation anim : animations) {
 				if (anim.isStarted() && !anim.isFinish()) {
-					compressScript += anim.getCompressScript();
+					compressScript += anim.getCompressScript(this);
 					anim.setCursor(anim.getCursor() + 1);
 				}
 				else if(anim.isFinish() && anim.isRepeat()){
@@ -940,7 +940,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		if (animations != null) {
 			for (Animation anim : animations) {
 				if (anim.isStarted() && !anim.isFinish()) {
-					finalScript += anim.getCompressScript();
+					finalScript += anim.getCompressScript(this);
 					anim.setCursor(anim.getCursor() + 1);
 				}
 				else if(anim.isFinish() && anim.isRepeat()){

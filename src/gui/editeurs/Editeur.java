@@ -4,6 +4,7 @@ import gui.Container;
 import gui.GameMain;
 import gui.buttons.Onglet;
 import gui.buttons.OngletManager;
+import gui.editeurs.animations.EditeurAnimationKey;
 import gui.editeurs.items.EditeurItem;
 import gui.editeurs.objetmaps.EditeurAnimation;
 import gui.editeurs.objetmaps.EditeurCollObjMap;
@@ -43,8 +44,13 @@ public class Editeur extends Container{
 	private Onglet 				editeurObjetOnglet;
 	
 	private EditeurItem 	editeurItem;
+	
 	private Onglet editeurAnimationOnglet;
 	private EditeurAnimation editeurAnimation;
+	
+	private Onglet editeurAnimationKeyOnglet;
+	private EditeurAnimationKey editeurAnimationKey;
+	
 	private EditeurImageRender editeurImageRender;
 	public Editeur(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
@@ -123,6 +129,15 @@ public class Editeur extends Container{
 			
 			ongletsObj.addComponent(editeurEntityOnglet);
 			
+			//Animation Keys
+			editeurAnimationKeyOnglet  = new Onglet("AnimationsKeys", ongletsObj); //$NON-NLS-1$
+			
+			editeurAnimationKey = new EditeurAnimationKey(new BasicObjetMap(0,0,0,0,0,0), 0,50, gc.getWidth(), gc.getHeight() - 50, ongletsObj);
+			editeurAnimationKeyOnglet.setContainer(editeurAnimationKey);
+			
+			ongletsObj.addComponent(editeurAnimationKeyOnglet);
+
+			
 			general.clickPressed();
 			general.clickReleased();
 			
@@ -138,6 +153,8 @@ public class Editeur extends Container{
 		
 		onglets.addComponent(getEditeurAnimationOnglet());
 
+		
+		
 		//Items
 		Onglet editeurItemOnglet = new Onglet(Messages.getString("Editeur.5"), onglets); //$NON-NLS-1$
 		
@@ -311,6 +328,7 @@ public class Editeur extends Container{
 			editeurObjetMapColli.setObj(workedObj);
 			editeurEntity.setObj(workedObj);
 			editeurImageRender.setObj(workedObj);
+			editeurAnimationKey.setWorkedObj(workedObj);
 		}
 		this.workedObj = workedObj;
 	}
