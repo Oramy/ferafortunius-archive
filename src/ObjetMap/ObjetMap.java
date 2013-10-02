@@ -5,7 +5,9 @@ import gui.Text;
 import gui.jeu.Jeu;
 import gui.jeu.PanneauJeuAmeliore;
 import gui.jeu.ScriptManager;
+import gui.jeu.utils.Isometric;
 
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Polygon;
 
 import Level.ArrayIterator;
 import Level.Camera;
@@ -523,14 +526,9 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	
 	public int getXOnScreen(PanneauJeuAmeliore pan, Camera cam){
 		ChunkMap map = pan.getCarte();
-		float xcam =  (cam.getX() * cam.getZoom());
-		
-		int x = + (int) ((this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom());
-		x  += pan.getX();
-		x  -= xcam;
-		x  += pan.getSizeX() / 2;
-		
-		return x;
+		Point p = new Point(this.getAbsPosX(map.getChunksSize()), this.getAbsPosY(map.getChunksSize()));
+		Point p2 = Isometric.worldToScreen(p, this.getAbsPosZ(map.getChunksSize()), pan, cam);
+		return p2.x;
 		
 	}
 	public int getXOnScreen(Jeu jeu){
@@ -539,16 +537,9 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	}
 	public int getYOnScreen(PanneauJeuAmeliore pan, Camera cam){
 		ChunkMap map = pan.getCarte();
-		float ycam =  (cam.getY() * cam.getZoom());
-		
-		int y = (int) ((-this.getAbsPosX(map.getChunksSize()) - this.getAbsPosY(map.getChunksSize())) * cam.getZoom() * 0.5f);
-		y -= this.getAbsPosZ(map.getChunksSize()) * cam.getZoom();
-		y -= pan.getY();
-		y -= ycam;
-		y += pan.getSizeY() / 2;
-		
-		return y;
-		
+		Point p = new Point(this.getAbsPosX(map.getChunksSize()), this.getAbsPosY(map.getChunksSize()));
+		Point p2 = Isometric.worldToScreen(p, this.getAbsPosZ(map.getChunksSize()), pan, cam);
+		return p2.y;
 	}
 	public int getYOnScreen(Jeu jeu){
 		return getYOnScreen(jeu.getPanneauDuJeu(), jeu.getPanneauDuJeu().getActualCam());
@@ -560,7 +551,10 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		ObjetMap o = this;
 		
 		//Travail sur l'ombre.
+		if(this.applyZShadow)
 		ombre = posZ;
+		else
+			ombre = 0;
 		if (getOmbre() > 150)
 			setOmbre(150);
 		if (getOmbre() < 0) {
@@ -573,18 +567,33 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		
 		
 			//Obtention des coordonnées de l'image
-			float minX = getXOnScreen(pan, actualCam) - (int) (c.getImageSizeInGameX() * actualCam.getZoom() / 2);
-			float maxX = minX
-					+ (int) (c.getImageSizeInGameX() * actualCam.getZoom());
-			maxX += sizeX * actualCam.getZoom();
+			//Chunks size
+			int cs = pan.getCarte().getChunksSize();
+			Polygon polygon = new Polygon();
+			//Création du Polygone de clic.
+			//point 1
+			polygon.addPoint(getXOnScreen(pan, actualCam), getYOnScreen(pan, actualCam));
 			
-			float minY = getYOnScreen(pan, actualCam) -  (int) (c.getImageSizeInGameY() * actualCam.getZoom());
-			float maxY = (int) (minY + c.getImageSizeInGameY() * actualCam.getZoom());
+			//Point 2
+			Point trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs), pan, actualCam);
+			polygon.addPoint(trans.x, trans.y);
 			
+			//Point 3
+			 trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+			polygon.addPoint(trans.x, trans.y);
 			
-			if (mouseX > minX  && mouseX < maxX && mouseY > minY && mouseY < maxY) {
+			//Point 4
+			  trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+			polygon.addPoint(trans.x, trans.y);
+			//Point 5
+			  trans = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+			polygon.addPoint(trans.x, trans.y);
+			//Point 6
+			 trans = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs), pan, actualCam);
+			polygon.addPoint(trans.x, trans.y);
+			if (polygon.contains(mouseX, mouseY)) {
 				pan.setSurlign(true);
-	
+				setOmbre(getOmbre() + 50);
 				if (pan.getSurlignObject() != null) {
 					if (!pan.getSurlignObject().equals(this)) {
 						pan.getSurlignObject().surligned = false;
@@ -592,7 +601,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 						if( !(pan.getParent() instanceof Jeu)){
 							if (this.surligned == true)
-								setOmbre(getOmbre() + 100);
+								setOmbre(getOmbre() + 150);
 							surligned = true;
 						}
 					}
@@ -602,7 +611,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			else{
 				surligned = false;
 			}
-		
 		img.setAlpha(opacity);
 		
 		//Chargement du masque
@@ -622,9 +630,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		//Rotation
 		img.rotate(c.getRotation());
 		
-		if(!(this.applyZShadow || surligned)){
-			ombre = 0;
-		}
+		
 		if(maskColor.a == 0f){
 			maskColor.a = 1f;
 			maskColor.r = 1f;
@@ -647,6 +653,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		else{
 			img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
 		}
+		
 		//Si on veut appliquer l'ombre Z
 	
 	}
