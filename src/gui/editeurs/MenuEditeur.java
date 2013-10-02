@@ -45,25 +45,7 @@ public class MenuEditeur extends Container{
 		supprimer.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent e){
 				Button himself = (Button) e;
-				if(editeur.getEditeurMode() == EditeurMode.Placer){
-					himself.setName(Messages.getString("MenuEditeur.5")); //$NON-NLS-1$
-					editeur.setEditeurMode(EditeurMode.Ensemble);
-				}
-				else if(editeur.getEditeurMode() == EditeurMode.Ensemble)
-				{
-					himself.setName(Messages.getString("MenuEditeur.4")); //$NON-NLS-1$
-					editeur.setEditeurMode(EditeurMode.Supprimer);
-				}
-				else if(editeur.getEditeurMode() == EditeurMode.Supprimer)
-				{
-					himself.setName(Messages.getString("SupprimerRel")); //$NON-NLS-1$
-					editeur.setEditeurMode(EditeurMode.SupprimerRel);
-				}
-				else if(editeur.getEditeurMode() == EditeurMode.SupprimerRel)
-				{
-					himself.setName(Messages.getString("MenuEditeur.3")); //$NON-NLS-1$
-					editeur.setEditeurMode(EditeurMode.Placer);
-				}
+				editeur.setEditeurMode(EditeurMode.values()[(editeur.getEditeurMode().ordinal() + 1) % EditeurMode.values().length]);
 			}
 		});
 		this.addComponent(supprimer);
@@ -82,6 +64,10 @@ public class MenuEditeur extends Container{
 		else if(editeur.getEditeurMode() == EditeurMode.Supprimer)
 		{
 			supprimer.setName(Messages.getString("MenuEditeur.4")); //$NON-NLS-1$
+		}
+		else if(editeur.getEditeurMode() == EditeurMode.Selection)
+		{
+			supprimer.setName(Messages.getString("MenuEditeur.6")); //$NON-NLS-1$
 		}
 	}
 	/**

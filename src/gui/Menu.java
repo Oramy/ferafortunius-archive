@@ -212,23 +212,7 @@ public class Menu extends Container {
 			private Menu c;
 			public void actionPerformed(FComponent c2){
 				c = (Menu) c2.getRacine();
-				Thread t = new Thread(new Runnable(){
-					public void run(){
-						if(c.toDo.equals("")){ //$NON-NLS-1$
-							for(int i = 0; i < 256; i++){
-								try {
-									Thread.sleep(10);
-								} catch (InterruptedException e) {
-									
-									e.printStackTrace();
-								}
-								c.transitionColor = new Color(0,0,0, i);
-							}
-						}
-						c.toDo = "editer"; //$NON-NLS-1$
-					}
-				});	
-				t.start();
+				c.toDo = "editer"; //$NON-NLS-1$
 			}
 		});
 		editer.setSizeX(500);

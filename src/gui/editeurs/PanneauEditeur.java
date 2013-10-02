@@ -60,7 +60,8 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 								o.setOpacity(opacity);
 							}
 						}
-						else if(editeur.getEditeurMode() == EditeurMode.Placer){
+						else if(editeur.getEditeurMode() == EditeurMode.Placer
+								|| editeur.getEditeurMode() == EditeurMode.Selection){
 							this.drawLines(g, editChoice);
 						}
 						
@@ -113,6 +114,9 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 					esb.setChunkY(getEditChoice().getChunkY());
 					esb.setChunkZ(getEditChoice().getChunkZ());
 					carte.addContenu(esb);
+				}else if(editeur.getEditeurMode() == EditeurMode.Selection){
+					editeur.setEditChoice(this.surlignObject);
+					editChoice = this.surlignObject;
 				}
 			}
 			if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && !clickr){
