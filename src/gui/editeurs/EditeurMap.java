@@ -171,7 +171,8 @@ public class EditeurMap extends Container{
 					//Transformation de l'objet en objet à déplacer.
 					panneau.setNateditChoiceInvisible(o.isInvisible());
 					o.setInvisible(true);
-					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
+					if(!editeurMode.equals(EditeurMode.Selection))
+						carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].remove(ed);
 					edit.setEditChoice(o);
 					carte.getChunks()[ed.getChunkX()][ed.getChunkY()][ed.getChunkZ()].addContenu(o);
 					

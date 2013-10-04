@@ -71,6 +71,8 @@ public class Chunk implements Serializable, Cloneable {
 		}
 		if (accepted && modeActuel == VERIFY_MOD) {
 			for (int i = 0; i < getContenu().size(); i++) {
+				getContenu().get(i).getTouchedObjects().clear();
+				getContenu().get(i).getActualTouchedBlocks().clear();
 				if (getContenu().get(i).collide(o, jeu)) {
 					accepted = false;
 				}
@@ -82,7 +84,9 @@ public class Chunk implements Serializable, Cloneable {
 
 	public synchronized boolean accepted(ObjetMap o, ObjetMap without, Jeu jeu) {
 		boolean accepted = true;
-
+		o.getTouchedObjects().clear();
+		o.getActualTouchedBlocks().clear();
+		
 		if ((!o.isInvisible()
 				&& !(o.getPosX() <= this.sizeX && o.getPosY() <= this.sizeY && o
 				.getPosZ() <= this.sizeZ)) && modeActuel != GOD_MOD) {
@@ -98,6 +102,9 @@ public class Chunk implements Serializable, Cloneable {
 		if (accepted && modeActuel == VERIFY_MOD) {
 			for (int i = 0; i < getContenu().size(); i++) {
 				if (!getContenu().get(i).equals(without)) {
+					getContenu().get(i).getTouchedObjects().clear();
+					getContenu().get(i).getActualTouchedBlocks().clear();
+					
 					if (getContenu().get(i).collide(o, jeu)) {
 						accepted = false;
 					}

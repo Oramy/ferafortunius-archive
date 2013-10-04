@@ -73,6 +73,10 @@ public class MenuEditeur extends Container{
 		{
 			supprimer.setName(Messages.getString("MenuEditeur.6")); //$NON-NLS-1$
 		}
+		else if(editeur.getEditeurMode() == EditeurMode.Modelisation)
+		{
+			supprimer.setName(Messages.getString("MenuEditeur.7")); //$NON-NLS-1$
+		}
 	}
 	/**
 	 * @return the barre

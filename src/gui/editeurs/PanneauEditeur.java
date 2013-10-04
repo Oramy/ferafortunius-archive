@@ -3,12 +3,15 @@ package gui.editeurs;
 import gui.Container;
 import gui.jeu.PanneauJeuAmeliore;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import Level.ChunkMap;
+import ObjetMap.BasicObjetMap;
+import ObjetMap.CylinderBlock;
 import ObjetMap.Ensemble;
 import ObjetMap.ObjetMap;
 
@@ -19,6 +22,8 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 	 */
 	private static final long serialVersionUID = -3104433715488521888L;
 	private ObjetMap editChoice;
+	
+	private ObjetMap modelObject;
 	private boolean nateditChoiceInvisible;
 	private int oldX, oldY;
 	private boolean clickr;
@@ -35,13 +40,22 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 		setEditChoice(edit);
 		clickr = false;
 		clickl = false;
+		modelObject = new BasicObjetMap(0,0,0,0,0,0);
+		modelObject.setBounds(0, 0, 0, 200, 200, 100);
+		modelObject.addCollisionBlock(new CylinderBlock(0,0,0, 200,200,100));
+		modelObject.setInvisible(false);
 		
 	
 	}
 	public void draw(Graphics g){
 		super.draw(g);
 		g.translate(getX(),getY());
-		if(getEditChoice() != null){
+		
+		ObjetMap toDraw = getEditChoice();
+		
+		if(editeur.getEditeurMode() == EditeurMode.Modelisation)
+			toDraw = modelObject;
+		if(toDraw != null){
 			g.translate(this.getWidth()/2, this.getHeight()/2);
 				g.translate(-actualCam.getX() * actualCam.getZoom(), -actualCam.getY() * actualCam.getZoom());
 					this.drawMapLines(g);
@@ -60,10 +74,7 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 								o.setOpacity(opacity);
 							}
 						}
-						else if(editeur.getEditeurMode() == EditeurMode.Placer
-								|| editeur.getEditeurMode() == EditeurMode.Selection){
-							this.drawLines(g, editChoice);
-						}
+						this.drawLines(g, toDraw);
 						
 					g.translate(-(float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize()))
 						+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
@@ -102,7 +113,24 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 						}
 					}
 					carte.verifyPosition(getEditChoice());
-				}else if(editeur.getEditeurMode() == EditeurMode.Supprimer){
+				}else if(editeur.getEditeurMode() == EditeurMode.Modelisation){
+					int value = 1;
+					
+					if(gc.getInput().isKeyPressed(Input.KEY_LSHIFT)
+							|| gc.getInput().isKeyPressed(Input.KEY_RSHIFT)){
+						value = - 1;
+					}
+					if(surlignObject != null){
+						modelObject.setPosition(surlignObject);
+						carte.getChunk(modelObject).accepted(modelObject, getEditChoice(), null);
+							
+						for(ObjetMap touch : modelObject.getTouchedObjects()){
+							touch.setZ(touch.getZ() + value);
+						}
+						surlignObject.setZ(surlignObject.getZ() + value *2);
+					}
+				}	
+				else if(editeur.getEditeurMode() == EditeurMode.Supprimer){
 					if(surlignObject != null)
 						carte.getChunks()[surlignObject.getChunkX()][surlignObject.getChunkY()][surlignObject.getChunkZ()].remove(surlignObject);
 				}else if(editeur.getEditeurMode() == EditeurMode.Ensemble){
@@ -129,14 +157,13 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			}
 			else if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)){
 				clickr = true;
-				
-				int newX = gc.getInput().getMouseX();
-				int newY = gc.getInput().getMouseY();
-				getActualCam().move((oldX - newX) / actualCam.getZoom(), (oldY-newY)/ actualCam.getZoom());
-				difCameraPosX += (oldX - newX) / actualCam.getZoom();
-				difCameraPosY += (oldY-newY)/ actualCam.getZoom();
-				oldX = newX;
-				oldY = newY;
+					int newX = gc.getInput().getMouseX();
+					int newY = gc.getInput().getMouseY();
+					getActualCam().move((oldX - newX) / actualCam.getZoom(), (oldY-newY)/ actualCam.getZoom());
+					difCameraPosX += (oldX - newX) / actualCam.getZoom();
+					difCameraPosY += (oldY-newY)/ actualCam.getZoom();
+					oldX = newX;
+					oldY = newY;
 			}
 			else if(!gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && clickr){
 				clickr = false;

@@ -10,8 +10,8 @@ public class CollisionBlock  implements Serializable, Cloneable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8066875143380284026L;
-	private int posX, posY, posZ;
-	private int sizeX, sizeY, sizeZ;
+	protected int posX, posY, posZ;
+	protected int sizeX, sizeY, sizeZ;
 	private boolean mirror;
 	public CollisionBlock(int posX, int posY, int posZ, int sizeX, int sizeY, int sizeZ){
 		this.posX = posX;

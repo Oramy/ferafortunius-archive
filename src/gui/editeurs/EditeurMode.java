@@ -6,4 +6,5 @@ public enum EditeurMode {
 	Supprimer,
 	SupprimerRel,
 	Selection,
+	Modelisation,
 }
