@@ -53,31 +53,13 @@ public class Menu extends Container {
 	
 	private float offset;
 	
+	private ControllerDetection controllerDetection;
 	private static final int TRANSITION_TIME = 12000;
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
-		
-		ObjetMap o = new BasicObjetMap(0,0,0,0,0,0);
-		ObjetImage img = new ObjetImage("ObjetMap/Banc/banc.png");
-		img.setAlias("banc");
-		o.getImage().add(img);
-		
-		System.out.println("X : " + img.getDecalageX() + " Y : "+img.getDecalageY() + "Rot : " + img.getRotation());
-		
-		String command = "<keyframe image=\"banc\"; x=\"10\"; y=\"5\"; rot=\"15f\"; />";
-		Balise b = BaliseRecognizer.recognize(command).get(0);
-		
-		
-		AnimationReactor ar = new AnimationReactor();
-		ar.react(o, b);
-		
-		System.out.println("X : " + img.getDecalageX() + " Y : "+img.getDecalageY() + "Rot : " + img.getRotation());
-		
 		//Focus the controller
 		ControllersManager.getFirstController().setControllerContainer(this);
-		
-		
-		
+	
 		offset = 0.000f;
 		//		String f = "Music/Brittle Rille.ogg";
 		try {
@@ -248,6 +230,12 @@ public class Menu extends Container {
 		});
 		quitter.setSizeX(500);
 		buttonContainer.addComponent(quitter);
+		
+		
+		controllerDetection = new ControllerDetection(gc, this);
+		this.addComponent(controllerDetection);
+		
+	
 	}
 	protected void nouvPart() {
 		gm.setMode(ModeJeu.Jeu, gm.getApp());

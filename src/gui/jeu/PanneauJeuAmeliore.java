@@ -19,6 +19,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 
 import Level.ArrayIterator;
 import Level.Camera;
@@ -26,7 +27,9 @@ import Level.Chunk;
 import Level.ChunkMap;
 import Level.Iterator;
 import Level.LayeredChunkMap;
+import ObjetMap.BasicObjetMap;
 import ObjetMap.CollisionBlock;
+import ObjetMap.CylinderBlock;
 import ObjetMap.Entity;
 import ObjetMap.LosangeBlock;
 import ObjetMap.ObjetImage;
@@ -311,11 +314,32 @@ public class PanneauJeuAmeliore extends Container {
 		g.drawLine(losangePoint2X, losangePoint2Y, losangePoint2X, losangePoint2Y -b.getSizeZ() * actualCam.getZoom());
 		g.drawLine(losangePoint3X, losangePoint3Y, losangePoint3X, losangePoint3Y -b.getSizeZ() * actualCam.getZoom());
 	}
+	public void drawCylinderBlock(Graphics g,CylinderBlock b){
+		g.setColor(new Color(0, 255, 0, 130));
+		//Formule utilisée :  pointX = -sqrt((y+sy)^2)+sqrt((x+sx)^2)
+		
+		Shape p3 = b.getShape(new BasicObjetMap(0,0,0,0,0,0));
+		
+		g.scale(actualCam.getZoom(), actualCam.getZoom() / 2);
+		
+		g.translate(-p3.getBoundingCircleRadius(), -p3.getBoundingCircleRadius() * 2);
+		g.draw(p3);
+		g.setColor(new Color(0, 0, 255, 130));
+		g.translate(0, -b.getSizeZ());
+		g.draw(p3);
+		g.translate(0, b.getSizeZ());
+		g.translate(p3.getBoundingCircleRadius(), p3.getBoundingCircleRadius() * 2);
+		
+		g.scale(1/actualCam.getZoom(), 1/(actualCam.getZoom() / 2));
+		
+	}
 	public void drawLines(Graphics g, ObjetMap o){
 		for(int i = 0; i < o.getCollision().size(); i++){
 			CollisionBlock b = o.getCollision().get(i);
 			if(b instanceof LosangeBlock)
 				drawLosangeBlock(g,(LosangeBlock) b);
+			else if(b instanceof CylinderBlock)
+				drawCylinderBlock(g,(CylinderBlock) b);
 			else
 				drawCollisionBlock(g,b);
 		}
@@ -460,20 +484,6 @@ public class PanneauJeuAmeliore extends Container {
 		
 		if(!(affichX < 0 || posX  >= this.getWidth() || affichY < 0 || posY >= this.getHeight()) || !checkScreen){
 			translateToObjectImage(g, o, objetImg);
-			//Position X de l'objet;
-				
-				/*Ancien code
-				int posX = this.getWidth()/2;
-				posX += -actualCam.getX() * actualCam.getZoom();
-				posX += (int)(( + (float)(i * carte.getChunksSize()) - (float)(j * carte.getChunksSize())) + (float)(o.getDecalageX())
-						+ ( + (float)(o.getPosX()) -  (float)(o.getPosY())) +objetImg.getDecalageX() - (float)(objetImg.getImageSizeInGameX() / 2)) * actualCam.getZoom();
-				//Position Y de l'objet
-				
-				int posY = this.getHeight()/2;
-				posY += -actualCam.getY() * actualCam.getZoom();
-				posY += (float)((float)-(j * carte.getChunksSize() * 0.5) - (float)(i * carte.getChunksSize() * 0.5) - k * carte.getChunksSize() + (float)(o.getDecalageY())
-						- (float)(o.getPosY() * 0.5) - (float)(o.getPosX() * 0.5) +objetImg.getDecalageY() - (float)(o.getPosZ())- (float)(objetImg.getImageSizeInGameY())) * actualCam.getZoom();
-				*/
 				o.paintComponent(this, g, image, posX, posY, objetImg, actualCam);
 			untranslateToObjectImage(g, o, objetImg);
 		}

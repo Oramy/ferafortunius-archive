@@ -29,7 +29,8 @@ public class CollisionBlock  implements Serializable, Cloneable{
 	}
 	public boolean accept(ObjetMap parent, ObjetMap collideObj, CollisionBlock isoBlock) {
 		boolean accept = true;
-		if(getShape(parent).intersects(isoBlock.getShape(collideObj)) && !acceptableZ(parent, collideObj, isoBlock)){
+		if((getShape(parent).intersects(isoBlock.getShape(collideObj)) || getShape(parent).contains(isoBlock.getShape(collideObj))
+				 || isoBlock.getShape(collideObj).contains(getShape(parent))) && !acceptableZ(parent, collideObj, isoBlock)){
 				accept = false;
 		}
 		return accept;

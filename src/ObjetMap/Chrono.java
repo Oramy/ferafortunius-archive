@@ -29,9 +29,22 @@ public class Chrono implements Serializable,Cloneable {
 		return time;
 	}
 	/**
+	 * @return the time
+	 */
+	public long getValue() {
+		return time;
+	}
+	/**
 	 * @param time the time to set
 	 */
 	public void setTime(long time) {
+		this.time = time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setValue(long time) {
 		this.time = time;
 	}
 	/**

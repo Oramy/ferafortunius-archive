@@ -41,8 +41,8 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 		clickr = false;
 		clickl = false;
 		modelObject = new BasicObjetMap(0,0,0,0,0,0);
-		modelObject.setBounds(0, 0, 0, 200, 200, 100);
-		modelObject.addCollisionBlock(new CylinderBlock(0,0,0, 200,200,100));
+		modelObject.setBounds(0, 0, 0, 200, 200, 1000);
+		modelObject.addCollisionBlock(new CylinderBlock(0,0,0, 200,200, 1000));
 		modelObject.setInvisible(false);
 		
 	
@@ -59,11 +59,11 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			g.translate(this.getWidth()/2, this.getHeight()/2);
 				g.translate(-actualCam.getX() * actualCam.getZoom(), -actualCam.getY() * actualCam.getZoom());
 					this.drawMapLines(g);
-					g.translate((float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize()))
-							+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
+					g.translate((float)(( + (float)(toDraw.getChunkX()* carte.getChunksSize()) - (float)(toDraw.getChunkY() * carte.getChunksSize()))
+							+ ( + (float)(toDraw.getPosX()) -  (float)(toDraw.getPosY()))) * actualCam.getZoom(),
 			
-							(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize()
-									- (float)(getEditChoice().getPosY() * 0.5) - (float)(getEditChoice().getPosX() * 0.5)  - (float)(getEditChoice().getPosZ())) * actualCam.getZoom());
+							(float)((float)-(toDraw.getChunkY() * carte.getChunksSize() * 0.5) - (float)(toDraw.getChunkX()* carte.getChunksSize() * 0.5) - toDraw.getChunkZ()* carte.getChunksSize()
+									- (float)(toDraw.getPosY() * 0.5) - (float)(toDraw.getPosX() * 0.5)  - (float)(toDraw.getPosZ())) * actualCam.getZoom());
 						//Gestion des ensembles
 						if(editeur.getEditeurMode() == EditeurMode.Ensemble && editeur.getEnsembleChoice() != null){
 							for(int i = 0; i < editeur.getEnsembleChoice().getContenu().size(); i++){
@@ -76,11 +76,11 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 						}
 						this.drawLines(g, toDraw);
 						
-					g.translate(-(float)(( + (float)(getEditChoice().getChunkX()* carte.getChunksSize()) - (float)(getEditChoice().getChunkY() * carte.getChunksSize()))
-						+ ( + (float)(getEditChoice().getPosX()) -  (float)(getEditChoice().getPosY()))) * actualCam.getZoom(),
+					g.translate(-(float)(( + (float)(toDraw.getChunkX()* carte.getChunksSize()) - (float)(toDraw.getChunkY() * carte.getChunksSize()))
+						+ ( + (float)(toDraw.getPosX()) -  (float)(toDraw.getPosY()))) * actualCam.getZoom(),
 		
-						-(float)((float)-(getEditChoice().getChunkY() * carte.getChunksSize() * 0.5) - (float)(getEditChoice().getChunkX()* carte.getChunksSize() * 0.5) - getEditChoice().getChunkZ()* carte.getChunksSize()
-								- (float)(getEditChoice().getPosY() * 0.5) - (float)(getEditChoice().getPosX() * 0.5)  - (float)(getEditChoice().getPosZ())) * actualCam.getZoom());
+						-(float)((float)-(toDraw.getChunkY() * carte.getChunksSize() * 0.5) - (float)(toDraw.getChunkX()* carte.getChunksSize() * 0.5) - toDraw.getChunkZ()* carte.getChunksSize()
+								- (float)(toDraw.getPosY() * 0.5) - (float)(toDraw.getPosX() * 0.5)  - (float)(toDraw.getPosZ())) * actualCam.getZoom());
 					
 				g.translate(actualCam.getX() * actualCam.getZoom(), actualCam.getY() * actualCam.getZoom());
 			g.translate(-this.getWidth()/2, -this.getHeight()/2);
@@ -122,12 +122,16 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 					}
 					if(surlignObject != null){
 						modelObject.setPosition(surlignObject);
+						modelObject.setZ(0);
 						carte.getChunk(modelObject).accepted(modelObject, getEditChoice(), null);
 							
 						for(ObjetMap touch : modelObject.getTouchedObjects()){
-							touch.setZ(touch.getZ() + value);
+							carte.deplacement(touch, 0, 0, value, null);
+							
 						}
-						surlignObject.setZ(surlignObject.getZ() + value *2);
+						if(modelObject.collide(surlignObject, null))
+							carte.deplacement(surlignObject, 0, 0, value * 2, null);
+						
 					}
 				}	
 				else if(editeur.getEditeurMode() == EditeurMode.Supprimer){
@@ -233,6 +237,17 @@ public class PanneauEditeur extends PanneauJeuAmeliore {
 			}
 			if(gc.getInput().isKeyPressed(Input.KEY_M)){
 				carte.deplacement(getEditChoice(), 0, 0, -1, null);
+			}
+			if(gc.getInput().isKeyPressed(Input.KEY_ADD)){
+				modelObject.setBounds(0, 0, 0, (int)(modelObject.getSizeX() * 1.1f), (int)(modelObject.getSizeY() * 1.1f), modelObject.getSizeZ());
+				modelObject.getCollision().clear();
+				modelObject.addCollisionBlock(new CylinderBlock(0,0,0, modelObject.getSizeX(),modelObject.getSizeY(), modelObject.getSizeZ()));	
+			}
+			if(gc.getInput().isKeyPressed(Input.KEY_SUBTRACT)){
+				modelObject.setBounds(0, 0, 0, (int)(modelObject.getSizeX() * 0.9f), (int)(modelObject.getSizeY() * 0.9f), modelObject.getSizeZ());
+				modelObject.getCollision().clear();
+				modelObject.addCollisionBlock(new CylinderBlock(0,0,0, modelObject.getSizeX(),modelObject.getSizeY(), modelObject.getSizeZ()));
+				
 			}
 			/*if(gc.getInput().isKeyPressed(Input.KEY_F3)){
 				if(carte.getChunk(editChoice) instanceof LayeredChunkMap){

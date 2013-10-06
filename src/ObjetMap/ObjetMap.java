@@ -43,6 +43,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 	//Blocks qui sont touchés par un objets actuellement
 	protected transient ArrayList<CollisionBlock> actualTouchedBlocks;
 	
+	protected transient ArrayList<ObjetMap> touchedObjects;
+	
 	protected ArrayList<Animation> animations;
 	
 	protected int posX, posY, posZ, chunkX, chunkY, chunkZ;
@@ -199,6 +201,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 						if (!c.accept(this, o, co)) {
 							this.getActualTouchedBlocks().add(c);
 							o.getActualTouchedBlocks().add(co);
+							this.getTouchedObjects().add(o);
+							o.getTouchedObjects().add(this);
 							collide = true;
 							i = l;
 							j = l2;
@@ -593,7 +597,8 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			polygon.addPoint(trans.x, trans.y);
 			if (polygon.contains(mouseX, mouseY)) {
 				pan.setSurlign(true);
-				setOmbre(getOmbre() + 50);
+				if( !(pan.getParent() instanceof Jeu))
+					setOmbre(getOmbre() + 50);
 				if (pan.getSurlignObject() != null) {
 					if (!pan.getSurlignObject().equals(this)) {
 						pan.getSurlignObject().surligned = false;
@@ -1088,6 +1093,18 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 
 	public void setApplyZShadow(boolean applyZShadowe) {
 		this.applyZShadow = applyZShadowe;
+	}
+
+
+	public ArrayList<ObjetMap> getTouchedObjects() {
+		if(touchedObjects == null)
+		touchedObjects = new ArrayList<ObjetMap>();
+		return touchedObjects;
+	}
+
+
+	public void setTouchedObjects(ArrayList<ObjetMap> touchedObjects) {
+		this.touchedObjects = touchedObjects;
 	}
 
 	
