@@ -32,7 +32,7 @@ public class ControllerDetection extends FComponent {
 			else
 				g.drawString("Manette PS3 disponible.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
 		}else
-			g.drawString("Les expériences à la manette sont plus agréables.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
+			g.drawString("Les expériences de jeu à la manette sont plus agréables.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
 		g.translate(-x, -y);
 		
 	}
