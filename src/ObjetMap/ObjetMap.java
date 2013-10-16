@@ -99,7 +99,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		this.posY = posY;
 		this.posZ = posZ;
 		setOmbre(0);
-		setUpdateScript("");
+		setUpdateScript(""); 
 		setCollideScript("");
 		setNom("");
 		setSizeX(0);
