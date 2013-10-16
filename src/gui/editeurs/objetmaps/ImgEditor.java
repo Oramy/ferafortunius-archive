@@ -442,6 +442,13 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 	 */
 	public void setObj(ObjetMap obj) {
 		this.obj = obj;
+		if(directionChoice != null){
+			directionChoice.clear();
+			for(ObjetImageList list : obj.getImagesLists())
+				directionChoice.addChoice(list.getAlias());
+			if(!obj.getCurrentImageList().equals(""))
+				directionChoice.setSelectedChoice(obj.getCurrentImageList());
+		}
 	}
 	/**
 	 * @return the imgPath

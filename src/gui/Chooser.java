@@ -112,6 +112,10 @@ public class Chooser extends Container{
 	public String getChoice(int id){
 		return choices.get(id);
 	}
+	public void clear(){
+		choices.clear();
+		selectedChoice = 0;
+	}
 	public boolean isShowed() {
 		return showed;
 	}
