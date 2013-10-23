@@ -89,6 +89,8 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 	private Label imageListName;
 
 	private Button remImageList;
+
+	private Button addDirList;
 	
 	
 	
@@ -382,7 +384,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 				}
 			});
 		this.addComponent(addImageList);
-		remImageList = new Button("Remove Image List", 160, sizeY - 200, 150, 30, this);
+		remImageList = new Button("Rem Image List", 180, sizeY - 200, 150, 30, this);
 		remImageList.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				obj.getImagesLists().remove(directionChoice.getSelectedChoiceID());
@@ -390,7 +392,13 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 			}
 		});
 		this.addComponent(remImageList);
-		
+		addDirList = new Button("Add Direction", 10, sizeY - 230, 150, 30, this);
+		addDirList.getAction().add(new ActionListener(){
+			public void actionPerformed(FComponent c){
+				addDirectionsBasicList();
+			}
+		});
+		this.addComponent(addDirList);
 		imageListName = new Label(100, sizeY - 250, 300, 30, "Image List Name", this);
 		
 		this.addComponent(imageListName);
@@ -468,6 +476,16 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 	public ObjetImage getImgToAdd() {
 		return imgToAdd;
 	}
+	public void addDirectionsBasicList(){
+		for(Direction dir : Direction.values()){
+			addDirectionList(dir.name());
+		}
+	}
+	public void addDirectionList(String name){
+		obj.getImagesLists().add(new ObjetImageList(name));
+		directionChoice.addChoice(name);
+		
+	}
 	/**
 	 * @param imgToAdd the imgToAdd to set
 	 */
@@ -499,6 +517,9 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		parentalias.getInput().setContenu(imgToAdd.getParentAlias());
 		
 		mirror.setCheck(imgToAdd.isMirror());
+		
+		if(imgExplorer != null)
+		imgExplorer.getComponents().clear();
 	}
 	/**
 	 * @return the loadImage
