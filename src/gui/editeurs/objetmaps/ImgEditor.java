@@ -92,7 +92,9 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 
 	private Button addDirList;
 	
-	
+	private Button transformInModel;
+
+	private Button transformInImage;
 	
 	public void updateImageData(){
 		//Actualisation des données de l'image
@@ -153,7 +155,12 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 					
 					//Si l'alias du bouton est inexistant, on donne le nom de l'image au bouton.
 					if(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias() == null || getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getAlias() =="" ) //$NON-NLS-1$
-						modImg = new Button(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().substring(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().lastIndexOf("/")), imgExplorer); //$NON-NLS-1$
+					{
+						int lastIndexOf = getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().lastIndexOf("/");
+						if(lastIndexOf == -1)
+							lastIndexOf = 0;
+						modImg = new Button(getObj().getImageList(directionChoice.getSelectedChoice()).getList().get(i).getImage().substring(lastIndexOf), imgExplorer); //$NON-NLS-1$
+					}
 					
 					//Sinon, on prend l'alias
 					else
@@ -384,7 +391,8 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 				}
 			});
 		this.addComponent(addImageList);
-		remImageList = new Button("Rem Image List", 180, sizeY - 200, 150, 30, this);
+		
+		remImageList = new Button("Rem Image List", 160, sizeY - 200, 150, 30, this);
 		remImageList.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				obj.getImagesLists().remove(directionChoice.getSelectedChoiceID());
@@ -392,6 +400,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 			}
 		});
 		this.addComponent(remImageList);
+	
 		addDirList = new Button("Add Direction", 10, sizeY - 230, 150, 30, this);
 		addDirList.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
@@ -399,8 +408,25 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 			}
 		});
 		this.addComponent(addDirList);
-		imageListName = new Label(100, sizeY - 250, 300, 30, "Image List Name", this);
 		
+		transformInModel = new Button("Model", 10, sizeY - 290, 150, 30, this);
+		transformInModel.getAction().add(new ActionListener(){
+			public void actionPerformed(FComponent c){
+				transformInModel();
+			}
+		});
+		this.addComponent(transformInModel);
+		
+		transformInImage = new Button("Image", 160, sizeY - 290, 150, 30, this);
+		transformInImage.getAction().add(new ActionListener(){
+			public void actionPerformed(FComponent c){
+				transformInImage();
+			}
+		});
+		this.addComponent(transformInImage);
+		
+		
+		imageListName = new Label(100, sizeY - 260, 300, 30, "Image List Name", this);
 		this.addComponent(imageListName);
 		
 		directionChoice = new Chooser(10, sizeY - 160, this);
@@ -435,6 +461,13 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		spritesManager.addObserver(this);
 		//Ajout de la fenêtre.
 		((Container) this.getRacine()).addComponent(frameSpritesManager);
+	}
+	protected void transformInModel(){
+		imgToAdd.setImage("");
+		
+	}
+	protected void transformInImage(){
+		imgToAdd.setImage(getImgPath().getInput().getContenu());
 	}
 	protected void reorganizeButton() {
 		imgExplorer.getComponents().clear();

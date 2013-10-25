@@ -70,13 +70,16 @@ public class PanneauApercu extends PanneauJeuAmeliore {
 									
 								
 								Image wildImg = loadImage(objetImg, o).getImg();
-								Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
-								wildImg = formatImage;
-								SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
-								Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
-								image.setAlpha(o.getOpacity());
-								if(objetImg.isMirror()){
-									image = image.getFlippedCopy(true, false);
+								Image image = null;
+								if(wildImg != null){
+									Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
+									wildImg = formatImage;
+									SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
+									image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
+									image.setAlpha(o.getOpacity());
+									if(objetImg.isMirror()){
+										image = image.getFlippedCopy(true, false);
+									}
 								}
 								translateToObjectImage(g, o, objetImg);
 									

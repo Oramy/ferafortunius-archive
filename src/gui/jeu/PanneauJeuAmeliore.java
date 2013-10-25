@@ -153,26 +153,27 @@ public class PanneauJeuAmeliore extends Container {
 			translateToObject(g, o);
 			do{
 				objetImg = (ObjetImage) it2.getNextElement();
-				if(objetImg != null){
-						PImage imgToDraw = loadImage(objetImg, o);
+				//Si l'objet doit être affiché
+				if(objetImg != null)
+				{
 						
-						Image wildImg = imgToDraw.getImg();
+					Image wildImg = loadImage(objetImg, o).getImg();
+					Image image = null;
+					if(wildImg != null){
+						Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
 						
-						if(wildImg != null){
-							Image formatImage = wildImg.getSubImage(objetImg.getPosSpriteSheetX(), objetImg.getPosSpriteSheetY(), wildImg.getWidth(), wildImg.getHeight());
-							wildImg = formatImage;
-							SpriteSheet sprite = new SpriteSheet(wildImg, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
-							
-							Image image =  sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
-							image.setAlpha(o.getOpacity());
-							
-							if(objetImg.isMirror()){
-								image = image.getFlippedCopy(true, false);
-							}
-							
-							drawObjectImage(g, o, objetImg, image, checkScreen);
+						SpriteSheet sprite = new SpriteSheet(formatImage, objetImg.getSizeSpriteX(),  objetImg.getSizeSpriteY());
 						
+						image = sprite.getSprite( objetImg.getPosX(),  objetImg.getPosY());
+						image.setAlpha(o.getOpacity());
+						
+						if(objetImg.isMirror()){
+							image = image.getFlippedCopy(true, false);
 						}
+					}
+					
+					drawObjectImage(g, o, objetImg, image, checkScreen);
+						
 				}
 				
 				

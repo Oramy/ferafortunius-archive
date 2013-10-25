@@ -22,6 +22,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 
 import Level.ArrayIterator;
 import Level.Camera;
@@ -549,6 +550,39 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		return getYOnScreen(jeu.getPanneauDuJeu(), jeu.getPanneauDuJeu().getActualCam());
 		
 	}
+	/**
+	 * 
+	 * @param pan the drawing panel
+	 * @param actualCam the actual camera.
+	 * @return a shape which is the polygon made with the sizes and positions of the objects. 
+	 */
+	public Shape getClickPolygon(PanneauJeuAmeliore pan, Camera actualCam){
+		//Chunks size
+		int cs = pan.getCarte().getChunksSize();
+		Polygon polygon = new Polygon();
+		//Création du Polygone de clic.
+		//point 1
+		polygon.addPoint(getXOnScreen(pan, actualCam), getYOnScreen(pan, actualCam));
+		
+		//Point 2
+		Point limit = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs), pan, actualCam);
+		polygon.addPoint(limit.x, limit.y);
+		
+		//Point 3
+		 limit = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+		polygon.addPoint(limit.x, limit.y);
+		
+		//Point 4
+		  limit = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+		polygon.addPoint(limit.x, limit.y);
+		//Point 5
+		  limit = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
+		polygon.addPoint(limit.x, limit.y);
+		//Point 6
+		 limit = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs), pan, actualCam);
+		polygon.addPoint(limit.x, limit.y);
+		return polygon;
+	}
 	public void paintComponent(PanneauJeuAmeliore pan, Graphics g, Image img,
 			int posX, int posY, ObjetImage c, Camera actualCam) {
 
@@ -569,33 +603,7 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		float mouseY = (int) (pan.getRacine().getHeight() - Mouse.getY() - pan
 				.getYOnScreen());
 		
-		
-			//Obtention des coordonnées de l'image
-			//Chunks size
-			int cs = pan.getCarte().getChunksSize();
-			Polygon polygon = new Polygon();
-			//Création du Polygone de clic.
-			//point 1
-			polygon.addPoint(getXOnScreen(pan, actualCam), getYOnScreen(pan, actualCam));
-			
-			//Point 2
-			Point trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs), pan, actualCam);
-			polygon.addPoint(trans.x, trans.y);
-			
-			//Point 3
-			 trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs)), getAbsPosZ(cs) + sizeZ, pan, actualCam);
-			polygon.addPoint(trans.x, trans.y);
-			
-			//Point 4
-			  trans = Isometric.worldToScreen(new Point(getAbsPosX(cs) + sizeX, getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
-			polygon.addPoint(trans.x, trans.y);
-			//Point 5
-			  trans = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs) + sizeZ, pan, actualCam);
-			polygon.addPoint(trans.x, trans.y);
-			//Point 6
-			 trans = Isometric.worldToScreen(new Point(getAbsPosX(cs), getAbsPosY(cs) + sizeY), getAbsPosZ(cs), pan, actualCam);
-			polygon.addPoint(trans.x, trans.y);
-			if (polygon.contains(mouseX, mouseY)) {
+			if (getClickPolygon(pan, actualCam).contains(mouseX, mouseY)) {
 				pan.setSurlign(true);
 				if( !(pan.getParent() instanceof Jeu))
 					setOmbre(getOmbre() + 50);
@@ -616,51 +624,54 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 			else{
 				surligned = false;
 			}
-		img.setAlpha(opacity);
+			
+			
+		//Modification de l'image.
+		if(img != null)
+		{
+			img.setAlpha(opacity);
+			
+			//Chargement du masque
+			Color maskColor = o.getMaskColor().scaleCopy(1f);
+			//Application de l'opacité de l'objet
+			if(maskColor.a > opacity)
+				maskColor.a = opacity;
+			
+			//Changement de la taille
+			img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
+					(int)(c.getImageSizeInGameY() * actualCam.getZoom()));
+			
+			//Changement du centre de rotation
+			img.setCenterOfRotation(c.getRotationCenterX() * actualCam.getZoom(),
+					c.getRotationCenterY() * actualCam.getZoom());
+					
+			//Rotation
+			img.rotate(c.getRotation());
+			
+			
+			if(maskColor.a == 0f){
+				maskColor.a = 1f;
+				maskColor.r = 1f;
+				maskColor.g = 1f;
+				maskColor.b = 1f;
+			}
+		//	GregorianCalendar calendar = new GregorianCalendar();
+		//	float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
 		
-		//Chargement du masque
-		Color maskColor = o.getMaskColor().scaleCopy(1f);
-		//Application de l'opacité de l'objet
-		if(maskColor.a > opacity)
-			maskColor.a = opacity;
+			if(posX > pan.getCarte().getChunksSize() || posY > pan.getCarte().getChunksSize() || posZ > pan.getCarte().getChunksSize())
+				pan.getCarte().getChunk(this).remove(this);
+			if(pan.getParent() instanceof Jeu){
+				Jeu jeu = (Jeu) pan.getParent();
+				float nightValue = jeu.getTimeController().getNightValue();
 		
-		//Changement de la taille
-		img = img.getScaledCopy((int)(c.getImageSizeInGameX() * actualCam.getZoom()),
-				(int)(c.getImageSizeInGameY() * actualCam.getZoom()));
-		
-		//Changement du centre de rotation
-		img.setCenterOfRotation(c.getRotationCenterX() * actualCam.getZoom(),
-				c.getRotationCenterY() * actualCam.getZoom());
-				
-		//Rotation
-		img.rotate(c.getRotation());
-		
-		
-		if(maskColor.a == 0f){
-			maskColor.a = 1f;
-			maskColor.r = 1f;
-			maskColor.g = 1f;
-			maskColor.b = 1f;
+				g.setAntiAlias(false);
+				//Dessin
+				img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
+			}
+			else{
+				img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
+			}
 		}
-	//	GregorianCalendar calendar = new GregorianCalendar();
-	//	float heure = calendar.get(Calendar.HOUR_OF_DAY) + (float)calendar.get(Calendar.MINUTE) / 60f;
-	
-		if(posX > pan.getCarte().getChunksSize() || posY > pan.getCarte().getChunksSize() || posZ > pan.getCarte().getChunksSize())
-			pan.getCarte().getChunk(this).remove(this);
-		if(pan.getParent() instanceof Jeu){
-			Jeu jeu = (Jeu) pan.getParent();
-			float nightValue = jeu.getTimeController().getNightValue();
-	
-			g.setAntiAlias(false);
-			//Dessin
-			img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f - 0.7f * nightValue + 0.7f * (1f-nightValue)),maskColor.g  - (float)ombre / 255f - 0.7f * nightValue, maskColor.b   - (float)ombre / 255f  - 0.4f * (1f-nightValue), opacity));
-		}
-		else{
-			img.draw(0, 0, new Color((float) (maskColor.r - (float)ombre / 255f),maskColor.g  - (float)ombre / 255f, maskColor.b   - (float)ombre / 255f, opacity));
-		}
-		
-		//Si on veut appliquer l'ombre Z
-	
 	}
 
 	public void removeChrono(String name) {
