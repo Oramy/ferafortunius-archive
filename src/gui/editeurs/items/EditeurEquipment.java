@@ -1,11 +1,11 @@
-package gui.editeurs.objetmaps;
+package gui.editeurs.items;
 
 import gui.Container;
 import gui.PImage;
 import gui.buttons.Onglet;
 import gui.buttons.OngletManager;
 import gui.editeurs.PanneauApercu;
-import gui.editeurs.items.EditeurItemBasic;
+import gui.editeurs.objetmaps.ImgEditor;
 import gui.jeu.PanneauJeuAmeliore;
 
 import org.newdawn.slick.GameContainer;
@@ -46,7 +46,7 @@ public class EditeurEquipment extends EditeurItemBasic {
 		Onglet carac = new Onglet("Carac", ongletManager);
 		
 		//Chargement de l'éditeur
-		EditeurCaracEquipment editorCarEquip = new EditeurCaracEquipment(0, 50, sizeX, sizeY - 50, ongletManager);
+		EditeurCaracEquipment editorCarEquip = new EditeurCaracEquipment(0, 50, sizeX / 2, sizeY - 50, ongletManager);
 		carac.setContainer(editorCarEquip);
 		
 		//Ajout de l'onglet
