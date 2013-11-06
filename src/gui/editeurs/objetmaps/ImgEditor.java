@@ -412,7 +412,7 @@ public class ImgEditor extends ContainerWithBords implements Observer{
 		transformInModel = new Button("Model", 10, sizeY - 290, 150, 30, this);
 		transformInModel.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
-				transformInModel();
+				transformInModel(); 
 			}
 		});
 		this.addComponent(transformInModel);

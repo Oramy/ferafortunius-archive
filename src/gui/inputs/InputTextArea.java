@@ -124,68 +124,52 @@ public class InputTextArea extends InputLabel {
 						if(position == 0)
 							drawLineNumber(g, x, y, lineNumber);
 						g.drawString(contenu.substring(position, position + 1), x, y);
-						if(mx >= this.getXOnScreen() + x - textX && mx <= this.getXOnScreen() - textX + x + g.getFont().getWidth(contenu.substring(position, position + 1))
-								&& my > this.getYOnScreen() - textY +  y - g.getFont().getLineHeight() / 2 && my <= this.getYOnScreen() - textY + y + g.getFont().getLineHeight()
-								&& action.equals("mouseclick")){
-							cursor = position;
+						if(mx >= this.getXOnScreen() + x - textX 
+						&& mx <= this.getXOnScreen() - textX + x + g.getFont().getWidth(contenu.substring(position, position + 1))
+						&& my >= this.getYOnScreen() - textY +  y - g.getFont().getLineHeight() / 2
+						&& my <= this.getYOnScreen() - textY + y + g.getFont().getLineHeight()){
+							if(action.equals("mouseclick")){
+								cursor = position;
+								draggedCursor = position;
+							}
+							else if(action.equals("mousepressed"))
+								draggedCursor = position;
 							action = "";
 						}
-						if(position < contenu.length() - 2){
-							if(x + g.getFont().getWidth(contenu.substring(position, position + 2)) > getSizeX()){
-								x = 0;
-								y += g.getFont().getLineHeight();
-								lineNumber++;
-								drawLineNumber(g, x, y, lineNumber);
-							}
-							else{
-								if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
-									x+= g.getFont().getWidth(contenu.substring(position, position + 1));
-								else if((int)contenu.charAt(position) == 10){
-									x = 0;
-									y += g.getFont().getLineHeight();
-									lineNumber++;
-									drawLineNumber(g, x, y, lineNumber);
-								}
-								else if((int)contenu.charAt(position) == 13){
-									x+= g.getFont().getWidth(" ") * 4;
-									if(x > getSizeX()){
-										x = 0;
-										y += g.getFont().getLineHeight();
-										lineNumber++;
-										drawLineNumber(g, x, y, lineNumber);
-									}
-								}
-							}
+						if(x + g.getFont().getWidth(contenu.substring(position, position + 1)) > getSizeX()){
+							x = 0;
+							y += g.getFont().getLineHeight();
+							lineNumber++;
+							drawLineNumber(g, x, y, lineNumber);
 						}
 						else{
-							if(x + g.getFont().getWidth(contenu.substring(position, position + 1)) > getSizeX()){
+							if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
+								x+= g.getFont().getWidth(contenu.substring(position, position + 1));
+							else if(contenu.charAt(position) == (char)10){
 								x = 0;
 								y += g.getFont().getLineHeight();
 								lineNumber++;
 								drawLineNumber(g, x, y, lineNumber);
 							}
-							else{
-								if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
-									x+= g.getFont().getWidth(contenu.substring(position, position + 1));
-								else if(contenu.charAt(position) == (char)10){
+							else if(contenu.charAt(position) == (char)13){
+								x+= g.getFont().getWidth(" ") * 4;
+								if(x > getSizeX()){
 									x = 0;
 									y += g.getFont().getLineHeight();
 									lineNumber++;
 									drawLineNumber(g, x, y, lineNumber);
-								}
-								else if(contenu.charAt(position) == (char)13){
-									x+= g.getFont().getWidth(" ") * 4;
-									if(x > getSizeX()){
-										x = 0;
-										y += g.getFont().getLineHeight();
-										lineNumber++;
-										drawLineNumber(g, x, y, lineNumber);
-									}
 								}
 							}
 						}
 						if(position == cursor - 1 && cursorEnable){
 							g.drawLine(x, y, x, y + g.getFont().getLineHeight());
+						}
+						if((position >= cursor  && position < draggedCursor)
+								|| (position >= draggedCursor  && position < cursor)){
+							g.setColor(new Color(0,0,255,120));
+							g.fillRect(x - g.getFont().getWidth(contenu.substring(position, position+1)), y,
+									g.getFont().getWidth(contenu.substring(position, position + 1)), g.getFont().getLineHeight());
+							g.setColor(Color.black);
 						}
 						position ++;
 					}

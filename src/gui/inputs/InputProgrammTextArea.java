@@ -192,16 +192,22 @@ public class InputProgrammTextArea extends InputTextArea{
 					keybool = false;
 					int lastguillemet = -1;
 					int lineNumber = 1;
+					
 					while(position < contenu.length()){
 						if(position == 0)
 							drawLineNumber(g, x, y, lineNumber);
 						
-						// Commentaires
 						
-						if(mx >= this.getXOnScreen() + x - textX && mx <= this.getXOnScreen() - textX + x + g.getFont().getWidth(contenu.substring(position, position + 1))
-								&& my > this.getYOnScreen() - textY +  y - g.getFont().getLineHeight() / 2 && my <= this.getYOnScreen() - textY + y + g.getFont().getLineHeight()
-								&& action.equals("mouseclick")){
-							cursor = position;
+						if(mx >= this.getXOnScreen() + x - textX 
+								&& mx <= this.getXOnScreen() - textX + x + g.getFont().getWidth(contenu.substring(position, position + 1))
+								&& my > this.getYOnScreen() - textY +  y - g.getFont().getLineHeight() / 2 
+								&& my <= this.getYOnScreen() - textY + y + g.getFont().getLineHeight()){
+							if(action.equals("mouseclick")){
+								cursor = position;
+								draggedCursor = position;
+							}
+							else if(action.equals("mousepressed"))
+								draggedCursor = position;
 							action = "";
 						}
 						if(contenu.length() >= 2 && position <= contenu.length() - 2){
@@ -244,46 +250,31 @@ public class InputProgrammTextArea extends InputTextArea{
 							g.setColor(new Color(149,0,85));
 						}
 						g.drawString(contenu.substring(position, position + 1), x, y);
-						if(position < contenu.length() - 2){
-							if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
-								x+= g.getFont().getWidth(contenu.substring(position, position + 1));
-							else if((int)contenu.charAt(position) == 10){
-								x = 0;
-								y += g.getFont().getLineHeight();
-								lineNumber++;
-								drawLineNumber(g, x, y, lineNumber);
-								linecomment = false;
-							}
-							else if((int)contenu.charAt(position) == 13){
-								x+= g.getFont().getWidth(" ") * 4;
-								if(x > getSizeX()){
-									x = 0;
-									y += g.getFont().getLineHeight();
-									lineNumber++;
-									drawLineNumber(g, x, y, lineNumber);
-									linecomment = false;
-								}
-							}
+						if((position >= cursor  && position < draggedCursor)
+								|| (position >= draggedCursor  && position < cursor)){
+							g.setColor(new Color(0,0,255,120));
+							g.fillRect(x, y,
+									g.getFont().getWidth(contenu.substring(position, position + 1)), g.getFont().getLineHeight());
+							g.setColor(Color.black);
 						}
-						else{
-							if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
-								x+= g.getFont().getWidth(contenu.substring(position, position + 1));
-							else if(contenu.charAt(position) == (char)10){
+						
+						if((int)contenu.charAt(position) != 10 && (int)contenu.charAt(position) != 13)
+							x+= g.getFont().getWidth(contenu.substring(position, position + 1));
+						else if(contenu.charAt(position) == (char)10){
+							x = 0;
+							y += g.getFont().getLineHeight();
+							lineNumber++;
+							drawLineNumber(g, x, y, lineNumber);
+							linecomment = false;
+						}
+						else if(contenu.charAt(position) == (char)13){
+							x+= g.getFont().getWidth(" ") * 4;
+							if(x > getSizeX()){
 								x = 0;
 								y += g.getFont().getLineHeight();
 								lineNumber++;
 								drawLineNumber(g, x, y, lineNumber);
 								linecomment = false;
-							}
-							else if(contenu.charAt(position) == (char)13){
-								x+= g.getFont().getWidth(" ") * 4;
-								if(x > getSizeX()){
-									x = 0;
-									y += g.getFont().getLineHeight();
-									lineNumber++;
-									drawLineNumber(g, x, y, lineNumber);
-									linecomment = false;
-								}
 							}
 						}
 						if(position == cursor - 1 && cursorEnable){

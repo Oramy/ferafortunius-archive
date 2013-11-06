@@ -12,6 +12,7 @@ public class Text extends FComponent {
 	private String text;
 	private TextDisplayMode display;
 	private boolean autoEnter;
+	private boolean markDown;
 	
 	private int marginX;
 	private int displayInt;
@@ -20,6 +21,7 @@ public class Text extends FComponent {
 		super(parent);
 		this.text = text;
 		setAutoEnter(false);
+		markDown = false;
 		updatable = true;
 		setSizeX(parent.getSizeX());
 		setDisplay(TextDisplayMode.Instantly);
@@ -42,6 +44,38 @@ public class Text extends FComponent {
 		clone = (Text) super.clone();
 		return clone;
 	}
+	public boolean drawLine(Color actualColor,Graphics g, String line, int y, boolean surlign){
+		int x = 0;
+		for(Character c : line.toCharArray()){
+			if(c == '*'){
+				if(actualColor.r == 0f){
+					actualColor.r = 1f;
+				}
+				else if(actualColor.r == 1f){
+					actualColor.r = 0f;
+				}
+				g.setColor(actualColor);
+				
+			}
+			else if(c == '$'){
+				if(actualColor.b == 0f){
+					actualColor.b = 1f;
+					surlign = true;
+				}
+				else if(actualColor.b == 1f){
+					actualColor.b = 0f;
+					surlign = false;
+				}
+				g.setColor(actualColor);
+			}
+			else{
+				g.setColor(actualColor);
+				g.drawString(c+"", x, y);
+				x+= g.getFont().getWidth(c+"");
+			}
+		}
+		return surlign;
+	}
 	public void draw(Graphics g) {
 		if(getDisplayInt() > text.length())
 			setDisplayInt(text.length());
@@ -52,8 +86,12 @@ public class Text extends FComponent {
 		if(this.getBounds().height < parent.getSizeY()){
 			setSizeY(parent.getSizeY() - 2);
 		}
+		Color actualColor = Color.black;
+		boolean surlign = false;
+		g.setColor(actualColor);
+		
 		g.translate(getX() + getMarginX() / 2, getY());
-			g.setColor(Color.black);
+			
 			if(isAutoEnter() == true){
 					int i = 0;
 					int nextChar = 0;
@@ -73,7 +111,7 @@ public class Text extends FComponent {
 										}
 									realLigne = realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3");
 								}
-								g.drawString(realLigne, 0, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight());
+								surlign = this.drawLine(actualColor, g, realLigne, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight(), surlign);
 								nextChar += ligne.lastIndexOf(" ") + 1;
 							}
 							else{
@@ -84,20 +122,23 @@ public class Text extends FComponent {
 										}
 									realLigne = realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3");
 								}
-								g.drawString(realLigne, 0, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight());
-							
+								surlign = this.drawLine(actualColor, g, realLigne, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight(), surlign);
+								
 							}
 						}
 						else{
-							g.drawString(getText().substring(nextChar, getDisplayInt()), 0, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight());
+							surlign = this.drawLine(actualColor, g, getText().substring(nextChar, getDisplayInt()), g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight(), surlign);
 							nextChar = getDisplayInt();
 							
 						}
 						i++;
 					}
+					//Réinitialisation de la couleur.
+					actualColor = Color.black;
+					g.setColor(actualColor);
 			}
 			else{
-				g.drawString(getText(), 0, g.getFont().getLineHeight() / 2);
+				surlign = this.drawLine(actualColor, g, getText(), g.getFont().getLineHeight() / 2, surlign);
 			}
 		g.translate(-getX() - getMarginX() / 2,  -getY());
 		updatable = true;
@@ -190,5 +231,11 @@ public class Text extends FComponent {
 	}
 	public void setMarginX(int marginX) {
 		this.marginX = marginX;
+	}
+	public boolean isMarkDown() {
+		return markDown;
+	}
+	public void setMarkDown(boolean markDown) {
+		this.markDown = markDown;
 	}
 }

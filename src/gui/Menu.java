@@ -133,8 +133,7 @@ public class Menu extends Container {
 		this.addComponent(buttonContainer);
 		
 		nouvPart = new Button(Messages.getString("Menu.text.0"), buttonContainer); //$NON-NLS-1$
-		if(!ControllersManager.hasController(gc))
-			nouvPart.setName(nouvPart.getName().substring(1));
+		
 		nouvPart.getAction().add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
@@ -163,32 +162,6 @@ public class Menu extends Container {
 		nouvPart.setSizeX(500);
 		buttonContainer.addComponent(nouvPart);
 		
-		/*chargerPart = new Button(Messages.getString("Menu.text.1"), buttonContainer); //$NON-NLS-1$
-		chargerPart.action.add(new ActionListener(){
-			private Menu c;
-			public void actionPerformed(FComponent c2){
-				c = (Menu) c2.getRacine();
-				Thread t = new Thread(new Runnable(){
-					public void run(){
-						if(c.toDo.equals("")){ //$NON-NLS-1$
-							for(int i = 0; i < 256; i++){
-								try {
-									Thread.sleep(10);
-								} catch (InterruptedException e) {
-									
-									e.printStackTrace();
-								}
-								c.transitionColor = new Color(0,0,0, i);
-							}
-						}
-						c.toDo = "chargerPart"; //$NON-NLS-1$
-					}
-				});	
-				t.start();
-			}
-		});
-		/*chargerPart.setSizeX(500);
-		buttonContainer.addComponent(chargerPart);*/
 		editer = new Button(Messages.getString("Menu.text.2"), buttonContainer); //$NON-NLS-1$
 		editer.getAction().add(new ActionListener(){
 			private Menu c;
@@ -199,11 +172,7 @@ public class Menu extends Container {
 		});
 		editer.setSizeX(500);
 		buttonContainer.addComponent(editer);
-		/*
-		optionsButton = new Button(Messages.getString("Menu.text.3"), buttonContainer); //$NON-NLS-1$
-		optionsButton.setSizeX(500);
-		buttonContainer.addComponent(optionsButton);*/
-
+		
 		quitter = new Button(Messages.getString("Menu.text.4"), buttonContainer); //$NON-NLS-1$
 		quitter.getAction().add(new ActionListener(){
 			private Menu c;
@@ -246,33 +215,16 @@ public class Menu extends Container {
 		if(layout.getChoice() == -1)
 			layout.setChoice(0);
 		if(ControllersManager.getFirstController().isDownReleased()){
-			Button ancientButton = (Button)layout.getObjectChoice();
-			ancientButton.setName(ancientButton.getName().substring(1));
-			
 			layout.increaseChoice();
-			Button b = (Button)layout.getObjectChoice();
-			b.setName(">"+b.getName());
 		}
 		if(ControllersManager.getFirstController().isUpReleased()){
-			Button ancientButton = (Button)layout.getObjectChoice();
-			ancientButton.setName(ancientButton.getName().substring(1));
-			
 			layout.decreaseChoice();
-			
-			Button b = (Button)layout.getObjectChoice();
-			b.setName(">"+b.getName());
 		}
 		if(ControllersManager.getFirstController().isButton1Released()){
 			layout.actionChoice();
 		}
 		if(ControllersManager.getFirstController().isButton2Released()){
-			Button ancientButton = (Button)layout.getObjectChoice();
-			ancientButton.setName(ancientButton.getName().substring(1));
-			
 			layout.setChoice(this.getComponents().size());
-			
-			Button b = (Button)layout.getObjectChoice();
-			b.setName(">"+b.getName());
 		}
 		//((GridLayout)buttonContainer.actualLayout).updateChoice();
 	}
@@ -304,36 +256,44 @@ public class Menu extends Container {
 			background = backgroundimages.get(backgroundId);
 			transitionBackground = backgroundimages.get((backgroundId + 1) % backgroundimages.size());
 		}
-			nouvPart.setBoutonAct(Container.alpha);
-			//chargerPart.boutonAct = alpha;
-			editer.setBoutonAct(Container.alpha);
-			//optionsButton.boutonAct = alpha;
-			quitter.setBoutonAct(Container.alpha);
+		
+		//Enlever le background des boutons.
+		nouvPart.setBoutonAct(Container.alpha);
+		editer.setBoutonAct(Container.alpha);
+		quitter.setBoutonAct(Container.alpha);
 	}
 	@Override
 	public void drawBackground(Image img){
 		super.drawBackground(img);
 			
 	}
-	public void paintComponent(GameContainer container, Graphics g) {
+	public void paintComponent(GameContainer gc, Graphics g) {
 		
 		g.setFont(FontRessources.getFonts().titres);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, sizeX, sizeY);
-		test.startShader();
 		
+		test.startShader();
 		this.drawBegin(g);
-			if((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f) <= 1f
-					&& (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f) >= 0f){
-				transitionBackground.getImg().setAlpha((float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));
-				background.getImg().setAlpha(1f - (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f));		
+			float alphaBackground = (float)(System.currentTimeMillis() - tempsPrec - (TRANSITION_TIME - 1000)) / (1000f);
+			
+			if(alphaBackground <= 1f
+					&& alphaBackground >= 0f){
+				transitionBackground.getImg().setAlpha(alphaBackground);
+				background.getImg().setAlpha(1f - alphaBackground);		
 			}
 			drawBackground(transitionBackground.getImg());
 			
 			this.draw(g);
-			
+			if(ControllersManager.hasController(gc)){
+				GridLayout layout = ((GridLayout)buttonContainer.actualLayout);
+				if(layout.getChoice() != -1)
+					g.drawImage(ControllersManager.getButtonA(gc).getImg(), layout.getObjectChoice().getXOnScreen(), layout.getObjectChoice().getYOnScreen() + 15);
+			}
+			//Dessin de la couleur de transition
 			g.setColor(transitionColor);
 			g.fillRect(0, 0, getSizeX(), getSizeY());
+		
 		this.drawEnd(g);
 		Shader.forceFixedShader();
 		

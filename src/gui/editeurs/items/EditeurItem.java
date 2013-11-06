@@ -1,7 +1,6 @@
 package gui.editeurs.items;
 
 import gui.Container;
-import gui.editeurs.objetmaps.EditeurEquipment;
 import gui.editeurs.objetmaps.EmptyEditeurItem;
 import gui.layouts.GridLayout;
 

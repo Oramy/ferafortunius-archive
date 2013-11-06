@@ -25,7 +25,7 @@ public class BuffMini extends Buff{
 
 			@Override
 			public void run() {
-				for(int i = 0; i < 7; i ++){
+				for(int i = 0; i < 3; i ++){
 					getCible().extend(1.1f);
 					try {
 						Thread.sleep(200);
@@ -46,7 +46,7 @@ public class BuffMini extends Buff{
 
 			@Override
 			public void run() {
-				for(int i = 0; i < 7; i ++){
+				for(int i = 0; i < 3; i ++){
 					getCible().reduce(1.1f);
 					try {
 						Thread.sleep(200);

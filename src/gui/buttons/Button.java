@@ -173,6 +173,10 @@ public class Button extends FComponent{
 		drawButton(g);
 		
 	}
+	/**
+	 * Dessine le fond du bouton.
+	 * @param g
+	 */
 	protected void drawButton(Graphics g){
 		g.translate(this.getBounds().x, this.getBounds().y);
 		//Dessin du bouton avec adaptation de l'image
