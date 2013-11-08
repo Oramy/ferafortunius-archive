@@ -150,73 +150,76 @@ public class ChunkMap implements Serializable, Cloneable{
 	 * @param without 
 	 * 
 	 */
-	public synchronized boolean verifyPosition(ObjetMap o){
-		ObjetMap clone = o;
-		if(getChunk(o).getModeActuel() != Chunk.GOD_MOD){
-			ObjetMap ref = (ObjetMap) o.clone();
-			while(clone.getPosX() >= chunksSize){
-				
-				clone.setChunkX(clone.getChunkX() + 1);
-				clone.setPosX(clone.getPosX() - chunksSize);
+	public synchronized boolean verifyPosition(ObjetMap objet){
+		if(getChunk(objet).getModeActuel() != Chunk.GOD_MOD){
+			ObjetMap ref = (ObjetMap) objet.clone();
+			
+			//X
+			if(objet.getPosX() + objet.getSizeX() >= chunksSize){
+				objet.setChunkX(objet.getChunkX() + objet.getPosX() / chunksSize);
+				objet.setPosX(objet.getPosX() -  (objet.getPosX() / chunksSize) * chunksSize);
 			}
-			while(clone.getPosY() >= chunksSize){
-				clone.setChunkY(clone.getChunkY() + 1);
-				clone.setPosY(clone.getPosY() - chunksSize);
+			if(objet.getPosX() < 0){
+				objet.setChunkX(objet.getChunkX() + (objet.getPosX()) / chunksSize - 1);
+				objet.setPosX(chunksSize + objet.getPosX());
 			}
-			while(clone.getPosZ() >= chunksSize){
-				clone.setChunkZ(clone.getChunkZ() + 1);
-				clone.setPosZ(clone.getPosZ() - chunksSize);
+			//Y
+			if(objet.getPosY() + objet.getSizeY() >= chunksSize){
+				objet.setChunkY(objet.getChunkY() + objet.getPosY() / chunksSize);
+				objet.setPosY(objet.getPosY() -  (objet.getPosY() / chunksSize) * chunksSize);
 			}
-			while(clone.getPosX() < 0){
-				clone.setChunkX(clone.getChunkX() - 1);
-				clone.setPosX(chunksSize + clone.getPosX());
+			if(objet.getPosY() < 0){
+				objet.setChunkY(objet.getChunkY() + (objet.getPosY()) / chunksSize - 1);
+				objet.setPosY(chunksSize + objet.getPosY());
+			}		
+			//Z
+			if(objet.getPosZ() + objet.getSizeZ() >= chunksSize){
+				objet.setChunkZ(objet.getChunkZ() + objet.getPosZ() / chunksSize);
+				objet.setPosZ(objet.getPosZ() -  (objet.getPosZ() / chunksSize) * chunksSize);
 			}
-			while(clone.getPosY() < 0){
-				clone.setChunkY(clone.getChunkY() - 1);
-				clone.setPosY(chunksSize + clone.getPosY());
+			if(objet.getPosZ() < 0){
+				objet.setChunkZ(objet.getChunkZ() + (objet.getPosZ()) / chunksSize - 1);
+				objet.setPosZ(chunksSize + objet.getPosZ());
 			}
-			while(clone.getPosZ() < 0){
-				clone.setChunkZ(clone.getChunkZ() - 1);
-				clone.setPosZ(chunksSize + clone.getPosZ());
-			}
-			if(clone.getChunkX() < 0)
+			
+			if(objet.getChunkX() < 0)
 			{
-				clone.setChunkX(0);
-				clone.setPosX(0);
+				objet.setChunkX(0);
+				objet.setPosX(0);
 			}
-			if(clone.getChunkY() < 0)
+			if(objet.getChunkY() < 0)
 			{
-				clone.setChunkY(0);
-				clone.setPosY(0);
+				objet.setChunkY(0);
+				objet.setPosY(0);
 			}
-			if(clone.getChunkZ() < 0)
+			if(objet.getChunkZ() < 0)
 			{
-				clone.setChunkZ(0);
-				clone.setPosZ(0);
+				objet.setChunkZ(0);
+				objet.setPosZ(0);
 			}
-			if( clone.getChunkX() >= mapSizeX)
+			if( objet.getChunkX() >= mapSizeX)
 			{
-				clone.setChunkX(mapSizeX - 1);
-				clone.setPosX(chunksSize);
-			}
-				
-			if( clone.getChunkY() >= mapSizeY)
-			{
-				clone.setChunkY(mapSizeY - 1);
-				clone.setPosY(chunksSize);
+				objet.setChunkX(mapSizeX - 1);
+				objet.setPosX(chunksSize);
 			}
 				
-			if( clone.getChunkZ() >= mapSizeZ)
+			if( objet.getChunkY() >= mapSizeY)
 			{
-				clone.setChunkZ(mapSizeZ - 1);
-				clone.setPosZ(chunksSize);
+				objet.setChunkY(mapSizeY - 1);
+				objet.setPosY(chunksSize);
 			}
-			if(ref.getChunkX() != clone.getChunkX() || ref.getChunkY() != clone.getChunkY() || ref.getChunkZ() != clone.getChunkZ()){
-				if(!getChunk(o).addContenu(o)){
+				
+			if( objet.getChunkZ() >= mapSizeZ)
+			{
+				objet.setChunkZ(mapSizeZ - 1);
+				objet.setPosZ(chunksSize);
+			}
+			if(ref.getChunkX() != objet.getChunkX() || ref.getChunkY() != objet.getChunkY() || ref.getChunkZ() != objet.getChunkZ()){
+				if(!getChunk(objet).addContenu(objet)){
 					return false;
 				}
 				else
-					getChunk(ref).remove(o);
+					getChunk(ref).remove(objet);
 			}
 			//getChunk(o).sort(o);
 		}
@@ -495,5 +498,15 @@ public class ChunkMap implements Serializable, Cloneable{
 	}
 	public void setScriptId(int scriptId) {
 		this.scriptId = scriptId;
+	}
+	public void verifyAll() {
+		for(int i = 0; i < mapSizeX; i++){
+			for(int j = 0; j < mapSizeY; j++){
+				for(int k = 0; k < mapSizeZ; k++){
+					for(ObjetMap o : getChunk(i,j,k).getContenu())
+						verifyPosition(o);
+				}
+			}	
+		}
 	}
 }
