@@ -30,7 +30,7 @@ public class Chunk implements Serializable, Cloneable {
 	
 	private ArrayList<ObjetMap> updatable;
 	protected ArrayList<ObjetMap> contenu;
-	
+	protected ArrayList<ObjetMap> interchunk;
 	private ArrayList<Teleporter> teleporters;
 	// Variables de performances
 	protected transient long lastSort = 0;
@@ -752,6 +752,7 @@ public class Chunk implements Serializable, Cloneable {
 		for (int i = 0; i < updatable.size(); i++) {
 			updatable.get(i).update(jeu);
 		}
+		
 	}
 
 	public Entity searchEntity() {

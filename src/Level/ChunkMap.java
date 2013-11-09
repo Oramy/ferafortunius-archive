@@ -503,8 +503,11 @@ public class ChunkMap implements Serializable, Cloneable{
 		for(int i = 0; i < mapSizeX; i++){
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
-					for(ObjetMap o : getChunk(i,j,k).getContenu())
-						verifyPosition(o);
+					for(int l = 0; l < getChunk(i,j,k).getContenu().size(); l++){
+						verifyPosition(getChunk(i,j,k).getContenu().get(l));
+						if(!getChunk(i,j,k).getContenu().contains(getChunk(i,j,k).getContenu().get(l)))
+							l--;
+					}
 				}
 			}	
 		}
