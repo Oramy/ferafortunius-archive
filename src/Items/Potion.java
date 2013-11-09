@@ -26,6 +26,6 @@ public class Potion extends Utility{
 		this.setUseNumber(1);
 		super.use();
 		this.img = new ObjetImage("Items/potion"+(4-useNumber)+".png");
-		owner.addBonus(new BuffMini(120, owner));
+		owner.addBonus(new BuffMini(45, owner));
 	}
 }
