@@ -6,8 +6,8 @@ import org.newdawn.slick.Graphics;
 
 public class ControllerDetection extends FComponent {
 
-	public static final PImage xBox = new PImage("GUI/Controllers/xBoxAvailable.jpg");
-	public static final PImage ps3 = new PImage("GUI/Controllers/ps3Available.jpg");
+	public static final PImage xBox = new PImage("GUI/Controllers/xBoxAvailable.jpg"); //$NON-NLS-1$
+	public static final PImage ps3 = new PImage("GUI/Controllers/ps3Available.jpg"); //$NON-NLS-1$
 	
 	public PImage actual;
 	public ControllerDetection(GameContainer gc, Container parent) {
@@ -28,11 +28,11 @@ public class ControllerDetection extends FComponent {
 			g.drawImage(actual.getImg(), actualX,0);
 			actualX += actual.getImg().getWidth() + 10;
 			if(actual.equals(xBox))
-				g.drawString("Manette XBOX disponible.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
+				g.drawString(Messages.getString("ControllerDetection.2"), actualX, sizeY / 2 - g.getFont().getLineHeight() / 2); //$NON-NLS-1$
 			else
-				g.drawString("Manette PS3 disponible.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
+				g.drawString(Messages.getString("ControllerDetection.3"), actualX, sizeY / 2 - g.getFont().getLineHeight() / 2); //$NON-NLS-1$
 		}else
-			g.drawString("Les expériences de jeu à la manette sont plus agréables.", actualX, sizeY / 2 - g.getFont().getLineHeight() / 2);
+			g.drawString(Messages.getString("ControllerDetection.4"), actualX, sizeY / 2 - g.getFont().getLineHeight() / 2); //$NON-NLS-1$
 		g.translate(-x, -y);
 		
 	}

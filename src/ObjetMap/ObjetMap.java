@@ -239,7 +239,6 @@ public abstract class ObjetMap implements Serializable, Cloneable, Comparable<Ob
 		}
 		for(ObjetImageList list : imagesLists){
 			for(ObjetImage i : list.getList()){
-				i.extend(ratio);
 				i.setRatio(i.getRatio() * ratio);
 			}
 		}

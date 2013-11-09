@@ -206,7 +206,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the imageSizeInGameX
 	 */
 	public int getImageSizeInGameX() {
-		return imageSizeInGameX;
+		return (int) (imageSizeInGameX * ratio);
 	}
 	/**
 	 * @param imageSizeInGameX the imageSizeInGameX to set
@@ -218,7 +218,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the imageSizeInGameY
 	 */
 	public int getImageSizeInGameY() {
-		return imageSizeInGameY;
+		return (int) (imageSizeInGameY * ratio);
 	}
 	/**
 	 * @param imageSizeInGameY the imageSizeInGameY to set
@@ -291,7 +291,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the rotationCenterX
 	 */
 	public int getRotationCenterX() {
-		return rotationCenterX;
+		return  (int) (rotationCenterX * getRatio());
 	}
 	/**
 	 * @param rotationCenterX the rotationCenterX to set
@@ -303,7 +303,7 @@ public class ObjetImage implements Serializable, Cloneable{
 	 * @return the rotationCenterY
 	 */
 	public int getRotationCenterY() {
-		return rotationCenterY;
+		return  (int) (rotationCenterY * getRatio());
 	}
 	/**
 	 * @param rotationCenterY the rotationCenterY to set
