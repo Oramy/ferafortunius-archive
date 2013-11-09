@@ -349,10 +349,18 @@ public class Jeu extends Container implements Cloneable {
 		initGUI();
 
 		//Ajout des dialogues du Prologue.
-		addFileDialog("minimap-1"); //$NON-NLS-1$
-		addFileDialog("minimap-2"); //$NON-NLS-1$
-		addFileDialog("minimap-3"); //$NON-NLS-1$
-		addFileDialog("minimap-4"); //$NON-NLS-1$
+		if(!ControllersManager.hasController(gc)){
+			addFileDialog("minimap-1"); //$NON-NLS-1$
+			addFileDialog("minimap-2"); //$NON-NLS-1$
+			addFileDialog("minimap-3"); //$NON-NLS-1$
+			addFileDialog("minimap-4"); //$NON-NLS-1$
+		}
+		else if(ControllersManager.isXBox(gc)){
+			addFileDialog("minimap-1xbox"); //$NON-NLS-1$
+			addFileDialog("minimap-2xbox"); //$NON-NLS-1$
+			addFileDialog("minimap-3xbox"); //$NON-NLS-1$
+			addFileDialog("minimap-4xbox"); //$NON-NLS-1$
+		}
 		
 		//Lancement de l'affichage du titre.
 		Thread t = new Thread(new Runnable() {
@@ -389,8 +397,8 @@ public class Jeu extends Container implements Cloneable {
 		this.addComponent(panneauDuJeu);
 		
 		//Désactivé pour la version snapshot.
-		// this.addComponent(new FastMenuContainer(0, this.getHeight() - 86,
-		// this.getWidth(), this.getHeight() / 2, this));
+		 this.addComponent(new FastMenuContainer(0, this.getHeight() - 66,
+		 this.getWidth(), this.getHeight() / 2, this));
 		
 		 setMenuJeu(new MenuJeuContainer(0, 50, 170, 210, this));
 		 //Menu du jeu
@@ -785,11 +793,6 @@ public class Jeu extends Container implements Cloneable {
 			}
 			if (ControllersManager.getFirstController().isSelectReleased()) {
 				dialogBar.nextDialog();
-			}
-			if (ControllersManager.getFirstController().isButton2Released()) {
-				vitesseDep = 3;
-				player.setSpeed(vitesseDep);
-				player.walkAnim(Direction.values()[(player.getDirection().ordinal() + 4) % 8]);
 			}
 			if (ControllersManager.getFirstController().isButton4Pressed()) {
 				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.001f);

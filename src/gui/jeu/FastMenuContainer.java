@@ -55,12 +55,12 @@ public class FastMenuContainer extends Container{
 		this.addComponent(life);
 		this.addComponent(mana);
 		this.addComponent(cont);
-		this.addComponent(exp);
+		//this.addComponent(exp);
 		
 	}
 	public void update(GameContainer gc, int x, int y){
 		super.update(gc, x, y);
-		if(gc.getInput().getMouseX() >= this.getX() + x
+		/*if(gc.getInput().getMouseX() >= this.getX() + x
 				&& gc.getInput().getMouseX() <= this.getX() + x + getSizeX()
 				&& gc.getInput().getMouseY() >= this.getY() + y
 				&& gc.getInput().getMouseY() <= this.getY() + y + getSizeY()){
@@ -75,6 +75,6 @@ public class FastMenuContainer extends Container{
 		}
 		else if( this.getY() < natY){
 			this.setY(this.getY() + getSizeY() / 40);
-		}
+		}*/
 	}
 }
