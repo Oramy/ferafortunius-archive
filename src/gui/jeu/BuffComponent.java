@@ -36,12 +36,7 @@ public class BuffComponent extends FComponent{
 		float angle = coef * 360;
 		g.fillArc(-17, -17, 68, 68, -90, angle - 90);
 		
-		Color c = img.getImg().getColor(3, 17);
-		float r = c.r;
-		c.r = c.g;
-		c.g = c.b;
-		c.b = r;
-		g.setColor(c);
+		g.setColor(Color.red);
 		if(buff.getRestingTime() < 60)
 			g.drawString(buff.getRestingTime() + "s", 34 - g.getFont().getWidth(buff.getRestingTime() + "s"), 18);
 		else
