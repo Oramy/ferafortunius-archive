@@ -94,7 +94,7 @@ public class DialogBar extends Container{
 			this.background = DialogBar.textBox;
 			background.getImg().setAlpha(0.5f);
 			this.addComponent(dialogList.get(0));
-			dialogList.get(0).setY(20);
+			dialogList.get(0).setY(10);
 			dialogList.get(0).setX(0);
 			dialogList.get(0).setMarginX(50);
 			dialogList.get(0).setDisplay(((Jeu)(this.getRacine())).getGameTextDisplayMode());
