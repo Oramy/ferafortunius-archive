@@ -134,8 +134,11 @@ public class Text extends FComponent {
 						i++;
 					}
 					//Réinitialisation de la couleur.
-					actualColor = Color.black;
-					g.setColor(actualColor);
+					actualColor.r = 0f;
+					actualColor.g = 0f;
+					actualColor.b = 0f;
+					
+					g.setColor(Color.black);
 			}
 			else{
 				surlign = this.drawLine(actualColor, g, getText(), g.getFont().getLineHeight() / 2, surlign);
