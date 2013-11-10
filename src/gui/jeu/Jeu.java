@@ -5,6 +5,7 @@ import gui.ControllersManager;
 import gui.DialogsRessources;
 import gui.FontRessources;
 import gui.GameMain;
+import gui.ModeJeu;
 import gui.Text;
 import gui.TextDisplayMode;
 import gui.jeu.inventory.InventaireFrame;
@@ -480,7 +481,6 @@ public class Jeu extends Container implements Cloneable {
 				 g.getFont().getWidth(carte.getNom()) / 2, 100);
 		}
 		g.setColor(transitionColor);
-		
 		g.fillRect(0, 0, getSizeX(), getSizeY());
 		
 		this.drawEnd(g);
@@ -665,6 +665,28 @@ public class Jeu extends Container implements Cloneable {
 
 	public void updateGame(GameContainer gc, int arg1){
 		long temps = System.currentTimeMillis();
+		
+		//Game Over code.
+		if(!carte.getChunk(player).getContenu().contains(player) && transitionColor.a == 0f){
+			Thread t = new Thread(new Runnable(){
+				public void run(){
+					for(int i = 0; i < 256; i++){
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							
+							e.printStackTrace();
+						}
+						transitionColor = new Color(0,0,0, i);
+					}
+				}
+			});	
+			t.start();
+		}
+		if(transitionColor != null){
+			if(transitionColor.a >= 1f)
+				gm.setMode(ModeJeu.Menu, gm.getApp());
+		}
 		
 		timeController.updateTime(GameMain.delta);
 		
