@@ -16,6 +16,7 @@ public class FontRessources {
 	public UnicodeFont gametext;
 	public UnicodeFont gametitles;
 
+	@SuppressWarnings("unchecked")
 	private FontRessources() {
 		// Texte normal
 		try {
@@ -55,7 +56,7 @@ public class FontRessources {
 		}
 		// Gros texte
 		try {
-			gametext = new UnicodeFont("Polices/TravelingTypewriter.ttf", 80,
+			gametext = new UnicodeFont("Polices/evanescent.ttf", 130,
 					false, false);
 		} catch (SlickException e) {
 
@@ -65,6 +66,7 @@ public class FontRessources {
 		gametext.addGlyphs(400, 600);
 		gametext.getEffects().add(
 				new GradientEffect(Color.gray, Color.white, 1));
+
 		try {
 			gametext.loadGlyphs();
 		} catch (SlickException e) {
@@ -94,7 +96,7 @@ public class FontRessources {
 		
 		// Game Titles
 		try {
-			gametitles = new UnicodeFont("Polices/Arabia.ttf", 120, false,
+			gametitles = new UnicodeFont("Polices/evanescent.ttf", 120, false,
 					false);
 		} catch (SlickException e) {
 

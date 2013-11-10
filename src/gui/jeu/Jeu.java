@@ -467,7 +467,7 @@ public class Jeu extends Container implements Cloneable {
 		this.draw(g);
 		
 
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		String hourString = timeController.getStringHour() + ":" + timeController.getStringMinute();	
 		g.drawString(hourString, this.getWidth() - g.getFont().getWidth("00:00:00") - 20,  20);
 		
@@ -723,7 +723,9 @@ public class Jeu extends Container implements Cloneable {
 			
 			//Course
 			if (gc.getInput().isKeyDown(Input.KEY_LSHIFT)
-					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT) || gc.getInput().isButton2Pressed(0)) {
+					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT) 
+					|| ControllersManager.getFirstController().isButton4Pressed() 
+					|| ControllersManager.getFirstController().isButton5Pressed()) {
 				vitesseDep = 3;
 				player.setSpeed(vitesseDep);
 			} else if(vitesseDep > 1 && player.getAnimationLaunchedCount() == 0){
@@ -774,6 +776,8 @@ public class Jeu extends Container implements Cloneable {
 				player.walkAnim(Direction.S);
 				player.walk(this);
 			} 
+			
+			
 			if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
 				player.setDirection(getMiddleToPointDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
 				player.launchAnimation("attack"+player.getDirection().name());
@@ -785,28 +789,19 @@ public class Jeu extends Container implements Cloneable {
 			}
 			
 			//Controller
-			if (ControllersManager.getFirstController().isButton1Pressed() && player.getAnimationLaunchedCount() == 0) {
+			if ((ControllersManager.getFirstController().isButton1Pressed() || gc.getInput().isKeyDown(Input.KEY_X)) && player.getAnimationLaunchedCount() == 0) {
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			if (ControllersManager.getFirstController().isStartReleased()) {
 				ControllersManager.getFirstController().setControllerContainer(getMenuJeu());
 			}
-			if (ControllersManager.getFirstController().isSelectReleased()) {
+			if (ControllersManager.getFirstController().isButton2Released()) {
 				dialogBar.nextDialog();
-			}
-			if (ControllersManager.getFirstController().isButton4Pressed()) {
-				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 1.001f);
-			}
-			if (ControllersManager.getFirstController().isButton5Pressed()) {
-				this.getPanneauDuJeu().actualCam.setZoom(this.getPanneauDuJeu().actualCam.getZoom() * 0.999f);
 			}
 			if(player.getAllAnimationLaunchedCount() == 0)
 			{
 				player.launchAnimation("stay" + player.getDirection().name());
 			}
-			if (gc.getInput().isButtonPressed(3, 0)) {
-				player.extend(1/1.05f);
-			} 
 		}
 		updateShortcuts(gc);
 	}

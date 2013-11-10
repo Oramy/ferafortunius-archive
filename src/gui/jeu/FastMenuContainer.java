@@ -25,25 +25,29 @@ public class FastMenuContainer extends Container{
 		super(x, y, sizeX, sizeY, jeu);
 		background =  Container.alpha;
 		natY = this.getY();
+		
 		life = new LifeBar(jeu.getPlayer(), this.getWidth() / 2 - 88, this);
-		life.setColor(new Color(0,255,0,100));
+		life.setColor(new Color(0,255,0, 200));
 		life.setSizeY(20);
 		life.setX(0);
 		life.setY(66 - life.getSizeY());
 		life.setTextAlign(Align.Center);
+		
 		mana = new ManaBar(jeu.getPlayer(), this.getWidth() / 2 - 88, this);
-		mana.setColor(new Color(0,0,255,100));
+		mana.setColor(new Color(0,0,255, 200));
 		mana.setSizeY(20);
 		mana.setY(66 - mana.getSizeY());
 		mana.setX(this.getWidth() - mana.getSizeX());
 		mana.setAlign(Align.Right);
 		mana.setTextAlign(Align.Center);
+		
 		exp = new ExpBar(jeu.getPlayer(), this.getWidth(), this);
 		exp.setColor(new Color(0,0, 0,100));
 		exp.setSizeY(24);
 		exp.setY(86 - exp.getSizeY());
 		exp.setX(0);
 		exp.setTextAlign(Align.Center);
+		
 		Container cont = new Container(this.getWidth() / 2 - 121, 5, 243, 70, this);
 		Text nomPerso = new Text(jeu.getPlayer().getNom(), cont);
 		nomPerso.setX(cont.getSizeX() / 2 - jeu.getGm().getApp().getDefaultFont().getWidth(nomPerso.getText()) / 2);

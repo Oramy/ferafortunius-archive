@@ -117,6 +117,7 @@ public class MenuEditeurBar extends Container{
 		else{
 			editeur.setCarte(MapLoader.loadMap(path)); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		editeur.getCarte().verifyAll();
 		nomMap.getInput().setContenu(editeur.getCarte().getNom());
 		editeur.getPanneau().setCarte(editeur.getCarte());
 	}
