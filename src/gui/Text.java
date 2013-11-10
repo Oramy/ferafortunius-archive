@@ -104,18 +104,18 @@ public class Text extends FComponent {
 							
 							String realLigne = ligne.substring(0, lastSpace);
 							if(lastSpace != -1){
-								while(g.getFont().getWidth(realLigne) < parent.sizeX - getMarginX() - this.getX() + g.getFont().getWidth(" ")){
+								while(g.getFont().getWidth(realLigne) < parent.sizeX - getMarginX() - this.getX() - g.getFont().getWidth("a")){
 									int numberSpace = 1;
-										while(realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3").equals(realLigne)){
-											numberSpace++;
-										}
+									while(realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3").equals(realLigne)){
+										numberSpace++;
+									}
 									realLigne = realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3");
 								}
 								surlign = this.drawLine(actualColor, g, realLigne, g.getFont().getLineHeight() / 2 + i * g.getFont().getLineHeight(), surlign);
 								nextChar += ligne.lastIndexOf(" ") + 1;
 							}
 							else{
-								while(g.getFont().getWidth(realLigne) < parent.sizeX - getMarginX() - this.getX() + g.getFont().getWidth(" ")){
+								while(g.getFont().getWidth(realLigne) < parent.sizeX - getMarginX() - this.getX() - g.getFont().getWidth("a")){
 									int numberSpace = 1;
 										while(realLigne.replaceFirst("([^ ])( {1,"+numberSpace+"})([^ ])", "$1$2 $3").equals(realLigne)){
 											numberSpace++;
