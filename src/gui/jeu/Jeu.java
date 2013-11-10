@@ -667,7 +667,7 @@ public class Jeu extends Container implements Cloneable {
 		long temps = System.currentTimeMillis();
 		
 		//Game Over code.
-		if(!carte.getChunk(player).getContenu().contains(player) && transitionColor.a == 0f){
+		if(!carte.getChunk(player).getContenu().contains(player) && transitionColor.a != 1f){
 			Thread t = new Thread(new Runnable(){
 				public void run(){
 					for(int i = 0; i < 256; i++){
