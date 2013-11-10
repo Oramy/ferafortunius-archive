@@ -25,10 +25,10 @@ public class BuffBar extends Container{
 		ArrayList<Buff> buffs = cible.getBuffs();
 		if(this.getComponents().size() != buffs.size()){
 			this.getComponents().clear();
-			this.sizeX = buffs.size() * 34;
+			this.sizeX = buffs.size() * 40;
 			for(Buff buff :  buffs){
 				BuffComponent comp = new BuffComponent(buff, this);
-				comp.setX(buffs.indexOf(buff) * 34);
+				comp.setX(buffs.indexOf(buff) * 40);
 				this.addComponent(comp);
 			}
 		}
