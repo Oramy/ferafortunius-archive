@@ -15,7 +15,7 @@ public class Start {
 		try {
 			app = new AppGameContainer(fen);
 			fen.setApp(app);
-			app.setIcons(new String[]{"Images/iconeVerySmall.png", "Images/iconeSmall.png"});
+			app.setIcons(new String[]{"Images/iconeVerySmall.png", "Images/iconeSmall.png", "Images/iconeNormal.png", "Images/iconeBig.png"});
 			app.setMusicOn(false);
 			app.setMusicVolume(1.0f);
 			app.setSoundOn(true);
