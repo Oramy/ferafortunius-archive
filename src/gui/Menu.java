@@ -86,6 +86,10 @@ public class Menu extends Container {
 			backgroundimages.add(new PImage("Menu/" + fond.getName()));
 		}
 		
+		LanguageChooser lChooser = new LanguageChooser(sizeX / 2 - 100, sizeY , this);
+		lChooser.x = sizeX - lChooser.sizeX;
+		lChooser.y = sizeY / 2 - lChooser.sizeY / 2;
+		this.addComponent(lChooser);
 		//Init background ID
 		backgroundId = (int) (Math.random() * backgroundimages.size());
 		
@@ -207,7 +211,7 @@ public class Menu extends Container {
 	
 	}
 	protected void nouvPart() {
-		gm.setMode(ModeJeu.Jeu, gm.getApp());
+		gm.initMode(ModeJeu.Jeu, gm.getApp());
 	}
 	@Override
 	public void updateController(GameContainer gc) {
@@ -237,14 +241,14 @@ public class Menu extends Container {
 		
 		
 		if(toDo.equals("nouvPart")){ //$NON-NLS-1$
-			gm.setMode(ModeJeu.Loading, gm.getApp());
+			gm.initMode(ModeJeu.Loading, gm.getApp());
 			
 		}
 		else if(toDo.equals("chargerPart")){ //$NON-NLS-1$
-			gm.setMode(ModeJeu.Jeu, gm.getApp());
+			gm.initMode(ModeJeu.Jeu, gm.getApp());
 		}
 		else if(toDo.equals("editer")){ //$NON-NLS-1$
-			gm.setMode(ModeJeu.Editeur, gm.getApp());
+			gm.initMode(ModeJeu.Editeur, gm.getApp());
 		}
 		else if(toDo.equals("quitter")){ //$NON-NLS-1$
 			System.exit(1);
@@ -261,6 +265,10 @@ public class Menu extends Container {
 		nouvPart.setBoutonAct(Container.alpha);
 		editer.setBoutonAct(Container.alpha);
 		quitter.setBoutonAct(Container.alpha);
+		nouvPart.setName(Messages.getString("Menu.text.0"));
+		editer.setName(Messages.getString("Menu.text.2"));
+		quitter.setName(Messages.getString("Menu.text.4"));//$NON-NLS-1$
+		
 	}
 	@Override
 	public void drawBackground(Image img){

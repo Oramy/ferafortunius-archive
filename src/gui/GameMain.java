@@ -163,7 +163,7 @@ public class GameMain extends BasicGame {
 	/**
 	 * @param mode the mode to set
 	 */
-	public void setMode(ModeJeu mode, GameContainer gc) {
+	public void initMode(ModeJeu mode, GameContainer gc) {
 		this.mode = mode;
 		if(getMode() == ModeJeu.Menu){
 			menu = new Menu(this, gc);
@@ -183,7 +183,7 @@ public class GameMain extends BasicGame {
 		}
 		if(getMode() == ModeJeu.Jeu){
 			jeu = new Jeu(this, gc);
-			getJeu().init(app, MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
+			jeu.init(app, MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
 			menu = null;
 			editeur = null;
 			loadingScreen = null;
@@ -198,6 +198,12 @@ public class GameMain extends BasicGame {
 			this.mode = mode;
 		}
 		
+	}
+	/**
+	 * @param mode the mode to set
+	 */
+	public void setMode(ModeJeu mode) {
+		this.mode = mode;
 	}
 	/**
 	 * @return the options
