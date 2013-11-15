@@ -66,7 +66,7 @@ public class MenuJeuContainer extends Container{
 		quitter.getAction().add(new ActionListener(){
 			public void actionPerformed(FComponent c){
 				Jeu jeu = (Jeu)getRacine();
-				jeu.getGm().setMode(ModeJeu.Menu, jeu.getGm().getApp());
+				jeu.getGm().initMode(ModeJeu.Menu, jeu.getGm().getApp());
 			}
 		});
 		this.addComponent(quitter);

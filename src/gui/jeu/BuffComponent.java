@@ -23,7 +23,7 @@ public class BuffComponent extends FComponent{
 	public BuffComponent(Buff buff, Container parent){
 		super(parent);
 		sizeX = 40;
-		sizeY = 54;
+		sizeY = 60;
 		this.buff = buff;
 	}
 	@Override

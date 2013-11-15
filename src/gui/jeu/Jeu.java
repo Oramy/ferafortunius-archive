@@ -300,8 +300,7 @@ public class Jeu extends Container implements Cloneable {
 	public TimeController getTimeController() {
 		return timeController;
 	}
-
-	public void init(GameContainer gc, ChunkMap c) {
+	public void firstInit(GameContainer gc, ChunkMap c){
 		//Initialisation des variables
 		alphaTitreMap = 0;
 		
@@ -343,13 +342,9 @@ public class Jeu extends Container implements Cloneable {
 		//player.getEquipment().equip((EquipmentItem) player.getInventaire().getContents().get(0));
 		
 		/*player.addBonus(new MaxLife(player));
-		player.addBonus(new BuffRegenLife(player));*/
-		
-		//Initialisation de la GUI
-		cleanGUI();
-		initGUI();
-
-		//Ajout des dialogues du Prologue.
+		player.addBonus(new BuffRegenLife(player));*/			
+	}
+	public void afterGUIInit(GameContainer gc){
 		if(!ControllersManager.hasController(gc)){
 			addFileDialog("minimap-1"); //$NON-NLS-1$
 			addFileDialog("minimap-2"); //$NON-NLS-1$
@@ -365,23 +360,32 @@ public class Jeu extends Container implements Cloneable {
 		
 		//Lancement de l'affichage du titre.
 		Thread t = new Thread(new Runnable() {
-
+	
 			public void run() {
-
+	
 				for (int i = 0; i < 255; i++) {
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-
+	
 						e.printStackTrace();
 					}
 					transitionColor = new Color(0, 0, 0, 255 - i);
-
+	
 				}
 				transitionColor.a = 0f;
 			}
 		});
 		t.start();
+		
+				
+	}
+	public void init(GameContainer gc, ChunkMap c) {
+		firstInit(gc, c);
+		//Initialisation de la GUI
+		cleanGUI();
+		initGUI();
+		afterGUIInit(gc);
 	}
 
 	public void initGUI() {
@@ -685,7 +689,7 @@ public class Jeu extends Container implements Cloneable {
 		}
 		if(transitionColor != null){
 			if(transitionColor.a >= 1f)
-				gm.setMode(ModeJeu.Menu, gm.getApp());
+				gm.initMode(ModeJeu.Menu, gm.getApp());
 		}
 		
 		timeController.updateTime(GameMain.delta);

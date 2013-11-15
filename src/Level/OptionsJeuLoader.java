@@ -3,7 +3,13 @@ package Level;
 import gui.TextDisplayMode;
 import gui.jeu.OptionsJeu;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class OptionsJeuLoader {
@@ -13,6 +19,18 @@ public class OptionsJeuLoader {
 			.getBundle(BUNDLE_NAME);
 	
 	public static final boolean saveOptions(OptionsJeu o){
+		Properties p = new Properties();
+		try {
+			p.load(new FileInputStream(new File("src/pref.properties")));
+			p.setProperty("language", o.getLanguage().getLanguage());
+			p.store(new FileOutputStream(new File("src/pref.properties")), "Wouh");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 	private static final void updateKeys(OptionsJeu o){
