@@ -54,6 +54,7 @@ public class Menu extends Container {
 	private float offset;
 	
 	private ControllerDetection controllerDetection;
+	private LanguageChooser lChooser;
 	private static final int TRANSITION_TIME = 12000;
 	public Menu(GameMain gameMain, GameContainer gc) {
 		super(0,0, gc.getWidth(), gc.getHeight(), null);
@@ -86,7 +87,7 @@ public class Menu extends Container {
 			backgroundimages.add(new PImage("Menu/" + fond.getName()));
 		}
 		
-		LanguageChooser lChooser = new LanguageChooser(sizeX / 2 - 100, sizeY , this);
+		lChooser = new LanguageChooser(sizeX / 2 - 100, sizeY , this);
 		lChooser.x = sizeX - lChooser.sizeX;
 		lChooser.y = sizeY / 2 - lChooser.sizeY / 2;
 		this.addComponent(lChooser);
@@ -224,6 +225,9 @@ public class Menu extends Container {
 		if(ControllersManager.getFirstController().isUpReleased()){
 			layout.decreaseChoice();
 		}
+		if(ControllersManager.getFirstController().isRightReleased()){
+			ControllersManager.getFirstController().setControllerContainer(lChooser);
+		}
 		if(ControllersManager.getFirstController().isButton1Released()){
 			layout.actionChoice();
 		}
@@ -293,7 +297,7 @@ public class Menu extends Container {
 			drawBackground(transitionBackground.getImg());
 			
 			this.draw(g);
-			if(ControllersManager.hasController(gc)){
+			if(ControllersManager.hasController(gc) && ControllersManager.getFirstController().getControllerContainer().equals(this)){
 				GridLayout layout = ((GridLayout)buttonContainer.actualLayout);
 				if(layout.getChoice() != -1)
 					g.drawImage(ControllersManager.getButtonA(gc).getImg(), layout.getObjectChoice().getXOnScreen(), layout.getObjectChoice().getYOnScreen() + 15);

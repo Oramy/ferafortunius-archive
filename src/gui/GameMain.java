@@ -31,6 +31,7 @@ public class GameMain extends BasicGame {
 	private ModeJeu mode;
 	private AppGameContainer app;
 	public static OptionsJeu options;
+	public static GameContainer gc;
 	private TextDisplayMode gameTextDisplayMode;
 	
 	
@@ -84,6 +85,7 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
+		this.gc = container;
 		g.clear();
 		g.setAntiAlias(true);
 		g.setFont(FontRessources.getFonts().text);
@@ -126,6 +128,7 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
+		this.gc = gc;
 		ControllersManager.update(gc);
 		delta = arg1 / (1000f / 60f);
 		if(getMode() == ModeJeu.Menu)

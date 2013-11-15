@@ -63,7 +63,7 @@ public class Container extends FComponent{
 		super.update(gc, x, y);
 		sortComponents();
 		updateComponents(gc, x,y);
-		if(ControllersManager.getFirstController().getControllerContainer() == this && ControllersManager.hasController(gc))
+		if(ControllersManager.getFirstController().getControllerContainer().equals(this) && ControllersManager.hasController(gc))
 			updateController(gc);
 	}
 	

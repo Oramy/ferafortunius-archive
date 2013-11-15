@@ -47,7 +47,7 @@ public class LoadingScreen extends Container {
 				gm.getJeu().afterGUIInit(gc);
 			break;
 			case 5:
-				gm.initMode(ModeJeu.Jeu, gc);
+				gm.setMode(ModeJeu.Jeu);
 			break;
 		}
 		etape++;
