@@ -168,7 +168,7 @@ public class OptionsJeuFrame extends InternalFrame{
 					
 					e.printStackTrace();
 				}
-				jeu.getGm().setMode(ModeJeu.Jeu, jeu.getGm().getApp());
+				jeu.getGm().initMode(ModeJeu.Jeu, jeu.getGm().getApp());
 				jeu.getGm().setJeu(jeu);
 				
 			}
