@@ -104,10 +104,10 @@ public class DialogBar extends Container{
 			
 		}
 		
-		if(gc.getInput().isKeyDown(Input.KEY_ENTER)){
+		if(gc.getInput().isKeyDown(Input.KEY_E)){
 			enter = true;
 		}
-		else if(!gc.getInput().isKeyDown(Input.KEY_ENTER) && enter == true){
+		else if(!gc.getInput().isKeyDown(Input.KEY_E) && enter == true){
 			enter = false;
 			nextDialog();
 		}

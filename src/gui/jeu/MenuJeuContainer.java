@@ -56,6 +56,7 @@ public class MenuJeuContainer extends Container{
 				jeu.addComponent(jeu.getOptionsFen());
 			}
 		});
+		options.disable();
 		HiddenButton sauvegarder = new HiddenButton(Messages.getString("MenuJeuContainer.11"), "GUI/Icon/sauvegarder.png", this); //$NON-NLS-1$ //$NON-NLS-2$
 		sauvegarder.setY(inventaire.getSizeY() * 5);
 		sauvegarder.disable();
