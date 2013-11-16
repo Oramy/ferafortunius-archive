@@ -186,7 +186,7 @@ public class GameMain extends BasicGame {
 		}
 		if(getMode() == ModeJeu.Jeu){
 			jeu = new Jeu(this, gc);
-			jeu.init(app, MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
+			jeu.init(app, MapLoader.loadMap("data/Maps/SnapshotTestMap3.dat"));
 			menu = null;
 			editeur = null;
 			loadingScreen = null;

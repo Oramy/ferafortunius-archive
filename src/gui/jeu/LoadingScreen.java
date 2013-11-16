@@ -35,7 +35,7 @@ public class LoadingScreen extends Container {
 				gm.setJeu(new Jeu(gm, gc));
 			break;
 			case 1:
-				gm.getJeu().firstInit(gm.getApp(), MapLoader.loadMap("data/Maps/snapshottestmap3.dat"));
+				gm.getJeu().firstInit(gm.getApp(), MapLoader.loadMap("data/Maps/SnapshotTestMap3.dat"));
 			break;
 			case 2:
 				gm.getJeu().cleanGUI();
