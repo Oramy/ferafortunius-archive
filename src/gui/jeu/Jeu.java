@@ -389,7 +389,6 @@ public class Jeu extends Container implements Cloneable {
 	}
 
 	public void initGUI() {
-		MapLoader.clearAllAutoSaves();
 		//Panneau d'affichage
 		panneauDuJeu = new PanneauJeuAmeliore(carte, 0, 0, getSizeX(),
 				getSizeY(), this);
@@ -477,7 +476,7 @@ public class Jeu extends Container implements Cloneable {
 		g.drawString(hourString, this.getWidth() - g.getFont().getWidth("00:00:00") - 20,  20);
 		
 		g.setFont(FontRessources.getFonts().gametitles);
-		g.setColor(new Color(255, 255, 255, (alphaTitreMap)));
+		g.setColor(new Color(0,0,0, (alphaTitreMap)));
 
 		if(carte.getNom() != null)
 		{

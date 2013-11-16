@@ -89,7 +89,6 @@ public class PanneauJeuAmeliore extends Container {
 	public PanneauJeuAmeliore(ChunkMap c, int x, int y , int sizeX, int sizeY, Container parent) {
 		super(x,y,sizeX, sizeY, parent);
 		carte = c;
-		loadMapImages();
 		chunkcolor = Color.white;
 		actualCam = new Camera(0,0, 2f, c);
 		this.setBounds(x,y, sizeX, sizeY);

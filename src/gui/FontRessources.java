@@ -104,7 +104,7 @@ public class FontRessources {
 		}
 		gametitles.addAsciiGlyphs();
 		gametitles.addGlyphs(400, 600);
-		gametitles.getEffects().add(new ColorEffect(Color.black));
+		gametitles.getEffects().add(new ColorEffect(Color.white));
 
 		try {
 			gametitles.loadGlyphs();

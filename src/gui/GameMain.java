@@ -177,11 +177,11 @@ public class GameMain extends BasicGame {
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Loading){
-			loadingScreen = new LoadingScreen(this, 0,0, 1600, 900, null);
+			jeu = null;
+			loadingScreen = new LoadingScreen(this, 0,0, this.getApp().getWidth(), this.getApp().getHeight(), null);
 			loadingScreen.init(app);
 			menu = null;
 			editeur = null;
-			jeu = null;
 			this.mode = mode;
 		}
 		if(getMode() == ModeJeu.Jeu){
