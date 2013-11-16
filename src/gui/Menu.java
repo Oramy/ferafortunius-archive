@@ -167,7 +167,7 @@ public class Menu extends Container {
 		nouvPart.setSizeX(500);
 		buttonContainer.addComponent(nouvPart);
 		
-		editer = new Button(Messages.getString("Menu.text.2"), buttonContainer); //$NON-NLS-1$
+		/*editer = new Button(Messages.getString("Menu.text.2"), buttonContainer); //$NON-NLS-1$
 		editer.getAction().add(new ActionListener(){
 			private Menu c;
 			public void actionPerformed(FComponent c2){
@@ -177,7 +177,7 @@ public class Menu extends Container {
 		});
 		editer.setSizeX(500);
 		buttonContainer.addComponent(editer);
-		
+		*/
 		quitter = new Button(Messages.getString("Menu.text.4"), buttonContainer); //$NON-NLS-1$
 		quitter.getAction().add(new ActionListener(){
 			private Menu c;
@@ -185,17 +185,6 @@ public class Menu extends Container {
 				c = (Menu) c2.getRacine();
 				Thread t = new Thread(new Runnable(){
 					public void run(){
-						if(c.toDo.equals("")){ //$NON-NLS-1$
-							for(int i = 0; i < 256; i++){
-								try {
-									Thread.sleep(10);
-								} catch (InterruptedException e) {
-									
-									e.printStackTrace();
-								}
-								c.transitionColor = new Color(0,0,0, i);
-							}
-						}
 						c.toDo = "quitter"; //$NON-NLS-1$
 					}
 				});	
@@ -267,10 +256,10 @@ public class Menu extends Container {
 		
 		//Enlever le background des boutons.
 		nouvPart.setBoutonAct(Container.alpha);
-		editer.setBoutonAct(Container.alpha);
+		//editer.setBoutonAct(Container.alpha);
 		quitter.setBoutonAct(Container.alpha);
 		nouvPart.setName(Messages.getString("Menu.text.0"));
-		editer.setName(Messages.getString("Menu.text.2"));
+		//editer.setName(Messages.getString("Menu.text.2"));
 		quitter.setName(Messages.getString("Menu.text.4"));//$NON-NLS-1$
 		
 	}

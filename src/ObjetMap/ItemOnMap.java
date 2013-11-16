@@ -66,8 +66,8 @@ public class ItemOnMap extends ObjetMap {
 			}
 			if(getting){
 				if(ControllersManager.hasController(((Jeu)pan.getParent()).getGm().getApp())){
-					ControllersManager.getButtonX(((Jeu)pan.getParent()).getGm().getApp()).getImg().draw(- 35 - g.getFont().getWidth("Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),
-							+ c.getImageSizeInGameY() * actualCam.getZoom() - 8, 30,30);
+					ControllersManager.getButtonX(((Jeu)pan.getParent()).getGm().getApp()).getImg().draw(- 20 - g.getFont().getWidth("Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),
+							+ c.getImageSizeInGameY() * actualCam.getZoom(), 20,20);
 					g.drawString("Prendre.",  - g.getFont().getWidth("Prendre.") / 2 + c.getImageSizeInGameX() / 2 * actualCam.getZoom(),  + c.getImageSizeInGameY() * actualCam.getZoom());
 				}
 			}
