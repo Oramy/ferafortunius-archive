@@ -1,9 +1,11 @@
 package gui;
 
-import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 
+import org.lwjgl.input.Controller;
+import org.lwjgl.input.Controllers;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 
 public class ControllersManager {
 	private static ControllerManager firstController;
@@ -21,12 +23,15 @@ public class ControllersManager {
 		return buttonAPS3;
 	}
 	public static boolean isXBox(GameContainer gc){
-		Controller[] cons = ControllerEnvironment.getDefaultEnvironment().getControllers();
-		for(Controller c : cons){
-			if(c.getName().contains("XBOX 360"))
-		    {
-				return true;
-		    }
+		int count = Controllers.getControllerCount();
+		
+		for (int i = 0; i < count; i++) {
+			Controller controller = Controllers.getController(i);
+
+			if ((controller.getButtonCount() >= 3) && (controller.getButtonCount() < 100)) {
+				if(controller.getName().contains("XBOX"))
+					return true;
+			}
 		}
 		return false;
 	}
@@ -36,8 +41,26 @@ public class ControllersManager {
 		return false;
 	}
 	public static ControllerManager getFirstController(){
-		if(firstController == null)
-			firstController = new ControllerManager(0);
+		if(firstController == null) {
+			int count = Controllers.getControllerCount();
+			int id = -1;
+			int j = -1;
+			for (int i = 0; i < count; i++) {
+				Controller controller = Controllers.getController(i);
+
+				if ((controller.getButtonCount() >= 3) && (controller.getButtonCount() < 100)) {
+					j++;
+					
+					if(controller.getName().contains("XBOX")
+							|| controller.getName().contains("PS"))
+					{
+						id = j;	
+						break;
+					}
+				}
+			}
+			firstController = new ControllerManager(id);
+		}
 		return firstController;
 	}
 	public static void update(GameContainer gc){

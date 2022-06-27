@@ -1,6 +1,7 @@
 package gui.jeu;
 
 import gui.Container;
+import gui.ControllerManager;
 import gui.ControllersManager;
 import gui.DialogsRessources;
 import gui.FontRessources;
@@ -57,7 +58,7 @@ public class Jeu extends Container implements Cloneable {
 	//Affichage
 	private PanneauJeuAmeliore panneauDuJeu;
 	
-	//Camera par défaut
+	//Camera par dï¿½faut
 	private Camera cameraPerso;
 	
 	//Carte
@@ -74,13 +75,13 @@ public class Jeu extends Container implements Cloneable {
 	private int vitesseDep = 1;
 	private long vitessePerso;
 	
-	//Régulateur de vitesse
+	//Rï¿½gulateur de vitesse
 	private long tempsDepPrec;
 	
-	//Fenêtre des options
+	//Fenï¿½tre des options
 	private OptionsJeuFrame optionsFen;
 
-	//Fenêtre de l'inventaire
+	//Fenï¿½tre de l'inventaire
 	protected InventaireFrame inventaireFrame;
 	
 	//Barre de Buff
@@ -309,7 +310,7 @@ public class Jeu extends Container implements Cloneable {
 		//Afficher les FPS
 		gc.setShowFPS(true);
 		
-		//Régulateur d'update
+		//Rï¿½gulateur d'update
 		lastUpdate = (int) System.currentTimeMillis();
 		timeRest = 0;
 		
@@ -329,7 +330,7 @@ public class Jeu extends Container implements Cloneable {
 		player.setSpeed(1);
 		setIdPersoJoueur(-1);
 		
-		//Initialisation de la caméra
+		//Initialisation de la camï¿½ra
 		cameraPerso = new Camera(0, 0, 0.5f, getCarte());
 		cameraPerso.teleportToObject(player);
 		cameraPerso.setFollowHim(player);
@@ -400,7 +401,7 @@ public class Jeu extends Container implements Cloneable {
 		panneauDuJeu.setActualCam(cameraPerso);
 		this.addComponent(panneauDuJeu);
 		
-		//Désactivé pour la version snapshot.
+		//Dï¿½sactivï¿½ pour la version snapshot.
 		 this.addComponent(new FastMenuContainer(0, this.getHeight() - 66,
 		 this.getWidth(), this.getHeight() / 2, this));
 		
@@ -408,7 +409,7 @@ public class Jeu extends Container implements Cloneable {
 		 //Menu du jeu
 		this.addComponent(getMenuJeu());
 		
-		//Fenêtre de l'inventaire
+		//Fenï¿½tre de l'inventaire
 		inventaireFrame = new InventaireFrame(this.getWidth() - 330,
 				this.getHeight() - 400, 260, 330,
 				Messages.getString("Jeu.1"), this, player); //$NON-NLS-1$
@@ -700,7 +701,7 @@ public class Jeu extends Container implements Cloneable {
 		if (alphaTitreMap > 0)
 			alphaTitreMap--;
 		
-		// Gravité
+		// Gravitï¿½
 		if (player != null) {
 			if (!player.isFly()) {
 				getCarte().deplacement(player, 0, 0, -player.getSizeZ() / 100,
@@ -716,10 +717,10 @@ public class Jeu extends Container implements Cloneable {
 			clientManager = new Client(this);
 		}
 		
-		//Mise à jour de la souris
+		//Mise ï¿½ jour de la souris
 		updateMouse(gc);
 		
-		//Mise à jour de la Map
+		//Mise ï¿½ jour de la Map
 		if(!ControllersManager.hasController(gc))
 		updateKeys(gc);
 		carte.update(this);
@@ -745,12 +746,14 @@ public class Jeu extends Container implements Cloneable {
 	private void updateKeys(GameContainer gc) {
 		if (tempsDepPrec + vitessePerso < System.currentTimeMillis()) {
 			tempsDepPrec = System.currentTimeMillis();
+			ControllerManager cm = ControllersManager.getFirstController();
+			Input input = gc.getInput();
 			
 			//Course
-			if (gc.getInput().isKeyDown(Input.KEY_LSHIFT)
-					|| gc.getInput().isKeyDown(Input.KEY_RSHIFT) 
-					|| ControllersManager.getFirstController().isButton4Pressed() 
-					|| ControllersManager.getFirstController().isButton5Pressed()) {
+			if (input.isKeyDown(Input.KEY_LSHIFT)
+					|| input.isKeyDown(Input.KEY_RSHIFT) 
+					|| cm.isButton4Pressed() 
+					|| cm.isButton5Pressed()) {
 				vitesseDep = 3;
 				player.setSpeed(vitesseDep);
 			} else if(vitesseDep > 1 && player.getAnimationLaunchedCount() == 0){
@@ -758,69 +761,64 @@ public class Jeu extends Container implements Cloneable {
 				player.setSpeed(vitesseDep);
 			}
 			
+			
 			// Touches directionnelles.
-			if ((gc.getInput().isKeyDown(Input.KEY_Q) || gc.getInput()
-					.isControllerLeft(0))
-					&& (gc.getInput().isKeyDown(Input.KEY_Z) || gc.getInput()
-							.isControllerUp(0)) && player.getAnimationLaunchedCount() == 0){
+			if ((input.isKeyDown(Input.KEY_Q) || cm.isLeftPressed())
+					&& (input.isKeyDown(Input.KEY_Z) || cm.isUpPressed())
+					&& player.getAnimationLaunchedCount() == 0){
 				player.walkAnim(Direction.NW);
 				player.walk(this);
 			
-			} else if ((gc.getInput().isKeyDown(Input.KEY_Q) || gc.getInput()
-					.isControllerLeft(0))
-					&& (gc.getInput().isKeyDown(Input.KEY_S) || gc.getInput()
-							.isControllerDown(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_Q) || cm.isLeftPressed())
+					&& (input.isKeyDown(Input.KEY_S) || cm.isDownPressed())
+					&& player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.SW);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_D) || gc.getInput()
-					.isControllerRight(0))
-					&& (gc.getInput().isKeyDown(Input.KEY_Z) || gc.getInput()
-							.isControllerUp(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_D) || cm.isRightPressed())
+					&& (input.isKeyDown(Input.KEY_Z) || cm.isUpPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.NE);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_D) || gc.getInput()
-					.isControllerRight(0))
-					&& (gc.getInput().isKeyDown(Input.KEY_S) || gc.getInput()
-							.isControllerDown(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_D) || cm.isRightPressed())
+					&& (input.isKeyDown(Input.KEY_S) || cm.isUpPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.SE);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_Q)
-					|| gc.getInput().isControllerLeft(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_Q)
+					|| cm.isLeftPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.W);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_Z)
-					|| gc.getInput().isControllerUp(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_Z)
+					|| cm.isUpPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.N);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_D)
-					|| gc.getInput().isControllerRight(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_D)
+					|| cm.isRightPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.E);
 				player.walk(this);
-			} else if ((gc.getInput().isKeyDown(Input.KEY_S)
-					|| gc.getInput().isControllerDown(0)) && player.getAnimationLaunchedCount() == 0) {
+			} else if ((input.isKeyDown(Input.KEY_S)
+					|| cm.isDownPressed()) && player.getAnimationLaunchedCount() == 0) {
 				player.walkAnim(Direction.S);
 				player.walk(this);
 			} 
 			
 			
-			if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
-				player.setDirection(getMiddleToPointDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
+				player.setDirection(getMiddleToPointDirection(input.getAbsoluteMouseX(), input.getAbsoluteMouseY()));
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
 			
-			if (gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
-				player.walkAnim(getMiddleToPointDirection(gc.getInput().getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY()));
+			if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)  && player.getAnimationLaunchedCount() == 0) {
+				player.walkAnim(getMiddleToPointDirection(input.getAbsoluteMouseX(), input.getAbsoluteMouseY()));
 				player.walk(this);
 			}
 			
 			//Controller
-			if ((ControllersManager.getFirstController().isButton1Pressed() || gc.getInput().isKeyDown(Input.KEY_X)) && player.getAnimationLaunchedCount() == 0) {
+			if ((cm.isButton1Pressed() || input.isKeyDown(Input.KEY_X)) && player.getAnimationLaunchedCount() == 0) {
 				player.launchAnimation("attack"+player.getDirection().name());
 			}
-			if (ControllersManager.getFirstController().isStartReleased()) {
-				ControllersManager.getFirstController().setControllerContainer(getMenuJeu());
+			if (cm.isStartReleased()) {
+				cm.setControllerContainer(getMenuJeu());
 			}
-			if (ControllersManager.getFirstController().isButton2Released()) {
+			if (cm.isButton2Released()) {
 				dialogBar.nextDialog();
 			}
 			if(player.getAllAnimationLaunchedCount() == 0)

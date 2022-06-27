@@ -132,7 +132,7 @@ public class Menu extends Container {
 		buttonContainer = new Container(sizeX / 2 - 250, 350, 500, 250, this);
 		buttonContainer.background = Container.alpha;
 		
-		//Création du layout
+		//Crï¿½ation du layout
 		GridLayout layout = new GridLayout(1,3);
 		buttonContainer.setActualLayout(layout);
 		this.addComponent(buttonContainer);
@@ -176,8 +176,8 @@ public class Menu extends Container {
 			}
 		});
 		editer.setSizeX(500);
-		buttonContainer.addComponent(editer);
-		*/
+		buttonContainer.addComponent(editer);*/
+		
 		quitter = new Button(Messages.getString("Menu.text.4"), buttonContainer); //$NON-NLS-1$
 		quitter.getAction().add(new ActionListener(){
 			private Menu c;

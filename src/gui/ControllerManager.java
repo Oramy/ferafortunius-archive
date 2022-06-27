@@ -44,6 +44,69 @@ public class ControllerManager {
 	}
 
 	public void update(GameContainer gc) {
+		if (id == - 1)
+			return;
+			if(gc.getInput().isControllerUp(id)){
+				upPressed = true;
+				if(!up)
+					up = true;
+			}
+			else if(!gc.getInput().isControllerUp(id)){
+				upPressed = false;
+				if(up){
+					up = false;
+					upReleased = true;
+				}
+				else{
+					upReleased = false;
+				}
+			}
+			
+			if(gc.getInput().isControllerDown(id)){
+				downPressed = true;
+				if(!down)
+					down = true;
+			}
+			else if(!gc.getInput().isControllerDown(id)){
+				downPressed = false;
+				if(down){
+					down = false;
+					downReleased = true;
+				}
+				else{
+					downReleased = false;
+				}
+			}
+			if(gc.getInput().isControllerLeft(id)){
+				leftPressed = true;
+				if(!left)
+					left = true;
+			}
+			else if(!gc.getInput().isControllerLeft(id)){
+				leftPressed = false;
+				if(left){
+					left = false;
+					leftReleased = true;
+				}
+				else{
+					leftReleased = false;
+				}
+			}
+			if(gc.getInput().isControllerRight(id)){
+				rightPressed = true;
+				if(!right)
+					right = true;
+			}
+			else if(!gc.getInput().isControllerRight(id)){
+				rightPressed = false;
+				if(right){
+					right = false;
+					rightReleased = true;
+				}
+				else{
+					rightReleased = false;
+				}
+			}
 		if(gc.getInput().isButton1Pressed(id)){
 			button1Pressed = true;
 			if(!button1)
@@ -150,68 +213,6 @@ public class ControllerManager {
 			}
 			else{
 				startReleased = false;
-			}
-		}
-		
-		if(gc.getInput().isControllerUp(id)){
-			upPressed = true;
-			if(!up)
-				up = true;
-		}
-		else if(!gc.getInput().isControllerUp(id)){
-			upPressed = false;
-			if(up){
-				up = false;
-				upReleased = true;
-			}
-			else{
-				upReleased = false;
-			}
-		}
-		
-		if(gc.getInput().isControllerDown(id)){
-			downPressed = true;
-			if(!down)
-				down = true;
-		}
-		else if(!gc.getInput().isControllerDown(id)){
-			downPressed = false;
-			if(down){
-				down = false;
-				downReleased = true;
-			}
-			else{
-				downReleased = false;
-			}
-		}
-		if(gc.getInput().isControllerLeft(id)){
-			leftPressed = true;
-			if(!left)
-				left = true;
-		}
-		else if(!gc.getInput().isControllerLeft(id)){
-			leftPressed = false;
-			if(left){
-				left = false;
-				leftReleased = true;
-			}
-			else{
-				leftReleased = false;
-			}
-		}
-		if(gc.getInput().isControllerRight(id)){
-			rightPressed = true;
-			if(!right)
-				right = true;
-		}
-		else if(!gc.getInput().isControllerRight(id)){
-			rightPressed = false;
-			if(right){
-				right = false;
-				rightReleased = true;
-			}
-			else{
-				rightReleased = false;
 			}
 		}
 	}

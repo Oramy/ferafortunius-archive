@@ -441,13 +441,13 @@ public class ChunkMap implements Serializable, Cloneable{
 	}
 	/**
 	 * 
-	 * @return la première entité trouvée dans la map
+	 * @return la premiï¿½re entitï¿½ trouvï¿½e dans la map
 	 */
 	public Entity getFirstEntity() {
-		//L'entité à retourner.
+		//L'entitï¿½ ï¿½ retourner.
 		Entity entity = null;
 		
-		//Recherche Chunk par Chunk d'une entité.
+		//Recherche Chunk par Chunk d'une entitï¿½.
 		for(int i = 0; i < mapSizeX; i++){
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
@@ -459,10 +459,10 @@ public class ChunkMap implements Serializable, Cloneable{
 		return entity;
 	}
 	public Teleporter getTeleporter(String id) {
-		//L'entité à retourner.
+		//L'entitï¿½ ï¿½ retourner.
 		Teleporter teleporter = null;
 		
-		//Recherche Chunk par Chunk d'une entité.
+		//Recherche Chunk par Chunk d'une entitï¿½.
 		for(int i = 0; i < mapSizeX; i++){
 			for(int j = 0; j < mapSizeY; j++){
 				for(int k = 0; k < mapSizeZ; k++){
@@ -490,6 +490,7 @@ public class ChunkMap implements Serializable, Cloneable{
 	public String getScriptToLaunch() {
 		return scriptToLaunch;
 	}
+
 	public void setScriptToLaunch(String scriptToLaunch) {
 		this.scriptToLaunch = scriptToLaunch;
 	}

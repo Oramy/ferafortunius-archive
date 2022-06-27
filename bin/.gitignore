@@ -1,10 +1,2 @@
-/bin
-/gui
-/script
-/pref.properties
-/thread
-/Items
-/Level
-/ObjetMap
-/autre
-/bonus
+/com/
+/gui/
